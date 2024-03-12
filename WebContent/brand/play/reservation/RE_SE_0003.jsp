@@ -332,8 +332,6 @@ function payment_return() {
 	    // localhost 로 테스트 시 크로스 도메인 문제로 발생하는 오류 
 	    $.support.cors = true;
 	
-		/* + "&" + $('order_product_delivery_info').serialize() ); */
-		
 		$.ajax({
 			type: "POST",
 			url: "/order/payco/payco_reserve.jsp",
@@ -342,12 +340,8 @@ function payment_return() {
 			dataType:"json",
 			success:function(data){
 				if(data.code == '0') {
-					//console.log(data.result.reserveOrderNo);
 // 					alert("code : " + data.code + "\n" + "message : " + data.message);
 					paycoOrderUrl = data.result.orderSheetUrl;
-// 					$('#order_num').val(data.result.reserveOrderNo);
-// 					$('#order_url').val(data.result.orderSheetUrl);
-// 					$('#order_sellerOrderReferenceKey').val(customerOrderNumber);
 					payco_order_pop();
 				}else{
 					alert("code : " + data.code + "\n" + "message : " + data.message);
@@ -359,25 +353,11 @@ function payment_return() {
 				return false;
 	        }
 		});
-
-		/*
-		ajaxSubmit("#paycoReserveForm", function(data) {
-			if(data.code == '0') {
-				$('#order_num').val(data.result.reserveOrderNo);
-				$('#order_url').val(data.result.orderSheetUrl);
-				$('#order_sellerOrderReferenceKey').val(customerOrderNumber);
-			}else{
-				alert("code : " + data.code + "\n" + "message : " + data.message);
-			}
-		});
-		*/
 		
 	}
 	
 	// 결제하기
 	function payco_order_pop(){
-		
-// 		var order_Url = $('#order_url').val(); 
 		
 		if(paycoOrderUrl == ""){
 			alert(" 주문예약이 되어있지 않습니다. \n 주문예약을 먼저 실행 해 주세요.");
@@ -411,8 +391,6 @@ function payment_return() {
     	
     	
     	$(function(){
-    	//	efuSlider('.calenderArea', 1, 0, '', 'once');	
-
     		v = new ef.utils.Validator($("#orderForm"));
     		
     		v.add("name", {
@@ -437,17 +415,6 @@ function payment_return() {
     			"empty" : "이메일을 입력해 주세요.",
     			"max" : 100
     		}); 
-    		
-    	/* 	//프로그램 권종
-    		$(".numPlus").click(function() { 	 
-    		    var item = $(this).closest(".num").find("input"); 	 
-    		    item.val(Number(item.val()) + 1); 	 
-    		}); 
-    		 
-    		$(".numMinus").click(function() { 	 
-    		    var item = $(this).closest(".num").find("input"); 	 
-    		    item.val(Number(item.val()) - 1); 	 
-    		}); */
     		
     		$("input[name=pay_type]").click(function() {
     			if($(this).val() == '009') {
@@ -483,6 +450,7 @@ function payment_return() {
     				$("#program_wrap").empty().append($.trim(html));
     		});
         }
+        
         // 티켓 인원 조정
         function setQty(dir, id) {
     		var obj = $("#" + id );
@@ -496,27 +464,50 @@ function payment_return() {
     		cal();
     	
     	}
+        
         // // 총금액 계산.
         function cal(){        	
-        	totAmt = 0;
-    		totQty = 0;
-        	$("input[name=exp_pid]").each(function(){
-        		var _pid = $(this).val();
-	        	$("input[name=ticket_type_" + _pid + "]").each(function(){
-	        		var _ticket = $(this).val();
-	        		var _price = parseInt($("#price_" + _pid + "_" + _ticket).val());
-					var _qty = parseInt($("#qty_" + _pid + "_" + _ticket).val());
-	        		totAmt += (_price * _qty);
-					totQty += _qty;
-	        	});
-        	});	
-        	$("#tot_amt").val(totAmt);
-    		$("#tot_amt_txt").html(totAmt.formatMoney());
-    		$("#pay_amt_txt").html(totAmt.formatMoney());
-        	$("#tot_amt_nl_txt").html(totAmt.formatMoney());
+		    var totalAmt = 0;
+		    // 고유한 exp_pid 값을 저장할 배열
+		    var uniquePids = [];
+		
+		    // 모든 exp_pid 값을 순회하며 고유한 값만 추출
+		    $("input[name='exp_pid']").each(function() {
+		        var pidValue = $(this).val();
+		        if ($.inArray(pidValue, uniquePids) === -1) {
+		            uniquePids.push(pidValue);
+		        }
+		    });
+		
+		    // 고유한 exp_pid 값에 대해서만 계산 수행
+		    $.each(uniquePids, function(index, _pid) {
+		    	var _ticket = "";
+		        $("input[name='ticket_type_" + _pid + "']").each(function() {
+		        	if(_ticket == ""){
+						_ticket = $(this).val();
+						
+			            var _price = parseInt($("#price_" + _pid + "_" + _ticket).val(), 10) || 0;
+			    		
+			            var _qtyA = parseInt($("#qtyA_" + _pid + "_" + _ticket).val(), 10) || 0;
+			            var _qtyS = parseInt($("#qtyS_" + _pid + "_" + _ticket).val(), 10) || 0;
+			            var _qtyB = parseInt($("#qtyB_" + _pid + "_" + _ticket).val(), 10) || 0;
+			
+			            totalAmt += _price * (_qtyA + _qtyS + _qtyB);	//최종결제 금액
+			            totQty +=(_qtyA + _qtyS + _qtyB);				//validation 체크에 사용할 수량 증가
+		        	}
+		        });
+		        _ticket = "";
+		        totAmt = totalAmt;										//valication 체크에 사용할 최종 금액
+		    });
+
+        	$("#tot_amt").val(totalAmt);
+    		$("#tot_amt_txt").html(totalAmt.formatMoney());
+    		$("#pay_amt_txt").html(totalAmt.formatMoney());
+        	$("#tot_amt_nl_txt").html(totalAmt.formatMoney());
         
         	
         }
+        
         // 회원일 경우.
         function applyCoupon() {
     		resetCoupon();
@@ -549,7 +540,6 @@ function payment_return() {
         
     	function resetCoupon() {
     		couponAmt = 0;
-//     		$("#coupon").val("");
     		$("#mem_couponid").val("");
     		$("#coupon_amt").val("");
     		setAmt();
@@ -637,26 +627,19 @@ function payment_return() {
     		}
     	}
     	
-    	
 // 결제하기 
     	function orderProc() {
+//     		popupOpen('terms');
     		if(payAmt < 0) {
     			alert("결제금액이 0원 미만입니다.");
     			return;
     		}
 
     		if(v.validate()) {
-    		/* 	if($("#reserve_date").val() == "") {
-    				alert("예약일자를 선택하세요.");
-    				return;
-    			}
-    			 */
-    			
     			if(totAmt == 0) {
     				alert("입장권을 선택하세요.");
     				return;
     			}
-    			
 
     			if(totQty == 0) {
     				alert("입장권을 선택하세요.");
@@ -674,25 +657,6 @@ if(fs.isLogin()){ //회원여부 확인
  <%
 }
  %>
-    			/* if(!$("#agree1").prop("checked")) {
-    				alert("취소/환불 규정에 대한 동의는 필수입니다.");
-    				return;
-    			}
-    			if(!$("#agree2").prop("checked")) {
-    				alert("결제대행서비스 이용동의는 필수입니다.");
-    				return;
-    			}
-    			
-    			if(!$("#agree4").prop("checked")) {
-    				alert("개인정보 수집 및 이용에 대한 동의는 필수입니다.");
-    				return;
-    			}
-
-    			if(!$("#agree3").prop("checked")) {
-    				alert("주문내역 동의는 필수입니다.");
-    				return;
-    			} */
-
     			if($("input[name=pay_type]:checked").length == 0) {
     				alert("결제수단을 선택하세요.");
     				return;
@@ -712,15 +676,13 @@ if(fs.isLogin()){ //회원여부 확인
     			var _goodsVat = parseInt(_taxationAmt / 11);
     			var _supplyAmt = payAmt - _goodsVat;
     				
-//    			console.log(_taxationAmt + ":" + _goodsVat + ":" + _supplyAmt);
-    				
     			$("#orderForm input[name=SupplyAmt]").val(_supplyAmt);
     			$("#orderForm input[name=GoodsVat]").val(_goodsVat);
     			$("#orderForm input[name=ServiceAmt]").val(0);
     			$("#orderForm input[name=TaxationAmt]").val(_taxationAmt);
     <%
-    	boolean nopg = true;
-//     	boolean nopg = false;
+    	boolean nopg = true;	//로컬 테스트 시 true로 사용
+//     	boolean nopg = false;	//상용에 올릴때는 false로 설정
     	if(nopg && SystemChecker.isLocal()) {
     %>
     			$("#orderForm").submit(); // 로컬테스트
@@ -728,7 +690,6 @@ if(fs.isLogin()){ //회원여부 확인
     <%
     	}
     %>
-
 //     			console.log("paytype : " + $("input[name=pay_type]:checked").val());
     			console.log($("#reserve_date").val().replace(/\./g, ''));
     			if(payAmt == 0) {	// 0원 결제
@@ -1196,7 +1157,7 @@ if(fs.isLogin()){
                         <button class="btn_line w300">이전으로</button>
                         <!-- popupOpen('terms') | 이용약관 팝업 함수, 넣어야 함 | 03.11 | hjm -->
 <!--                         <a class="btn_submit ml30" onclick="popupOpen('terms'); javascript:orderProc()">결제하기</a> -->
-                        <a class="btn_submit ml30" onclick="javascript:orderProc()">결제하기</a>
+                        <a class="btn_submit inB ml30" onclick="javascript:orderProc()">결제하기</a>
                     </div>
                     
                     <%
