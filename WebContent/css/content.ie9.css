@@ -1,0 +1,5 @@
+@CHARSET "utf-8";
+
+/* common */
+select {padding-right:0;}
+.programSel .listCont table td div.num input {top:-2px;}

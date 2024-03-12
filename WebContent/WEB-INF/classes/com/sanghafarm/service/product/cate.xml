@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Cate">
+	<select id="getAllTreeList" resultClass="Param">
+				 SELECT level,
+					    a.cate_seq,
+					    a.p_cate_seq,
+					    a.cate_name,
+					    a.rank,
+					    a.status,
+					    SYS_CONNECT_BY_PATH(a.cate_name, '>') path,
+					    a.regist_user,
+					    TO_CHAR(a.regist_date, 'yyyy.mm.dd') regist_date
+				   FROM t_cate a
+				  WHERE a.status = 'S'
+		     START WITH a.p_cate_seq = 0
+		     CONNECT BY prior a.cate_seq = a.p_cate_seq
+		 ORDER SIBLINGS BY a.rank
+	</select>
+	
+	<select id="get1DepthTreeList" resultClass="Param" parameterClass="Param">
+				 SELECT level,
+					    a.cate_seq,
+					    a.p_cate_seq,
+					    a.cate_name,
+					    a.rank,
+					    a.status,
+					    DECODE(a.status, 'S', '활성', 'H', '비활성', '') status_name,
+					    SYS_CONNECT_BY_PATH(a.cate_name, '>') path,
+					    a.regist_user,
+					    TO_CHAR(a.regist_date, 'yyyy.mm.dd') regist_date
+				   FROM t_cate a
+				  WHERE a.status = 'S'
+		     START WITH a.cate_seq = #cate_seq#
+		     CONNECT BY prior a.cate_seq = a.p_cate_seq
+		 ORDER SIBLINGS BY a.rank
+	</select>
+	
+	<select id="get1DepthList" resultClass="Param" parameterClass="Param">
+		 SELECT cate_seq,
+			    cate_name
+		   FROM t_cate
+		  WHERE p_cate_seq = 0
+		    AND status     = 'S'
+		ORDER BY rank
+	</select>
+	
+	<select id="getSubDepthList" resultClass="Param" parameterClass="Param">
+		 SELECT cate_seq,
+		        cate_name,
+			    (
+			         SELECT COUNT( * )
+			           FROM t_cate
+			          WHERE p_cate_seq = a.cate_seq
+			    )
+			    has_sub
+		   FROM t_cate a
+		  WHERE status     = 'S'
+		    AND p_cate_seq = #cate_seq#
+		ORDER BY rank
+	</select>
+	
+	<select id="getSiblingDepthList" resultClass="Param" parameterClass="Param">
+		 SELECT cate_seq,
+		        cate_name,
+			    (
+			         SELECT COUNT( * )
+			           FROM t_cate
+			          WHERE p_cate_seq = a.cate_seq
+			    )
+			    has_sub
+		   FROM t_cate a
+		  WHERE status     = 'S'
+		    AND p_cate_seq = (SELECT P_CATE_SEQ FROM T_CATE WHERE CATE_SEQ = #cate_seq#)
+		ORDER BY rank
+	</select>
+	
+	<select id="getInfo" resultClass="Param" parameterClass="Integer">
+				 SELECT LEVEL,
+					    A.CATE_SEQ,
+					    A.P_CATE_SEQ,
+					    A.CATE_NAME,
+					    A.RANK,
+					    A.STATUS,
+					    SYS_CONNECT_BY_PATH(A.CATE_NAME, '>') PATH
+				   FROM T_CATE A
+				  WHERE A.STATUS = 'S'
+             		AND A.CATE_SEQ = #cate_seq#
+		     START WITH A.P_CATE_SEQ = 0
+		     CONNECT BY PRIOR A.CATE_SEQ = A.P_CATE_SEQ
+	</select>
+	
+	<select id="getSubList" resultClass="Param" parameterClass="Param">
+		 SELECT a.cate_seq,
+		        a.p_cate_seq,
+		        a.cate_name,
+		        a.rank,
+		        a.status,
+			    (
+			         SELECT COUNT( * )
+			           FROM t_cate
+			          WHERE p_cate_seq = a.cate_seq
+			    )
+			    has_sub,
+			    (
+			         SELECT sys_connect_by_path(cate_name, '>') path
+			           FROM t_cate
+			          WHERE cate_seq              = a.cate_seq
+			     START WITH p_cate_seq     = 0
+			     CONNECT BY PRIOR cate_seq = p_cate_seq
+			    )
+			    path,
+			    (
+			         SELECT sys_connect_by_path(cate_seq, '>') path
+			           FROM t_cate
+			          WHERE cate_seq              = a.cate_seq
+			     START WITH p_cate_seq     = 0
+			     CONNECT BY PRIOR cate_seq = p_cate_seq
+			    )
+			    seq_path
+		   FROM t_cate a
+		  WHERE 1 = 1
+			<isNotEmpty property="status">
+			AND a.status     = #status#
+			</isNotEmpty>
+		    AND a.status	<![CDATA[<>]]> 'D'
+		    AND a.p_cate_seq = NVL(#cate_seq#, 0)
+		ORDER BY a.rank
+	</select>
+	
+	<select id="getPath" resultClass="String" parameterClass="Integer">
+		 SELECT MAX(sys_connect_by_path(cate_name, '>')) path
+		   FROM t_cate
+		  WHERE cate_seq        = #cate_seq#
+		    START WITH cate_seq =
+		    (
+		         SELECT CONNECT_BY_ROOT p.cate_seq root_seq
+		           FROM t_cate p
+		          WHERE ROWNUM                    = 1
+		            START WITH p.cate_seq         = #cate_seq#
+		            CONNECT BY prior p.p_cate_seq = p.cate_seq
+		    )
+		    CONNECT BY prior cate_seq = p_cate_seq
+	</select>
+	
+	<select id="getLocationPath" resultClass="Param" parameterClass="Param">
+		 SELECT sys_connect_by_path(cate_name, '>') name_path,
+			    sys_connect_by_path(cate_seq, '>') seq_path
+		   FROM t_cate
+		  WHERE cate_seq              = #cate_seq#
+		    START WITH p_cate_seq     = 0
+		    CONNECT BY prior cate_seq = p_cate_seq
+	</select>
+	
+</sqlMap>

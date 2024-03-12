@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+	<settings enhancementEnabled="true" lazyLoadingEnabled="true" useStatementNamespaces="true" />
+
+ 	<typeAlias alias="Param" type="com.efusioni.stone.utils.Param"/>
+
+	<transactionManager type="JDBC" >
+		<dataSource type="JNDI">
+			<property name="DataSource" value="${driver}"/>
+			<property name="Driver.SetBigStringTryClob" value="true"/>
+			<property name="username" value="${username}"/>
+			<property name="password" value="${password}"/>
+		</dataSource>
+	</transactionManager>
+
+	<sqlMap resource="com/sanghafarm/service/common/sql_trace.xml"/>
+	<sqlMap resource="com/sanghafarm/service/common/page_trace.xml"/>
+	
+	<sqlMap resource="com/sanghafarm/service/code/code.xml"/>
+
+	<sqlMap resource="com/sanghafarm/service/product/cate.xml"/>
+	<sqlMap resource="com/sanghafarm/service/product/product.xml"/>
+	<sqlMap resource="com/sanghafarm/service/product/exp_product.xml"/>
+	 
+	<sqlMap resource="com/sanghafarm/service/member/member.xml"/>
+	<sqlMap resource="com/sanghafarm/service/member/addr_book.xml"/>
+	<sqlMap resource="com/sanghafarm/service/member/im_member.xml"/>
+
+	<sqlMap resource="com/sanghafarm/service/order/coupon.xml"/>
+	<sqlMap resource="com/sanghafarm/service/order/off_coupon.xml"/>
+	<sqlMap resource="com/sanghafarm/service/order/cart.xml"/>
+	<sqlMap resource="com/sanghafarm/service/order/order.xml"/>
+	<sqlMap resource="com/sanghafarm/service/order/ticket_order.xml"/>
+	<sqlMap resource="com/sanghafarm/service/order/wishlist.xml"/>
+	<sqlMap resource="com/sanghafarm/service/order/restock.xml"/>
+	<sqlMap resource="com/sanghafarm/service/order/ship_date.xml"/>
+	<sqlMap resource="com/sanghafarm/service/order/personal_pay.xml"/>
+
+	<sqlMap resource="com/sanghafarm/service/board/notice.xml"/>
+	<sqlMap resource="com/sanghafarm/service/board/brand_notice.xml"/>
+	<sqlMap resource="com/sanghafarm/service/board/faq.xml"/>
+	<sqlMap resource="com/sanghafarm/service/board/counsel.xml"/>
+	<sqlMap resource="com/sanghafarm/service/board/event.xml"/>
+	<sqlMap resource="com/sanghafarm/service/board/product_qna.xml"/>
+	<sqlMap resource="com/sanghafarm/service/board/farmer_menu.xml"/>
+	<sqlMap resource="com/sanghafarm/service/board/banner.xml"/>
+	<sqlMap resource="com/sanghafarm/service/board/review.xml"/>
+	<sqlMap resource="com/sanghafarm/service/board/popup.xml"/>
+	<sqlMap resource="com/sanghafarm/service/board/group_reserve.xml"/>
+	<sqlMap resource="com/sanghafarm/service/board/keyword.xml"/>
+	<sqlMap resource="com/sanghafarm/service/board/exp_content.xml"/>
+	<sqlMap resource="com/sanghafarm/service/board/partnership.xml"/>
+	
+	<sqlMap resource="com/sanghafarm/service/brand/craft_sch.xml"/>
+	<sqlMap resource="com/sanghafarm/service/brand/image_board.xml"/>
+	<sqlMap resource="com/sanghafarm/service/brand/exp_class.xml"/>
+
+	<!-- family member -->	
+	<sqlMap resource="com/sanghafarm/service/member/family_member.xml"/>
+
+	<sqlMap resource="com/sanghafarm/service/api/pos_api.xml"/>
+
+	<sqlMap resource="com/sanghafarm/service/promotion/second_anniversary.xml"/>
+	<sqlMap resource="com/sanghafarm/service/imc/imc.xml"/>
+	
+	
+	<!-- hotel -->
+	<sqlMap resource="com/sanghafarm/service/hotel/hotel_reserve.xml"/>
+	<sqlMap resource="com/sanghafarm/service/hotel/hotel_promocd.xml"/>
+	<sqlMap resource="com/sanghafarm/service/hotel/hotel_notice.xml"/>
+	<sqlMap resource="com/sanghafarm/service/hotel/hotel_promotion.xml"/>
+	<sqlMap resource="com/sanghafarm/service/hotel/hotel_counsel.xml"/>
+	<sqlMap resource="com/sanghafarm/service/hotel/hotel_main.xml"/>
+	<sqlMap resource="com/sanghafarm/service/hotel/hotel_offer.xml"/>
+	
+</sqlMapConfig>

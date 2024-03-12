@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ImMember">
+	
+	<select id="getNewNo" resultClass="java.lang.String">
+		 SELECT LPAD(SEQ_COMMON.NEXTVAL, 6, 0)
+		   FROM DUAL
+	</select>
+
+	<insert id="insertLog" parameterClass="Param">
+		INSERT INTO T_IMLOG (
+			API_NM,
+			TRS_NO,
+			OPN_MD,
+			SST_CD,
+			PARAM2,
+			RESPONSE2,
+			TRS_DTM
+		) VALUES (
+			#api_nm#,
+			#trs_no#,
+			#opn_md#,
+			#sst_cd#,
+			#param#,
+			#response#,
+			SYSDATE
+		)
+		
+	</insert>
+	
+	<insert id="insertImPointLog" parameterClass="Param">
+		INSERT INTO T_IMPOINT_LOG (
+			API_NM,
+			TRC_NO,
+			PARAM,
+			RESPONSE,
+			TRS_DTM
+		) VALUES (
+			#api_nm#,
+			#trc_no#,
+			#param#,
+			#response#,
+			SYSDATE
+		)
+		
+	</insert>
+
+	<update id="merge" parameterClass="Param">
+		MERGE INTO T_IMMEM
+		USING DUAL
+		   ON (
+		   		UNFY_MMB_NO = #unfy_mmb_no# 
+		      )
+		WHEN MATCHED THEN
+			UPDATE 
+			SET		CUST_NO                     = #cust_no#,
+					MMB_NM                      = #mmb_nm#,
+					MMB_ID                      = #mmb_id#,
+					FRNR_DV_CD                  = #frnr_dv_cd#,
+					BTDY                        = #btdy#,
+					BTDY_LUCR_SOCR_DV_CD        = #btdy_lucr_socr_dv_cd#,
+					GNDR_DV_CD                  = #gndr_dv_cd#,
+					SEF_CERT_DI                 = #sef_cert_di#,
+					SEF_CERT_CI_VER             = #sef_cert_ci_ver#,
+					SEF_CERT_CI                 = #sef_cert_ci#,
+					SEF_CERT_DV_CD              = #sef_cert_dv_cd#,
+					NTRY_CHNL_CD                = #ntry_chnl_cd#,
+					NTRY_PATH              		= #ntry_path#,
+					NTRY_COOPCO_CD              = #ntry_coopco_cd#,
+					MMB_ST_CD                   = #mmb_st_cd#,
+					SOC_ID                      = #soc_id#,
+					SOC_KIND_CD                 = #soc_kind_cd#,
+					SOC_MMB_YN                  = #soc_mmb_yn#,
+					PREM_MMB_YN                 = #prem_mmb_yn#,
+					PREM_MMB_NTRY_DTM           = #prem_mmb_ntry_dtm#,
+					STFF_DV_CD                  = #stff_dv_cd#,
+					STFF_EML_ADDR               = #stff_eml_addr#,
+					STFF_CERT_DT                = #stff_cert_dt#,
+					NTRY_TYP_CD                 = #ntry_typ_cd#,
+					COOPCO_MMB_ID               = #coopco_mmb_id#,
+					WRLS_TEL_NO                 = #wrls_tel_no#,
+					CBL_TEL_NO                  = #cbl_tel_no#,
+					EML_ADDR                    = #eml_addr#,
+					CRD_NO                      = #crd_no#,
+					CRD_REG_DTM                 = #crd_reg_dtm#,
+					REG_DTM                     = #reg_dtm#,
+					ASCT_MMB_NO                 = #asct_mmb_no#,
+					NTRY_STOR_NO                = #ntry_stor_no#,
+					STOR_CD                     = #stor_cd#,
+					STOR_CRD_NO                 = #stor_crd_no#,
+					STOR_PINT_SWT_YN            = #stor_pint_swt_yn#,
+					AGRM_YN                     = #agrm_yn#,
+					AGRM_DTHR                   = #agrm_dthr#,
+					AGRM_END_DTHR               = #agrm_end_dthr#,
+					SMS_RECV_DV_CD              = #sms_recv_dv_cd#,
+					EML_RECV_DV_CD              = #eml_recv_dv_cd#,
+					APP_PUSH_RECV_DV_CD         = #app_push_recv_dv_cd#,
+					TOTAL_AGRM_YN               = #total_agrm_yn#,
+					ADDR_FLAG                   = #addr_flag#,
+					ZIP_NO                      = #zip_no#,
+					ZIP_SEQ                     = #zip_seq#,
+					ZIP_ZONE_NO                 = #zip_zone_no#,
+					ZIP_BASE_ADDR               = #zip_base_addr#,
+					ZIP_DTLS_ADDR               = #zip_dtls_addr#,
+					ROZIP_NO                    = #rozip_no#,
+					ROZIP_SEQ                   = #rozip_seq#,
+					ROZIP_ZONE_NO               = #rozip_zone_no#,
+					ROZIP_BASE_ADDR             = #rozip_base_addr#,
+					ROZIP_DTLS_ADDR             = #rozip_dtls_addr#,
+					ROZIP_REFN_ADDR             = #rozip_refn_addr#,
+					ROZIP_BLD_NO                = #rozip_bld_no#,
+					ROZIP_PNU                   = #rozip_pnu#,
+					STTR_DONG_CD                = #sttr_dong_cd#,
+					ADMST_DONG_CD               = #admst_dong_cd#,
+					PSN_X_CORD                  = #psn_x_cord#,
+					PSN_Y_CORD                  = #psn_y_cord#
+		WHEN NOT MATCHED THEN
+			INSERT (
+				UNFY_MMB_NO,
+				CUST_NO,
+				MMB_NM,
+				MMB_ID,
+				FRNR_DV_CD,
+				BTDY,
+				BTDY_LUCR_SOCR_DV_CD,
+				GNDR_DV_CD,
+				SEF_CERT_DI,
+				SEF_CERT_CI_VER,
+				SEF_CERT_CI,
+				SEF_CERT_DV_CD,
+				NTRY_CHNL_CD,
+				NTRY_PATH,
+				NTRY_COOPCO_CD,
+				MMB_ST_CD,
+				SOC_ID,
+				SOC_KIND_CD,
+				SOC_MMB_YN,
+				PREM_MMB_YN,
+				PREM_MMB_NTRY_DTM,
+				STFF_DV_CD,
+				STFF_EML_ADDR,
+				STFF_CERT_DT,
+				NTRY_TYP_CD,
+				COOPCO_MMB_ID,
+				WRLS_TEL_NO,
+				CBL_TEL_NO,
+				EML_ADDR,
+				CRD_NO,
+				CRD_REG_DTM,
+				REG_DTM,
+				ASCT_MMB_NO,
+				NTRY_STOR_NO,
+				STOR_CD,
+				STOR_CRD_NO,
+				STOR_PINT_SWT_YN,
+				AGRM_YN,
+				AGRM_DTHR,
+				AGRM_END_DTHR,
+				SMS_RECV_DV_CD,
+				EML_RECV_DV_CD,
+				APP_PUSH_RECV_DV_CD,
+				TOTAL_AGRM_YN,
+				ADDR_FLAG,
+				ZIP_NO,
+				ZIP_SEQ,
+				ZIP_ZONE_NO,
+				ZIP_BASE_ADDR,
+				ZIP_DTLS_ADDR,
+				ROZIP_NO,
+				ROZIP_SEQ,
+				ROZIP_ZONE_NO,
+				ROZIP_BASE_ADDR,
+				ROZIP_DTLS_ADDR,
+				ROZIP_REFN_ADDR,
+				ROZIP_BLD_NO,
+				ROZIP_PNU,
+				STTR_DONG_CD,
+				ADMST_DONG_CD,
+				PSN_X_CORD,
+				PSN_Y_CORD
+			) VALUES (
+				#unfy_mmb_no#,
+				#cust_no#,
+				#mmb_nm#,
+				#mmb_id#,
+				#frnr_dv_cd#,
+				#btdy#,
+				#btdy_lucr_socr_dv_cd#,
+				#gndr_dv_cd#,
+				#sef_cert_di#,
+				#sef_cert_ci_ver#,
+				#sef_cert_ci#,
+				#sef_cert_dv_cd#,
+				#ntry_chnl_cd#,
+				#ntry_path#,
+				#ntry_coopco_cd#,
+				#mmb_st_cd#,
+				#soc_id#,
+				#soc_kind_cd#,
+				#soc_mmb_yn#,
+				#prem_mmb_yn#,
+				#prem_mmb_ntry_dtm#,
+				#stff_dv_cd#,
+				#stff_eml_addr#,
+				#stff_cert_dt#,
+				#ntry_typ_cd#,
+				#coopco_mmb_id#,
+				#wrls_tel_no#,
+				#cbl_tel_no#,
+				#eml_addr#,
+				#crd_no#,
+				#crd_reg_dtm#,
+				#reg_dtm#,
+				#asct_mmb_no#,
+				#ntry_stor_no#,
+				#stor_cd#,
+				#stor_crd_no#,
+				#stor_pint_swt_yn#,
+				#agrm_yn#,
+				#agrm_dthr#,
+				#agrm_end_dthr#,
+				#sms_recv_dv_cd#,
+				#eml_recv_dv_cd#,
+				#app_push_recv_dv_cd#,
+				#total_agrm_yn#,
+				#addr_flag#,
+				#zip_no#,
+				#zip_seq#,
+				#zip_zone_no#,
+				#zip_base_addr#,
+				#zip_dtls_addr#,
+				#rozip_no#,
+				#rozip_seq#,
+				#rozip_zone_no#,
+				#rozip_base_addr#,
+				#rozip_dtls_addr#,
+				#rozip_refn_addr#,
+				#rozip_bld_no#,
+				#rozip_pnu#,
+				#sttr_dong_cd#,
+				#admst_dong_cd#,
+				#psn_x_cord#,
+				#psn_y_cord#
+			) 
+	</update>
+	 
+	<insert id="insert" parameterClass="Param">
+		INSERT INTO T_IMMEM (
+			UNFY_MMB_NO,
+			CUST_NO,
+			MMB_NM,
+			MMB_ID,
+			FRNR_DV_CD,
+			BTDY,
+			BTDY_LUCR_SOCR_DV_CD,
+			GNDR_DV_CD,
+			SEF_CERT_DI,
+			SEF_CERT_CI_VER,
+			SEF_CERT_CI,
+			SEF_CERT_DV_CD,
+			NTRY_CHNL_CD,
+			NTRY_PATH,
+			NTRY_COOPCO_CD,
+			MMB_ST_CD,
+			SOC_ID,
+			SOC_KIND_CD,
+			SOC_MMB_YN,
+			PREM_MMB_YN,
+			PREM_MMB_NTRY_DTM,
+			STFF_DV_CD,
+			STFF_EML_ADDR,
+			STFF_CERT_DT,
+			NTRY_TYP_CD,
+			COOPCO_MMB_ID,
+			WRLS_TEL_NO,
+			CBL_TEL_NO,
+			EML_ADDR,
+			CRD_NO,
+			CRD_REG_DTM,
+			REG_DTM,
+			ASCT_MMB_NO,
+			NTRY_STOR_NO,
+			STOR_CD,
+			STOR_CRD_NO,
+			STOR_PINT_SWT_YN,
+			AGRM_YN,
+			AGRM_DTHR,
+			AGRM_END_DTHR,
+			SMS_RECV_DV_CD,
+			EML_RECV_DV_CD,
+			APP_PUSH_RECV_DV_CD,
+			TOTAL_AGRM_YN,
+			ADDR_FLAG,
+			ZIP_NO,
+			ZIP_SEQ,
+			ZIP_ZONE_NO,
+			ZIP_BASE_ADDR,
+			ZIP_DTLS_ADDR,
+			ROZIP_NO,
+			ROZIP_SEQ,
+			ROZIP_ZONE_NO,
+			ROZIP_BASE_ADDR,
+			ROZIP_DTLS_ADDR,
+			ROZIP_REFN_ADDR,
+			ROZIP_BLD_NO,
+			ROZIP_PNU,
+			STTR_DONG_CD,
+			ADMST_DONG_CD,
+			PSN_X_CORD,
+			PSN_Y_CORD,
+			MDATE
+		) VALUES (
+			#unfy_mmb_no#,
+			#cust_no#,
+			#mmb_nm#,
+			#mmb_id#,
+			#frnr_dv_cd#,
+			#btdy#,
+			#btdy_lucr_socr_dv_cd#,
+			#gndr_dv_cd#,
+			#sef_cert_di#,
+			#sef_cert_ci_ver#,
+			#sef_cert_ci#,
+			#sef_cert_dv_cd#,
+			#ntry_chnl_cd#,
+			#ntry_path#,
+			#ntry_coopco_cd#,
+			#mmb_st_cd#,
+			#soc_id#,
+			#soc_kind_cd#,
+			#soc_mmb_yn#,
+			#prem_mmb_yn#,
+			#prem_mmb_ntry_dtm#,
+			#stff_dv_cd#,
+			#stff_eml_addr#,
+			#stff_cert_dt#,
+			#ntry_typ_cd#,
+			#coopco_mmb_id#,
+			#wrls_tel_no#,
+			#cbl_tel_no#,
+			#eml_addr#,
+			#crd_no#,
+			#crd_reg_dtm#,
+			#reg_dtm#,
+			#asct_mmb_no#,
+			#ntry_stor_no#,
+			#stor_cd#,
+			#stor_crd_no#,
+			#stor_pint_swt_yn#,
+			#agrm_yn#,
+			#agrm_dthr#,
+			#agrm_end_dthr#,
+			#sms_recv_dv_cd#,
+			#eml_recv_dv_cd#,
+			#app_push_recv_dv_cd#,
+			#total_agrm_yn#,
+			#addr_flag#,
+			#zip_no#,
+			#zip_seq#,
+			#zip_zone_no#,
+			#zip_base_addr#,
+			#zip_dtls_addr#,
+			#rozip_no#,
+			#rozip_seq#,
+			#rozip_zone_no#,
+			#rozip_base_addr#,
+			#rozip_dtls_addr#,
+			#rozip_refn_addr#,
+			#rozip_bld_no#,
+			#rozip_pnu#,
+			#sttr_dong_cd#,
+			#admst_dong_cd#,
+			#psn_x_cord#,
+			#psn_y_cord#,
+			SYSDATE
+		) 
+	</insert>
+
+	<update id="update" parameterClass="Param">
+		UPDATE T_IMMEM
+		SET		CUST_NO                     = #cust_no#,
+				MMB_NM                      = #mmb_nm#,
+				MMB_ID                      = #mmb_id#,
+				FRNR_DV_CD                  = #frnr_dv_cd#,
+				BTDY                        = #btdy#,
+				BTDY_LUCR_SOCR_DV_CD        = #btdy_lucr_socr_dv_cd#,
+				GNDR_DV_CD                  = #gndr_dv_cd#,
+				SEF_CERT_DI                 = #sef_cert_di#,
+				SEF_CERT_CI_VER             = #sef_cert_ci_ver#,
+				SEF_CERT_CI                 = #sef_cert_ci#,
+				SEF_CERT_DV_CD              = #sef_cert_dv_cd#,
+				NTRY_CHNL_CD                = #ntry_chnl_cd#,
+				NTRY_PATH              		= #ntry_path#,
+				NTRY_COOPCO_CD              = #ntry_coopco_cd#,
+				MMB_ST_CD                   = #mmb_st_cd#,
+				SOC_ID                      = #soc_id#,
+				SOC_KIND_CD                 = #soc_kind_cd#,
+				SOC_MMB_YN                  = #soc_mmb_yn#,
+				PREM_MMB_YN                 = #prem_mmb_yn#,
+				PREM_MMB_NTRY_DTM           = #prem_mmb_ntry_dtm#,
+				STFF_DV_CD                  = #stff_dv_cd#,
+				STFF_EML_ADDR               = #stff_eml_addr#,
+				STFF_CERT_DT                = #stff_cert_dt#,
+				NTRY_TYP_CD                 = #ntry_typ_cd#,
+				COOPCO_MMB_ID               = #coopco_mmb_id#,
+				WRLS_TEL_NO                 = #wrls_tel_no#,
+				CBL_TEL_NO                  = #cbl_tel_no#,
+				EML_ADDR                    = #eml_addr#,
+				CRD_NO                      = #crd_no#,
+				CRD_REG_DTM                 = #crd_reg_dtm#,
+				REG_DTM                     = #reg_dtm#,
+				ASCT_MMB_NO                 = #asct_mmb_no#,
+				NTRY_STOR_NO                = #ntry_stor_no#,
+				STOR_CD                     = #stor_cd#,
+				STOR_CRD_NO                 = #stor_crd_no#,
+				STOR_PINT_SWT_YN            = #stor_pint_swt_yn#,
+				AGRM_YN                     = #agrm_yn#,
+				AGRM_DTHR                   = #agrm_dthr#,
+				AGRM_END_DTHR               = #agrm_end_dthr#,
+				SMS_RECV_DV_CD              = #sms_recv_dv_cd#,
+				EML_RECV_DV_CD              = #eml_recv_dv_cd#,
+				APP_PUSH_RECV_DV_CD         = #app_push_recv_dv_cd#,
+				TOTAL_AGRM_YN               = #total_agrm_yn#,
+				ADDR_FLAG                   = #addr_flag#,
+				ZIP_NO                      = #zip_no#,
+				ZIP_SEQ                     = #zip_seq#,
+				ZIP_ZONE_NO                 = #zip_zone_no#,
+				ZIP_BASE_ADDR               = #zip_base_addr#,
+				ZIP_DTLS_ADDR               = #zip_dtls_addr#,
+				ROZIP_NO                    = #rozip_no#,
+				ROZIP_SEQ                   = #rozip_seq#,
+				ROZIP_ZONE_NO               = #rozip_zone_no#,
+				ROZIP_BASE_ADDR             = #rozip_base_addr#,
+				ROZIP_DTLS_ADDR             = #rozip_dtls_addr#,
+				ROZIP_REFN_ADDR             = #rozip_refn_addr#,
+				ROZIP_BLD_NO                = #rozip_bld_no#,
+				ROZIP_PNU                   = #rozip_pnu#,
+				STTR_DONG_CD                = #sttr_dong_cd#,
+				ADMST_DONG_CD               = #admst_dong_cd#,
+				PSN_X_CORD                  = #psn_x_cord#,
+				PSN_Y_CORD                  = #psn_y_cord#,
+				MDATE						= SYSDATE
+		WHERE	UNFY_MMB_NO 				= #unfy_mmb_no# 
+	</update>
+
+	<update id="delete" parameterClass="java.lang.Integer">
+		UPDATE	T_IMMEM 
+		SET		MMB_NM          = NULL,
+				MMB_ST_CD       = '0',
+				WRLS_TEL_NO     = NULL,
+				CBL_TEL_NO      = NULL,
+				EML_ADDR        = NULL,
+				MDATE			= SYSDATE
+		WHERE	UNFY_MMB_NO 	= #unfy_mmb_no# 
+	</update>
+
+	<insert id="insertSNS" parameterClass="Param">
+		INSERT INTO T_MEM_SNS (
+			UNFY_MMB_NO,
+			SOC_UNFY_MMB_NO,
+			SOC_KIND_CD,
+			USE_YN
+		) VALUES (
+			#unfy_mmb_no#,
+			#soc_unfy_mmb_no#,
+			#soc_kind_cd#,
+			#use_yn#
+		)
+	</insert>
+	
+	<insert id="insertChild" parameterClass="Param">
+		INSERT INTO T_MEM_CHILD (
+			UNFY_MMB_NO,
+			SEQ_NO,
+			BABY_NM,
+			BABY_SEQ,
+			TWIN_DV_CD,
+			BTDY,
+			BTDY_LUCR_SOCR_DV_CD,
+			BABY_GNDR_DV_CD,
+			FEDG_TYP_CD,
+			USE_YN
+		) VALUES (
+			#unfy_mmb_no#,
+			#seq_no#,
+			#baby_nm#,
+			#baby_seq#,
+			#twin_dv_cd#,
+			#btdy#,
+			#btdy_lucr_socr_dv_cd#,
+			#baby_gndr_dv_cd#,
+			#fedg_typ_cd#,
+			#use_yn#
+		)
+	</insert>
+	
+	<delete id="deleteSNS" parameterClass="java.lang.Integer">
+		DELETE FROM T_MEM_SNS 
+		 WHERE UNFY_MMB_NO = #unfy_mmb_no#
+	</delete>
+
+	<delete id="deleteChild" parameterClass="java.lang.Integer">
+		DELETE FROM T_MEM_CHILD 
+		 WHERE UNFY_MMB_NO = #unfy_mmb_no#
+	</delete>
+
+	<select id="getInfo" parameterClass="java.lang.Integer" resultClass="Param">
+		SELECT *
+		  FROM T_IMMEM
+		 WHERE UNFY_MMB_NO	= #unfy_mmb_no#
+	</select>
+	
+	<select id="getSnsList" parameterClass="java.lang.Integer" resultClass="Param">
+		SELECT *
+		  FROM T_MEM_SNS
+		 WHERE UNFY_MMB_NO	= #unfy_mmb_no#
+	</select>
+
+	<select id="getChildList" parameterClass="java.lang.Integer" resultClass="Param">
+		SELECT *
+		  FROM T_MEM_CHILD
+		 WHERE UNFY_MMB_NO	= #unfy_mmb_no#
+	</select>
+	
+	<insert id="insertMaeildoApiLog" parameterClass="Param">
+		INSERT INTO T_MAEILDO_API_LOG (
+			REQ_DATE,
+			URI,
+			RESPONSE_CODE,
+			REQUEST,
+			RESPONSE
+		) VALUES (
+			SYSDATE,
+			#uri#,
+			#response_code#,
+			#request#,
+			#response#
+		)
+	</insert>
+	
+	<select id="getOrderStatus" parameterClass="java.lang.Long" resultClass="java.lang.String">
+		SELECT OM.ORDERID 
+		  FROM T_ORDER_MASTER OM, T_ORDER_SHIP OS, T_IMMEM M
+		 WHERE OM.ORDERID = OS.ORDERID
+		   AND OM.USERID = M.MMB_ID
+		   AND OS.STATUS IN ('110','120','130','140','150','160','210','220','240','250')
+		   AND M.UNFY_MMB_NO = #unfy_mmb_no#
+		   AND ROWNUM = 1
+	</select>
+	
+	<select id="getTorderStatus" parameterClass="java.lang.Long" resultClass="java.lang.String">
+		SELECT O.ORDERID
+		  FROM T_TICKET_ORDER O, T_IMMEM M
+		 WHERE O.USERID = M.MMB_ID
+		   AND O.STATUS IN ('110','120')
+		   AND M.UNFY_MMB_NO = #unfy_mmb_no#
+		   AND ROWNUM = 1
+	</select>
+	
+	<select id="getInfoById" parameterClass="java.lang.String" resultClass="Param">
+		SELECT *
+		  FROM T_IMMEM
+		 WHERE (MMB_ID = #value# OR UNFY_MMB_NO || '_' || SOC_KIND_CD = #value#)
+		   AND ROWNUM = 1
+	</select>
+	
+</sqlMap>

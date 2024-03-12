@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Cart">
+	<select id="getNewId" resultClass="java.lang.String">
+		 SELECT TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS') || LPAD(SEQ_COMMON.NEXTVAL, 5, 0)
+		   FROM DUAL
+	</select>
+	
+	<insert id="insert" parameterClass="Param">
+		INSERT INTO T_CART
+			(
+				CARTID,
+				PID,
+				SUB_PID,
+				QTY,
+				USERID,
+				MEM_COUPONID,
+				ORDER_YN,
+				ROUTINE_YN,
+				ROUTINE_DAY,
+				ROUTINE_CNT,
+				ROUTINE_PERIOD,
+				REGIST_DATE,
+				DELIVERY_DATE
+			)
+		VALUES
+			(
+				TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS') || LPAD(SEQ_COMMON.NEXTVAL, 5, 0),
+				#pid#,
+				#sub_pid#,
+				#qty#,
+				#userid#,
+				NULL,
+				NVL(#order_yn#, 'N'),
+				NVL(#routine_yn#, 'N'),
+				#routine_day#,
+				#routine_cnt#,
+				#routine_period#,
+				SYSDATE,
+				#delivery_date#
+			)
+	</insert>
+
+	<update id="update" parameterClass="Param">
+		UPDATE	T_CART
+		SET		QTY					= #qty#,
+				ROUTINE_YN			= #routine_yn#,
+				ROUTINE_DAY			= #routine_day#,
+				ROUTINE_CNT			= #routine_cnt#,
+				ROUTINE_PERIOD		= #routine_period#
+		WHERE	CARTID				= #cartid#
+	</update>
+
+	<update id="updateQty" parameterClass="Param">
+		UPDATE	T_CART
+		SET		QTY					= #qty#,
+				DELIVERY_DATE		= #delivery_date#
+		WHERE	CARTID				= #cartid#
+	</update>
+
+	<delete id="delete" parameterClass="Param">
+		DELETE FROM T_CART
+		 WHERE CARTID = #cartid#
+		<isNotEmpty property="userid">
+		   AND USERID = #userid#
+		</isNotEmpty>
+	</delete>
+	
+	<delete id="deleteByPid" parameterClass="Param">
+		DELETE FROM T_CART
+		 WHERE PID = #pid#
+		   AND SUB_PID = #sub_pid#
+		<isNotEmpty property="userid">
+		   AND USERID = #userid#
+		</isNotEmpty>
+	</delete>
+	
+	<update id="updateUserid" parameterClass="Param">
+		UPDATE T_CART
+		   SET USERID	= #userid#
+		 WHERE USERID	= #temp_userid# 
+	</update>
+	<delete id="deleteAll" parameterClass="String">
+		DELETE FROM T_CART
+		 WHERE USERID = #value#
+	</delete>
+	<select id="getList" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT A.*, 
+			   P1.PNM, 
+			   P1.OPT_PNM,
+			   P1.THUMB,
+			   P1.IMAGE1,
+			   P1.ROUTINE_SALE_TYPE,
+			   P1.SALE_STATUS,
+			   P2.PNM SUB_PNM, 
+			   P2.OPT_PNM SUB_OPT_PNM,
+			   P2.SALE_STATUS SUB_SALE_STATUS,
+			   P2.TAX_YN,
+			   P2.DEFAULT_PRICE,
+			   P2.THUMB OPT_THUMB,
+			   P2.EARLY_ONLY,
+			   P2.PTYPE,
+			   NVL(PS.STOCK, 0) STOCK,
+			   NVL(PS.SOLDOUT_MSG, '001') SOLDOUT_MSG,
+			   F_PRICE(A.SUB_PID, #grade_code#) SALE_PRICE, 
+			   MC.END_DATE, 
+			   C.SALE_AMT, 
+			   C.MIN_PRICE, 
+			   C.SALE_TYPE, 
+			   C.MAX_SALE,
+			   DECODE(A.ROUTINE_YN, 'N', 0,
+			   			(SELECT MAX(SALE_AMT) FROM T_PRODUCT_ROUTINE_SALE
+			   			  WHERE PID = A.PID
+			   			    AND FROM_CNT <= A.ROUTINE_CNT
+			   			    AND TO_CNT >= A.ROUTINE_CNT)
+			   ) ROUTINE_SALE_AMT
+		  FROM T_CART A, 
+		  	   T_PRODUCT P1, 
+		  	   T_PRODUCT P2, 
+		  	   T_PRODUCT_STOCK PS,
+		  	   T_MEM_COUPON MC, 
+		  	   T_COUPON C
+		 WHERE A.PID = P1.PID
+		   AND A.SUB_PID = P2.PID
+		   AND P2.PID = PS.PID(+)
+		   AND A.MEM_COUPONID = MC.MEM_COUPONID(+)
+		   AND MC.COUPONID = C.COUPONID(+)
+		   AND A.USERID = #userid#
+		   AND A.ROUTINE_YN = #routine_yn#
+    	   AND P1.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+    	   AND P1.END_DATE  >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+    	   AND P2.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+    	   AND P2.END_DATE  >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		]]>
+		<isNotEmpty property="ptype">
+		   AND P1.PTYPE = #ptype#
+		</isNotEmpty>
+		<isNotEmpty property="order_yn">
+		   AND A.ORDER_YN = #order_yn#
+		</isNotEmpty>
+		ORDER BY A.CARTID DESC
+	</select>
+	
+	<select id="getListCount" parameterClass="Param" resultClass="java.lang.Integer">
+		<![CDATA[
+		SELECT COUNT(*)
+		  FROM T_CART A, 
+		  	   T_PRODUCT P1, 
+		  	   T_PRODUCT P2 
+		 WHERE A.PID = P1.PID
+		   AND A.SUB_PID = P2.PID
+		   AND A.USERID = #userid#
+		   AND P1.PTYPE IN ('A', 'C', 'E', 'D')
+    	   AND P1.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+    	   AND P1.END_DATE  >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+    	   AND P2.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+    	   AND P2.END_DATE  >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		]]>
+		<isNotEmpty property="pid">
+		   AND A.PID = #pid#
+		</isNotEmpty>
+		<isNotEmpty property="sub_pid">
+		   AND A.SUB_PID = #sub_pid#
+		</isNotEmpty>
+	</select>
+	
+	<select id="getAllList" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT A.*
+		  FROM T_CART A, 
+		  	   T_PRODUCT P1, 
+		  	   T_PRODUCT P2, 
+		  	   T_PRODUCT_STOCK PS,
+		  	   T_MEM_COUPON MC, 
+		  	   T_COUPON C
+		 WHERE A.PID = P1.PID
+		   AND A.SUB_PID = P2.PID
+		   AND P2.PID = PS.PID(+)
+		   AND A.MEM_COUPONID = MC.MEM_COUPONID(+)
+		   AND MC.COUPONID = C.COUPONID(+)
+		   AND A.USERID = #userid#
+    	   AND P1.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+    	   AND P1.END_DATE  >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+    	   AND P2.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+    	   AND P2.END_DATE  >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		]]>
+		ORDER BY A.CARTID DESC
+	</select>
+	<select id="getInfo" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT A.*, 
+			   P1.PNM, 
+			   P1.OPT_PNM,
+			   P1.THUMB,
+			   P1.ROUTINE_SALE_TYPE,
+			   P2.PNM SUB_PNM, 
+			   P2.OPT_PNM SUB_OPT_PNM,
+			   P2.EARLY_ONLY,
+			   F_PRICE(A.SUB_PID, #grade_code#) SALE_PRICE, 
+			   MC.END_DATE, 
+			   C.SALE_AMT, 
+			   C.MIN_PRICE, 
+			   C.SALE_TYPE, 
+			   C.MAX_SALE,
+			   DECODE(A.ROUTINE_YN, 'N', 0,
+			   			(SELECT MAX(SALE_AMT) FROM T_PRODUCT_ROUTINE_SALE
+			   			  WHERE PID = A.PID
+			   			    AND FROM_CNT <= A.ROUTINE_CNT
+			   			    AND TO_CNT >= A.ROUTINE_CNT)
+			   ) ROUTINE_SALE_AMT
+		  FROM T_CART A, 
+		  	   T_PRODUCT P1, 
+		  	   T_PRODUCT P2, 
+		  	   T_MEM_COUPON MC, 
+		  	   T_COUPON C
+		 WHERE A.PID = P1.PID
+		   AND A.SUB_PID = P2.PID
+		   AND A.MEM_COUPONID = MC.MEM_COUPONID(+)
+		   AND MC.COUPONID = C.COUPONID(+)
+		   AND A.CARTID = #cartid#
+		]]>
+	</select>
+	
+	<update id="initCoupon" parameterClass="java.lang.String">
+		<![CDATA[
+		UPDATE T_CART
+		   SET MEM_COUPONID = NULL
+		 WHERE MEM_COUPONID IN (
+		 			SELECT MEM_COUPONID
+		 			  FROM T_MEM_COUPON
+		 			 WHERE END_DATE < TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS') 
+		 			   AND USERID = #userid#
+		 		)
+		   AND USERID = #userid#
+		]]>
+	</update>
+	
+	<update id="setOrderYn" parameterClass="Param">
+		UPDATE T_CART
+		   SET ORDER_YN = #order_yn#
+		 WHERE USERID	= #userid#
+		<isNotEmpty property="cartid">
+		   ANd CARTID	= #cartid#
+		</isNotEmpty>
+	</update>
+	
+	<update id="mergeToCartList" parameterClass="Param">
+		MERGE INTO T_CART
+		USING DUAL
+		ON (EXISTS(SELECT * FROM T_CART WHERE USERID = #userid# AND PID = #pid# AND SUB_PID = #sub_pid#))
+		WHEN NOT MATCHED THEN
+			INSERT
+			(
+				CARTID,
+				PID,
+				SUB_PID,
+				QTY,
+				USERID,
+				MEM_COUPONID,
+				ORDER_YN,
+				ROUTINE_YN,
+				ROUTINE_DAY,
+				ROUTINE_CNT,
+				ROUTINE_PERIOD,
+				REGIST_DATE,
+				DELIVERY_DATE
+			)
+		VALUES
+			(
+				#cartid#,
+				#pid#,
+				#sub_pid#,
+				#qty#,
+				#userid#,
+				#mem_couponid#,
+				NVL(#order_yn#, 'N'),
+				NVL(#routine_yn#, 'N'),
+				#routine_day#,
+				#routine_cnt#,
+				#routine_period#,
+				SYSDATE,
+				#delivery_date#
+			)
+	</update>
+	
+	<delete id="deleteOldDeliveryDate" parameterClass="java.lang.String">
+		<![CDATA[
+		DELETE FROM T_CART
+		 WHERE USERID = #userid#
+		   AND DELIVERY_DATE IS NOT NULL
+		   AND DELIVERY_DATE < TO_CHAR(CASE WHEN TO_NUMBER(TO_CHAR(SYSDATE, 'HH24')) < 10 
+				  							THEN SYSDATE + 1
+											ELSE SYSDATE + 2 END, 'YYYY.MM.DD')
+		]]>
+	</delete>
+</sqlMap>

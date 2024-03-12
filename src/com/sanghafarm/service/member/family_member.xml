@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="FamilyMember">
+	<select id="getList" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT A.UNFY_MMB_NO, A.MMB_NM, A.WRLS_TEL_NO, A.GNDR_DV_CD,
+        	   DECODE((SELECT UNFY_MMB_NO FROM T_FAMILY_MEM 
+        				WHERE UNFY_MMB_NO = A.UNFY_MMB_NO
+          				  AND START_DATE <= TO_CHAR(SYSDATE, 'YYYYMMDD')
+		   				  AND END_DATE >= TO_CHAR(SYSDATE, 'YYYYMMDD')
+           				  AND STATUS = '1'
+           				  AND ROWNUM = 1), NULL, 'N', 'Y') FAMILY_YN,
+           	   CASE 
+           	   	WHEN
+           	   		(SELECT SEQ FROM T_FAMILY_MEM
+           	   		  WHERE UNFY_MMB_NO = A.UNFY_MMB_NO
+           	   		    AND START_DATE <= TO_CHAR(SYSDATE, 'YYYYMMDD')
+           	   		    AND END_DATE >= TO_CHAR(SYSDATE, 'YYYYMMDD')
+           	   		    AND STATUS = '1'
+           	   		    AND ROWNUM = 1) > 0 THEN 'N'
+           	   	WHEN
+	           	  	(SELECT SEQ FROM T_FAMILY_MEM
+	           	      WHERE UNFY_MMB_NO = A.UNFY_MMB_NO
+	           	        AND STATUS = '2'
+	           	    	AND UPDATE_DATE > TRUNC(SYSDATE - 31)
+	           	    	AND TRUNC(UPDATE_DATE) <> TRUNC(SYSDATE)
+	           	    	AND ROWNUM = 1) > 0 THEN 'N'
+           	   	ELSE 'Y' END JOIN_AVAIL,
+           	   CASE 
+           	   	WHEN
+           	   		(SELECT SEQ FROM T_FAMILY_MEM
+           	   		  WHERE UNFY_MMB_NO = A.UNFY_MMB_NO
+           	   		    AND START_DATE <= TO_CHAR(SYSDATE, 'YYYYMMDD')
+           	   		    AND END_DATE >= TO_CHAR(SYSDATE, 'YYYYMMDD')
+           	   		    AND STATUS = '1'
+           	   		    AND ROWNUM = 1) IS NULL THEN 'N'
+           	   	WHEN
+	           	   	(SELECT Z.ORDERID 
+	           	   	   FROM T_ORDER_MASTER Z, T_ORDER_SHIP Y
+   	  				  WHERE Z.ORDERID = Y.ORDERID
+   	  				    AND Z.ORDERID = A.MMB_ID
+   	  				    AND Y.STATUS NOT IN ('260', '290')
+   	  				    AND Z.ORDER_DATE >= (SELECT TO_DATE(START_DATE, 'YYYYMMDD') 
+   	  				   						   FROM T_FAMILY_MEM 
+						    				  WHERE UNFY_MMB_NO = A.UNFY_MMB_NO
+						      				    AND START_DATE <= TO_CHAR(SYSDATE, 'YYYYMMDD')
+						 				   		AND END_DATE >= TO_CHAR(SYSDATE, 'YYYYMMDD')
+						       				    AND STATUS = '1'
+						       				    AND ROWNUM = 1)
+   	  				    AND Z.ORDER_DATE < (SELECT TO_DATE(END_DATE, 'YYYYMMDD') + 1 
+   	  				   						  FROM T_FAMILY_MEM 
+						    				 WHERE UNFY_MMB_NO = A.UNFY_MMB_NO
+						      				   AND START_DATE <= TO_CHAR(SYSDATE, 'YYYYMMDD')
+						 				  	   AND END_DATE >= TO_CHAR(SYSDATE, 'YYYYMMDD')
+						       				   AND STATUS = '1'
+						       				   AND ROWNUM = 1)
+					    AND ROWNUM = 1) IS NOT NULL THEN 'N'
+			   	WHEN
+			   		(SELECT MEM_COUPONID 
+			   		   FROM T_MEM_OFF_COUPON
+			   	  	  WHERE UNFY_MMB_NO = A.UNFY_MMB_NO
+			   	  	    AND COUPONID IN (SELECT COUPONID FROM T_FAMILY_MEM_COUPON)
+	           	   	    AND USE_DATE >= (SELECT TO_DATE(START_DATE, 'YYYYMMDD') 
+	           	   	   					   FROM T_FAMILY_MEM 
+									      WHERE UNFY_MMB_NO = A.UNFY_MMB_NO
+									        AND START_DATE <= TO_CHAR(SYSDATE, 'YYYYMMDD')
+										    AND END_DATE >= TO_CHAR(SYSDATE, 'YYYYMMDD')
+									        AND STATUS = '1'
+									        AND ROWNUM = 1)
+   	  				   AND USE_DATE < (SELECT TO_DATE(END_DATE, 'YYYYMMDD') + 1 
+   	  				   				     FROM T_FAMILY_MEM 
+						    			WHERE UNFY_MMB_NO = A.UNFY_MMB_NO
+						      			  AND START_DATE <= TO_CHAR(SYSDATE, 'YYYYMMDD')
+						 			  	  AND END_DATE >= TO_CHAR(SYSDATE, 'YYYYMMDD')
+						       			  AND STATUS = '1'
+						       			  AND ROWNUM = 1)
+					   AND ROWNUM = 1) IS NOT NULL THEN 'N'
+			   	WHEN
+			   		(SELECT MEM_COUPONID 
+			   		   FROM T_MEM_COUPON
+			   	  	  WHERE USERID = A.MMB_ID
+			   	  	    AND COUPONID IN (SELECT COUPONID FROM T_FAMILY_MEM_COUPON)
+	           	   	    AND USE_DATE >= (SELECT TO_DATE(START_DATE, 'YYYYMMDD') 
+	           	   	   					   FROM T_FAMILY_MEM 
+									      WHERE UNFY_MMB_NO = A.UNFY_MMB_NO
+									        AND START_DATE <= TO_CHAR(SYSDATE, 'YYYYMMDD')
+											AND END_DATE >= TO_CHAR(SYSDATE, 'YYYYMMDD')
+									        AND STATUS = '1'
+									        AND ROWNUM = 1)
+	           	   	  	AND USE_DATE < (SELECT TO_DATE(END_DATE, 'YYYYMMDD') + 1 
+	           	   	  				      FROM T_FAMILY_MEM 
+									     WHERE UNFY_MMB_NO = A.UNFY_MMB_NO
+									       AND START_DATE <= TO_CHAR(SYSDATE, 'YYYYMMDD')
+										   AND END_DATE >= TO_CHAR(SYSDATE, 'YYYYMMDD')
+									       AND STATUS = '1'
+									       AND ROWNUM = 1)
+						AND ROWNUM = 1) IS NOT NULL THEN 'N'
+		 	   	ELSE 'Y' END SECE_AVAIL,
+		 	   	(SELECT START_DATE
+		 	   	   FROM T_FAMILY_MEM
+		 	   	  WHERE UNFY_MMB_NO = A.UNFY_MMB_NO
+		 	   	    AND START_DATE <= TO_CHAR(SYSDATE, 'YYYYMMDD')
+					AND END_DATE >= TO_CHAR(SYSDATE, 'YYYYMMDD')
+					AND STATUS = '1'
+					AND ROWNUM = 1) START_DATE,
+		 	   	(SELECT END_DATE
+		 	   	   FROM T_FAMILY_MEM
+		 	   	  WHERE UNFY_MMB_NO = A.UNFY_MMB_NO
+		 	   	    AND START_DATE <= TO_CHAR(SYSDATE, 'YYYYMMDD')
+					AND END_DATE >= TO_CHAR(SYSDATE, 'YYYYMMDD')
+					AND STATUS = '1'
+					AND ROWNUM = 1) END_DATE
+		  FROM T_IMMEM A
+		 WHERE A.MMB_ST_CD = '1'
+		   AND A.MMB_ID IS NOT NULL
+		]]>
+		<isNotEmpty property="sch_key">
+			<isEqual property="sch_type" compareValue="1">
+		   AND A.WRLS_TEL_NO LIKE #sch_key# || '%'
+			</isEqual>
+			<isEqual property="sch_type" compareValue="2">
+		   AND A.MMB_NM LIKE #sch_key# || '%'
+			</isEqual>
+			<isEqual property="sch_type" compareValue="3">
+		   AND A.UNFY_MMB_NO = #sch_key#
+			</isEqual>
+			<isEqual property="sch_type" compareValue="4">
+		   AND A.CRD_NO = #sch_key#
+			</isEqual>
+		</isNotEmpty>
+		<isEmpty property="sch_key">
+		   AND 1 = 2
+		</isEmpty>
+	</select>
+
+	<select id="getInfo" parameterClass="java.lang.Long" resultClass="Param">
+		<![CDATA[
+		SELECT A.UNFY_MMB_NO, A.MMB_NM, A.WRLS_TEL_NO, 
+        	   DECODE((SELECT UNFY_MMB_NO FROM T_FAMILY_MEM 
+        				WHERE UNFY_MMB_NO = A.UNFY_MMB_NO
+          				  AND START_DATE(+) <= TO_CHAR(SYSDATE, 'YYYYMMDD')
+		   				  AND END_DATE(+) >= TO_CHAR(SYSDATE, 'YYYYMMDD')
+           				  AND STATUS(+) = '1'
+           				  AND ROWNUM = 1), NULL, 'N', 'Y') FAMILY_YN,
+           	   (SELECT GRADE_CODE FROM T_FAMILY_MEM 
+        		 WHERE UNFY_MMB_NO = A.UNFY_MMB_NO
+          		   AND START_DATE(+) <= TO_CHAR(SYSDATE, 'YYYYMMDD')
+		   		   AND END_DATE(+) >= TO_CHAR(SYSDATE, 'YYYYMMDD')
+           		   AND STATUS(+) = '1'
+           		   AND ROWNUM = 1) FAMILY_GRADE_CODE,
+           	   CASE 
+           	   	WHEN
+           	   		(SELECT SEQ FROM T_FAMILY_MEM
+           	   		  WHERE UNFY_MMB_NO = A.UNFY_MMB_NO
+           	   		    AND START_DATE <= TO_CHAR(SYSDATE, 'YYYYMMDD')
+           	   		    AND END_DATE >= TO_CHAR(SYSDATE, 'YYYYMMDD')
+           	   		    AND STATUS = '1'
+           	   		    AND ROWNUM = 1) > 0 THEN 'N'
+           	   	WHEN
+	           	  	(SELECT SEQ FROM T_FAMILY_MEM
+	           	      WHERE UNFY_MMB_NO = A.UNFY_MMB_NO
+	           	        AND STATUS = '2'
+	           	    	AND UPDATE_DATE > TRUNC(SYSDATE - 31)
+	           	    	AND ROWNUM = 1) > 0 THEN 'N'
+           	   	ELSE 'Y' END JOIN_AVAIL
+		  FROM T_IMMEM A
+		 WHERE A.UNFY_MMB_NO = #unfy_mmb_no#
+		]]>
+	</select>
+	
+	<insert id="insert" parameterClass="Param">
+		<selectKey resultClass="int" keyProperty="seq">
+			SELECT NVL(MAX(SEQ), 0) + 1 AS SEQ FROM T_FAMILY_MEM
+		</selectKey>
+		INSERT INTO T_FAMILY_MEM (
+			SEQ,
+			UNFY_MMB_NO,
+			START_DATE,
+			END_DATE,
+			PATH,
+			BENEFIT_TYPE,
+			STATUS,
+			ORDERID,
+			REGIST_DATE,
+			UPDATE_DATE,
+			GRADE_CODE
+		) VALUES (
+			#seq#,
+			#unfy_mmb_no#,
+			TO_CHAR(SYSDATE, 'YYYYMMDD'),
+			TO_CHAR(ADD_MONTHS(SYSDATE, 360) - 1, 'YYYYMMDD'),
+			#path#,
+			#benefit_type#,
+			#status#,
+			#orderid#,
+			SYSDATE,
+			SYSDATE,
+			#grade_code#
+		)
+	</insert>
+
+	<update id="cacel" parameterClass="Param">
+		<![CDATA[
+		UPDATE T_FAMILY_MEM
+		   SET STATUS = #status#,
+		   	   UPDATE_DATE = SYSDATE,
+		   	   UPDATE_USER = #update_user#
+		 WHERE UNFY_MMB_NO = #unfy_mmb_no#
+		   AND START_DATE <= TO_CHAR(SYSDATE, 'YYYYMMDD')
+		   AND END_DATE >= TO_CHAR(SYSDATE, 'YYYYMMDD')
+		   AND STATUS = '1'
+		]]>
+	</update>
+	
+	<select id="getCouponList" parameterClass="java.lang.String" resultClass="Param">
+		SELECT *
+		  FROM T_FAMILY_MEM_COUPON
+		<isNotEmpty property="value">
+		 WHERE (CHOICE_YN = 'Y' AND BENEFIT_TYPE = #benefit_type#) OR (CHOICE_YN = 'N')
+		</isNotEmpty>
+	</select>
+
+	<select id="getNewId" resultClass="java.lang.String">
+		 SELECT TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS') || LPAD(SEQ_COMMON.NEXTVAL, 5, 0)
+		   FROM DUAL
+	</select>
+
+	<insert id="insertJoin" parameterClass="Param">
+		INSERT INTO T_FAMILY_JOIN (
+			ORDERID,
+			UNFY_MMB_NO,
+			TOT_AMT,
+			COUPON_AMT,
+			MEM_COUPONID,
+			PAY_AMT,
+			PAY_TYPE,
+			DEVICE_TYPE,
+			POINT_AMT,
+			STATUS,
+			JOIN_DATE,
+			GIVER,
+			RECOMMENDER,
+			COUPON_SERIAL
+		) VALUES (
+			#orderid#,
+			#unfy_mmb_no#,
+			#tot_amt#,
+			#coupon_amt#,
+			#mem_couponid#,
+			#pay_amt#,
+			#pay_type#,
+			#device_type#,
+			#point_amt#,
+			#status#,
+			SYSDATE,
+			#giver#,
+			#recommender#,
+			#coupon_serial#
+		)
+	</insert>
+	
+	<insert id="insertWgAddr" parameterClass="Param">
+		INSERT INTO T_WG_ADDR (
+			SEQ,
+			NAME,
+			MOBILE1,
+			MOBILE2,
+			MOBILE3,
+			TEL1,
+			TEL2,
+			TEL3,
+			EMAIL,
+			POST_NO,
+			ADDR1,
+			ADDR2,
+			SHIP_MEMO,
+			WG_CNT
+		) VALUES (
+			#seq#,
+			#name#,
+			#mobile1#,
+			#mobile2#,
+			#mobile3#,
+			#tel1#,
+			#tel2#,
+			#tel3#,
+			#email#,
+			#post_no#,
+			#addr1#,
+			#addr2#,
+			#ship_memo#,
+			0
+		)
+	</insert>
+</sqlMap>

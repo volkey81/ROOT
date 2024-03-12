@@ -1,0 +1,196 @@
+@CHARSET "utf-8";
+
+/********** 01_ **********/
+
+
+
+/********** 02_짓다 **********/
+.workshopWrapper #container	{width:100% !important;}
+.brantTopTxt	{padding:40px 0 40px 0; font-size:42px; color:#8e9125; text-align:center; line-height:44px;}
+.brantTopTxt span	{display:block; font-size:30px; color:#535353}
+/* 햄공방, 과일공방, 빵공방, 발효공방 */
+.workshopArea .type01Cont01	{position:relative; height:746px;}
+.workshopArea .type01Cont01:after	{margin-top:-120px;content:""; display:block; clear:both;  width:100%; height:436px; vertical-align:middle;background:#faf6e3;}
+.workshopArea .type01Cont01>div.txtArea	{position:relative; margin:0 auto; width:1100px; text-align:center;}
+.workshopArea .type01Cont01>div.txtArea>img	{position:absolute; left:0; top:0;}
+.workshopArea .type01Cont01>div.txtArea>p	{padding:0 0 0 720px;width:380px; height:430px;background:#b0b900;}
+.workshopArea .type01Cont01>div.txtArea>p img	{margin-top:65px;}
+.workshopArea .type01Cont01>div.txtArea>p span	{display:block; padding-top:32px; font-size:18px; color:#fff; line-height:26px;}
+.workshopArea .type01Cont01 .scheduleArea	{position:absolute; left:50%; bottom:0; margin-left:-550px; width:1100px; height:316px;background:#7d5933;}
+.workshopArea .type01Cont01 .scheduleArea img	{position:absolute; right:0; top:0;}
+.workshopArea .type01Cont01 .schedule	{width:550px; height:316px;}
+.workshopArea .type01Cont01 .schedule p	{padding:50px 0 32px 0; font-size:30px; color:#fff; text-align:center;}
+.workshopArea .type01Cont01 .schedule ul	{padding:0 0 30px 115px;}
+.workshopArea .type01Cont01 .schedule ul:after	{content:""; display:block; clear:both;}
+.workshopArea .type01Cont01 .schedule ul li	{float:left; padding-right:26px;width:25px;font-size:16px; color:#fff; }
+.workshopArea .type01Cont01 .schedule ul li span	{display:block; padding:15px 30px 15px 20px; border-top:1px dotted #a48b71;border-bottom:1px dotted #a48b71;}
+.workshopArea .type01Cont01 .schedule ul li a	{display:block; margin-left:17px; padding-top:20px; width:25px; height:22px; background:url("/images/brand/workshop/scheduleBtn_off.png") no-repeat 0 20px;}
+.workshopArea .type01Cont01 .schedule ul li a.on	{background:url("/images/brand/workshop/scheduleBtn_on.png") no-repeat 0 20px;}
+.workshopArea .type01Cont01 .schedule span	{display:block; font-size:13px; color:#d4cfcb; text-align:center; line-height:20px;}
+.workshopArea .type01Cont02	{position:relative; margin:0 auto; width:1100px;}
+.workshopArea .type01Cont02 .productSlide	{margin-top:54px !important;}
+/*.workshopArea .type01Cont02:before	{c.workshopArea .type01Cont01>div.txtArea>pontent:""; display:block; clear:both; width:910px; height:460px; vertical-align:middle;background:#f5f5f5;}*/
+.workshopArea .type01Cont02 .movieArea	{position:relative; margin-top:60px;}
+.workshopArea .type01Cont02 .movieArea p	{position:absolute; right:0; top:0; padding-top:160px; width:190px; height:352px; font-size:28px; color:#fff; background:url("/images/brand/workshop/workshop2.jpg") no-repeat 0 0; text-align:center;}
+.workshopArea .type01Cont02 .movieArea p span	{display:block; padding-top:10px; font-size:16px; color:#fff;}
+/* 텃밭정원 */
+.workshopArea .type02Cont01	{}
+.workshopArea .type02Cont01 .brantTopTxt	{padding:40px 0 40px 0;width:100%;  font-size:42px; color:#8e9125; /*background:url("/images/brand/workshop/workshop0501.jpg") no-repeat center 0;*/}
+.workshopArea .type02Cont01 .brantTopTxt span	{padding-top:7px;font-size:30px; color:#535353; line-height:40px; }
+/*.workshopArea .type02Cont01 .gardenTxt:after	{margin-top:-420px; content:""; display:block; clear:both;  width:100%; height:310px; vertical-align:middle;background:#faf6e3;}*/
+.workshopArea .type02Cont01 .gardenTxt	{height:430px;}
+.workshopArea .type02Cont01 .gardenTxt p	{position:relative; margin:0 auto 0 auto; width:1100px; height:430px; font-size:18px; color:#fff; background:url("/images/brand/workshop/workshop0502.jpg") no-repeat center 0; text-align:center;}
+.workshopArea .type02Cont01 .gardenTxt p span	{position:absolute; right:0; top:272px; width:360px; line-height:26px;}
+.workshopArea .type02Cont02	{position:relative; margin:49px auto 0 auto; width:1100px; min-height:373px;}
+.workshopArea .type02Cont02 .productSlide	{margin-top:0}
+.workshopArea .type02Cont02 ul.txt	{position:absolute; left:0; top:360px;;}
+.workshopArea .type02Cont02 ul.txt li	{font-size:13px; color:#939393; line-height:20px;}
+.workshopArea .type02Cont02 ul.txt li span	{font-size:13px; color:#c8cd00;}
+.gardenArea ul.txt	{margin:0 auto; padding:30px 0; width:1100px; background:#7d5933;}
+.gardenArea ul.txt li	{padding-left:740px; color:#e0cfbf; line-height:22px;}
+/* 주요제품 슬라이드 */
+.productSlide	{position:relative; margin-top:0; background:#fff;}
+.productSlide p	{padding-top:77px; width:190px; height:240px; font-size:28px; color:#fff; background:url("/images/brand/workshop/workshop1.jpg") no-repeat 0 0; text-align:center;}
+.productSlide .slideCont	{position:absolute; left:190px; top:0px; width:910px; height:316px;overflow:hidden;}
+.productSlide ul:after	{content:""; display:block; clear:both;}
+.productSlide ul li	{position:relative; float:left; width:302px; height:316px;}
+.productSlide ul li img	{max-width:302px;}
+.productSlide ul li span.tit	{display:block; position:absolute; left:50%; bottom:28px; margin-left:-135px; padding-top:7px;  width:270px; font-size:16px; color:#fff; text-align:center;background:url("/images/brand/workshop/slideTxtBg.gif") no-repeat center 0;}
+.productSlide ul li span.bg	{display:block; position:absolute; left:0; top:0; width:270px; height:260px; background:url("/images/brand/workshop/productSlideBg.png") no-repeat 0 0;}
+.productSlide .prev	{position:absolute; left:190px; top:133px;}
+.productSlide .next	{position:absolute; right:0; top:133px;}
+
+/* 인테리어 슬라이드 */
+.gallerySlide	{position:relative; margin-top:0; height:348px;background:#fff; /*border-bottom:1px solid #d9d9d9;*/}
+.gallerySlide p	{padding-top:77px; width:190px; height:240px; font-size:28px; color:#fff; background:url("/images/brand/workshop/workshop1.jpg") no-repeat 0 0; text-align:center;}
+.gallerySlide .slideCont	{position:absolute; left:0; top:0px; width:1100px; /*height:298px;*/overflow:hidden;}
+.gallerySlide ul	{content:""; display:block; clear:both;}
+.gallerySlide ul:after	{content:""; display:block; clear:both;}
+.gallerySlide ul li	{position:relative; float:left; margin-right:22px; width:352px; height:298px;}
+.gallerySlide ul li span.tit	{display:block; position:absolute; left:50%; bottom:28px; margin-left:-135px; padding-top:7px;  width:270px; font-size:16px; color:#fff; text-align:center;background:url("/images/brand/workshop/slideTxtBg.gif") no-repeat center 0;}
+.gallerySlide ul li span.bg	{display:block; position:absolute; left:0; top:0; width:270px; height:260px; background:url("/images/brand/workshop/productSlideBg.png") no-repeat 0 0;}
+.gallerySlide .interiorBtn	{position:absolute; left:500px; bottom:-24px;}
+.gallerySlide .prev	{position:absolute; left:500px; bottom:-24px;}
+.gallerySlide .next	{position:absolute; right:501px; bottom:-24px;}
+
+/********** 03_놀다 **********/
+.playWrapper #container	{width:100% !important;}
+/* 전시관 */
+.playArea .galleryCont .galleryTopTxt	{padding:40px 0 40px 0;font-size:42px; color:#8e9125; text-align:center;}
+.playArea .galleryCont .galleryTopTxt span	{display:block; padding-top:10px; font-size:28px; color:#666; line-height:36px;}
+.playArea .galleryCont .yearCont>strong	{display:block; margin:0 auto;  padding-top:65px;width:160px; height:118px;font-size:36px; color:#666; letter-spacing:-3px; text-align:center;  background:url("/images/brand/play/galleryYearBg.gif") no-repeat 0 0;}
+.playArea .galleryCont .yearCont .cont01	{padding-top:20px;}
+.playArea .galleryCont .yearCont .cont p.tit	{padding:22px 0 30px 0; margin-top:50px;font-size:40px; color:#332f21; text-align:center; background:url("/images/brand/play/blt_gallery.gif") no-repeat center 0;}
+.playArea .galleryCont .yearCont .cont p.tit span	{display:block;padding-top:5px; font-size:16px; color:#666;}
+.playArea .galleryCont .yearCont .cont .txtArea	{position:relative; text-align:center}
+.playArea .galleryCont .yearCont .cont .txtArea .txt span	{display:block; padding-top:20px; font-size:14px; color:#666; line-height:24px;}
+.playArea .galleryCont .cont2017 .cont01 .txtArea .txt	{position:absolute; left:50%; top:262px;padding-left:20px; margin-left:-550px; width:1080px; font-size:24px; color:#332f21; text-align:left;}
+.playArea .galleryCont .cont2017 .cont01 .txtArea .bg01	{height:348px;}
+.playArea .galleryCont .cont2017 .cont01 .txtArea .bg01 img	{position:absolute; left:50%; top:0; margin-left:-550px;}
+.playArea .galleryCont .cont2017 .cont01 .txtArea .bg01:before	{content:""; display:block; clear:both; position:absolute; right:0; width:50%; height:348px; vertical-align:middle;background:#f6f6f6;}
+.playArea .galleryCont .cont2017 .cont01 .txtArea .bg02	{padding-top:22px;}
+.playArea .galleryCont .cont2017 .cont01 .txtArea .bg02:after	{content:""; display:block; clear:both; margin-top:-98px;width:50%; height:98px; vertical-align:middle;background:#f6f6f6;}
+.playArea .galleryCont .cont2017 .cont02 p.tit	{margin-top:60px !important;}
+.playArea .galleryCont .cont2017 .cont02 .txtArea .txt	{position:absolute; left:50%; top:262px;padding-left:20px; margin-left:-550px; width:1080px; font-size:24px; color:#332f21; text-align:right;}
+.playArea .galleryCont .cont2017 .cont02 .txtArea .bg01	{height:348px;}
+.playArea .galleryCont .cont2017 .cont02 .txtArea .bg01 img	{position:absolute; left:50%; top:0; margin-left:-550px;}
+.playArea .galleryCont .cont2017 .cont02 .txtArea .bg01:before	{content:""; display:block; clear:both; width:50%; height:348px; vertical-align:middle;background:#f6f6f6;}
+.playArea .galleryCont .cont2017 .cont02 .txtArea .bg02	{padding-top:22px;height:196px;}
+.playArea .galleryCont .cont2017 .cont02 .txtArea .bg02 img	{position:absolute; left:50%; bottom:0; margin-left:-550px; z-index:2}
+.playArea .galleryCont .cont2017 .cont02 .txtArea .bg02:after	{content:""; display:block; clear:both; position:absolute; right:0; bottom:0; width:50%; height:98px; vertical-align:middle;background:#f6f6f6;}
+
+/*.playArea .galleryCont .cont2016	{margin-top:80px;}*/
+.playArea .galleryCont .cont2016 .cont .txtArea	{position:relative; text-align:center;}
+.playArea .galleryCont .cont2016 .cont .txtArea:before	{content:""; display:block; clear:both; width:50%; height:244px; vertical-align:middle;background:#f6f6f6;}
+.playArea .galleryCont .cont2016 .cont .txtArea .txt	{position:absolute; left:50%; top:40px; padding-left:20px; margin-left:-550px; width:310px; font-size:24px; color:#332f21; text-align:right;}
+.playArea .galleryCont .cont2016 .cont .txtArea .bg01	{margin-top:-244px;}
+
+/* 동물농장,양떼목장,유기농목장 */
+.playArea2	{}
+.playHead	{width:100%;}
+/*.playHead.bg01	{background:url("/images/brand/play/animal01.jpg") no-repeat center 0; text-align:center;}
+.playHead.bg02	{background:url("/images/brand/play/sheep01.jpg") no-repeat center 0; text-align:center;}
+.playHead.bg03	{background:url("/images/brand/play/organic01.jpg") no-repeat center 0; text-align:center;}*/
+.playHead.bg03 p	{padding-top:109px !important}
+.playHead.bg03 p span	{padding-top:25px; font-size:20px !important; line-height:26px;}
+.playHead p	{padding:80px 0 40px 0; font-size:42px; color:#8e9125; text-align:center;}
+.playHead p span	{display:block; padding-top:5px;  font-size:30px; color:#535353;}
+.playType	{margin:0 auto;width:1100px;}
+.playType.bg01	{width:1100px; height:550px; background:url("/images/brand/play/animal02.jpg") no-repeat center 0;}
+.playType.bg02	{width:1100px; height:550px; background:url("/images/brand/play/sheep02.jpg") no-repeat center 0;}
+.playType.bg03	{width:1100px; height:550px; background:url("/images/brand/play/organic02.jpg") no-repeat center 0;}
+.playType p	{padding-top:62px; width:549px; font-size:32px; color:#fff; text-align:center; line-height:36px;}
+.playType p span	{display:block; padding-top:28px; font-size:18px; color:#fff;line-height:22px;}
+.playTime	{padding-top:60px; margin:0 auto; width:1100px;}
+.playTime>strong	{display:block; padding-bottom:20px; font-size:28px; color:#332f21; text-align:center;}
+.playTime table	{width:100%; border-top:2px solid #828282;}
+.playTime table th	{padding:20px 0;font-size:18px; color:#332f21; background:#f6f6f6; border-bottom:1px solid #dde0dc;}
+.playTime table th span	{font-size:15px; }
+.playTime table td	{font-size:15px; color:#332f21;border-bottom:1px solid #dde0dc; border-right:1px solid #dde0dc; text-align:center;}
+.playTime table td:nth-child(5)	{border-right:none;}
+.playTime ul	{padding:20px 0 0 10px;}
+.playTime ul li	{padding-bottom:8px; font-size:13px; color:#939393;}
+.playTime ul li span	{color:#c8cd00;}
+.playArea2 .playSlide	{padding-top:60px;margin:0 auto; width:1100px;}
+
+
+
+/********** 04_먹다 **********/
+.foodWrapper #container	{width:100% !important;}
+/* 상하키친, 농원식당, 카페젤라또 */
+.foodArea	{}
+.foodArea2	{margin-bottom:-23px;}
+.foodArea .foodHead	{padding:40px 0 40px 0; width:100%;  text-align:center;}
+.foodArea .foodHead2	{padding-top:80px;}
+/*.foodArea .foodHead.bg01	{width:100%; height:367px; background:url("/images/brand/food/food0101.jpg") no-repeat center 0; text-align:center;}
+.foodArea .foodHead.bg02	{width:100%; height:367px; background:url("/images/brand/food/food0201.jpg") no-repeat center 0; text-align:center;}
+.foodArea .foodHead.bg03	{width:100%; height:367px; background:url("/images/brand/food/food0301.jpg") no-repeat center 0; text-align:center;}
+.foodArea .foodHead.bg04	{width:100%; height:367px; background:url("/images/brand/food/food0401.jpg") no-repeat center 0; text-align:center;}
+.foodArea .foodHead.bg05	{width:100%; height:367px; background:url("/images/brand/food/food0501.jpg") no-repeat center 0; text-align:center;}*/
+.foodArea .foodHead p	{font-size:42px; color:#8e9125; line-height:50px;}
+.foodArea .foodHead2 p	{font-size:42px; color:#8e9125; line-height:50px;}
+.foodArea .foodHead p span	{display:block; padding-top:10px; font-size:30px; color:#535353; line-height:26px;}
+.foodArea .timeType01	{position:relative; height:768px}
+/*.foodArea .timeType01:before	{content:""; display:block; clear:both; position:absolute; right:0; width:100%; margin-top:120px;height:588px; vertical-align:middle;background:#faf6e3;}*/
+.foodArea .timeType02:before	{content:""; display:block; clear:both; position:absolute; right:0; width:50%; height:467px; vertical-align:middle;background:#faf6e3;}
+.foodArea .timeType01 .timeInfo	{position:absolute; left:50%; top:0; margin-left:-550px;; width:1100px; }
+.foodArea .timeType01 .timeInfo .time	{position:absolute; right:0; bottom:0;  width:637px; height:178px; text-align:left;}
+.foodArea .timeType01 .timeInfo .time strong.timeTit	{position:absolute; left:145px; bottom:75px;font-size:28px; color:#e4dcd6;}
+.foodArea .timeType01 .timeInfo .time strong.timeTxt	{position:absolute; left:275px;  padding:6px 0; margin:0 26px;width:305px; font-size:20px; color:#fff; text-align:center; border-bottom:2px solid #977a5c; border-top:2px solid #977a5c;}
+.foodArea .timeType01 .timeInfo .time strong.timeTxt span	{font-size:22px; color:#fff;}
+.foodArea .timeType01 .timeInfo .time strong.timeTxt span>span	{font-size:12px; color:#fff;}
+.foodArea .timeType01 .timeInfo .time p	{position:absolute; left:315px; font-size:13px; color:#efe1d4; line-height:20px;;}
+
+.foodArea .timeInfo .time a	{display:inline-block; position:absolute; left:135px; top:90px;padding:9px; font-size:13px; color:#eee9e4; border:2px solid #b69d84;}
+
+.foodArea .timeInfo .time.type01 strong.timeTit	{top:50px;}
+.foodArea .timeInfo .time.type01 strong.timeTxt	{top:30px; }
+.foodArea .timeInfo .time.type01 p	{top:84px;}
+.foodArea .timeInfo .time.type02 strong.timeTxt	{top:64px;}
+.foodArea .timeInfo .time.type02 p	{top:115px;}
+.foodArea .timeInfo .time.type03 strong.timeTit	{top:50px;}
+.foodArea .timeInfo .time.type03 strong.timeTxt	{top:50px; }
+.foodArea .timeInfo .time.type03 p	{top:104px;}
+
+.foodArea .foodSlide	{margin:0 auto; width:1100px;}
+.foodArea .foodSlide .productSlide	{margin:0 auto; width:1100px;}
+/* 농원상회, 파머스마켓 */
+.foodArea2	.workshopArea .type01Cont01>p span{margin-bottom:-23px;}
+.foodArea .timeType02	{position:relative; height:647px}
+.foodArea .timeType02 .timeInfo	{position:absolute; left:50%; top:-119px; margin-left:-550px;; width:1100px; }
+.foodArea .timeType02 .timeInfo .time	{position:absolute; left:0; top:0;  width:637px; height:178px; text-align:left;}
+.foodArea .timeType02 .timeInfo .time strong.timeTit	{position:absolute; left:145px; bottom:47px;font-size:28px; color:#e4dcd6;}
+.foodArea .timeType02 .timeInfo .time strong.timeTxt	{position:absolute; left:287px; font-size:20px; color:#503f32;  padding-bottom:6px; margin:0 26px;width:278px; text-align:center; border-bottom:1px solid #e7e2de;}
+.foodArea .timeType02 .timeInfo .time strong.timeTxt span	{font-size:22px; color:#df6216;}
+.foodArea .timeType02 .timeInfo .time p	{position:absolute; left:313px; font-size:13px; color:#726256;}
+.foodArea .timeType02 .timeInfo .time p span	{margin-right:5px; color:#ff6000; line-height:18px;}
+.foodArea .foodSlide2	{position:relative; margin:0 auto;width:1100px;}
+
+.foodArea .foodSlide2 .productSlide	{margin:0 auto; width:1100px;}
+
+/********** 05_농원이야기 **********/
+
+
+
+
+

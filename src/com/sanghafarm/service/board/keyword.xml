@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Keyword">
+
+	<select id="getList" resultClass="Param" parameterClass="Param">
+		<![CDATA[
+		SELECT *
+		   FROM
+		    (
+					 SELECT  
+					 		ROWNUM RNUM,			 
+							SEQ,
+							KEYWORD,
+							STATUS,
+							DECODE(STATUS, 'S', '활성', 'H', '비활성', 'D', '삭제') STATUS_NAME,
+							RANK,
+							RMK,
+							REGIST_USER,
+							REGIST_DATE,
+							UPDATE_USER,
+							UPDATE_DATE,
+							NEW_YN
+					FROM T_KEYWORD
+					WHERE 1=1
+					
+		]]>		
+		<isNotEmpty property="keyword">
+    		AND KEYWORD LIKE '%' || #keyword# || '%'
+  		</isNotEmpty>
+  		<isNotEmpty property="status">
+    		AND STATUS = #status#
+  		</isNotEmpty>
+		<![CDATA[
+			ORDER BY RANK ASC
+			)
+		  WHERE RNUM > #POS_STA#
+		  AND RNUM <= #POS_END#
+		]]>		
+	</select>
+	
+	<select id="getListCount" resultClass="Integer" parameterClass="Param">
+		<![CDATA[
+					 SELECT COUNT(*)
+					FROM T_KEYWORD
+					WHERE 1=1
+		]]>
+		<isNotEmpty property="keyword">
+    		AND KEYWORD LIKE '%' || #keyword# || '%'
+  		</isNotEmpty>
+  		<isNotEmpty property="status">
+    		AND STATUS = #status#
+  		</isNotEmpty>
+	</select>
+
+	
+	<insert id="insert" parameterClass="Param">
+		<selectKey resultClass="int" keyProperty="seq">
+			SELECT NVL(MAX(SEQ), 0) + 1 AS SEQ FROM T_KEYWORD
+		</selectKey>
+		INSERT INTO T_KEYWORD
+		    (
+		        SEQ,
+				KEYWORD,
+				STATUS,
+				RANK,
+				RMK,
+				REGIST_USER,
+				REGIST_DATE,
+				UPDATE_USER,
+				UPDATE_DATE
+		    )
+		VALUES
+			(
+        		#seq#,
+        		#keyword#,
+        		'S',
+        		#rank#,
+        		#rmk#,
+        		#regist_user#,
+        		SYSDATE,
+        		#regist_user#,
+        		SYSDATE
+			)
+	</insert>
+	<delete id="delete" parameterClass="Integer">
+		DELETE FROM T_KEYWORD WHERE SEQ = #seq#
+	</delete>
+	<update id="update" parameterClass="Param">
+		UPDATE T_KEYWORD
+		SET     KEYWORD				= #keyword#,
+				RANK				= #rank#,
+				STATUS				= #status#,
+				RMK					= #rmk#,
+				UPDATE_USER			= #regist_user#,
+				UPDATE_DATE			= SYSDATE
+		WHERE  SEQ             		= #seq#
+	</update>
+
+	<select id="getMemKeywordList" parameterClass="java.lang.Long" resultClass="Param">
+		<![CDATA[
+		SELECT *
+		  FROM (
+		  		SELECT ROW_NUMBER() OVER(ORDER BY A.REGIST_DATE DESC) RNUM,
+		  			   A.*
+		  		  FROM T_MEM_KEYWORD A
+		  		 WHERE A.UNFY_MMB_NO = #unfy_mmb_no#
+		  	   )
+		 WHERE RNUM <= 12
+		]]>
+	</select>
+	
+	<update id="mergeMemKeyword" parameterClass="Param">
+		MERGE INTO T_MEM_KEYWORD
+		USING DUAL
+			ON (UNFY_MMB_NO = #unfy_mmb_no# AND KEYWORD = #keyword#)
+		WHEN MATCHED THEN
+			UPDATE
+			   SET REGIST_DATE = SYSDATE
+		WHEN NOT MATCHED THEN
+			INSERT (SEQ, UNFY_MMB_NO, KEYWORD, REGIST_DATE)
+			VALUES ((SELECT NVL(MAX(SEQ), 0) + 1 FROM T_MEM_KEYWORD), #unfy_mmb_no#, #keyword#, SYSDATE)
+	</update>
+	
+	<delete id="deleteMemKeyword" parameterClass="Param">
+		DELETE FROM T_MEM_KEYWORD
+		 WHERE UNFY_MMB_NO	= #unfy_mmb_no#
+		   AND KEYWORD 		= #keyword#
+	</delete>
+</sqlMap>

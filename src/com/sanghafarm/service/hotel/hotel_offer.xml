@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="HotelOffer">
+
+	<resultMap id="info" class="Param">
+		<result property="pid" column="pid" />
+		<result property="status" column="status" />
+		<result property="gubun" column="gubun" />
+		<result property="pnm" column="pnm" />
+		<result property="summary" column="summary" />
+		<result property="room_comp" column="room_comp" />
+		<result property="room_size" column="room_size" />
+		<result property="bed_type" column="bed_type" />
+		<result property="capa" column="capa" />
+		<result property="max_capa" column="max_capa" />
+		<result property="provide" column="provide" />
+		<result property="pc_url" column="pc_url" />
+		<result property="mo_url" column="mo_url" />
+		<result property="pc_list_img" column="pc_list_img" />
+		<result property="pc_img" column="pc_img" />
+		<result property="mo_list_img" column="mo_list_img" />
+		<result property="mo_img" column="mo_img" />
+		<result property="contents" column="contents" jdbcType="CLOB" javaType="java.lang.String" />
+		<result property="mcontents" column="mcontents" jdbcType="CLOB" javaType="java.lang.String" />
+		<result property="default_price" column="default_price" />
+		<result property="holiday_price" column="holiday_price" />
+		<result property="adult_price" column="adult_price" />
+		<result property="child_price" column="child_price" />
+		<result property="qty" column="qty" />
+		<result property="sdate" column="sdate" />
+		<result property="edate" column="edate" />
+		<result property="view_cnt" column="view_cnt" />
+		<result property="regist_user" column="regist_user" />
+		<result property="regist_date" column="regist_date" />
+		<result property="update_user" column="update_user" />
+		<result property="update_date" column="update_date" />
+		<result property="memo" column="memo" />
+	</resultMap> 
+	
+	<select id="getList" parameterClass="Param" resultClass="Param">
+		SELECT ROW_NUMBER() OVER(ORDER BY A.PID DESC) RNUM,
+			   A.PID, 
+			   A.GUBUN,
+			   A.PNM, 
+			   A.SUMMARY,
+			   A.PROVIDE,
+			   A.PC_LIST_IMG,
+			   A.MO_LIST_IMG,
+			   (SELECT MIN(PRICE) FROM T_HOFFER_RDATE 
+			     WHERE PID = A.PID 
+			       AND STATUS = 'S'
+			       AND QTY > 0
+			       AND RDATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD')) MIN_PRICE,
+			   (SELECT MAX(PRICE) FROM T_HOFFER_RDATE 
+			     WHERE PID = A.PID 
+			       AND STATUS = 'S'
+			       AND QTY > 0
+			       AND RDATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD')) MAX_PRICE
+		  FROM T_HOFFER A
+		 WHERE A.STATUS = 'S'
+		   AND A.GUBUN = #gubun#
+	</select>
+
+	<select id="getInfo" parameterClass="java.lang.String" resultMap="info">
+		SELECT *
+		  FROM T_HOFFER
+		 WHERE PID = #pid#
+	</select>
+	
+	<select id="getRdateList" parameterClass="java.lang.String" resultClass="Param">
+		SELECT A.*
+		  FROM T_HOFFER_RDATE A
+		 WHERE A.PID = #pid#
+		   AND A.STATUS = 'S'
+		ORDER BY A.RDATE
+	</select>
+	
+	<update id="updateViewCnt" parameterClass="java.lang.String">
+		UPDATE T_HOFFER
+		   SET VIEW_CNT = NVL(VIEW_CNT, 0) + 1
+		 WHERE PID = #pdi# 
+	</update>
+	
+	<select id="getPriceInfo" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT SUM(A.PRICE) PRICE, 
+               SUM(A.ADULT_PRICE) ADULT_PRICE, 
+               SUM(A.CHILD_PRICE) CHILD_PRICE, 
+               MIN(A.QTY) QTY,
+               SUM(DECODE(A.HOLIDAY_YN, 'N', B.DEFAULT_PRICE, B.HOLIDAY_PRICE)) DEFAULT_PRICE,
+               SUM(B.ADULT_PRICE) DEFAULT_ADULT_PRICE,
+               SUM(B.CHILD_PRICE) DEFAULT_CHILD_PRICE
+		  FROM T_HOFFER_RDATE A, T_HOFFER B
+		 WHERE A.PID = B.PID
+		   AND A.PID = #pid#
+		   AND A.STATUS = 'S'
+		   AND A.RDATE >= #chki_date#
+		   AND A.RDATE < #chot_date#
+		]]>
+	</select>
+	
+	<select id="getNewId" resultClass="java.lang.String">
+		 SELECT TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS') || LPAD(SEQ_COMMON.NEXTVAL, 5, 0)
+		   FROM DUAL
+	</select>
+	
+	<insert id="insertReserve" parameterClass="Param">
+		INSERT INTO T_HOFFER_RESERVE (
+			ORDERID,
+			USERID,
+			PID,
+			PNM,
+			CHKI_DATE,
+			CHOT_DATE,
+			QTY,
+			NAME,
+			MOBILE1,
+			MOBILE2,
+			MOBILE3,
+			DEFAULT_AMT,
+			TOT_AMT,
+			PROMOCDID,
+			MEM_COUPONID,
+			COUPON_AMT,
+			PROMOCD_AMT,
+			POINT_AMT,
+			GIFTCARD_AMT,
+			GIFTCARD_ID,
+			STATUS,
+			PAY_AMT,
+			PAY_TYPE,
+			DEVICE_TYPE,
+			MEMO,
+			SMS_YN,
+			ORDER_DATE
+		) VALUES (
+			#orderid#,
+			#userid#,
+			#pid#,
+			#pnm#,
+			#chki_date#,
+			#chot_date#,
+			#qty#,
+			#name#,
+			#mobile1#,
+			#mobile2#,
+			#mobile3#,
+			#default_amt#,
+			#tot_amt#,
+			#promocdid#,
+			#mem_couponid#,
+			#coupon_amt#,
+			#promocd_amt#,
+			#point_amt#,
+			#giftcard_amt#,
+			#giftcard_id#,
+			#status#,
+			#pay_amt#,
+			#pay_type#,
+			#device_type#,
+			#memo#,
+			'N',
+			SYSDATE
+		)
+	</insert>
+	
+	<insert id="insertReserveRoom" parameterClass="Param">
+		INSERT INTO T_HOFFER_RESERVE_ROOM (
+			ORDERID,
+			ROOM_NO,
+			ADULT,
+			CHILD
+		) VALUES (
+			#orderid#,
+			#room_no#,
+			#adult#,
+			#child#
+		)
+	</insert>
+	
+	<select id="getReserveInfo" parameterClass="java.lang.String" resultClass="Param">
+		SELECT A.*, B.NAME2 PAY_TYPE_NAME, C.FE_NAME STATUS_NAME
+		  FROM T_HOFFER_RESERVE A, T_CODE2 B, T_HOFFER_STATUS_CODE C
+		 WHERE A.PAY_TYPE = B.CODE2
+		   AND B.CODE1 = '007'
+    	   AND A.STATUS = C.STATUS
+		   AND A.ORDERID = #orderid#
+	</select>
+	
+	<select id="getReserveRoomList" parameterClass="java.lang.String" resultClass="Param">
+		SELECT *
+		  FROM T_HOFFER_RESERVE_ROOM
+		 WHERE ORDERID = #orderid#
+		ORDER BY ROOM_NO
+	</select>
+	
+	<update id="decreaseStock" parameterClass="Param">
+		<![CDATA[
+		UPDATE T_HOFFER_RDATE
+		   SET QTY = QTY - #qty#
+		 WHERE PID = #pid#
+		   AND RDATE >= #chki_date#
+		   AND RDATE < #chot_date#
+		   AND STATUS = 'S'
+		]]>
+	</update>
+	
+	<select id="getReserveSummary" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT SUM(CASE WHEN STATUS = '120' THEN 1 ELSE 0 END) CNT1,
+			   SUM(CASE WHEN STATUS = '120' AND TO_DATE(CHKI_DATE, 'YYYY.MM.DD') - SYSDATE >= 0 THEN 1 ELSE 0 END) CNT2,
+			   SUM(CASE WHEN STATUS = '120' AND TO_DATE(CHKI_DATE, 'YYYY.MM.DD') - SYSDATE < 0 THEN 1 ELSE 0 END) CNT3,
+			   SUM(DECODE(STATUS, '120', 0, 1)) CNT4
+		  FROM T_HOFFER_RESERVE
+		 WHERE USERID = #userid#
+		]]>
+	</select>
+	
+	<select id="getReserveList" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		 SELECT *
+		   FROM
+		    (
+		    	SELECT ROW_NUMBER() OVER(ORDER BY A.ORDERID DESC) RNUM,
+		    		   A.ORDERID,
+		    		   TO_CHAR(A.ORDER_DATE, 'YYYY.MM.DD') ORDER_DATE,
+		    		   A.PNM,
+		    		   A.CHKI_DATE,
+		    		   A.CHOT_DATE,
+		    		   A.STATUS,
+		    		   B.CANCELABLE_DATE,
+		    		   C.FE_NAME STATUS_NAME,
+		    		   CASE WHEN A.STATUS = '120' AND TO_DATE(A.CHKI_DATE, 'YYYY.MM.DD') - SYSDATE >= B.CANCELABLE_DATE THEN 'Y'
+		    		   		ELSE 'N'
+		    		   END CANCELABLE
+		    	  FROM T_HOFFER_RESERVE A, 
+		    	  	   T_HOFFER B,
+		    	  	   T_HOFFER_STATUS_CODE C
+		    	 WHERE A.PID = B.PID
+		    	   AND A.STATUS = C.STATUS
+		    	   AND A.USERID = #userid#
+		 	) 
+		  WHERE RNUM > #POS_STA#
+            AND RNUM <= #POS_END#
+		]]>
+	</select>
+
+	<select id="getReserveListCount" parameterClass="Param" resultClass="java.lang.Integer">
+    	SELECT COUNT(*)
+    	  FROM T_HOFFER_RESERVE A, 
+    	  	   T_HOFFER B,
+    	  	   T_HOFFER_STATUS_CODE C
+    	 WHERE A.PID = B.PID
+    	   AND A.STATUS = C.STATUS
+    	   AND A.USERID = #userid#
+	</select>
+	
+	<update id="updateStatus" parameterClass="Param">
+		UPDATE T_HOFFER_RESERVE
+		   SET STATUS = #status#
+		 WHERE ORDERID = #orderid#
+	</update>
+
+	<update id="updateSmsyn" parameterClass="java.lang.String">
+		UPDATE T_HOFFER_RESERVE
+		   SET SMS_YN = 'Y'
+		 WHERE ORDERID = #orderid#
+	</update>
+	
+</sqlMap>

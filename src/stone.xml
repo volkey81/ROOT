@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stone>
+	<properties path="conf.properties"/>
+	<ibatis>
+		<sqlmap name="default" path="sqlmap-config.xml">
+			<driver system="local" name="java:comp/env/jdbc/sanghafarm"/>
+			<driver system="dev" name="java:comp/env/jdbc/sanghafarm" />
+			<driver system="real" name="java:comp/env/jdbc/sanghafarm"/>
+		</sqlmap>
+		<iBatisSqlTracerClass>com.sanghafarm.common.IBatisSqlTracer</iBatisSqlTracerClass>
+		<processorClass>com.sanghafarm.common.GeneralProcessor</processorClass>
+	</ibatis>
+</stone>

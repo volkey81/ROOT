@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="HotelPromocd">
+	<select id="getInfo" resultClass="Param" parameterClass="Param">
+		<![CDATA[
+		SELECT A.*, 
+		 	   B.TITLE PROMOTION_TITLE,
+		 	   CASE WHEN A.TARGET_MEM = 'A' THEN
+			 	   		(SELECT 'Y' FROM DUAL WHERE EXISTS 
+			 	   			(SELECT GRADE_CODE FROM T_HPROMOCD_GRADE
+			 	   			  WHERE PROMOCDID = A.PROMOCDID
+			 	   			    AND GRADE_CODE = #grade_code#))
+		 	   		ELSE
+		 	   			(SELECT 'Y' FROM DUAL WHERE EXISTS
+		 	   			 	(SELECT USERID FROM T_HPROMOCD_MEM
+		 	   			 	  WHERE PROMOCDID = A.PROMOCDID
+		 	   			 	    AND USERID = #userid#)) 
+		 	   END AVAIL_YN,
+		 	   ((SELECT COUNT(*) FROM T_HRESERVE
+		 	      WHERE USERID = #userid#
+		 	        AND PROMOCDID = (SELECT PROMOCDID FROM T_HPROMOCD
+		 	     	 				  WHERE PROMOCD = A.PROMOCD)) +
+		 	    (SELECT COUNT(*) FROM T_HOFFER_RESERVE
+		 	      WHERE USERID = #userid#
+		 	        AND PROMOCDID = (SELECT PROMOCDID FROM T_HPROMOCD
+		 	     					  WHERE PROMOCD = A.PROMOCD)))
+		 	   CNT,
+		 	   ((SELECT COUNT(*) FROM T_HRESERVE
+		 	      WHERE PROMOCDID = (SELECT PROMOCDID FROM T_HPROMOCD
+		 	     					  WHERE PROMOCD = A.PROMOCD)) +
+		 	    (SELECT COUNT(*) FROM T_HOFFER_RESERVE
+		 	      WHERE PROMOCDID = (SELECT PROMOCDID FROM T_HPROMOCD
+		 	     					  WHERE PROMOCD = A.PROMOCD))) 
+		 	   TOT_CNT
+		  FROM T_HPROMOCD A, T_HPROMOTION B
+		 WHERE A.SEQ = B.SEQ(+)
+		   AND A.PROMOCD = #promocd#
+		   AND A.STATUS = 'S'
+		]]>
+		<isEqual property="device_type" compareValue="P">
+		   AND A.PC_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="M">
+		   AND A.MOBILE_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="A">
+		   AND A.APP_YN = 'Y'
+		</isEqual>
+	</select>
+</sqlMap>

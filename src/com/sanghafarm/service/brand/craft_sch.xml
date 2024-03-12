@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="CraftSch">
+	<select id="getInfo" parameterClass="java.lang.String" resultClass="Param">
+		 SELECT *
+		   FROM T_CRAFT_SCH
+		  WHERE CRAFT = #craft#
+	</select>
+
+	<select id="getList" resultClass="Param">
+		SELECT A.*, B.NAME2
+		  FROM T_CRAFT_SCH A, T_CODE2 B
+		 WHERE A.CRAFT(+) = B.CODE2
+		   AND B.CODE1 = '020'
+	</select>
+	
+	<update id="merge" parameterClass="Param">
+		MERGE INTO T_CRAFT_SCH
+		USING DUAL
+		ON (CRAFT = #craft#)
+		WHEN MATCHED THEN
+			UPDATE
+			SET		SUN			= #sun#,
+					MON			= #mon#,
+					TUE			= #tue#,
+					WED			= #wed#,
+					THU			= #thu#,
+					FRI			= #fri#,
+					SAT			= #sat#,
+					UPDATE_USER	= #regist_user#,
+					UPDATE_DATE	= SYSDATE
+		WHEN NOT MATCHED THEN
+			INSERT (
+				CRAFT,
+				SUN,
+				MON,
+				TUE,
+				WED,
+				THU,
+				FRI,
+				SAT,
+				REGIST_USER,
+				REGIST_DATE,
+				UPDATE_USER,
+				UPDATE_DATE
+			) VALUES (
+				#craft#,
+				#sun#,
+				#mon#,
+				#tue#,
+				#wed#,
+				#thu#,
+				#fri#,
+				#sat#,
+				#regist_user#,
+				SYSDATE,
+				#regist_user#,
+				SYSDATE
+			)
+	</update>
+</sqlMap>

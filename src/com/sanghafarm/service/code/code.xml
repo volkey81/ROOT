@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Code">
+	<select id="getInfo1" parameterClass="String" resultClass="Param">
+		 SELECT *
+		   FROM t_code1
+		  WHERE code1 = #value#
+	</select>
+
+	<select id="getInfo2" parameterClass="Param" resultClass="Param">
+		 SELECT *
+		   FROM t_code2
+		  WHERE code1 = #code1#
+		    AND code2 = #code2#
+	</select>
+	
+	<select id="getCode2Name" parameterClass="Param" resultClass="java.lang.String">
+		SELECT name2
+		FROM t_code2
+		WHERE code1 = #code1#
+		AND code2 = #code2#
+	</select>
+
+	<select id="getList1" resultClass="Param">
+	<![CDATA[
+		 SELECT /*+index(t_code1 pk_code1)*/
+		        code1,
+	            name1,
+	            note,
+	            DECODE (status, 'S', '활성', '비활성') status,
+	            TO_CHAR (regist_date, 'YYYY.MM.DD') regist_date
+		   FROM t_code1
+		  WHERE status <> 'D'
+	]]>
+	</select>
+	
+	<select id="getList2" parameterClass="String" resultClass="Param">
+	<![CDATA[
+		 SELECT a.code1,
+                b.name1,
+	            a.code2,
+	            a.name2,
+	            a.note,
+	            a.rank,
+	            DECODE (a.status, 'S', '활성', '비활성') status,
+	            TO_CHAR (a.regist_date, 'YYYY.MM.DD') regist_date
+		   FROM t_code2 a, t_code1 b
+		  WHERE a.code1 = b.code1
+            AND a.code1 = #value#
+		    AND a.status = 'S'
+	   ORDER BY a.rank
+	]]>
+	</select>
+	
+</sqlMap>

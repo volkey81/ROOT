@@ -1,0 +1,976 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Coupon">
+	<select id="getDownloadableList" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT C.*,
+			   (SELECT COUNT(*) FROM T_MEM_COUPON WHERE COUPONID = C.COUPONID) TOT_DOWN_CNT,
+			   (SELECT COUNT(*) FROM T_MEM_COUPON WHERE COUPONID = C.COUPONID AND USERID = #userid#) MEM_DOWN_CNT
+		  FROM T_COUPON C
+		 WHERE C.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND C.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND C.STATUS = 'S'
+		   AND C.MAX_DOWNLOAD > 0
+		   AND C.TARGET_MEM = 'A'
+	       AND EXISTS (
+			   			SELECT GRADE_CODE 
+			   			  FROM T_COUPON_APPLY_GRADE
+			   			 WHERE COUPONID = C.COUPONID
+			   			   AND GRADE_CODE = #grade_code#
+			   		)
+		UNION ALL
+		SELECT C.*,
+			   (SELECT COUNT(*) FROM T_MEM_COUPON WHERE COUPONID = C.COUPONID) TOT_DOWN_CNT,
+			   (SELECT COUNT(*) FROM T_MEM_COUPON WHERE COUPONID = C.COUPONID AND USERID = #userid#) MEM_DOWN_CNT
+		  FROM T_COUPON C
+		 WHERE C.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND C.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND C.STATUS = 'S'
+		   AND C.MAX_DOWNLOAD > 0
+	       AND C.TARGET_MEM = 'P'
+		   AND EXISTS (
+			   			SELECT USERID 
+			   			  FROM T_COUPON_APPLY_MEM
+			   			 WHERE COUPONID = C.COUPONID
+			   			   AND USERID = #userid#
+			   		)
+		]]>
+	</select>
+
+	<select id="getDownloadableInfo" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT C.*,
+			   (SELECT COUNT(*) FROM T_MEM_COUPON WHERE COUPONID = C.COUPONID) TOT_DOWN_CNT,
+			   (SELECT COUNT(*) FROM T_MEM_COUPON WHERE COUPONID = C.COUPONID AND USERID = #userid#) MEM_DOWN_CNT
+		  FROM T_COUPON C
+		 WHERE C.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND C.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND C.STATUS = 'S'
+		   AND C.MAX_DOWNLOAD > 0
+		   AND C.TARGET_MEM = 'A'
+	       AND EXISTS (
+			   			SELECT GRADE_CODE 
+			   			  FROM T_COUPON_APPLY_GRADE
+			   			 WHERE COUPONID = C.COUPONID
+			   			   AND GRADE_CODE = #grade_code#
+			   		)
+		   AND C.COUPONID = #couponid#
+		UNION ALL
+		SELECT C.*,
+			   (SELECT COUNT(*) FROM T_MEM_COUPON WHERE COUPONID = C.COUPONID) TOT_DOWN_CNT,
+			   (SELECT COUNT(*) FROM T_MEM_COUPON WHERE COUPONID = C.COUPONID AND USERID = #userid#) MEM_DOWN_CNT
+		  FROM T_COUPON C
+		 WHERE C.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND C.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND C.STATUS = 'S'
+		   AND C.MAX_DOWNLOAD > 0
+	       AND C.TARGET_MEM = 'P'
+		   AND EXISTS (
+			   			SELECT USERID 
+			   			  FROM T_COUPON_APPLY_MEM
+			   			 WHERE COUPONID = C.COUPONID
+			   			   AND USERID = #userid#
+			   		)
+		   AND C.COUPONID = #couponid#
+		]]>
+	</select>
+
+	<select id="getApplyableList" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT C.*, 
+			   MC.MEM_COUPONID
+		  FROM T_COUPON C, T_MEM_COUPON MC
+		 WHERE C.COUPONID = MC.COUPONID
+		   AND C.COUPON_TYPE = '001'
+		   AND C.STATUS = 'S'
+		   AND C.APPLY_CODE = 'AP'
+		   AND C.TARGET_MEM = 'A'
+		   AND C.MIN_PRICE <= #min_price#
+		   AND MC.USERID = #userid#
+		   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.USE_DATE IS NULL
+		]]>
+		<isEqual property="device_type" compareValue="P">
+		   AND C.PC_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="M">
+		   AND C.MOBILE_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="A">
+		   AND C.APP_YN = 'Y'
+		</isEqual>
+		<![CDATA[
+		   AND EXISTS (
+		   			SELECT GRADE_CODE 
+		   			  FROM T_COUPON_APPLY_GRADE
+		   			 WHERE COUPONID = C.COUPONID
+		   			   AND GRADE_CODE = #grade_code#
+		   		)
+		UNION ALL
+		SELECT C.*, 
+			   MC.MEM_COUPONID
+		  FROM T_COUPON C, T_MEM_COUPON MC
+		 WHERE C.COUPONID = MC.COUPONID
+		   AND C.COUPON_TYPE = '001'
+		   AND C.STATUS = 'S'
+		   AND C.APPLY_CODE = 'AP'
+		   AND C.TARGET_MEM = 'P'
+		   AND C.MIN_PRICE <= #min_price#
+		   AND MC.USERID = #userid#
+		   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.USE_DATE IS NULL
+		]]>
+		<isEqual property="device_type" compareValue="P">
+		   AND C.PC_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="M">
+		   AND C.MOBILE_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="A">
+		   AND C.APP_YN = 'Y'
+		</isEqual>
+		<![CDATA[
+		   AND EXISTS (
+		   			SELECT USERID
+		   			  FROM T_COUPON_APPLY_MEM
+		   			 WHERE COUPONID = C.COUPONID
+		   			   AND USERID = #userid#
+		   		)
+		UNION ALL
+		SELECT C.*, 
+			   MC.MEM_COUPONID
+		  FROM T_COUPON C, T_MEM_COUPON MC
+		 WHERE C.COUPONID = MC.COUPONID
+		   AND C.COUPON_TYPE = '001'
+		   AND C.STATUS = 'S'
+		   AND C.APPLY_CODE = 'CI'
+		   AND C.TARGET_MEM = 'A'
+		   AND C.MIN_PRICE <= #min_price#
+		   AND MC.USERID = #userid#
+		   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.USE_DATE IS NULL
+		]]>
+		<isEqual property="device_type" compareValue="P">
+		   AND C.PC_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="M">
+		   AND C.MOBILE_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="A">
+		   AND C.APP_YN = 'Y'
+		</isEqual>
+		<![CDATA[
+		   AND EXISTS (
+		   			SELECT GRADE_CODE 
+		   			  FROM T_COUPON_APPLY_GRADE
+		   			 WHERE COUPONID = C.COUPONID
+		   			   AND GRADE_CODE = #grade_code#
+		   		)
+		   AND EXISTS (
+		   			SELECT CATE_SEQ 
+		   			  FROM T_CATE
+		             WHERE CATE_SEQ IN (
+		             			SELECT CATE_SEQ FROM T_PRODUCT_CATE WHERE PID = #pid#
+		             		)
+		            START WITH CATE_SEQ IN (
+		            			SELECT CATE_SEQ FROM T_COUPON_APPLY_CATE WHERE COUPONID = C.COUPONID
+		            		)
+		            CONNECT BY PRIOR CATE_SEQ = P_CATE_SEQ
+				)
+		   AND NOT EXISTS (
+		   			SELECT PID
+		   			  FROM T_COUPON_APPLY_PRODUCT
+		   			 WHERE COUPONID = C.COUPONID
+		   			   AND PID = #pid#
+		   			   AND IE_CODE = 'E'
+		   		)
+		UNION ALL
+		SELECT C.*, 
+			   MC.MEM_COUPONID
+		  FROM T_COUPON C, T_MEM_COUPON MC
+		 WHERE C.COUPONID = MC.COUPONID
+		   AND C.COUPON_TYPE = '001'
+		   AND C.STATUS = 'S'
+		   AND C.APPLY_CODE = 'CI'
+		   AND C.TARGET_MEM = 'P'
+		   AND C.MIN_PRICE <= #min_price#
+		   AND MC.USERID = #userid#
+		   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.USE_DATE IS NULL
+		]]>
+		<isEqual property="device_type" compareValue="P">
+		   AND C.PC_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="M">
+		   AND C.MOBILE_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="A">
+		   AND C.APP_YN = 'Y'
+		</isEqual>
+		<![CDATA[
+		   AND EXISTS (
+		   			SELECT USERID
+		   			  FROM T_COUPON_APPLY_MEM
+		   			 WHERE COUPONID = C.COUPONID
+		   			   AND USERID = #userid#
+		   		)
+		   AND EXISTS (
+		   			SELECT CATE_SEQ 
+		   			  FROM T_CATE
+		             WHERE CATE_SEQ IN (
+		             			SELECT CATE_SEQ FROM T_PRODUCT_CATE WHERE PID = #pid#
+		             		)
+		            START WITH CATE_SEQ IN (
+		            			SELECT CATE_SEQ FROM T_COUPON_APPLY_CATE WHERE COUPONID = C.COUPONID
+		            		)
+		            CONNECT BY PRIOR CATE_SEQ = P_CATE_SEQ
+				)
+		   AND NOT EXISTS (
+		   			SELECT PID
+		   			  FROM T_COUPON_APPLY_PRODUCT
+		   			 WHERE COUPONID = C.COUPONID
+		   			   AND PID = #pid#
+		   			   AND IE_CODE = 'E'
+		   		)
+		UNION ALL
+		SELECT C.*, 
+			   MC.MEM_COUPONID
+		  FROM T_COUPON C, T_MEM_COUPON MC
+		 WHERE C.COUPONID = MC.COUPONID
+		   AND C.COUPON_TYPE = '001'
+		   AND C.STATUS = 'S'
+		   AND C.APPLY_CODE = 'PR'
+		   AND C.TARGET_MEM = 'A'
+		   AND C.MIN_PRICE <= #min_price#
+		   AND MC.USERID = #userid#
+		   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.USE_DATE IS NULL
+		]]>
+		<isEqual property="device_type" compareValue="P">
+		   AND C.PC_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="M">
+		   AND C.MOBILE_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="A">
+		   AND C.APP_YN = 'Y'
+		</isEqual>
+		<![CDATA[
+		   AND EXISTS (
+		   			SELECT GRADE_CODE 
+		   			  FROM T_COUPON_APPLY_GRADE
+		   			 WHERE COUPONID = C.COUPONID
+		   			   AND GRADE_CODE = #grade_code#
+		   		)
+		   AND EXISTS (
+		   			SELECT PID
+		   			  FROM T_COUPON_APPLY_PRODUCT
+		   			 WHERE COUPONID = C.COUPONID
+		   			   AND PID = #pid#
+		   			   AND IE_CODE = 'I'
+		   		)
+		UNION ALL
+		SELECT C.*, 
+			   MC.MEM_COUPONID
+		  FROM T_COUPON C, T_MEM_COUPON MC
+		 WHERE C.COUPONID = MC.COUPONID
+		   AND C.COUPON_TYPE = '001'
+		   AND C.STATUS = 'S'
+		   AND C.APPLY_CODE = 'PR'
+		   AND C.TARGET_MEM = 'P'
+		   AND C.MIN_PRICE <= #min_price#
+		   AND MC.USERID = #userid#
+		   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.USE_DATE IS NULL
+		]]>
+		<isEqual property="device_type" compareValue="P">
+		   AND C.PC_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="M">
+		   AND C.MOBILE_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="A">
+		   AND C.APP_YN = 'Y'
+		</isEqual>
+		<![CDATA[
+		   AND EXISTS (
+		   			SELECT USERID
+		   			  FROM T_COUPON_APPLY_MEM
+		   			 WHERE COUPONID = C.COUPONID
+		   			   AND USERID = #userid#
+		   		)
+		   AND EXISTS (
+		   			SELECT PID
+		   			  FROM T_COUPON_APPLY_PRODUCT
+		   			 WHERE COUPONID = C.COUPONID
+		   			   AND PID = #pid#
+		   			   AND IE_CODE = 'I'
+		   		)
+		]]>
+	</select>
+
+	<select id="getApplyableList2" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT C.*, 
+			   MC.MEM_COUPONID
+		  FROM T_COUPON C, T_MEM_COUPON MC
+		 WHERE C.COUPONID = MC.COUPONID
+		   AND C.COUPON_TYPE = #coupon_type#
+		   AND C.STATUS = 'S'
+		   AND C.TARGET_MEM = 'A'
+		   AND MC.USERID = #userid#
+		   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.USE_DATE IS NULL
+		]]>
+		<isNotEmpty property="min_price">
+		<![CDATA[
+		   AND C.MIN_PRICE <= #min_price#
+		]]>
+		</isNotEmpty>
+		<isEqual property="device_type" compareValue="P">
+		   AND C.PC_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="M">
+		   AND C.MOBILE_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="A">
+		   AND C.APP_YN = 'Y'
+		</isEqual>
+		<isNotEmpty property="mem_couponid">
+		   AND MC.MEM_COUPONID = #mem_couponid#
+		</isNotEmpty>
+		<![CDATA[
+		   AND EXISTS (
+		   			SELECT GRADE_CODE 
+		   			  FROM T_COUPON_APPLY_GRADE
+		   			 WHERE COUPONID = C.COUPONID
+		   			   AND GRADE_CODE = #grade_code#
+		   		)
+		UNION ALL
+		SELECT C.*, 
+			   MC.MEM_COUPONID
+		  FROM T_COUPON C, T_MEM_COUPON MC
+		 WHERE C.COUPONID = MC.COUPONID
+		   AND C.COUPON_TYPE = #coupon_type#
+		   AND C.STATUS = 'S'
+		   AND C.TARGET_MEM = 'P'
+		   AND MC.USERID = #userid#
+		   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.USE_DATE IS NULL
+		]]>
+		<isNotEmpty property="min_price">
+		<![CDATA[
+		   AND C.MIN_PRICE <= #min_price#
+		]]>
+		</isNotEmpty>
+		<isEqual property="device_type" compareValue="P">
+		   AND C.PC_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="M">
+		   AND C.MOBILE_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="A">
+		   AND C.APP_YN = 'Y'
+		</isEqual>
+		<isNotEmpty property="mem_couponid">
+		   AND MC.MEM_COUPONID = #mem_couponid#
+		</isNotEmpty>
+		<![CDATA[
+		   AND EXISTS (
+		   			SELECT USERID
+		   			  FROM T_COUPON_APPLY_MEM
+		   			 WHERE COUPONID = C.COUPONID
+		   			   AND USERID = #userid#
+		   		)
+		]]>
+	</select>
+
+	<select id="getCartApplyableList" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT C.*, 
+			   MC.MEM_COUPONID
+		  FROM T_COUPON C, T_MEM_COUPON MC
+		 WHERE C.COUPONID = MC.COUPONID
+		   AND C.COUPON_TYPE = #coupon_type#
+		   AND C.STATUS = 'S'
+		   AND C.TARGET_MEM = 'A'
+		   AND MC.USERID = #userid#
+		   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.USE_DATE IS NULL
+		]]>
+		<![CDATA[
+		   AND C.MIN_PRICE <= (SELECT SUM(DECODE(A.ROUTINE_YN, 'N', F_PRICE(A.SUB_PID, #grade_code#) * A.QTY,
+			   									 (F_PRICE(A.SUB_PID, #grade_code#) - 
+			   									  (SELECT NVL(MAX(SALE_AMT), 0)  
+			   									     FROM T_PRODUCT_ROUTINE_SALE
+									   			    WHERE PID = A.PID
+									   			      AND FROM_CNT <= A.ROUTINE_CNT
+									   			      AND TO_CNT >= A.ROUTINE_CNT))  * A.QTY * A.ROUTINE_CNT))
+							     FROM T_CART A, 
+							  	      T_PRODUCT P1, 
+							  	      T_PRODUCT P2
+							    WHERE A.PID = P1.PID
+							      AND A.SUB_PID = P2.PID
+							      AND A.USERID = #userid#
+							      AND A.ORDER_YN = 'Y'
+								  AND A.SUB_PID NOT IN (SELECT PID FROM T_COUPON_APPLY_PRODUCT
+								    					 WHERE COUPONID = C.COUPONID
+								    					   AND IE_CODE = 'E'))
+		]]>
+		<isEqual property="device_type" compareValue="P">
+		   AND C.PC_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="M">
+		   AND C.MOBILE_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="A">
+		   AND C.APP_YN = 'Y'
+		</isEqual>
+		<isNotEmpty property="mem_couponid">
+		   AND MC.MEM_COUPONID = #mem_couponid#
+		</isNotEmpty>
+		<![CDATA[
+		   AND EXISTS (
+		   			SELECT GRADE_CODE 
+		   			  FROM T_COUPON_APPLY_GRADE
+		   			 WHERE COUPONID = C.COUPONID
+		   			   AND GRADE_CODE = #grade_code#
+		   		)
+		UNION ALL
+		SELECT C.*, 
+			   MC.MEM_COUPONID
+		  FROM T_COUPON C, T_MEM_COUPON MC
+		 WHERE C.COUPONID = MC.COUPONID
+		   AND C.COUPON_TYPE = #coupon_type#
+		   AND C.STATUS = 'S'
+		   AND C.TARGET_MEM = 'P'
+		   AND MC.USERID = #userid#
+		   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.USE_DATE IS NULL
+		]]>
+		<![CDATA[
+		   AND C.MIN_PRICE <= (SELECT SUM(DECODE(A.ROUTINE_YN, 'N', F_PRICE(A.SUB_PID, #grade_code#) * A.QTY,
+			   									 (F_PRICE(A.SUB_PID, #grade_code#) - 
+			   									  (SELECT NVL(MAX(SALE_AMT), 0)  
+			   									     FROM T_PRODUCT_ROUTINE_SALE
+									   			    WHERE PID = A.PID
+									   			      AND FROM_CNT <= A.ROUTINE_CNT
+									   			      AND TO_CNT >= A.ROUTINE_CNT))  * A.QTY * A.ROUTINE_CNT))
+							     FROM T_CART A, 
+							  	      T_PRODUCT P1, 
+							  	      T_PRODUCT P2
+							    WHERE A.PID = P1.PID
+							      AND A.SUB_PID = P2.PID
+							      AND A.USERID = #userid#
+							      AND A.ORDER_YN = 'Y'
+								  AND A.SUB_PID NOT IN (SELECT PID FROM T_COUPON_APPLY_PRODUCT
+								    					 WHERE COUPONID = C.COUPONID
+								    					   AND IE_CODE = 'E'))
+		]]>
+		<isEqual property="device_type" compareValue="P">
+		   AND C.PC_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="M">
+		   AND C.MOBILE_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="A">
+		   AND C.APP_YN = 'Y'
+		</isEqual>
+		<isNotEmpty property="mem_couponid">
+		   AND MC.MEM_COUPONID = #mem_couponid#
+		</isNotEmpty>
+		<![CDATA[
+		   AND EXISTS (
+		   			SELECT USERID
+		   			  FROM T_COUPON_APPLY_MEM
+		   			 WHERE COUPONID = C.COUPONID
+		   			   AND USERID = #userid#
+		   		)
+		]]>
+	</select>
+
+	<select id="getInfo" parameterClass="java.lang.String" resultClass="Param">
+		SELECT *
+		  FROM T_COUPON
+		 WHERE COUPONID = #couponid#
+	</select>
+	
+	<select id="getInfoByMemCoupon" parameterClass="java.lang.String" resultClass="Param">
+		SELECT *
+		  FROM T_COUPON
+		 WHERE COUPONID = (SELECT COUPONID FROM T_MEM_COUPON WHERE MEM_COUPONID = #mem_couponid#)
+	</select>
+	
+	<select id="getApplyProductList" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		 SELECT A.PID,
+		        B.PNM
+		   FROM T_COUPON_APPLY_PRODUCT A,
+		        T_PRODUCT B
+		  WHERE A.PID      = B.PID
+		    AND B.STATUS   <> 'D'
+		    AND A.IE_CODE   = #ie_code#
+		    AND A.COUPONID  = #couponid#
+		]]>
+	</select>
+
+	<select id="getMemCouponInfo" parameterClass="java.lang.String" resultClass="Param">
+		SELECT A.*, C.SALE_TYPE, C.SALE_AMT, C.MIN_PRICE, C.MAX_SALE
+		  FROM T_MEM_COUPON A, T_COUPON C
+		 WHERE A.COUPONID = C.COUPONID
+		   AND A.MEM_COUPONID = #mem_couponid#
+	</select>
+	
+	<select id="getDownloadedCnt" parameterClass="Param" resultClass="java.lang.Integer">
+		SELECT COUNT(*)
+		  FROM T_MEM_COUPON
+		 WHERE USERID = #userid#
+		   AND COUPONID = #couponid#
+	</select>
+	
+	<insert id="insertMemCoupon" parameterClass="Param">
+		INSERT INTO T_MEM_COUPON
+			(
+				MEM_COUPONID,
+				USERID,
+				COUPONID,
+				START_DATE,
+				END_DATE,
+				REGIST_DATE,
+				USE_DATE
+			)
+		SELECT 	TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS') || LPAD(SEQ_COMMON.NEXTVAL, 5, 0),
+				#userid#,
+				COUPONID,
+				TO_CHAR(SYSDATE, 'YYYY.MM.DD') || ' 00:00:00',
+				DECODE(NVL(PERIOD, 0), 0, END_DATE, TO_CHAR(SYSDATE + PERIOD - 1, 'YYYY.MM.DD') || ' 23:59:59'),
+				SYSDATE,
+				NULL
+		  FROM	T_COUPON
+		 WHERE	COUPONID = #couponid#
+	</insert>
+	
+	<update id="useMemCoupon" parameterClass="java.lang.String">
+		UPDATE T_MEM_COUPON
+		   SET USE_DATE = SYSDATE
+		 WHERE MEM_COUPONID = #mem_couponid#
+	</update>
+
+	<update id="applyMemCoupon" parameterClass="Param">
+		UPDATE T_CART
+		   SET MEM_COUPONID = #mem_couponid#
+		 WHERE CARTID		= #cartid#
+	</update>
+
+	<update id="resetMemCoupon" parameterClass="Param">
+		UPDATE T_CART
+		   SET MEM_COUPONID = NULL
+		 WHERE MEM_COUPONID = #mem_couponid#
+	</update>
+
+	<update id="cancelMemCoupon" parameterClass="Param">
+		UPDATE T_CART
+		   SET MEM_COUPONID = NULL
+		 WHERE CARTID		= #cartid#
+	</update>
+	
+	<select id="getMemCouponList" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+	     SELECT *
+		   FROM (
+					SELECT ROW_NUMBER() OVER(ORDER BY MC.MEM_COUPONID DESC) RNUM,
+						   MC.*,
+						   C.COUPON_NAME,
+						   C.SALE_TYPE,
+						   C.SALE_AMT,
+						   C.MIN_PRICE,
+						   C.MAX_SALE
+					  FROM T_COUPON C, T_MEM_COUPON MC
+					 WHERE C.COUPONID = MC.COUPONID
+					   AND C.STATUS = 'S'
+					   AND MC.USERID = #userid#
+					   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+					   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+					   AND MC.USE_DATE IS NULL
+		    )
+		  WHERE rnum > #POS_STA#
+	        AND rnum <= #POS_END#
+		]]>
+	</select>
+
+	<select id="getMemCouponListCount" parameterClass="Param" resultClass="java.lang.Integer">
+		<![CDATA[
+		SELECT COUNT(*)
+		  FROM T_COUPON C, T_MEM_COUPON MC
+		 WHERE C.COUPONID = MC.COUPONID
+		   AND C.STATUS = 'S'
+		   AND MC.USERID = #userid#
+		   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.USE_DATE IS NULL
+		]]>
+	</select>
+	
+	<select id="getCouponSerialInfo" parameterClass="java.lang.String" resultClass="Param">
+		SELECT 	*
+		FROM	T_COUPON_SERIAL
+		WHERE	COUPON_SERIAL = #coupon_serial#
+	</select>
+	
+	<update id="setUserCouponSerial" parameterClass="Param">
+		UPDATE	T_COUPON_SERIAL
+		SET		USERID			= #userid#
+		WHERE	COUPON_SERIAL	= #coupon_serial#
+	</update>
+
+	<update id="setUseDateCouponSerial" parameterClass="java.lang.String">
+		UPDATE	T_COUPON_SERIAL
+		SET		USE_DATE		= SYSDATE
+		WHERE	COUPON_SERIAL	= #coupon_serial#
+	</update>
+
+	<!-- 주문 취소시 쿠폰 복원 -->	
+	<update id="resetMemCouponByOrderid" parameterClass="java.lang.String">
+		UPDATE	T_MEM_COUPON
+		SET		USE_DATE	= NULL
+		WHERE	MEM_COUPONID IN (
+					SELECT	MEM_COUPONID_CART
+					FROM	T_ORDER_MASTER
+					WHERE	ORDERID = #orderid#
+					AND 	MEM_COUPONID_CART IS NOT NULL
+					UNION ALL
+					SELECT	MEM_COUPONID_SHIP
+					FROM	T_ORDER_MASTER
+					WHERE	ORDERID = #orderid#
+					AND 	MEM_COUPONID_SHIP IS NOT NULL
+					UNION ALL
+					SELECT	MEM_COUPONID
+					FROM	T_ORDER_CART
+					WHERE	ORDERID = #orderid#
+					AND 	MEM_COUPONID IS NOT NULL
+					UNION ALL
+					SELECT	MEM_COUPONID
+					FROM	T_TICKET_ORDER
+					WHERE	ORDERID = #orderid#
+					AND		MEM_COUPONID IS NOT NULL
+					UNION ALL
+					SELECT	MEM_COUPONID
+					FROM	T_HRESERVE
+					WHERE	ORDERID = #orderid#
+					AND		MEM_COUPONID IS NOT NULL
+					UNION ALL
+					SELECT	MEM_COUPONID
+					FROM	T_HOFFER_RESERVE
+					WHERE	ORDERID = #orderid#
+					AND		MEM_COUPONID IS NOT NULL
+				)
+	</update>
+	
+	<!-- 2017.04.12 이후 구매이력 조회 -->
+	<select id="getPromotionCondition1" parameterClass="java.lang.String" resultClass="Param">
+		SELECT	OM.ORDERID
+		FROM	T_ORDER_MASTER OM,
+				T_ORDER_SHIP OS
+		WHERE	OM.ORDERID = OS.ORDERID
+		AND		OM.USERID = #userid#
+		AND		OM.ORDER_DATE >= TO_DATE('20170412', 'YYYYMMDD')
+		AND		OS.STATUS = '170'
+		AND		ROWNUM = 1
+	</select>
+
+	<delete id="removeMemCoupon" parameterClass="Param">
+		<![CDATA[
+		DELETE FROM T_MEM_COUPON
+		 WHERE USERID		= #userid#
+		   AND COUPONID		= #couponid#
+		   AND START_DATE	<= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND END_DATE		>= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND USE_DATE		IS NULL
+		]]>
+	</delete>
+	
+	<!-- 2021.11 이후 적용가능 쿠폰 리스트 -->
+	<select id="getApplyableList3" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT C.*, 
+		       MC.MEM_COUPONID
+		  FROM T_COUPON C, T_MEM_COUPON MC
+		 WHERE C.COUPONID = MC.COUPONID
+		   AND C.COUPON_TYPE IN ('001')
+		   AND C.STATUS = 'S'
+		   AND C.APPLY_CODE = 'AP'
+		   AND MC.USERID = #userid#
+		   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.USE_DATE IS NULL
+		   AND C.MIN_PRICE <= (SELECT SUM(DECODE(A.ROUTINE_YN, 'N', F_PRICE(A.SUB_PID, #grade_code#) * A.QTY,
+		                                         (F_PRICE(A.SUB_PID, '001') - 
+		                                          (SELECT NVL(MAX(SALE_AMT), 0)  
+		                                             FROM T_PRODUCT_ROUTINE_SALE
+		                                            WHERE PID = A.PID
+		                                              AND FROM_CNT <= A.ROUTINE_CNT
+		                                              AND TO_CNT >= A.ROUTINE_CNT))  * A.QTY * A.ROUTINE_CNT))
+		                         FROM T_CART A
+		                        WHERE A.USERID = #userid#
+		                          AND A.ORDER_YN = 'Y'
+		                          AND A.SUB_PID NOT IN (SELECT PID FROM T_COUPON_APPLY_PRODUCT
+		                                                 WHERE COUPONID = C.COUPONID
+		                                                   AND IE_CODE = 'E'))
+		]]>
+		<isEqual property="device_type" compareValue="P">
+		   AND C.PC_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="M">
+		   AND C.MOBILE_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="A">
+		   AND C.APP_YN = 'Y'
+		</isEqual>
+		<isNotEmpty property="mem_couponid">
+		   AND MC.MEM_COUPONID = #mem_couponid#
+		</isNotEmpty>
+		<![CDATA[
+		UNION ALL
+		SELECT C.*, 
+		       MC.MEM_COUPONID
+		  FROM T_COUPON C, T_MEM_COUPON MC
+		 WHERE C.COUPONID = MC.COUPONID
+		   AND C.COUPON_TYPE IN ('001')
+		   AND C.STATUS = 'S'
+		   AND C.APPLY_CODE = 'CI'
+		   AND MC.USERID = #userid#
+		   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.USE_DATE IS NULL
+		   AND C.MIN_PRICE <= (SELECT SUM(DECODE(A.ROUTINE_YN, 'N', F_PRICE(A.SUB_PID, #grade_code#) * A.QTY,
+		                                         (F_PRICE(A.SUB_PID, '001') - 
+		                                          (SELECT NVL(MAX(SALE_AMT), 0)  
+		                                             FROM T_PRODUCT_ROUTINE_SALE
+		                                            WHERE PID = A.PID
+		                                              AND FROM_CNT <= A.ROUTINE_CNT
+		                                              AND TO_CNT >= A.ROUTINE_CNT))  * A.QTY * A.ROUTINE_CNT))
+		                         FROM T_CART A
+		                        WHERE A.USERID = #userid#
+		                          AND A.ORDER_YN = 'Y'
+		                          AND A.SUB_PID IN (SELECT PID FROM T_PRODUCT_CATE
+		                                             WHERE CATE_SEQ IN (SELECT CATE_SEQ FROM T_CATE
+		                                                                START WITH CATE_SEQ IN (SELECT CATE_SEQ FROM T_COUPON_APPLY_CATE
+		                                                                                         WHERE COUPONID = C.COUPONID)
+		                                                                CONNECT BY PRIOR CATE_SEQ = P_CATE_SEQ))
+		                          AND A.SUB_PID NOT IN (SELECT PID FROM T_COUPON_APPLY_PRODUCT
+		                                                 WHERE COUPONID = C.COUPONID
+		                                                   AND IE_CODE = 'E'))
+		]]>
+		<isEqual property="device_type" compareValue="P">
+		   AND C.PC_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="M">
+		   AND C.MOBILE_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="A">
+		   AND C.APP_YN = 'Y'
+		</isEqual>
+		<isNotEmpty property="mem_couponid">
+		   AND MC.MEM_COUPONID = #mem_couponid#
+		</isNotEmpty>
+		<![CDATA[
+		UNION ALL
+		SELECT C.*, 
+		       MC.MEM_COUPONID
+		  FROM T_COUPON C, T_MEM_COUPON MC
+		 WHERE C.COUPONID = MC.COUPONID
+		   AND C.COUPON_TYPE IN ('001')
+		   AND C.STATUS = 'S'
+		   AND C.APPLY_CODE = 'PR'
+		   AND MC.USERID = #userid#
+		   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.USE_DATE IS NULL
+		   AND C.MIN_PRICE <= (SELECT SUM(DECODE(A.ROUTINE_YN, 'N', F_PRICE(A.SUB_PID, #grade_code#) * A.QTY,
+		                                         (F_PRICE(A.SUB_PID, '001') - 
+		                                          (SELECT NVL(MAX(SALE_AMT), 0)  
+		                                             FROM T_PRODUCT_ROUTINE_SALE
+		                                            WHERE PID = A.PID
+		                                              AND FROM_CNT <= A.ROUTINE_CNT
+		                                              AND TO_CNT >= A.ROUTINE_CNT))  * A.QTY * A.ROUTINE_CNT))
+		                         FROM T_CART A
+		                        WHERE A.USERID = #userid#
+		                          AND A.ORDER_YN = 'Y'
+		                          AND A.SUB_PID IN (SELECT PID FROM T_COUPON_APPLY_PRODUCT
+		                                             WHERE COUPONID = C.COUPONID
+		                                               AND IE_CODE = 'I'))
+		]]>
+		<isEqual property="device_type" compareValue="P">
+		   AND C.PC_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="M">
+		   AND C.MOBILE_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="A">
+		   AND C.APP_YN = 'Y'
+		</isEqual>
+		<isNotEmpty property="mem_couponid">
+		   AND MC.MEM_COUPONID = #mem_couponid#
+		</isNotEmpty>
+		<![CDATA[
+		UNION ALL
+		SELECT C.*, 
+		       MC.MEM_COUPONID
+		  FROM T_COUPON C, T_MEM_COUPON MC
+		 WHERE C.COUPONID = MC.COUPONID
+		   AND C.COUPON_TYPE IN ('003')
+		   AND C.STATUS = 'S'
+		   AND MC.USERID = #userid#
+		   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.USE_DATE IS NULL
+		   AND C.MIN_PRICE <= (SELECT SUM(DECODE(A.ROUTINE_YN, 'N', F_PRICE(A.SUB_PID, #grade_code#) * A.QTY,
+		                                         (F_PRICE(A.SUB_PID, '001') - 
+		                                          (SELECT NVL(MAX(SALE_AMT), 0)  
+		                                             FROM T_PRODUCT_ROUTINE_SALE
+		                                            WHERE PID = A.PID
+		                                              AND FROM_CNT <= A.ROUTINE_CNT
+		                                              AND TO_CNT >= A.ROUTINE_CNT))  * A.QTY * A.ROUTINE_CNT))
+		                         FROM T_CART A
+		                        WHERE A.USERID = #userid#
+		                          AND A.ORDER_YN = 'Y')
+		]]>
+		<isEqual property="device_type" compareValue="P">
+		   AND C.PC_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="M">
+		   AND C.MOBILE_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="A">
+		   AND C.APP_YN = 'Y'
+		</isEqual>
+		<isNotEmpty property="mem_couponid">
+		   AND MC.MEM_COUPONID = #mem_couponid#
+		</isNotEmpty>
+	</select>
+
+	<select id="isApplyableProduct" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT C.*, 
+			   MC.MEM_COUPONID
+		  FROM T_COUPON C, T_MEM_COUPON MC
+		 WHERE C.COUPONID = MC.COUPONID
+		   AND C.COUPON_TYPE = '001'
+		   AND C.STATUS = 'S'
+		   AND C.APPLY_CODE = 'AP'
+		   AND MC.USERID = #userid#
+		   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.USE_DATE IS NULL
+		]]>
+		<isEqual property="device_type" compareValue="P">
+		   AND C.PC_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="M">
+		   AND C.MOBILE_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="A">
+		   AND C.APP_YN = 'Y'
+		</isEqual>
+		<isNotEmpty property="mem_couponid">
+		   AND MC.MEM_COUPONID = #mem_couponid#
+		</isNotEmpty>
+		<![CDATA[
+		   AND NOT EXISTS (
+		   			SELECT PID
+		   			  FROM T_COUPON_APPLY_PRODUCT
+		   			 WHERE COUPONID = C.COUPONID
+		   			   AND PID = #pid#
+		   			   AND IE_CODE = 'E'
+		   		)
+		UNION ALL
+		SELECT C.*, 
+			   MC.MEM_COUPONID
+		  FROM T_COUPON C, T_MEM_COUPON MC
+		 WHERE C.COUPONID = MC.COUPONID
+		   AND C.COUPON_TYPE = '001'
+		   AND C.STATUS = 'S'
+		   AND C.APPLY_CODE = 'CI'
+		   AND MC.USERID = #userid#
+		   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.USE_DATE IS NULL
+		]]>
+		<isEqual property="device_type" compareValue="P">
+		   AND C.PC_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="M">
+		   AND C.MOBILE_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="A">
+		   AND C.APP_YN = 'Y'
+		</isEqual>
+		<isNotEmpty property="mem_couponid">
+		   AND MC.MEM_COUPONID = #mem_couponid#
+		</isNotEmpty>
+		<![CDATA[
+		   AND EXISTS (
+		   			SELECT CATE_SEQ 
+		   			  FROM T_CATE
+		             WHERE CATE_SEQ IN (
+		             			SELECT CATE_SEQ FROM T_PRODUCT_CATE WHERE PID = #pid#
+		             		)
+		            START WITH CATE_SEQ IN (
+		            			SELECT CATE_SEQ FROM T_COUPON_APPLY_CATE WHERE COUPONID = C.COUPONID
+		            		)
+		            CONNECT BY PRIOR CATE_SEQ = P_CATE_SEQ
+				)
+		   AND NOT EXISTS (
+		   			SELECT PID
+		   			  FROM T_COUPON_APPLY_PRODUCT
+		   			 WHERE COUPONID = C.COUPONID
+		   			   AND PID = #pid#
+		   			   AND IE_CODE = 'E'
+		   		)
+		UNION ALL
+		SELECT C.*, 
+			   MC.MEM_COUPONID
+		  FROM T_COUPON C, T_MEM_COUPON MC
+		 WHERE C.COUPONID = MC.COUPONID
+		   AND C.COUPON_TYPE = '001'
+		   AND C.STATUS = 'S'
+		   AND C.APPLY_CODE = 'PR'
+		   AND MC.USERID = #userid#
+		   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.USE_DATE IS NULL
+		]]>
+		<isEqual property="device_type" compareValue="P">
+		   AND C.PC_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="M">
+		   AND C.MOBILE_YN = 'Y'
+		</isEqual>
+		<isEqual property="device_type" compareValue="A">
+		   AND C.APP_YN = 'Y'
+		</isEqual>
+		<isNotEmpty property="mem_couponid">
+		   AND MC.MEM_COUPONID = #mem_couponid#
+		</isNotEmpty>
+		<![CDATA[
+		   AND EXISTS (
+		   			SELECT PID
+		   			  FROM T_COUPON_APPLY_PRODUCT
+		   			 WHERE COUPONID = C.COUPONID
+		   			   AND PID = #pid#
+		   			   AND IE_CODE = 'I'
+		   		)
+		]]>
+	</select>
+</sqlMap>

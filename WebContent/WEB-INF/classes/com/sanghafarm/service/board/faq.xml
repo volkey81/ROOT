@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Faq">
+	<resultMap id="FaqInfo" class="Param"> 
+		<result property="seq" column="seq"></result>
+		<result property="title" column="title"></result>
+		<result property="contents" column="contents" jdbcType="CLOB" javaType="java.lang.String"></result>
+		<result property="cate" column="cate"></result>
+		<result property="status" column="status"></result>
+		<result property="rank" column="rank"></result>						
+		<result property="cate_name" column="cate_name"></result>						
+	</resultMap>
+    
+	<select id="getList" parameterClass="Param" resultMap="FaqInfo"> 
+		<![CDATA[
+	     SELECT *
+		   FROM (
+				 SELECT ROW_NUMBER() OVER(ORDER BY A.CATE, A.RANK) RNUM,
+					    A.SEQ, 
+					    A.TITLE, 
+					    A.CONTENTS,
+					    A.CATE,
+					    A.STATUS,
+					    A.RANK,
+					    C.NAME2 CATE_NAME
+				   FROM T_FAQ A, T_CODE2 C
+				  WHERE A.CATE = C.CODE2
+				    AND C.CODE1 = '006'
+				    AND A.STATUS = 'S'
+		]]>
+		<isNotEmpty property="cate">
+					AND A.CATE = #cate#
+		</isNotEmpty>
+		<isNotEmpty property="status">
+					AND A.STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty property="keyword">
+		        	AND (A.TITLE LIKE '%' || #keyword# || '%'
+		        		 OR A.CONTENTS LIKE '%' || #keyword# || '%')
+   		</isNotEmpty>
+		<![CDATA[
+		    )
+		  WHERE rnum > #POS_STA#
+	        AND rnum <= #POS_END#
+		]]>
+  	</select>
+
+	<select id="getListCount" parameterClass="Param" resultClass="Integer">
+		<![CDATA[
+		 SELECT COUNT(*)
+		   FROM T_FAQ A, T_CODE2 C
+		  WHERE A.CATE = C.CODE2
+		    AND C.CODE1 = '006'
+		    AND A.STATUS = 'S'
+		]]>
+		<isNotEmpty property="cate">
+			AND A.CATE = #cate#
+		</isNotEmpty>
+		<isNotEmpty property="status">
+			AND A.STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty property="keyword">
+        	AND (A.TITLE LIKE '%' || #keyword# || '%'
+        		 OR A.CONTENTS LIKE '%' || #keyword# || '%')
+   		</isNotEmpty>
+	</select>
+
+</sqlMap>

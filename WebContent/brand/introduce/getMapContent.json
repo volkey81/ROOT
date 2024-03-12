@@ -1,0 +1,355 @@
+{
+	"mapContents": {
+		"section": [
+			{
+				"title": "농원회관/매표소/파머스마켓",
+				"desc": "파머스마켓은 지역 주민들과 방문객들로 늘 북적거리는 상하농원의 상징적인 건물이랍니다.<br>매표소와 전시관, 농원에서 수확한 채소와 과일, 곡식은 물론, 산 좋고 물 좋은 고창의 특산품도 구입할 수 있는 파머스 마켓도 있습니다.",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/brand/food/store5.jsp" 
+				},
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img1_1.jpg",
+						"/images/brand/introduce/facility/img1_2.jpg",
+						"/images/brand/introduce/facility/img1_3.jpg"
+					]
+				}
+			},
+			{
+				"title": "과일공방",
+				"desc": "상하농원의 밭에서 자란 과일과 야채로 잼과 청을 만드는 공방이에요.<br>고창 지역의 풍부한 비타민을 품은 과일의 맛을 그대로 듬뿍 담아 만들어서인지 인기 만점이랍니다.",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/brand/workshop/fruit.jsp" 
+				},
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img4_1.jpg",
+						"/images/brand/introduce/facility/img4_2.jpg",
+						"/images/brand/introduce/facility/img4_3.jpg"
+					]
+				}
+			},
+			{
+				"title": "빵공방",
+				"desc": "이 곳에서는 언제나 고소한 빵 굽는 냄새가 진동을 한답니다.<br>소박하지만 넉넉한 엄마의 마음으로 만든 빵이라 그 맛이 더 특별한 빵들이 만들어지는 공간입니다.",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/brand/workshop/bread.jsp" 
+				},
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img5_1.jpg",
+						"/images/brand/introduce/facility/img5_2.jpg",
+						"/images/brand/introduce/facility/img5_3.jpg"
+					]
+				}
+			},
+			{
+				"title": "발효공방",
+				"desc": "상하농원 사람들은 직접 메주를 쑤어 된장과 고추장을 담그고 있어요.<br>옹기종기 모여있는 장독들 안에서는 장들이 천천히, 건강하게 발효되고 있습니다.",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/brand/workshop/ferment.jsp" 
+				},
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img6_1.jpg",
+						"/images/brand/introduce/facility/img6_2.jpg",
+						"/images/brand/introduce/facility/img6_3.jpg"
+					]
+				}
+			},
+			{
+				"title": "농원상회",
+				"desc": "상하농원의 여러 공방에서 솜씨 좋은 농부들이 만들어낸 먹거리들을 구입할 수 있는 상점입니다.<br>빵, 잼, 된장, 고추장, 햄, 소시지 등 비옥한 땅에서 잘 자란 자연의 재료들로 완성한 ‘농부의 솜씨’를 만나보세요.",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/brand/food/store4.jsp" 
+				},
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img2_1.jpg",
+						"/images/brand/introduce/facility/img2_2.jpg",
+						"/images/brand/introduce/facility/img2_3.jpg"
+					] 
+				}
+			},
+			{
+				"title": "파머스카페",
+				"desc": "아이스크림, 커피, 차 등을 즐길 수 있는 카페입니다.<br>목장과 밭에서 일하다가, 또는 농원을 거닐다가 삼삼오오 가볍게 들러 대화를 나누며 잠시 쉴 수 있는 공간이죠.",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/brand/food/store3.jsp" 
+				}, 
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img9_1.jpg",
+						"/images/brand/introduce/facility/img9_2.jpg",
+						"/images/brand/introduce/facility/img9_3.jpg"
+					]
+				}
+			},
+			{
+				"title": "체험교실 A,B",
+				"desc": "고기반죽을 직접 조물거리며 소시지를 만들고, 직접 반죽한 밀가루로 밀크빵도 만들고!<br>내가 만든 먹거리고 음식에 대한 관심을 가지고, 감사하는 마음도 가져보아요.",
+				"link" : {
+					"txt" : "체험하기",
+					"href" : "/brand/play/experience/list.jsp" 
+				},
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img10_1.jpg",
+						"/images/brand/introduce/facility/img10_2.jpg",
+						"/images/brand/introduce/facility/img10_3.jpg"
+					]
+				}
+			},
+			{
+				"title": "농원식당/유리온실",
+				"desc": "농촌의 일상에서 한끼란 고귀한 노동의 대가를 의미하죠. 하루의 일과를 마치고 가족과 둘러앉아 오순도순 정담을 나누며 즐기는 한끼 식사!<br>지글지글 고기가 익고, 보글보글 찌개도 끓는 이곳에서는 엄마 손 맛 한 끼 식사로 주민도, 방문객도 모두 한 식구가 된답니다. ",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/brand/food/store2.jsp" 
+				},
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img8_1.jpg",
+						"/images/brand/introduce/facility/img8_2.jpg",
+						"/images/brand/introduce/facility/img8_3.jpg"
+					]
+				}
+			},
+			{
+				"title": "햄공방",
+				"desc": "이 곳에서는 농원 사람들의 식탁에 오를 맛있고 영양 많은 햄과 소시지가 만들어집니다.<br>깨끗한 시설에서 만들어지는 과정을 볼 수 있어서 안심하고 먹을 수 있답니다.",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/brand/workshop/ham.jsp" 
+				},
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img3_1.jpg",
+						"/images/brand/introduce/facility/img3_2.jpg",
+						"/images/brand/introduce/facility/img3_3.jpg"
+					]
+				}
+			},
+
+			{
+				"title": "상하키친",
+				"desc": "바로 옆 햄공방에서 만들어진 햄과 소시지, 그리고 농원의 신선한 먹거리로 맛있는 요리를 선보이는 캐주얼 레스토랑이에요.<br>파스타와 피자, 샐러드까지 셰프가 정성껏 만든 음식을 맛보아요.",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/brand/food/store1.jsp" 
+				},
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img7_1.jpg",
+						"/images/brand/introduce/facility/img7_2.jpg",
+						"/images/brand/introduce/facility/img7_3.jpg"
+					]
+				}
+			},
+			{
+				"title": "none",
+				"desc": "바로 옆 햄공방에서 만들어진 햄과 소시지, 그리고 농원의 신선한 먹거리로 맛있는 요리를 선보이는 캐주얼 레스토랑이에요.<br>파스타와 피자, 샐러드까지 셰프가 정성껏 만든 음식을 맛보아요.",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/brand/food/store1.jsp" 
+				},
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img7_1.jpg",
+						"/images/brand/introduce/facility/img7_2.jpg",
+						"/images/brand/introduce/facility/img7_3.jpg"
+					]
+				}
+			},
+			{
+				"title": "동물농장",
+				"desc": "요 자그마한 동물농장에는 어떤 동물들이 살고 있을까요? 아기 돼지, 송아지, 양 등 상하농원의 귀염둥이들이 모두 모여 뛰놀고 있어요.<br>직접 먹이도 주고 만져도 볼 수 있어 아이들이 정말 사랑하는 장소랍니다.",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/brand/play/animal.jsp" 
+				},
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img11_1.jpg",
+						"/images/brand/introduce/facility/img11_2.jpg",
+						"/images/brand/introduce/facility/img11_3.jpg"
+					]
+				}
+			},
+			{
+				"title": "육성목장",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/brand/play/organic.jsp" 
+				},
+				"desc": "세상에서 가장 깨끗하게 관리되고 있는 상하농원의 목장! 이곳은 건강한 어미 소와 사랑스러운 송아지가 편히 쉴 수 있는 아늑한 보금자리랍니다.<br>깨끗한 환경에서 영양 듬뿍 담긴 사료를 먹고 자란 젖소들을 가까이서 만나보아요.",
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img13_1.jpg",
+						"/images/brand/introduce/facility/img13_2.jpg",
+						"/images/brand/introduce/facility/img13_3.jpg"
+					]
+				}
+			},
+			{
+				"title": "파머스빌리지 호텔",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/hotel/index.jsp" 
+				},
+				"desc": "따뜻한 감촉의 나무 외벽과 크고 작은 자연석 석벽, 곧은 지붕의 건축미가 돋보이는 농부의 쉼터 파머스 빌리지는<br>양떼목장을 따라 이어지는 상하농원의 풍경과 함께 마음까지 편안 해지는 휴식을 선사합니다.",
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img15_1.jpg",
+						"/images/brand/introduce/facility/img15_2.jpg",
+						"/images/brand/introduce/facility/img15_3.jpg"
+					]
+				}
+			},
+			{
+				"title": "파머스테이블",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/brand/play/organic.jsp" 
+				},
+				"desc": "갓 구운 빵, 신선한 목장의 우유, 제철 채소로 차려진 소박한 아침 식사부터<br>가족행사, 웨딩 등 소중한 순간을 더욱 풍성하게 만들어 줄 연회 음식까지 준비해드려요!<br><span>* 조식뷔페 연중무휴 7:30~10:00 운영 <br>- 성인 15,000원 / 초등 10,000원 / 만 4세이상 5,000원<br>(조식 뷔페 이용 시 농원 무료입장 – 2018년 오픈 프로모션)<br>* 단체 행사/웨딩/연회 유선 예약문의</span>",
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img16_1.jpg",
+						"/images/brand/introduce/facility/img16_2.jpg",
+						"/images/brand/introduce/facility/img16_3.jpg"
+					]
+				}
+			},
+			{
+				"title": "none",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/hotel/index.jsp" 
+				},
+				"desc": "따뜻한 감촉의 나무 외벽과 크고 작은 자연석 석벽, 곧은 지붕의 건축미가 돋보이는 농부의 쉼터 파머스 빌리지는<br>양떼목장을 따라 이어지는 상하농원의 풍경과 함께 마음까지 편안 해지는 휴식을 선사합니다.",
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img15_1.jpg",
+						"/images/brand/introduce/facility/img15_2.jpg",
+						"/images/brand/introduce/facility/img15_3.jpg"
+					]
+				}
+			},
+			{
+				"title": "none",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/hotel/index.jsp" 
+				},
+				"desc": "따뜻한 감촉의 나무 외벽과 크고 작은 자연석 석벽, 곧은 지붕의 건축미가 돋보이는 농부의 쉼터 파머스 빌리지는<br>양떼목장을 따라 이어지는 상하농원의 풍경과 함께 마음까지 편안 해지는 휴식을 선사합니다.",
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img15_1.jpg",
+						"/images/brand/introduce/facility/img15_2.jpg",
+						"/images/brand/introduce/facility/img15_3.jpg"
+					]
+				}
+			},
+			{
+				"title": "none",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/hotel/index.jsp" 
+				},
+				"desc": "따뜻한 감촉의 나무 외벽과 크고 작은 자연석 석벽, 곧은 지붕의 건축미가 돋보이는 농부의 쉼터 파머스 빌리지는<br>양떼목장을 따라 이어지는 상하농원의 풍경과 함께 마음까지 편안 해지는 휴식을 선사합니다.",
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img15_1.jpg",
+						"/images/brand/introduce/facility/img15_2.jpg",
+						"/images/brand/introduce/facility/img15_3.jpg"
+					]
+				}
+			},
+			{
+				"title": "텃밭정원",
+				"link" : {
+					"txt" : "체험하기",
+					"href" : "/brand/workshop/garden.jsp" 
+				},
+				"desc": "친환경 농법으로 채소들이 건강하게 자라고 있는 싱싱한 텃밭 정원에서는 계절의 흐름이 눈앞에 펼쳐져요.<br>봄에는 푸른 청보리가, 겨울에는 김장을 위한 배추가 올 한해도 쑥쑥 자라 좋은 먹거리가 되어줍니다.",
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img14_1.jpg",
+						"/images/brand/introduce/facility/img14_2.jpg",
+						"/images/brand/introduce/facility/img14_3.jpg"
+					]
+				}
+			},
+			{
+				"title": "양떼목장",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/brand/play/sheep.jsp" 
+				},
+				"desc": "흰 털을 자랑하는 양 떼가 살고 있는 곳입니다.<br>가장 최근에 식구가 된 친구들인데요. 몰려다니는 것을 좋아하고 겁도 많지만, 운동을 좋아해서 하루 종일 바삐 움직인답니다.",
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img12_1.jpg",
+						"/images/brand/introduce/facility/img12_2.jpg",
+						"/images/brand/introduce/facility/img12_3.jpg"
+					]
+				}
+			},
+			{
+				"title": "none",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/hotel/index.jsp" 
+				},
+				"desc": "따뜻한 감촉의 나무 외벽과 크고 작은 자연석 석벽, 곧은 지붕의 건축미가 돋보이는 농부의 쉼터 파머스 빌리지는<br>양떼목장을 따라 이어지는 상하농원의 풍경과 함께 마음까지 편안 해지는 휴식을 선사합니다.",
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img15_1.jpg",
+						"/images/brand/introduce/facility/img15_2.jpg",
+						"/images/brand/introduce/facility/img15_3.jpg"
+					]
+				}
+			},
+			{
+				"title": "none",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/hotel/index.jsp" 
+				},
+				"desc": "따뜻한 감촉의 나무 외벽과 크고 작은 자연석 석벽, 곧은 지붕의 건축미가 돋보이는 농부의 쉼터 파머스 빌리지는<br>양떼목장을 따라 이어지는 상하농원의 풍경과 함께 마음까지 편안 해지는 휴식을 선사합니다.",
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img15_1.jpg",
+						"/images/brand/introduce/facility/img15_2.jpg",
+						"/images/brand/introduce/facility/img15_3.jpg"
+					]
+				}
+			},
+			{
+				"title": "none",
+				"link" : {
+					"txt" : "자세히보기",
+					"href" : "/hotel/index.jsp" 
+				},
+				"desc": "따뜻한 감촉의 나무 외벽과 크고 작은 자연석 석벽, 곧은 지붕의 건축미가 돋보이는 농부의 쉼터 파머스 빌리지는<br>양떼목장을 따라 이어지는 상하농원의 풍경과 함께 마음까지 편안 해지는 휴식을 선사합니다.",
+				"imgs": {
+					"url": [
+						"/images/brand/introduce/facility/img15_1.jpg",
+						"/images/brand/introduce/facility/img15_2.jpg",
+						"/images/brand/introduce/facility/img15_3.jpg"
+					]
+				}
+			}
+			
+			
+			
+		]
+	}
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="IMC">
+	<insert id="insertImcAtBizMsg" parameterClass="Param">
+		INSERT INTO IMC_AT_BIZ_MSG (
+			ID, 
+			STATUS, 
+			PRIORITY, 
+			RESERVED_DATE, 
+			SENDER_KEY, 
+			PHONE_NUMBER, 
+			TEMPLATE_CODE, 
+			MESSAGE,
+			RESEND_MT_TYPE, 
+			RESEND_MT_FROM, 
+			RESEND_MT_TO, 
+			RESEND_MT_MESSAGE_REUSE
+		) VALUES (
+			SEQ_IMC_AT_BIZ_MSG.NEXTVAL, 
+			'1', 
+			'N', 
+			TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS'),
+			#sender_key#,
+			#phone_number#, 
+			#template_code#, 
+			#message#,
+			'LM', 
+			#resend_mt_from#,
+			#resend_mt_to#, 
+			'Y'
+		)
+	</insert>
+	
+</sqlMap>

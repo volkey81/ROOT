@@ -1,0 +1,268 @@
+@CHARSET "utf-8";	
+/********** 01_상하농원이란 **********/
+	/* 01_01_상아농원은 */
+.storyWrap {}
+.storyWrap .handTxt {padding:15px 20px 20px; background:#b0b900}
+.storyWrap .handTxt strong {display:block; padding-bottom:15px; text-align:center;}
+.storyWrap .handTxt strong img {margin-left:43px; width:auto;}
+.storyWrap .keywordArea {margin-bottom:-40px; padding:192px 0 30px; background:url(/mobile/images/brand/introduce/story/bg.jpg) no-repeat 0 0; background-size:cover;}
+.storyWrap .keywordArea .section {width:75%; max-width:285px; padding:24px 0 24px; margin:0 auto; margin-bottom:10px; background:rgba(255,255,255,.95); text-align:center; box-sizing:border-box;}
+.storyWrap .keywordArea .section strong {display:block; padding-bottom:7px; text-align:center;}
+.storyWrap .keywordArea .section strong img {height:29px; width:auto;}
+.storyWrap .keywordArea .section .copy {color:#000; letter-spacing:-1px; font-size:13px; line-height:17px; font-weight:bold;}
+.storyWrap .keywordArea .section .txt {padding-top:14px; font-size:11px; line-height:15px;} 
+
+	/* 01_02_걸어온길 */
+.historyWrap {position:relative; padding:25px 15px 35px; background:url(/images/brand/introduce/history/bg_mount.png) no-repeat 50% 100%; background-size:100% auto;} 
+.historyWrap .section {position:relative; padding-bottom:40px; z-index:10;}
+.historyWrap .section:before {content:""; display:block; position:absolute; left:50%; top:0; width:1px; height:100%; margin:10px 0 0; border-left:1px dashed #c3c3c3;}
+.historyWrap .section:after {content:""; display:block; clear:both;}
+.historyWrap .section strong {position:relative; display:block; width:50px; height:50px; margin:0 auto 10px; border-radius:50%; background:#f6f6f6; text-align:center; font-size:15px; line-height:50px; color:#332f21; font-weight:bold;}
+.historyWrap .section div {float:left; width:50%; padding-right:15px; box-sizing:border-box; text-align:right;}
+.historyWrap .section div img {width:100%;}
+.historyWrap .section ul {position:relative; float:right; width:50%; margin-top:0px; left:-3px;}
+.historyWrap .section ul li {position:relative; padding:0 0 0 35px; min-height:16px; margin-top:20px; background:url(/images/brand/introduce/history/blt2.png) no-repeat 0 5px; background-size:7px 7px;}
+.historyWrap .section ul li:first-child {margin-top:0;}
+.historyWrap .section ul li .month {display:block; position:absolute; left:15px; top:0; font-size:12px; color:#332f21; line-height:16px;}
+.historyWrap .section ul li b {display:block; color:#332f21; font-size:13px; letter-spacing:-1px; line-height:16px; font-weight:bold;}
+.historyWrap .section ul li p {padding-top:3px; font-size:11px; color:#332f21; line-height:15px;}
+.historyWrap #his2008:before {content:""; display:block; position:absolute; left:50%; top:0; width:0; height:0; margin:0; border-left:none;}
+.historyWrap #his2008 ul li .month {position:absolute; left:-4px; top:15px;}
+.historyWrap #his2008 .firstTxt {clear:both; padding-top:20px; text-align:center; color:#332f21; font-size:13px; line-height:16px;}
+.historyWrap .bg1 {position:absolute; left:60%; top:30%; width:149px; height:123px; background:url(/images/brand/introduce/history/bg_chicken.png) no-repeat 0 0; background-size:149px 123px;}
+.historyWrap .bg2 {position:absolute; left:67%; top:59%; width:136px; height:91px;  background:url(/images/brand/introduce/history/bg_rice.png) no-repeat 0 0; background-size:136px 90px; opacity:.5}
+
+	/* 01_03_이용안내 */
+.guideWrap {}
+.guideWrap h2 {padding:23px 0 0px 0; line-height:20px; font-size:13px; color:#535353; letter-spacing:-1px; text-align:center;}
+.guideWrap h2 span {display:block; color:#8e9125; font-size:16px;  line-height:20px;}
+.guideWrap .btnArea a {margin-bottom:10px;}
+.guideWrap .guideBtn {display:block; width:100%; height:40px; background:#b0b900; line-height:40px; font-size:15px; color:#fff; font-weight:bold; box-sizing:border-box; text-align:center;}
+.guideWrap .guideBtn:after {display:block; content:""; position:absolute; right:10px; top:13px; width:15px; height:10px; background:url(/images/brand/introduce/guide/blt.png) no-repeat 0 0; background-size:15px auto;}
+/* .guideWrap .section > strong.tit {display:block; color:#333; line-height:20px; font-size:16px; font-weight:bold; letter-spacing:-1px;}
+.guideWrap .section > ul {padding:10px 0 30px;}
+.guideWrap .section > ul li {position:relative; padding:2px 0 2px 12px; font-size:12px; color:#333; line-height:14px; letter-spacing:-1px;}
+.guideWrap .section > ul li:before {display:block; position:absolute; left:0; top:0; content:"-"; line-height:14px;} */
+.guideWrap .section1 {display:table; position:relative; width:100%; height:391px; padding:0 20px 20px; background:url(/mobile/images/brand/introduce/guide/bg1.jpg) no-repeat 50% 0; background-size:cover;  box-sizing:border-box;}
+.guideWrap .section1 .cont {display:table-cell; vertical-align:bottom; width:100%; }
+.guideWrap .section1 .box {position:relative; width:100%; padding:18px 15px 18px 15px; margin:0 auto; background:rgba(255,255,255,.95); box-sizing:border-box;}
+.guideWrap .section1 strong.tit {display:block; color:#333; line-height:20px; font-size:16px; font-weight:bold; letter-spacing:-1px;}
+.guideWrap .section1 ul {padding:10px 0 0;}
+.guideWrap .section1 ul li {position:relative; padding:2px 0 2px 12px; font-size:12px; color:#333; line-height:14px; letter-spacing:-1px;}
+.guideWrap .section1 ul li:before {display:block; position:absolute; left:0; top:0; content:"-"; line-height:14px;}
+.guideWrap .section1 .guideBtn {position:absolute; right:0; top:0; display:inline-block; width:135px; height:35px; padding:0 20px; background:#b0b900; line-height:35px; font-size:13px; color:#fff; font-weight:bold; box-sizing:border-box;}
+.guideWrap .section1 .guideBtn:after {display:block; content:""; position:absolute; right:10px; top:13px; width:15px; height:10px; background:url(/images/brand/introduce/guide/blt.png) no-repeat 0 0; background-size:15px auto;}
+.guideWrap .section2 {padding:15px 10px 25px; background:#f2a500;}
+.guideWrap .section2 .titArea {text-align:center;}
+.guideWrap .section2 .titArea img {width:93px;}
+.guideWrap .section2 .contArea {}
+.guideWrap .section2 .contArea .section {position:relative; margin-top:15px; border-top:2px solid #fad181;}
+.guideWrap .section2 .contArea strong {display:block; line-height:34px; color:#fff; font-size:15px; font-weight:bold; text-align:center;}
+.guideWrap .section2 .contArea span.num {position:absolute; right:0; top:15px; color:#fcedcc; font-size:10px; font-weight:bold;}
+.guideWrap .section2 .contArea table {table-layout:fixed; width:100%; }
+.guideWrap .section2 .contArea table thead th {height:35px; border:1px dotted #fad181; border-top:2px solid #fad181; color:#fff; font-size:12px; font-weight:bold;}
+.guideWrap .section2 .contArea table thead th img {vertical-align:-1px;}
+.guideWrap .section2 .contArea table tbody td {padding:8px 0; text-align:center; border:1px dotted #fad181; color:#fff; font-size:13px; line-height:18px; font-weight:bold;}
+.guideWrap .section2 .contArea table tbody td span {display:inline-block; color:#fff; font-size:12px; letter-spacing:-1px; line-height:18px; font-weight:normal;}
+.guideWrap .section2 .contArea table tbody td div.divi {padding-top:5px;}
+.guideWrap .section2 ul {padding:10px 0 0px;}
+.guideWrap .section2 ul li {position:relative; padding:0px 0 0px 10px; font-size:10px; color:#fff; line-height:14px;}
+.guideWrap .section2 ul li:before {display:block; position:absolute; left:0; top:0px; content:"-"; line-height:14px;}
+
+.guideWrap .section3 {padding:18px 10px 10px; margin-bottom:-40px; background:url(/mobile/images/brand/introduce/guide/bg2.jpg) no-repeat 50% 0; background-size:cover; box-sizing:border-box; text-align:center;}
+.guideWrap .section3 strong.tit {display:block; color:#332f21; line-height:20px; font-size:17px; font-weight:bold; letter-spacing:-1px;}
+.guideWrap .section3 > ul {padding:10px 0 25px 5px;}
+.guideWrap .section3 > ul li {position:relative; padding:2px 0 2px 12px; font-size:10px; color:#332f21; line-height:14px; letter-spacing:-1px; text-align:left;}
+.guideWrap .section3 > ul li:before {display:block; position:absolute; left:0; top:0; content:"-"; line-height:14px;}
+.guideWrap .section3 .boxArea {}
+.guideWrap .section3 .box {padding:12px 15px 12px; margin-bottom:10px; border:2px solid rgba(255,255,255,.35)}
+.guideWrap .section3 .box:first-child {margin-left:0;}
+.guideWrap .section3 .box strong {display:block; font-size:14px; line-height:18px; font-weight:bold; color:#fff; letter-spacing:-1px; text-align:left;}
+.guideWrap .section3 .box ul {padding:10px 5px 0;}
+.guideWrap .section3 .box ul li {position:relative; padding:5px 0 5px 15px; border-top:1px dotted #60625b; background:url(/images/brand/introduce/guide/blt2.png) no-repeat 6px 50%; font-size:12px; color:#fff; letter-spacing:-1px; line-height:16px; box-sizing:border-box; text-align:left;}
+.guideWrap .section3 .box ul li:first-child {border-top:none;}
+.guideWrap .section3 .box ul li span {display:block; position:absolute; right:0px; top:5px; line-height:16px; font-weight:bold;}
+
+	/* 01_04_시설소개 */
+.facilityWrap {margin-bottom:-40px;}
+.facilityWrap h2 {padding:23px 0 20px 0; line-height:20px; font-size:13px; color:#535353; letter-spacing:-1px; text-align:center;}
+.facilityWrap h2 span {display:block; color:#8e9125; font-size:16px;  line-height:20px;}
+.facilityWrap #mapArea {position:relative; *zoom:1;}
+.facilityWrap #mapArea:after {content:""; display:block; clear:both;}
+.facilityWrap #mapArea .mapListArea {padding:0 10px 10px 10px; background:#b0b900; box-sizing:border-box;}
+.facilityWrap #mapArea .mapListArea .tit {position:relative; text-align:center;}
+.facilityWrap #mapArea .mapListArea .tit strong {display:inline-block; padding:16px 0; color:#fff; font-size:16px; line-height:18px; font-weight:bold; box-sizing:border-box;}
+.facilityWrap #mapArea .mapListArea ul {padding:10px; background:#fff; *zoom:1;}
+.facilityWrap #mapArea .mapListArea ul:after {content:""; display:block; clear:both;}
+.facilityWrap #mapArea .mapListArea ul li {float:left; width:33.3%; line-height:26px;}
+.facilityWrap #mapArea .mapListArea ul li a {position:relative; display:inline-block; height:26px; padding-left:28px; line-height:26px; color:#666; font-size:13px; letter-spacing:-1px;}
+.facilityWrap #mapArea .mapListArea ul li a span {position:absolute; left:0; top:0; display:block; width:26px; height:26px; line-height:26px; color:#666; font-size:11px; text-align:center; box-sizing:border-box; letter-spacing:0;}
+.facilityWrap #mapArea .mapListArea ul li a:hover,
+.facilityWrap #mapArea .mapListArea ul li.on a {color:#332f21; font-weight:bold;}
+.facilityWrap #mapArea .mapListArea ul li a:hover span,
+.facilityWrap #mapArea .mapListArea ul li.on a span {border:2px solid #7d5933; border-radius:50%; line-height:22px;}
+.facilityWrap #mapArea .mapListArea ul li a:hover span:before,
+.facilityWrap #mapArea .mapListArea ul li.on a span:before {position:absolute; left:0; top:0; right:0; bottom:0; margin:auto; content:""; width:20px; height:20px; box-sizing:border-box; border:1px dashed #7d5933; border-radius:50%;} 
+.facilityWrap #mapArea .mapPointer {position:relative;}
+.facilityWrap #mapArea .mapPointer .mapImg {width:100%;}
+.facilityWrap #mapArea .mapPointer .section {position:absolute; width:28px; height:28px; font-size:11px; font-weight:bold; color:#fff; text-align:center; line-height:28px; border-radius:50%; background:#7d5933;
+	-webkit-transition:all 0.2s ease-in-out; -moz-transition:all 0.2s ease-in-out; -o-transition:all 0.2s ease-in-out; transition:all 0.1s ease-in-out;
+}
+.facilityWrap #mapArea .mapPointer .section:before {position:absolute; left:0; top:0; right:0; bottom:0; margin:auto; content:""; width:26px; height:26px; box-sizing:border-box; border:1px dashed #fff; border-radius:50%;
+	-webkit-transition:all 0.2s ease-in-out; -moz-transition:all 0.2s ease-in-out; -o-transition:all 0.2s ease-in-out; transition:all 0.1s ease-in-out;
+}
+.facilityWrap #mapArea .mapPointer .section span {display:none; position:absolute; left:0; top:30px; width:100%; text-align:center;  
+	-webkit-transition:all 0.2s ease-in-out; -moz-transition:all 0.2s ease-in-out; -o-transition:all 0.2s ease-in-out; transition:all 0.1s ease-in-out;
+}
+.facilityWrap #mapArea .mapPointer .section1 {left:48%; top:89%;}
+.facilityWrap #mapArea .mapPointer .section2 {left:56%; top:54%;}
+.facilityWrap #mapArea .mapPointer .section3 {left:21%; top:68%;}
+.facilityWrap #mapArea .mapPointer .section4 {left:55%; top:68%;}
+.facilityWrap #mapArea .mapPointer .section5 {left:67%; top:59%;}
+.facilityWrap #mapArea .mapPointer .section6 {left:80%; top:63%;}
+.facilityWrap #mapArea .mapPointer .section7 {left:19%; top:88%;}
+.facilityWrap #mapArea .mapPointer .section8 {left:14%; top:37%;}
+.facilityWrap #mapArea .mapPointer .section9 {left:56%; top:34%;}
+.facilityWrap #mapArea .mapPointer .section10 {left:47%; top:30%;}
+.facilityWrap #mapArea .mapPointer .section11 {left:27%; top:15%;}
+.facilityWrap #mapArea .mapPointer .section12 {left:85%; top:18%;}
+.facilityWrap #mapArea .mapPointer .section13 {left:70%; top:8%;}
+.facilityWrap #mapArea .mapPointer .section14 {left:34%; top:64%;}
+.facilityWrap #mapArea .mapPointer .section.active,
+.facilityWrap #mapArea .mapPointer .section.on {width:70px; height:70px; padding-top:13px; margin:-60px 0 0 -20px; font-weight:bold; color:#332f21; border:4px solid #7d5933; line-height:16px; background:#fff; box-sizing:border-box; font-size:10px; z-index:5;}
+.facilityWrap #mapArea .mapPointer .section.active:before,
+.facilityWrap #mapArea .mapPointer .section.on:before {width:58px; height:58px; border:2px dashed #7d5933;}
+.facilityWrap #mapArea .mapPointer .section.active:after,
+.facilityWrap #mapArea .mapPointer .section.on:after {display:block; content:""; position:absolute; left:50%; bottom:-14px; border-style:solid; margin-left:-8px; border-width:11px 8px 0px; border-color:#7d5933 transparent transparent  ; height:0; width:0;}
+.facilityWrap #mapArea .mapPointer .section.active span,
+.facilityWrap #mapArea .mapPointer .section.on span {display:block; font-weight:bold; color:#332f21; font-size:11px; line-height:13px;}
+.facilityWrap #mapArea .mapPointer .section.active.line2, 
+.facilityWrap #mapArea .mapPointer .section.on.line2 {padding-top:10px;}
+.facilityWrap #mapArea .mapPointer .section.line2 span {top:27px; line-height:13px;}
+.facilityWrap #mapCont {display:none; position:relative; width:100%; padding-bottom:40px; background:#7d5933;  *zoom:1;}
+.facilityWrap #mapCont:after {content:""; display:block; clear:both;}
+.facilityWrap #mapCont .txtArea {width:100%; padding:20px 0 20px; text-align:center; vertical-align:middle; box-sizing:border-box;}
+.facilityWrap #mapCont .txtArea strong {position:relative; display:block; font-size:16px; letter-spacing:-1px; font-weight:bold; color:#fff; line-height:20px; font-weight:normal;}
+.facilityWrap #mapCont .txtArea strong:after {display:block; position:absolute; left:50%; bottom:-10px; margin-left:-7px;  content:""; width:14px; height:1px; font-size:0; line-height:0; background:#cbbdad;}
+.facilityWrap #mapCont .txtArea p {padding:25px 30px 0; font-size:13px; color:#fff; line-height:17px; letter-spacing:-1px;}
+.facilityWrap #mapCont .txtArea .btn {display:inline-block; position:relative; height:30px; padding:0 30px 0 10px; margin-top:15px; border:1px solid #cbbdad; font-size:11px; color:#fff; font-weight:bold; line-height:28px; box-sizing:border-box;}
+.facilityWrap #mapCont .txtArea .btn:after {position:absolute; right:12px; top:11px; content:""; display:block; width:9px; height:10px; background:url(/images/brand/introduce/facility/blt.png) no-repeat 0 0; background-size:9px auto; }
+.facilityWrap #mapCont .imgArea {position:relative; padding:0 20px; width:100%; box-sizing:border-box; overflow:hidden;}
+.facilityWrap #mapCont .imgArea .btnControll {padding-top:8px; text-align:center;}
+.facilityWrap #mapCont .imgArea .btnControll a {margin:0 2px;}
+.facilityWrap #mapCont .imgArea .slideCont {position:relative; width:100%; height:100%;}
+.facilityWrap #mapCont .imgArea ul {position:relative; width:auto; *zoom:1;}
+.facilityWrap #mapCont .imgArea ul:after {content:""; display:block; clear:both;}
+.facilityWrap #mapCont .imgArea ul li {position:relative; float:none;}
+.facilityWrap #mapCont .imgArea ul li:first-child {margin-left:0;}
+.facilityWrap #mapCont .imgArea ul li img {width:100%;}
+
+
+	/* 01_05_주변관광 */
+.tourWrap {margin-bottom:-40px;}
+.tourWrap h2 {padding:23px 0 20px 0; line-height:20px; font-size:13px; color:#535353; letter-spacing:-1px; text-align:center;}
+.tourWrap h2 span {display:block; color:#8e9125; font-size:16px;  line-height:20px;}
+.tourWrap #mapArea {position:relative; *zoom:1;}
+.tourWrap #mapArea:after {content:""; display:block; clear:both;}
+.tourWrap #mapArea .mapListArea {padding:0 10px 10px 10px; background:#b0b900; box-sizing:border-box;}
+.tourWrap #mapArea .mapListArea .tit {position:relative; text-align:center;}
+.tourWrap #mapArea .mapListArea .tit strong {display:inline-block; padding:16px 0; color:#fff; font-size:16px; line-height:18px; font-weight:bold; box-sizing:border-box;}
+.tourWrap #mapArea .mapListArea ul {padding:10px; background:#fff; *zoom:1;}
+.tourWrap #mapArea .mapListArea ul:after {content:""; display:block; clear:both;}
+.tourWrap #mapArea .mapListArea ul li {float:left; width:50%; line-height:26px;}
+.tourWrap #mapArea .mapListArea ul li a {position:relative; display:inline-block; height:26px; padding-left:28px; line-height:26px; color:#666; font-size:13px; letter-spacing:-1px;}
+.tourWrap #mapArea .mapListArea ul li a span {position:absolute; left:0; top:0; display:block; width:26px; height:26px; line-height:26px; color:#666; font-size:11px; text-align:center; box-sizing:border-box; letter-spacing:0;}
+.tourWrap #mapArea .mapListArea ul li a:hover,
+.tourWrap #mapArea .mapListArea ul li.on a {color:#332f21; font-weight:bold;}
+.tourWrap #mapArea .mapListArea ul li a:hover span,
+.tourWrap #mapArea .mapListArea ul li.on a span {border:2px solid #7d5933; border-radius:50%; line-height:22px;}
+.tourWrap #mapArea .mapListArea ul li a:hover span:before,
+.tourWrap #mapArea .mapListArea ul li.on a span:before {position:absolute; left:0; top:0; right:0; bottom:0; margin:auto; content:""; width:20px; height:20px; box-sizing:border-box; border:1px dashed #7d5933; border-radius:50%;} 
+.tourWrap #mapArea .mapPointer {position:relative;}
+.tourWrap #mapArea .mapPointer .mapImg {width:100%;}
+.tourWrap #mapArea .mapPointer .section {position:absolute; width:28px; height:28px; font-size:11px; font-weight:bold; color:#fff; text-align:center; line-height:28px; border-radius:50%; background:#7d5933;
+	-webkit-transition:all 0.2s ease-in-out; -moz-transition:all 0.2s ease-in-out; -o-transition:all 0.2s ease-in-out; transition:all 0.1s ease-in-out;
+}
+.tourWrap #mapArea .mapPointer .section:before {position:absolute; left:0; top:0; right:0; bottom:0; margin:auto; content:""; width:26px; height:26px; box-sizing:border-box; border:1px dashed #fff; border-radius:50%;
+	-webkit-transition:all 0.2s ease-in-out; -moz-transition:all 0.2s ease-in-out; -o-transition:all 0.2s ease-in-out; transition:all 0.1s ease-in-out;
+}
+.tourWrap #mapArea .mapPointer .section span {display:none; position:absolute; left:0; top:30px; width:100%; text-align:center;  
+	-webkit-transition:all 0.2s ease-in-out; -moz-transition:all 0.2s ease-in-out; -o-transition:all 0.2s ease-in-out; transition:all 0.1s ease-in-out;
+}
+.tourWrap #mapArea .mapPointer .section1 {left:42%; top:71%;}
+.tourWrap #mapArea .mapPointer .section2 {left:8%; top:53%;}
+.tourWrap #mapArea .mapPointer .section3 {left:20%; top:68%;}
+.tourWrap #mapArea .mapPointer .section4 {left:22%; top:13%;}
+.tourWrap #mapArea .mapPointer .section5 {left:47%; top:21%;}
+.tourWrap #mapArea .mapPointer .section6 {left:77%; top:50%;}
+.tourWrap #mapArea .mapPointer .section7 {left:80%; top:64%;}
+.tourWrap #mapArea .mapPointer .section8 {left:88%; top:25%;}
+.tourWrap #mapArea .mapPointer .section.active,
+.tourWrap #mapArea .mapPointer .section.on {width:70px; height:70px; padding-top:13px; margin:-60px 0 0 -20px; font-weight:bold; color:#332f21; border:4px solid #7d5933; line-height:16px; background:#fff; box-sizing:border-box; font-size:10px; z-index:5;}
+.tourWrap #mapArea .mapPointer .section.active:before,
+.tourWrap #mapArea .mapPointer .section.on:before {width:58px; height:58px; border:2px dashed #7d5933;}
+.tourWrap #mapArea .mapPointer .section.active:after,
+.tourWrap #mapArea .mapPointer .section.on:after {display:block; content:""; position:absolute; left:50%; bottom:-14px; border-style:solid; margin-left:-8px; border-width:11px 8px 0px; border-color:#7d5933 transparent transparent  ; height:0; width:0;}
+.tourWrap #mapArea .mapPointer .section.active span,
+.tourWrap #mapArea .mapPointer .section.on span {display:block; font-weight:bold; color:#332f21; font-size:11px; line-height:13px;}
+.tourWrap #mapArea .mapPointer .section.active.line2, 
+.tourWrap #mapArea .mapPointer .section.on.line2 {padding-top:10px;}
+.tourWrap #mapArea .mapPointer .section.line2 span {top:27px; line-height:13px;}
+.tourWrap #mapCont {display:none; position:relative; width:100%; *zoom:1;}
+.tourWrap #mapCont:after {content:""; display:block; clear:both;}
+.tourWrap #mapCont h3 {width:280px; margin:30px auto 30px; border-top:1px solid #332f21; border-bottom:1px solid #332f21; line-height:30px; font-size:18px; color:#332f21; text-align:center; letter-spacing:-1px}
+.tourWrap #mapCont .section {position:relative; padding-bottom:20px; background:#7d5933;}
+.tourWrap #mapCont #section0{/* background:#b0b900; */ padding-top:0;}
+.tourWrap #mapCont .txtArea {width:100%; padding:20px 0 20px; text-align:center; vertical-align:middle; box-sizing:border-box;}
+.tourWrap #mapCont .txtArea strong {position:relative; display:block; font-size:16px; letter-spacing:-1px; font-weight:bold; color:#fff; line-height:20px; font-weight:normal;}
+.tourWrap #mapCont .txtArea strong:after {display:block; position:absolute; left:50%; bottom:-10px; margin-left:-7px;  content:""; width:14px; height:1px; font-size:0; line-height:0; background:#cbbdad;}
+.tourWrap #mapCont .txtArea p {padding:25px 30px 0; font-size:13px; color:#fff; line-height:17px; letter-spacing:-1px;}
+.tourWrap #mapCont .txtArea .btn {display:inline-block; position:relative; height:30px; padding:0 30px 0 10px; margin-top:15px; border:1px solid #cbbdad; font-size:11px; color:#fff; font-weight:bold; line-height:28px; box-sizing:border-box;}
+.tourWrap #mapCont .txtArea .btn:after {position:absolute; right:12px; top:11px; content:""; display:block; width:9px; height:10px; background:url(/images/brand/introduce/facility/blt.png) no-repeat 0 0; background-size:9px auto; }
+.tourWrap #mapCont .imgArea {position:relative; padding:0 20px; width:100%; box-sizing:border-box; overflow:hidden;}
+.tourWrap #mapCont .imgArea .btnControll {padding-top:8px; text-align:center;}
+.tourWrap #mapCont .imgArea .btnControll a {margin:0 2px;}
+.tourWrap #mapCont .imgArea .slideCont {position:relative; width:100%; height:100%;}
+.tourWrap #mapCont .imgArea ul {position:relative; width:auto; *zoom:1;}
+.tourWrap #mapCont .imgArea ul:after {content:""; display:block; clear:both;}
+.tourWrap #mapCont .imgArea ul li {position:relative; float:none;}
+.tourWrap #mapCont .imgArea ul li:first-child {margin-left:0;}
+.tourWrap #mapCont .imgArea ul li img {width:100%;}	
+	
+	
+	/* 01_06_오시는길 */
+.locationWrap {}
+
+.guideWrap h2 {padding:23px 0 0px 0; line-height:20px; font-size:13px; color:#535353; letter-spacing:-1px; text-align:center;}
+.guideWrap h2 span {display:block; color:#8e9125; font-size:16px;  line-height:20px;}
+
+.locationWrap .addrArea {padding-top:23px; padding-bottom:20px; text-align:center; box-sizing:border-box;}
+.locationWrap .addrArea address {display:inline-block; color:#8e9125; font-style:normal; font-size:19px; line-height:22px; letter-spacing:-1px;  vertical-align:middle;}
+.locationWrap .addrArea address.addr2 {font-size:15px; line-height:22px; color:#535353;}
+.locationWrap .addrArea div {padding-top:10px;}
+.locationWrap .addrArea b {display:inline-block; height:18px; width:30px; margin-right:10px; border:1px solid #535353; border-radius:2px; color:#535353; vertical-align:middle; line-height:16px; box-sizing:border-box; font-size:10px;font-weight:normal;}
+.locationWrap .mapArea {padding:0 20px;  box-sizing:border-box;}
+.locationWrap .mapArea #map {width:100%; height:200px;}
+	.trafficInfo {padding:0px 20px 0;}
+	.trafficInfo .section {position:relative; display:table; min-height:80px; width:100%; border-top:1px dotted #c0c0c0;}
+	.trafficInfo .section:first-child {border-top:none;}
+	.trafficInfo .section strong {position:absolute; left:0px; top:13px; display:block; width:55px; height:55px; padding-top:29px; border-radius:50%; background:#f7f7f7; color:#332f21; font-weight:normal; font-weight:bold; text-align:center; box-sizing:border-box; letter-spacing:-1px; font-size:11px;}
+	.trafficInfo .section1 strong {background:#f7f7f7 url(/images/brand/introduce/location/ico1.png) no-repeat 50% 13px; background-size:17px auto;}
+	.trafficInfo .section2 strong {background:#f7f7f7 url(/images/brand/introduce/location/ico2.png) no-repeat 50% 13px; background-size:17px auto;}
+	.trafficInfo .section3 strong {background:#f7f7f7 url(/images/brand/introduce/location/ico3.png) no-repeat 50% 13px; background-size:17px auto;}
+	.trafficInfo .section4 strong {background:#f7f7f7 url(/images/brand/introduce/location/ico3.png) no-repeat 50% 13px; background-size:17px auto;}
+	.trafficInfo .section div {display:table-cell; padding:5px 0 5px 65px; width:100%; vertical-align:middle; box-sizing:border-box;}
+	.trafficInfo .section4 div {padding-top:20px;}
+	.trafficInfo .section div p {padding:4px 0; font-size:12px; color:#535353; line-height:16px; letter-spacing:-1px}
+	.trafficInfo .section div p img {margin:0 2px; vertical-align:2px; height:7px; width:auto !important;}
+	.trafficInfo .section .schedule {padidng-top:10px; font-size:11px; color:#535353; line-height:16px;}
+	.trafficInfo .section .schedule li {padding-top:10px;}
+	.trafficInfo .section .schedule li b {display:block; font-weight:normal; font-size:10px; color:#8e9125; line-height:16px;}
+	.trafficInfo .section .schedule li b img {margin:0 2px; vertical-align:1px; height:7px; width:auto;}
+	.trafficInfo .section .infoTxt {padding:15px 0 0px;}
+	.trafficInfo .section .infoTxt li {position:relative; padding-left:10px; font-size:10px; color:#939393; line-height:16px;}
+	.trafficInfo .section .infoTxt li:before {display:block; position:absolute; left:0; top:0; content:"-"; line-height:16px; color:#c8cd00}
+	
+	
+	
+	

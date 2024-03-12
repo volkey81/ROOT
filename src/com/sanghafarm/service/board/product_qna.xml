@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ProductQna">
+	<select id="getList" resultClass="Param" parameterClass="Param"> 
+	     SELECT *
+		   FROM (
+				 SELECT 
+		<isEqual property="sort" compareValue="pid">
+				 		ROW_NUMBER() OVER(ORDER BY A.PID, A.SEQ DESC) RNUM,
+		</isEqual>
+		<isEqual property="sort" compareValue="userid">
+				 		ROW_NUMBER() OVER(ORDER BY A.USERID, A.SEQ DESC) RNUM,
+		</isEqual>
+		<isEmpty property="sort" >
+				 		ROW_NUMBER() OVER(ORDER BY A.PID, A.SEQ DESC) RNUM,
+		</isEmpty>
+					    A.SEQ, 
+					    A.USERID,
+					    A.PID,
+					    A.TITLE,
+					    A.QUESTION,
+					    A.ANSWER,
+					    A.CATE,
+					    A.SECRET_YN,
+					    TO_CHAR(A.REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE,
+					    TO_CHAR(A.ANSWER_DATE, 'YYYY.MM.DD') ANSWER_DATE,
+					    C.NAME2 CATE_NAME,
+					    P.PNM
+				   FROM T_PRODUCT_QNA A, T_CODE2 C, T_PRODUCT P
+				  WHERE A.CATE = C.CODE2
+				    AND C.CODE1 = '009'
+				    AND A.PID = P.PID
+		<isNotEmpty property="userid">
+				    AND A.USERID = #userid#
+		</isNotEmpty>
+		<isNotEmpty property="pid">
+				    AND A.PID = #pid#
+		</isNotEmpty>
+		<isEqual property="answer_yn" compareValue="Y">
+					AND A.ANSWER IS NOT NULL
+		</isEqual>
+		<isEqual property="answer_yn" compareValue="N">
+					AND A.ANSWER IS NULL
+		</isEqual>
+		<![CDATA[
+		    )
+		  WHERE rnum > #POS_STA#
+	        AND rnum <= #POS_END#
+		]]>
+  	</select>
+
+	<select id="getListCount" parameterClass="Param" resultClass="Integer">
+		 SELECT COUNT(*)
+		   FROM T_PRODUCT_QNA A, T_CODE2 C, T_PRODUCT P
+		  WHERE A.CATE = C.CODE2
+		    AND C.CODE1 = '007'
+		    AND A.PID = P.PID
+		<isNotEmpty property="userid">
+		    AND A.USERID = #userid#
+		</isNotEmpty>
+		<isNotEmpty property="pid">
+		    AND A.PID = #pid#
+		</isNotEmpty>
+		<isEqual property="answer_yn" compareValue="Y">
+			AND A.ANSWER IS NOT NULL
+		</isEqual>
+		<isEqual property="answer_yn" compareValue="N">
+			AND A.ANSWER IS NULL
+		</isEqual>
+	</select>
+
+	<insert id="insert" parameterClass="Param">
+		<selectKey resultClass="int" keyProperty="seq">
+			SELECT NVL(MAX(SEQ), 0) + 1 AS SEQ FROM T_PRODUCT_QNA
+		</selectKey>
+		INSERT INTO T_PRODUCT_QNA
+			(
+				SEQ,
+				USERID,
+				PID,
+				TITLE,
+				QUESTION,
+				CATE,
+				SECRET_YN,
+				REGIST_DATE
+			)
+		VALUES
+			(
+				#seq#, 
+				#userid#,
+				#pid#,
+				#title#,
+				#question#,
+				#cate#,
+				#secret_yn#,
+				SYSDATE
+			)
+	</insert>	
+</sqlMap>

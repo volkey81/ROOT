@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Review">
+	<select id="getList" resultClass="Param" parameterClass="Param"> 
+	     SELECT *
+		   FROM (
+				 SELECT 
+		<isEqual property="sort" compareValue="pid">
+				 		ROW_NUMBER() OVER(ORDER BY A.PID, A.SEQ DESC, A.BEST DESC) RNUM,
+		</isEqual>
+		<isEqual property="sort" compareValue="userid">
+				 		ROW_NUMBER() OVER(ORDER BY A.USERID, A.SEQ DESC, A.BEST DESC) RNUM,
+		</isEqual>
+		<isEmpty property="sort" >
+				 		ROW_NUMBER() OVER(ORDER BY A.SEQ DESC) RNUM,
+		</isEmpty>
+					    A.SEQ, 
+					    A.USERID,
+					    A.PID,
+					    A.TITLE,
+					    A.SCORE,
+					    A.CONTENTS,
+					    A.ANSWER,
+					    TO_CHAR(A.REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE,
+					    TO_CHAR(A.ANSWER_DATE, 'YYYY.MM.DD') ANSWER_DATE,
+					    P.PNM,
+					    P.THUMB,
+					    A.BEST,
+					    A.IMG1,
+					    A.IMG2,
+                        OI.SUB_PID
+				   FROM T_REVIEW A, T_ORDER_ITEM OI, T_PRODUCT P
+				  WHERE A.ORDERID = OI.ORDERID
+                    AND A.SHIP_SEQ = OI.SHIP_SEQ
+                    AND A.ITEM_SEQ = OI.ITEM_SEQ
+                    AND OI.SUB_PID = P.PID
+                    AND A.STATUS = 'S'
+		<isNotEmpty property="userid">
+				    AND A.USERID = #userid#
+		</isNotEmpty>
+		<isNotEmpty property="pid">
+				    AND (A.PID = #pid# OR OI.SUB_PID = #pid#)
+		</isNotEmpty>
+		<isNotEmpty property="pnm">
+				    AND P.PNM LIKE '%' || #pnm# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="best">
+				    AND A.BEST = #best#
+		</isNotEmpty>
+		<isNotEmpty property="keyword">
+				    AND (A.TITLE LIKE '%' || #keyword# || '%'
+				    	 OR A.CONTENTS LIKE '%' || #keyword# || '%')
+		</isNotEmpty>
+		<![CDATA[
+		    )
+		  WHERE rnum > #POS_STA#
+	        AND rnum <= #POS_END#
+		]]>
+  	</select>
+
+	<select id="getListCount" parameterClass="Param" resultClass="Integer">
+		 SELECT COUNT(*)
+		   FROM T_REVIEW A, T_ORDER_ITEM OI, T_PRODUCT P
+		  WHERE A.ORDERID = OI.ORDERID
+            AND A.SHIP_SEQ = OI.SHIP_SEQ
+            AND A.ITEM_SEQ = OI.ITEM_SEQ
+            AND OI.SUB_PID = P.PID
+            AND A.STATUS = 'S'
+		<isNotEmpty property="userid">
+		    AND A.USERID = #userid#
+		</isNotEmpty>
+		<isNotEmpty property="pid">
+		    AND (A.PID = #pid# OR OI.SUB_PID = #pid#)
+		</isNotEmpty>
+		<isNotEmpty property="pnm">
+		    AND P.PNM LIKE '%' || #pnm# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="orderId">
+		    AND A.ORDERID = #orderId#
+		</isNotEmpty>
+		<isNotEmpty property="shipSeq">
+		    AND A.SHIP_SEQ = #shipSeq#
+		</isNotEmpty>
+		<isNotEmpty property="best">
+		    AND A.BEST = #best#
+		</isNotEmpty>
+		<isNotEmpty property="keyword">
+		    AND (A.TITLE LIKE '%' || #keyword# || '%'
+		    	 OR A.CONTENTS LIKE '%' || #keyword# || '%')
+		</isNotEmpty>
+	</select>
+
+	<insert id="insert" parameterClass="Param">
+		<selectKey resultClass="int" keyProperty="seq">
+			SELECT NVL(MAX(SEQ), 0) + 1 AS SEQ FROM T_REVIEW
+		</selectKey>
+		INSERT INTO T_REVIEW
+			(
+				SEQ,
+				USERID,
+				ORDERID,
+				SHIP_SEQ,
+				ITEM_SEQ,
+				PID,
+				SCORE,
+				TITLE,
+				CONTENTS,
+				STATUS,
+				REGIST_DATE,
+				BEST,
+				IMG1,
+				IMG2
+			)
+		VALUES
+			(
+				#seq#,
+				#userid#,
+				#orderid#,
+				#ship_seq#,
+				#item_seq#,
+				#pid#,
+				#score#,
+				#title#,
+				#contents#,
+				'S',
+				SYSDATE,
+				'0',
+				#img1#,
+				#img2#
+			)
+	</insert>
+	
+	<select id="getInfo" parameterClass="Param" resultClass="Param">
+		SELECT *
+		  FROM T_REVIEW
+		 WHERE SEQ = #seq#
+		<isNotEmpty property="userid">
+		   AND USERID = #userid#
+		</isNotEmpty>
+	</select>	
+	
+	<update id="update" parameterClass="Param">
+		UPDATE T_REVIEW
+		   SET SCORE		= #score#,
+		   	   TITLE		= #title#,
+		   	   CONTENTS		= #contents#,
+		   	   IMG1 		= #img1#,
+		   	   IMG2 		= #img2#
+		 WHERE SEQ			= #seq#
+		   AND USERID		= #userid#
+	</update>
+
+	<update id="delete" parameterClass="Param">
+		UPDATE T_REVIEW
+		   SET STATUS		= 'H'
+		 WHERE SEQ			= #seq#
+		   AND USERID		= #userid#
+	</update>
+	
+	<select id="getProductScore" parameterClass="String" resultClass="Integer">
+		SELECT NVL(SUM(SCORE), 0)
+		  FROM T_REVIEW
+		 WHERE PID = #value#
+	</select>
+
+	<select id="isReviewWrited" parameterClass="Param" resultClass="Param">
+		SELECT OS.ORDERID, OS.SHIP_SEQ, F_ITEMS(OS.ORDERID, OS.SHIP_SEQ) ITEMS, OS.STATUS 
+		FROM T_ORDER_CART OC, T_ORDER_SHIP OS, T_ORDER_ITEM OI 
+		WHERE OC.ORDERID = OS.ORDERID
+		AND OC.ORDERID = OI.ORDERID
+		AND OC.PID = OI.PID
+		AND OS.SHIP_SEQ = OI.SHIP_SEQ
+		AND OC.PID = #pid#
+		AND OC.USERID = #userid#
+		<isNotEmpty property="orderid">
+		AND OS.ORDERID = #orderid#
+		</isNotEmpty>
+	</select>
+	
+	<select id="getReviewSummary" parameterClass="java.lang.String" resultClass="Param">
+		SELECT NVL(SUM(A.SCORE), 0) SCORE, COUNT(*) CNT
+		   FROM T_REVIEW A, T_PRODUCT P, T_ORDER_ITEM OI
+		  WHERE A.PID = P.PID
+		    AND A.STATUS = 'S'
+            AND A.ORDERID = OI.ORDERID
+            AND A.SHIP_SEQ = OI.SHIP_SEQ
+            AND A.ITEM_SEQ = OI.ITEM_SEQ
+		    AND (A.PID = #pid# OR OI.SUB_PID = #pid#)
+	</select>
+	
+	<select id="getWriteCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		SELECT /*+ ORDERED USE_NL(OM OS OI R) */ COUNT(*)
+		  FROM T_ORDER_MASTER OM,
+		  	   T_ORDER_SHIP OS,
+		  	   T_ORDER_ITEM OI,
+		  	   T_REVIEW R
+		 WHERE OM.ORDERID = OS.ORDERID
+		   AND OS.ORDERID = OI.ORDERID
+		   AND OS.SHIP_SEQ = OI.SHIP_SEQ
+		   AND OI.ORDERID = R.ORDERID(+)
+		   AND OI.SHIP_SEQ = R.SHIP_SEQ(+)
+		   AND OI.ITEM_SEQ = R.ITEM_SEQ(+)
+		   AND OM.USERID = #userid#
+		   AND OS.STATUS = '170'
+		   AND R.SEQ(+) IS NULL
+	</select>
+	
+	<select id="getImageCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		SELECT COUNT(IMG1) + COUNT(IMG2)
+		  FROM T_REVIEW
+		 WHERE PID = #pid#
+		   AND STATUS = 'S'
+	</select>
+	
+	<select id="getImageList" parameterClass="Param" resultClass="Param">
+		SELECT *
+		  FROM (
+				SELECT ROW_NUMBER() OVER(ORDER BY SEQ DESC) RNUM, 
+					   X.*
+				  FROM (
+						WITH TEMP AS (
+						    SELECT SEQ, IMG1, IMG2
+						    FROM T_REVIEW
+						    WHERE PID = #pid#
+						    AND STATUS = 'S'
+						    AND (IMG1 IS NOT NULL OR IMG2 IS NOT NULL)
+					   	)
+						SELECT * FROM TEMP
+						UNPIVOT(IMG FOR IMGNO IN (IMG1, IMG2))
+					   ) X
+		  	   )
+		<![CDATA[
+		  WHERE RNUM > #POS_STA#
+	        AND RNUM <= #POS_END#
+		]]>
+	</select>
+	
+</sqlMap>

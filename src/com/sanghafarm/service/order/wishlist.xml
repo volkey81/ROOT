@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="WishList">
+	<update id="merge" parameterClass="Param">
+		MERGE INTO T_WISHLIST
+		USING DUAL ON (USERID = #userid# AND PID = #pid#)
+		WHEN NOT MATCHED THEN
+			INSERT
+				(
+					USERID,
+					PID,
+					REGIST_DATE
+				)
+			VALUES
+				(
+					#userid#,
+					#pid#,
+					SYSDATE
+				)
+	</update>
+
+	<update id="mergeFromCart" parameterClass="Param">
+		MERGE INTO T_WISHLIST
+		USING DUAL ON (USERID = #userid# AND PID = (SELECT PID FROM T_CART WHERE CARTID = #cartid#))
+		WHEN NOT MATCHED THEN
+			INSERT
+				(
+					USERID,
+					PID,
+					REGIST_DATE
+				)
+			VALUES
+				(
+					#userid#,
+					(SELECT PID FROM T_CART WHERE CARTID = #cartid#),
+					SYSDATE
+				)
+	</update>
+
+	<delete id="delete" parameterClass="Param">
+		DELETE FROM T_WISHLIST
+		 WHERE USERID = #userid#
+		   AND PID = #pid#
+	</delete>
+
+	<select id="getList" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT *
+		  FROM
+		    (
+				 SELECT ROW_NUMBER() OVER(ORDER BY A.PID DESC) RNUM,
+					    A.PID,
+					    P.PNM,
+					    P.DEFAULT_PRICE,
+					    P.STATUS,
+					    P.SALE_STATUS,
+					    P.THUMB,
+					    P.ROUTINE_YN,
+					    NVL(PS.STOCK, 0) STOCK,
+					    F_PRICE(P.PID, #grade_code#) SALE_PRICE
+				   FROM T_WISHLIST A,
+				   		T_PRODUCT P,
+					    T_PRODUCT_STOCK PS
+				  WHERE A.PID = P.PID
+				    AND A.USERID = #userid#
+				    AND P.PID = PS.PID(+)
+		    		AND P.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		    		AND P.END_DATE  >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+					AND P.STATUS = 'Y'
+		    )
+		 WHERE RNUM > #POS_STA#
+		   AND RNUM <= #POS_END#
+		]]>
+	</select>
+
+	<select id="getListCount" parameterClass="Param" resultClass="java.lang.Integer">
+		<![CDATA[
+		 SELECT COUNT(*)
+		   FROM T_WISHLIST A,
+		   		T_PRODUCT P,
+			    T_PRODUCT_STOCK PS
+		  WHERE A.PID = P.PID
+		    AND A.USERID = #userid#
+		    AND P.PID = PS.PID(+)
+    		AND P.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+    		AND P.END_DATE  >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+			AND P.STATUS = 'Y'
+		]]>
+	</select>
+</sqlMap>

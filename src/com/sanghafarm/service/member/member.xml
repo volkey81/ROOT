@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Member">
+	<select id="getInfo" parameterClass="Param" resultClass="Param">
+		SELECT *
+		  FROM T_MEM
+		 WHERE USERID = #userid#
+	</select>
+	
+	<insert id="insertGradeCode" parameterClass="Param">
+		INSERT INTO T_MEM (
+			USERID,
+			GRADE_CODE
+		) VALUES (
+			#userid#,
+			#grade_code#
+		)
+	</insert>
+
+	<update id="updateGradeCode" parameterClass="Param">
+		UPDATE 	T_MEM
+		SET 	GRADE_CODE 	= #grade_code#
+		WHERE	USERID		= #userid#
+	</update>
+
+	<update id="mergeGradeCode" parameterClass="Param">
+		MERGE INTO T_MEM
+		USING DUAL ON (USERID = #userid#)
+		WHEN NOT MATCHED THEN
+			INSERT 
+				(
+					USERID,
+					GRADE_CODE
+				)
+			VALUES
+				(
+					#userid#,
+					#grade_code#
+				)
+		WHEN MATCHED THEN
+			UPDATE SET GRADE_CODE = #grade_code#
+	</update>
+
+	<update id="mergeOrderid" parameterClass="Param">
+		MERGE INTO T_MEM
+		USING DUAL ON (USERID = #userid#)
+		WHEN NOT MATCHED THEN
+			INSERT 
+				(
+					USERID,
+					ORDERID
+				)
+			VALUES
+				(
+					#userid#,
+					#orderid#
+				)
+		WHEN MATCHED THEN
+			UPDATE SET ORDERID = #orderid#
+	</update>
+
+	<update id="mergeAdultAuth" parameterClass="java.lang.String">
+		MERGE INTO T_MEM
+		USING DUAL ON (USERID = #userid#)
+		WHEN NOT MATCHED THEN
+			INSERT 
+				(
+					USERID,
+					ADULT_AUTH,
+					ADULT_AUTH_DATE
+				)
+			VALUES
+				(
+					#userid#,
+					'Y',
+					SYSDATE
+				)
+		WHEN MATCHED THEN
+			UPDATE 
+			  SET ADULT_AUTH 		= 'Y',
+				  ADULT_AUTH_DATE 	= SYSDATE   
+	</update>
+
+	<update id="mergeRecommender" parameterClass="Param">
+		MERGE INTO T_MEM
+		USING DUAL ON (USERID = #userid#)
+		WHEN NOT MATCHED THEN
+			INSERT 
+				(
+					USERID,
+					RECOMMENDER
+				)
+			VALUES
+				(
+					#userid#,
+					#recommender#
+				)
+		WHEN MATCHED THEN
+			UPDATE SET RECOMMENDER = #recommender#
+	</update>
+
+	<select id="getImInfo" parameterClass="java.lang.Integer" resultClass="Param">
+		SELECT A.*, NVL(B.GRADE_CODE, '001') GRADE_CODE, NVL(B.ADULT_AUTH, 'N') ADULT_AUTH, NAVER_EMPNO
+		  FROM T_IMMEM A, T_MEM B
+		 WHERE NVL(A.MMB_ID, A.UNFY_MMB_NO || '_' || A.SOC_KIND_CD) = B.USERID(+)
+		   AND A.UNFY_MMB_NO = #unfyMmbNo#
+	</select>
+
+	<!-- 2022.11.15 sns 회원 조회 가능하도록 변경 -->
+	<select id="getImInfoById" parameterClass="java.lang.String" resultClass="Param">
+		SELECT *
+		  FROM T_IMMEM
+		 WHERE NVL(MMB_ID, UNFY_MMB_NO || '_' || SOC_KIND_CD) = #userid#
+	</select>
+	
+	<update id="updatePayType" parameterClass="Param">
+		UPDATE 	T_MEM
+		SET 	PAY_TYPE 	= #pay_type#
+		WHERE	USERID		= #userid#
+	</update>
+
+	<select id="naverEmpnoCount" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		SELECT COUNT(*)
+		  FROM T_MEM
+		 WHERE NAVER_EMPNO = #naverEmpno#
+	</select>
+	
+	<update id="mergeNaverEmpno" parameterClass="Param">
+		MERGE INTO T_MEM
+		USING DUAL ON (USERID = #userid#)
+		WHEN NOT MATCHED THEN
+			INSERT (
+				USERID,
+				NAVER_EMPNO,
+				NAVER_AUTH_DATE,
+				NAVER_AUTH_UDATE
+			) VALUES (
+				#userid#,
+				#naver_empno#,
+				SYSDATE,
+				SYSDATE
+			)
+		WHEN MATCHED THEN
+			UPDATE
+			   SET NAVER_EMPNO		= #naver_empno#,
+			   	   NAVER_AUTH_DATE 	= DECODE(NAVER_AUTH_DATE, NULL, SYSDATE, NAVER_AUTH_DATE),
+			   	   NAVER_AUTH_UDATE = SYSDATE
+	</update>
+	
+	<select id="checkRecommenderEvent1" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT A.ORDERID, TO_CHAR(A.ORDER_DATE, 'YYYYMMDDHH24MISS') ORDER_DATE, B.RECOMMENDER, C.UNFY_MMB_NO
+		  FROM T_ORDER_MASTER A, T_MEM B, T_IMMEM C
+		 WHERE A.USERID = B.USERID
+		   AND B.RECOMMENDER = NVL(C.MMB_ID, C.UNFY_MMB_NO || '_' || C.SOC_KIND_CD)
+		   AND A.ORDERID <= #orderid#
+		   AND A.USERID = #userid#
+		   AND ROWNUM <= 2
+		]]>
+	</select>
+
+	<select id="checkRecommenderEvent2" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		<![CDATA[
+		SELECT COUNT(*)
+		  FROM T_ORDER_SHIP
+		 WHERE ORDERID = #orderid#
+		   AND STATUS = '170'
+		]]>
+	</select>
+</sqlMap>

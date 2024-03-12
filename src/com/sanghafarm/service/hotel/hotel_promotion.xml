@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="HotelPromotion">
+	<resultMap id="HotelPromotionInfo" class="Param"> 
+		<result property="seq" column="seq"></result>
+		<result property="cate" column="cate"></result>
+		<result property="title" column="title"></result>
+		<result property="summary" column="summary"></result>
+		<result property="start_date" column="start_date"></result>
+		<result property="end_date" column="end_date"></result>
+		<result property="pc_banner" column="pc_banner"></result>
+		<result property="mobile_banner" column="mobile_banner"></result>
+		<result property="pc_list_img" column="pc_list_img"></result>
+		<result property="mobile_list_img" column="mobile_list_img"></result>
+		<result property="content_type" column="content_type"></result>
+		<result property="pc_url" column="pc_url"></result>
+		<result property="mobile_url" column="mobile_url"></result>
+		<result property="pc_contents" column="pc_contents" jdbcType="CLOB" javaType="java.lang.String"></result>
+		<result property="mobile_contents" column="mobile_contents" jdbcType="CLOB" javaType="java.lang.String"></result>
+		<result property="hit" column="hit"></result>
+		<result property="status" column="status"></result>
+		<result property="cate_name" column="cate_name"></result>
+	</resultMap>
+
+	<select id="getList" resultClass="Param" parameterClass="Param"> 
+		<![CDATA[
+	     SELECT *
+		   FROM (
+				 SELECT ROW_NUMBER() OVER(ORDER BY A.SEQ DESC) RNUM,
+					    A.SEQ, 
+					    A.TITLE, 
+					    A.STATUS, DECODE(A.STATUS, 'S', '활성', 'H', '비활성', 'D', '삭제') STATUS_NAME,
+					    A.REGIST_USER, 
+					    TO_CHAR(A.REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE,
+					    A.CATE,
+					    A.START_DATE,
+					    A.END_DATE,
+					    A.HIT,
+					    A.PC_LIST_IMG,
+					    A.MOBILE_LIST_IMG,
+					    A.CONTENT_TYPE,
+					    A.PC_URL,
+					    A.MOBILE_URL,
+					    A.SUMMARY,
+					    A.PC_BANNER,
+					    A.MOBILE_BANNER,
+					    C.NAME2 CATE_NAME
+				   FROM T_HPROMOTION A, T_CODE2 C
+				  WHERE A.CATE = C.CODE2
+				    AND C.CODE1 = '034'
+				    AND A.STATUS = 'S'
+		]]>
+		<isNotEmpty property="seq">
+					AND A.SEQ = #seq#
+		</isNotEmpty>
+		<isNotEmpty property="status">
+					AND A.STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty property="cate">
+					AND A.CATE = #cate#
+		</isNotEmpty>
+		<isNotEmpty property="keyword">
+			<isEqual property="keytype" compareValue="01">
+		        	AND A.TITLE LIKE '%' || #keyword# || '%'
+			</isEqual>
+			<isEqual property="keytype" compareValue="02">
+		        	AND (A.PC_CONTENTS LIKE '%' || #keyword# || '%'
+		        		 OR A.MOBILE_CONTENTS LIKE '%' || #keyword# || '%')
+			</isEqual>
+   		</isNotEmpty>
+		<![CDATA[
+		    )
+		  WHERE rnum > #POS_STA#
+	        AND rnum <= #POS_END#
+		]]>
+  	</select>
+
+	<select id="getListCount" parameterClass="Param" resultClass="Integer">
+		<![CDATA[
+		 SELECT COUNT(*)
+		   FROM T_HPROMOTION A, T_CODE2 C
+		  WHERE A.CATE = C.CODE2
+		    AND C.CODE1 = '034'
+		    AND A.STATUS = 'S'
+		]]>
+		<isNotEmpty property="seq">
+			AND A.SEQ = #seq#
+		</isNotEmpty>
+		<isNotEmpty property="status">
+			AND A.STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty property="cate">
+			AND A.CATE = #cate#
+		</isNotEmpty>
+		<isNotEmpty property="keyword">
+			<isEqual property="keytype" compareValue="01">
+        	AND A.TITLE LIKE '%' || #keyword# || '%'
+			</isEqual>
+			<isEqual property="keytype" compareValue="02">
+        	AND (A.PC_CONTENTS LIKE '%' || #keyword# || '%'
+        		 OR A.MOBILE_CONTENTS LIKE '%' || #keyword# || '%')
+			</isEqual>
+   		</isNotEmpty>
+	</select>
+
+	<select id="getInfo" parameterClass="Param" resultMap="HotelPromotionInfo">
+		 SELECT A.*, C.NAME2 CATE_NAME
+		   FROM T_HPROMOTION A, T_CODE2 C
+		  WHERE A.CATE = C.CODE2
+		    AND C.CODE1 = '034'
+		    AND A.SEQ = #seq#
+	</select>
+	
+	<update id="updateHit" parameterClass="Param">
+		UPDATE T_HPROMOTION
+		   SET HIT		= HIT + 1
+		WHERE  SEQ    	= #seq#
+	</update>
+	
+</sqlMap>

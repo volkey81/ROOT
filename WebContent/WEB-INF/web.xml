@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>sanghafarm</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+
+    <error-page>
+    	<error-code>302</error-code>
+    	<location>/error/404.jsp</location>
+    </error-page>
+    <error-page>
+    	<error-code>400</error-code>
+    	<location>/error/404.jsp</location>
+    </error-page>
+    <error-page>
+    	<error-code>403</error-code>
+    	<location>/error/404.jsp</location>
+    </error-page>
+	<error-page>
+    	<error-code>404</error-code>
+    	<location>/error/404.jsp</location>
+    </error-page>
+
+	<error-page>
+    	<error-code>500</error-code>
+    	<location>/error/500.jsp</location>
+    </error-page>
+	<error-page>
+    	<error-code>501</error-code>
+    	<location>/error/500.jsp</location>
+    </error-page>
+    <error-page>
+    	<exception-type>java.lang.Throwable</exception-type>
+    	<location>/error/500.jsp</location>
+    </error-page>
+
+
+
+	<servlet> 
+	    <servlet-name>RXCreateUser</servlet-name>
+	    <servlet-class>com.sanghafarm.servlet.im.RXCreateUser</servlet-class>
+    </servlet>
+    <servlet-mapping>
+	    <servlet-name>RXCreateUser</servlet-name>
+	    <url-pattern>/RXCreateUser</url-pattern>
+    </servlet-mapping>
+
+ 	<servlet> 
+	    <servlet-name>RXISDeleteUserRegister</servlet-name>
+	    <servlet-class>com.sanghafarm.servlet.im.RXISDeleteUserRegister</servlet-class>
+    </servlet>
+    <servlet-mapping>
+	    <servlet-name>RXISDeleteUserRegister</servlet-name>
+	    <url-pattern>/RXISDeleteUserRegister</url-pattern>
+    </servlet-mapping>
+
+ 	<servlet> 
+	    <servlet-name>RXAgreeUser</servlet-name>
+	    <servlet-class>com.sanghafarm.servlet.im.RXAgreeUser</servlet-class>
+    </servlet>
+    <servlet-mapping>
+	    <servlet-name>RXAgreeUser</servlet-name>
+	    <url-pattern>/RXAgreeUser</url-pattern>
+    </servlet-mapping>
+
+ 	<servlet> 
+	    <servlet-name>RXISDisagreeAvailableSST</servlet-name>
+	    <servlet-class>com.sanghafarm.servlet.im.RXISDisagreeAvailableSST</servlet-class>
+    </servlet>
+    <servlet-mapping>
+	    <servlet-name>RXISDisagreeAvailableSST</servlet-name>
+	    <url-pattern>/RXISDisagreeAvailableSST</url-pattern>
+    </servlet-mapping>
+
+ 	<servlet> 
+	    <servlet-name>RXDisagreeUser</servlet-name>
+	    <servlet-class>com.sanghafarm.servlet.im.RXDisagreeUser</servlet-class>
+    </servlet>
+    <servlet-mapping>
+	    <servlet-name>RXDisagreeUser</servlet-name>
+	    <url-pattern>/RXDisagreeUser</url-pattern>
+    </servlet-mapping>
+
+ 	<servlet> 
+	    <servlet-name>RXUpdateUserInfo</servlet-name>
+	    <servlet-class>com.sanghafarm.servlet.im.RXUpdateUserInfo</servlet-class>
+    </servlet>
+    <servlet-mapping>
+	    <servlet-name>RXUpdateUserInfo</servlet-name>
+	    <url-pattern>/RXUpdateUserInfo</url-pattern>
+    </servlet-mapping>
+
+ 	<servlet> 
+	    <servlet-name>RXUpdateUserStatus</servlet-name>
+	    <servlet-class>com.sanghafarm.servlet.im.RXUpdateUserStatus</servlet-class>
+    </servlet>
+    <servlet-mapping>
+	    <servlet-name>RXUpdateUserStatus</servlet-name>
+	    <url-pattern>/RXUpdateUserStatus</url-pattern>
+    </servlet-mapping>
+
+ 	<servlet> 
+	    <servlet-name>RXGetUserInfo</servlet-name>
+	    <servlet-class>com.sanghafarm.servlet.im.RXGetUserInfo</servlet-class>
+    </servlet>
+    <servlet-mapping>
+	    <servlet-name>RXGetUserInfo</servlet-name>
+	    <url-pattern>/RXGetUserInfo</url-pattern>
+    </servlet-mapping>
+
+  <filter>
+    <filter-name>Encoding Filter</filter-name>
+    <filter-class>com.efusioni.stone.common.EncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>Encoding Filter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <filter>
+    <filter-name>Pre Filter</filter-name>
+    <filter-class>com.sanghafarm.common.PreFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>Pre Filter</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+
+</web-app>

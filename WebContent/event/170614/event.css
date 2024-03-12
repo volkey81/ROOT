@@ -1,0 +1,27 @@
+@CHARSET "utf-8";
+
+#quick {display:none;}
+#container {padding-bottom:0;}
+.eventWrap {min-width:1100px;}
+.eventWrap .head {text-align:center; background:url(images/bg1.jpg) no-repeat 50% 0;}
+.eventWrap .content {text-align:center; padding-bottom:50px; background:url(images/bg2.jpg) no-repeat 50% 100%;}
+.eventWrap .foot {text-align:center; background:url(images/bg3.jpg) repeat 2px 0;}
+.fieldArea {width:1000px; margin:0 auto; text-align:left;}
+.fieldArea fieldset {overflow:hidden; margin-top:14px;}
+.fieldArea fieldset textarea {float:left; width:732px; height:35px; padding:20px; border:2px solid #bcbcbc; font-size:18px; background:#f5f5f5;}
+.fieldArea fieldset textarea.placeholder {color:#949494;}
+.fieldArea fieldset img {float:right;}
+.fieldArea .text2 {margin-top:15px; font-size:15px; line-height:22px; color:#9a9a9a;}
+.eventWrap .list {width:930px; padding:20px 35px 0; margin:40px auto 0; background:#f5f5f5;}
+.eventWrap .list li {min-height:82px; padding:20px 40px 10px; border-bottom:1px solid #cecece; text-align:left;}
+.eventWrap .list li .info {position:relative; line-height:1em;}
+.eventWrap .list li .info strong {display:inline-block; min-width:160px; margin-right:10px; font-size:18px; color:#555;}
+.eventWrap .list li .info .date {font-size:16px; color:#8b8b8b;}
+.eventWrap .list li .info .btn {position:absolute; right:0; top:0;}
+.eventWrap .list li .info .btn a {font-size:16px; color:#6c6c6c;}
+.eventWrap .list li .info .btn a +a:before {content:"|"; dipslay:inline-block; margin:0 12px 0 8px; vertical-align:middle;}
+.eventWrap .list li .cont {overflow:hidden; margin-top:15px; font-size:18px; line-height:30px; color:#a7a7a7;}
+.eventWrap .list li textarea {float:left; width:684px; height:28px; padding:10px 20px; font-size:18px;}
+.eventWrap .list li img {float:right;}
+.eventWrap .list li.none {border-bottom:1px solid #cecece !important; text-align:center;}
+.eventWrap .paging {width:1000px; margin:0 auto; padding:30px 0; background:#f5f5f5;}

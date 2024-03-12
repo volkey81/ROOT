@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Notice">
+	<resultMap id="NoticeInfo" class="Param"> 
+		<result property="seq" column="seq"></result>
+		<result property="title" column="title"></result>
+		<result property="contents" column="contents" jdbcType="CLOB" javaType="java.lang.String"></result>
+		<result property="cate" column="cate"></result>
+		<result property="hit" column="hit"></result>
+		<result property="status" column="status"></result>
+		<result property="wdate" column="wdate"></result>						
+		<result property="banner_img" column="banner_img"></result>						
+		<result property="banner_img" column="banner_img"></result>						
+	</resultMap>
+    
+	<resultMap id="NoticeList" class="Param"> 
+		<result property="rnum" column="rnum"></result>
+		<result property="seq" column="seq"></result>
+		<result property="title" column="title"></result>
+		<result property="hit" column="hit"></result>
+		<result property="cate" column="cate"></result>
+		<result property="contents" column="contents" jdbcType="CLOB" javaType="java.lang.String"></result>
+		<result property="wdate" column="wdate"></result>						
+		<result property="banner_img" column="banner_img"></result>
+		<result property="regist_date" column="regist_date"></result>		
+		<result property="regist_user" column="regist_user"></result>						
+	</resultMap>
+    
+	<select id="getList" resultMap="NoticeList" parameterClass="Param"> 
+	     SELECT *
+		   FROM (
+				 SELECT ROW_NUMBER() OVER(ORDER BY A.WDATE DESC) RNUM,
+					    A.SEQ, A.TITLE, A.HIT,
+					    A.CATE,
+					    A.CONTENTS,
+					    A.WDATE,
+					    A.BANNER_IMG,
+					    C.NAME2 CATE_NAME,
+					    A.REGIST_DATE,
+					    A.REGIST_USER
+				   FROM T_NOTICE A, T_CODE2 C
+				  WHERE A.CATE = C.CODE2
+				    AND C.CODE1 = '005'
+				    AND A.STATUS = 'S'
+		<isNotEmpty property="cate">
+					AND A.CATE = #cate#
+		</isNotEmpty>
+		<isEmpty property="cate">
+					AND A.CATE IN('001','002')
+		</isEmpty>
+		<isNotEmpty property="status">
+					AND A.STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty property="keyword">
+		    <isEqual property="keytype" compareValue="01">
+		        	AND A.TITLE LIKE '%' || #keyword# || '%'
+		    </isEqual>
+		    <isEqual property="keytype" compareValue="">
+		        	AND (A.TITLE LIKE '%' || #keyword# || '%'
+		        		 OR A.CONTENTS LIKE '%' || #keyword# || '%')	
+		    </isEqual>
+   		</isNotEmpty>
+   		<isNotEmpty property="main_yn">
+		        	AND A.MAIN_YN = #main_yn#
+   		</isNotEmpty>
+		<![CDATA[
+		    )
+		  WHERE rnum > #POS_STA#
+	        AND rnum <= #POS_END#
+		]]>
+  	</select>
+
+	<select id="getListCount" parameterClass="Param" resultClass="Integer">
+		 SELECT COUNT(*)
+		   FROM T_NOTICE A, T_CODE2 C
+		  WHERE A.CATE = C.CODE2
+		    AND C.CODE1 = '005'
+		    AND A.STATUS = 'S'
+		<isNotEmpty property="cate">
+			AND A.CATE = #cate#
+		</isNotEmpty>
+		<isEmpty property="cate">
+					AND A.CATE IN('001','002')
+		</isEmpty>
+		<isNotEmpty property="status">
+			AND A.STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty property="keyword">
+		    <isEqual property="keytype" compareValue="01">
+        	AND A.TITLE LIKE '%' || #keyword# || '%'
+		    </isEqual>
+		    <isEqual property="keytype" compareValue="02">
+        	AND A.CONTENTS LIKE '%' || #keyword# || '%'
+		    </isEqual>
+   		</isNotEmpty>
+   		<isNotEmpty property="main_yn">
+        	AND A.MAIN_YN = #main_yn#
+   		</isNotEmpty>
+	</select>
+
+	<select id="getInfo" resultMap="NoticeInfo" parameterClass="Param">
+		 SELECT A.SEQ,
+			    A.TITLE,
+			    A.CONTENTS,
+			    A.CATE,
+			    A.HIT,
+			    A.STATUS,
+				A.WDATE,
+				A.BANNER_IMG
+		   FROM T_NOTICE A
+		  WHERE A.SEQ = #seq#
+	</select>
+	
+	<update id="updateHit" parameterClass="Param">
+		UPDATE T_NOTICE
+		SET    HIT	= HIT + 1
+		WHERE  SEQ  = #seq#
+	</update>
+
+	<select id="getPrevInfo" resultClass="Param" parameterClass="Param"> 
+		<![CDATA[
+	     SELECT *
+		   FROM (
+				 SELECT ROW_NUMBER() OVER(ORDER BY A.WDATE DESC) RNUM,
+					    A.SEQ, A.TITLE, A.HIT,
+					    A.CATE,
+					    A.REGIST_USER, 
+					    TO_CHAR(A.REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE,
+					    A.WDATE,
+					    C.NAME2 CATE_NAME
+				   FROM T_NOTICE A, T_CODE2 C
+				  WHERE A.CATE = C.CODE2
+				    AND C.CODE1 = '005'
+				    AND A.STATUS = 'S'
+				    AND A.WDATE < (SELECT WDATE FROM T_NOTICE WHERE SEQ = #seq#)  
+		]]>
+		<isNotEmpty property="cate">
+					AND A.CATE = #cate#
+		</isNotEmpty>
+		<isNotEmpty property="status">
+					AND A.STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty property="keyword">
+		    <isEqual property="keytype" compareValue="01">
+		        	AND A.TITLE LIKE '%' || #keyword# || '%'
+		    </isEqual>
+		    <isEqual property="keytype" compareValue="02">
+		        	AND A.CONTENTS LIKE '%' || #keyword# || '%'
+		    </isEqual>
+   		</isNotEmpty>
+		<![CDATA[
+		    )
+		  WHERE rnum = 1
+		]]>
+  	</select>
+
+	<select id="getNextInfo" resultClass="Param" parameterClass="Param"> 
+		<![CDATA[
+	     SELECT *
+		   FROM (
+				 SELECT ROW_NUMBER() OVER(ORDER BY A.WDATE) RNUM,
+					    A.SEQ, A.TITLE, A.HIT,
+					    A.CATE,
+					    A.REGIST_USER, 
+					    TO_CHAR(A.REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE,
+					    A.WDATE,
+					    C.NAME2 CATE_NAME
+				   FROM T_NOTICE A, T_CODE2 C
+				  WHERE A.CATE = C.CODE2
+				    AND C.CODE1 = '005'
+				    AND A.STATUS = 'S'
+				    AND A.WDATE > (SELECT WDATE FROM T_NOTICE WHERE SEQ = #seq#)  
+		]]>
+		<isNotEmpty property="cate">
+					AND A.CATE = #cate#
+		</isNotEmpty>
+		<isNotEmpty property="status">
+					AND A.STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty property="keyword">
+		    <isEqual property="keytype" compareValue="01">
+		        	AND A.TITLE LIKE '%' || #keyword# || '%'
+		    </isEqual>
+		    <isEqual property="keytype" compareValue="02">
+		        	AND A.CONTENTS LIKE '%' || #keyword# || '%'
+		    </isEqual>
+   		</isNotEmpty>
+		<![CDATA[
+		    )
+		  WHERE rnum = 1
+		]]>
+  	</select>
+</sqlMap>

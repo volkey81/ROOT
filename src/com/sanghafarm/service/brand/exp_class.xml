@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ExpClass">
+	<resultMap id="ExpClassInfo" class="Param"> 
+		<result property="seq" column="seq" />
+		<result property="title" column="title" />
+		<result property="thumb" column="thumb" />
+		<result property="img1" column="img1" />
+		<result property="img2" column="img2" />
+		<result property="img3" column="img3" />
+		<result property="img4" column="img4" />
+		<result property="img5" column="img5" />
+		<result property="req_time" column="req_time" />
+		<result property="wrap_time" column="wrap_time" />
+		<result property="price" column="price" />
+		<result property="difficulty" column="difficulty" />
+		<result property="contents" column="contents" jdbcType="CLOB" javaType="java.lang.String" />
+		<result property="status" column="status" />
+	</resultMap>
+    
+	<select id="getList" resultClass="Param" parameterClass="Param"> 
+		<![CDATA[
+	     SELECT *
+		   FROM (
+				 SELECT ROW_NUMBER() OVER(ORDER BY A.SEQ DESC) RNUM,
+					    A.SEQ, 
+					    A.TITLE,
+					    A.REQ_TIME,
+					    A.WRAP_TIME,
+					    A.PRICE,
+					    A.THUMB,
+					    A.STATUS, DECODE(A.STATUS, 'S', '활성', 'H', '비활성', 'D', '삭제') STATUS_NAME,
+					    A.REGIST_USER, TO_CHAR(A.REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE
+				   FROM T_EXP_CLASS A
+				  WHERE A.STATUS <> 'D'
+		]]>
+		<isNotEmpty property="status">
+					AND A.STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty property="keyword">
+		    <isEqual property="keytype" compareValue="01">
+		        	AND A.TITLE LIKE '%' || #keyword# || '%'
+		    </isEqual>
+		    <isEqual property="keytype" compareValue="02">
+		        	AND A.CONTENTS LIKE '%' || #keyword# || '%'
+		    </isEqual>
+   		</isNotEmpty>
+		<![CDATA[
+		    )
+		  WHERE rnum > #POS_STA#
+	        AND rnum <= #POS_END#
+		]]>
+  	</select>
+
+	<select id="getListCount" parameterClass="Param" resultClass="Integer">
+		<![CDATA[
+		 SELECT COUNT(*)
+		   FROM T_EXP_CLASS A
+		  WHERE A.STATUS <> 'D'
+		]]>
+		<isNotEmpty property="status">
+			AND A.STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty property="keyword">
+		    <isEqual property="keytype" compareValue="01">
+        	AND A.TITLE LIKE '%' || #keyword# || '%'
+		    </isEqual>
+		    <isEqual property="keytype" compareValue="02">
+        	AND A.CONTENTS LIKE '%' || #keyword# || '%'
+		    </isEqual>
+   		</isNotEmpty>
+	</select>
+
+	<select id="getInfo" resultMap="ExpClassInfo" parameterClass="java.lang.Integer">
+		 SELECT A.SEQ,
+			    A.TITLE,
+			    A.THUMB,
+			    A.IMG1,
+			    A.IMG2,
+			    A.IMG3,
+			    A.IMG4,
+			    A.IMG5,
+			    A.REQ_TIME,
+			    A.WRAP_TIME,
+			    A.PRICE,
+			    A.DIFFICULTY,
+			    A.CONTENTS,
+			    A.STATUS
+		   FROM T_EXP_CLASS A
+		  WHERE A.SEQ	= #seq#
+	</select>
+</sqlMap>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="HotelCounsel">
+	<select id="getList" resultClass="Param" parameterClass="Param"> 
+	     SELECT *
+		   FROM (
+				 SELECT ROW_NUMBER() OVER(ORDER BY A.USERID, A.REGIST_DATE DESC) RNUM,
+					    A.SEQ, 
+					    A.TITLE,
+					    A.QUESTION,
+					    A.ANSWER,
+					    A.CATE,
+					    A.GUBUN,
+					    A.DATE1,
+					    A.DATE2,
+					    A.TIME_FROM1,
+					    A.TIME_TO1,
+					    A.TIME_FROM2,
+					    A.TIME_TO2,
+					    A.PERSON,
+					    A.COMPANY,
+					    A.ROOM_YN,
+					    A.ATTACH,
+					    TO_CHAR(A.REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE,
+					    TO_CHAR(A.COUNSEL_DATE, 'YYYY.MM.DD') COUNSEL_DATE,
+					    C.NAME2 CATE_NAME
+				   FROM T_HCOUNSEL A, T_CODE2 C
+				  WHERE A.CATE = C.CODE2
+				    AND C.CODE1 = '036'
+				    AND A.USERID = #userid#
+		<isEqual property="answer_yn" compareValue="Y">
+					AND A.ANSWER IS NOT NULL
+		</isEqual>
+		<isEqual property="answer_yn" compareValue="N">
+					AND A.ANSWER IS NULL
+		</isEqual>
+		    )
+		<![CDATA[
+		  WHERE rnum > #POS_STA#
+	        AND rnum <= #POS_END#
+		]]>
+  	</select>
+
+	<select id="getListCount" parameterClass="Param" resultClass="Integer">
+		 SELECT COUNT(*)
+		   FROM T_HCOUNSEL A, T_CODE2 C
+		  WHERE A.CATE = C.CODE2
+		    AND C.CODE1 = '036'
+		    AND A.USERID = #userid#
+		<isEqual property="answer_yn" compareValue="Y">
+			AND A.ANSWER IS NOT NULL
+		</isEqual>
+		<isEqual property="answer_yn" compareValue="N">
+			AND A.ANSWER IS NULL
+		</isEqual>
+	</select>
+
+	<insert id="insert" parameterClass="Param">
+		<selectKey resultClass="int" keyProperty="seq">
+			SELECT NVL(MAX(SEQ), 0) + 1 AS SEQ FROM T_HCOUNSEL
+		</selectKey>
+		INSERT INTO T_HCOUNSEL
+			(
+				SEQ,
+				CATE,
+				USERID,
+				NAME,
+				MOBILE1,
+				MOBILE2,
+				MOBILE3,
+				GENDER,
+				TITLE,
+				QUESTION,
+				PASSWD,
+				GUBUN,
+				DATE1,
+				DATE2,
+				TIME_FROM1,
+				TIME_TO1,
+				TIME_FROM2,
+				TIME_TO2,
+				PERSON,
+				COMPANY,
+				ROOM_YN,
+				ATTACH,
+				REGIST_DATE
+			)
+		VALUES
+			(
+				#seq#, 
+				#cate#,
+				#userid#,
+				#name#,
+				#mobile1#,
+				#mobile2#,
+				#mobile3#,
+				#gender#,
+				#title#,
+				#question#,
+				#passwd#,
+				#gubun#,
+				#date1#,
+				#date2#,
+				#time_from1#,
+				#time_to1#,
+				#time_from2#,
+				#time_to2#,
+				#person#,
+				#company#,
+				#room_yn#,
+				#attach#,
+				SYSDATE
+			)
+	</insert>	
+	
+	<select id="getInfo" parameterClass="java.lang.String" resultClass="Param">
+		 SELECT ROW_NUMBER() OVER(ORDER BY A.USERID, A.REGIST_DATE DESC) RNUM,
+			    A.SEQ, 
+			    A.TITLE,
+			    A.QUESTION,
+			    A.ANSWER,
+			    A.CATE,
+			    A.GUBUN,
+			    A.DATE1,
+			    A.DATE2,
+			    A.TIME_FROM1,
+			    A.TIME_TO1,
+			    A.TIME_FROM2,
+			    A.TIME_TO2,
+			    A.PERSON,
+			    A.COMPANY,
+			    A.ROOM_YN,
+			    A.ATTACH,
+			    A.PASSWD,
+			    TO_CHAR(A.REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE,
+			    TO_CHAR(A.COUNSEL_DATE, 'YYYY.MM.DD') COUNSEL_DATE,
+			    C.NAME2 CATE_NAME
+		   FROM T_HCOUNSEL A, T_CODE2 C
+		  WHERE A.CATE = C.CODE2
+		    AND C.CODE1 = '036'
+			AND A.SEQ = #seq#	
+	</select>
+</sqlMap>

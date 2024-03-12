@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Popup">
+	<resultMap id="PopupInfo" class="Param"> 
+		<result property="seq" column="seq"></result>
+		<result property="title" column="title"></result>
+		<result property="sdate" column="sdate"></result>
+		<result property="edate" column="edate"></result>
+		<result property="pop_type" column="pop_type"></result>
+		<result property="device" column="device"></result>
+		<result property="top" column="top"></result>
+		<result property="left" column="left"></result>
+		<result property="width" column="width"></result>
+		<result property="height" column="height"></result>
+		<result property="status" column="status"></result>
+		<result property="mfull_yn" column="mfull_yn"></result>
+		<result property="contents" column="contents" jdbcType="CLOB" javaType="java.lang.String"></result>
+	</resultMap>
+    
+	<select id="getList" resultMap="PopupInfo" parameterClass="Param"> 
+		<![CDATA[
+	     SELECT *
+		   FROM T_POPUP A
+		  WHERE A.STATUS = 'S'
+		    AND SDATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI')
+		    AND EDATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD')
+		    AND DEVICE IN ('A', #device#)
+		    AND POSITION IN ('A', #position#)
+		]]>
+  	</select>
+
+	<select id="getInfo" resultMap="PopupInfo" parameterClass="Param">
+		 SELECT A.*
+		   FROM T_POPUP A
+		  WHERE A.SEQ = #seq#
+	</select>
+	
+</sqlMap>

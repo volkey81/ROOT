@@ -1,0 +1,17 @@
+
+개발 서버 정보
+ip : 1.235.120.17
+username/password : youngtoys/youngtoys
+webroot : /home/youngtoys/www
+tomcat root : /usr/local/apache-tomcat-8.5.29
+	root 암호 : efusioni!@#
+
+
+
+*리얼 FTP 접속 정보*
+
+호스트: ftp://waws-prod-ps1-001.ftp.azurewebsites.windows.net/site/wwwroot
+사용자명: youngtoys\$youngtoys
+비밀번호: mqRFHNfST4eeowwY309jh4AJuNnbe9oKEkbXtpN8A3rTqqMT57tybtE9lyGZ
+
+리얼 홈 루트 : /site/wwwroot/bin/apache-tomcat-8.5.24/webapps/www/ROOT

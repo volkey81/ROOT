@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="TicketOrder">
+	
+	<insert id="insertTicketOrder" parameterClass="Param">
+		INSERT INTO T_TICKET_ORDER (
+			ORDERID,
+			USERID,
+			TICKET_DIV,
+			EXP_PID,
+			RESERVE_DATE,
+			NAME,
+			MOBILE1,
+			MOBILE2,
+			MOBILE3,
+			EMAIL,
+			ORDER_DATE,
+			STATUS,
+			TOT_AMT,
+			COUPON_AMT,
+			MEM_COUPONID,
+			POINT_AMT,
+			PAY_AMT,
+			PAY_TYPE,
+			DEVICE_TYPE,
+			GIFTCARD_AMT,
+			GIFTCARD_ID,
+			MORDERID
+		) VALUES (
+			#orderid#,
+			#userid#,
+			#ticket_div#,
+			#exp_pid#,
+			TO_DATE(#reserve_date#, 'YYYY.MM.DD'),
+			#name#,
+			#mobile1#,
+			#mobile2#,
+			#mobile3#,
+			#email#,
+			SYSDATE,
+			#status#,
+			#tot_amt#,
+			#coupon_amt#,
+			#mem_couponid#,
+			#point_amt#,
+			#pay_amt#,
+			#pay_type#,
+			#device_type#,
+			#giftcard_amt#,
+			#giftcard_id#,
+			#morderid#
+		)
+	</insert>	
+	
+	<insert id="insertTicketOrderItem" parameterClass="Param">
+		INSERT INTO T_TICKET_ORDER_ITEM (
+			ORDERID,
+			TICKET_TYPE,
+			QTY,
+			TICKET_NM,
+			UNIT_PRICE
+		) VALUES (
+			#orderid#,
+			#ticket_type#,
+			#qty#,
+			#ticket_nm#,
+			#unit_price#
+		)
+	</insert>
+	
+	<select id="getOrderList" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT	*
+		FROM 	(
+					SELECT 	ROW_NUMBER() OVER(ORDER BY A.ORDERID DESC) RNUM,
+							A.ORDERID,
+							A.USERID,
+							A.TICKET_DIV,
+							A.EXP_PID,
+							A.NAME,
+							A.MOBILE1,
+							A.MOBILE2,
+							A.MOBILE3,
+							A.EMAIL,
+							A.TOT_AMT,
+							A.COUPON_AMT,
+							A.POINT_AMT,
+							A.GIFTCARD_AMT,
+							A.GIFTCARD_ID,
+							A.PAY_AMT,
+							A.PAY_TYPE,
+							A.MEM_COUPONID,
+							TO_CHAR(A.RESERVE_DATE, 'YYYY.MM.DD (DY)', 'NLS_DATE_LANGUAGE=korean') RESERVE_DATE,
+							A.STATUS,
+							TO_CHAR(A.ORDER_DATE, 'YYYY.MM.DD HH24:MI:SS') ORDER_DATE,
+							DECODE(A.TICKET_DIV, '01', '입장권', (SELECT NAME2 FROM T_CODE2 WHERE CODE1 = '015' AND CODE2 = P.EXP_TYPE)) TICKET_NAME,
+							A.MORDERID,
+							P.TIME,
+							P.EXP_TYPE,
+							C.FE_NAME STATUS_NAME,
+							CASE WHEN A.STATUS = '110' AND TRUNC(A.RESERVE_DATE) - SYSDATE > 2 THEN 'Y'
+							ELSE 'N' END IS_CANCELABLE,
+							F_TICKET_ITEM_LIST(A.ORDERID) ITEMS,
+							(SELECT	TO_CHAR(REGIST_DATE, 'YYYY.MM.DD HH24:MI:SS')
+							 FROM	T_ORDER_STATUS_LOG
+							 WHERE	ORDERID = A.ORDERID
+							 AND	SHIP_SEQ = '1'
+							 AND	STATUS = '290'
+							 AND	ROWNUM = 1) CANCEL_DATE
+					FROM	T_TICKET_ORDER A, 
+							T_EXP_PRODUCT P,
+							T_TORDER_STATUS_CODE C
+					WHERE	A.EXP_PID = P.EXP_PID(+)
+					AND		A.STATUS = C.STATUS
+					AND		A.USERID = #userid#
+		]]>
+		<isNotEmpty property="status_type">
+				   	AND 	A.STATUS LIKE #status_type# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="orderid">
+					AND		A.ORDERID = #orderid#
+		</isNotEmpty>
+		<isNotEmpty property="morderid">
+					AND		A.MORDERID = #morderid#
+		</isNotEmpty>
+				)
+		<![CDATA[
+		WHERE	RNUM > #POS_STA#
+        AND 	RNUM <= #POS_END#
+		]]>
+	</select>
+	
+	<select id="getOrderListCount" parameterClass="Param" resultClass="java.lang.Integer">
+		SELECT 	COUNT(*)
+		FROM	T_TICKET_ORDER A, 
+				T_EXP_PRODUCT P,
+				T_TORDER_STATUS_CODE C
+		WHERE	A.EXP_PID = P.EXP_PID(+)
+		AND		A.STATUS = C.STATUS
+		AND		A.USERID = #userid#
+		<isNotEmpty property="status_type">
+		AND 	A.STATUS LIKE #status_type# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="orderid">
+		AND		A.ORDERID = #orderid#
+		</isNotEmpty>
+	</select>
+	
+	<select id="getOrderMasterInfo" parameterClass="java.lang.String" resultClass="Param">
+		SELECT 	ROW_NUMBER() OVER(ORDER BY A.ORDERID DESC) RNUM,
+				A.ORDERID,
+				A.TICKET_DIV,
+				A.EXP_PID,
+				A.USERID,
+				A.NAME,
+				A.MOBILE1,
+				A.MOBILE2,
+				A.MOBILE3,
+				A.EMAIL,
+				A.TOT_AMT,
+				A.COUPON_AMT,
+				A.POINT_AMT,
+				A.PAY_AMT,
+				A.PAY_TYPE,
+				A.MEM_COUPONID,
+				A.STATUS,
+				A.USE_YN,
+				TO_CHAR(A.RESERVE_DATE, 'YYYY.MM.DD (DY)', 'NLS_DATE_LANGUAGE=korean') RESERVE_DATE,
+				TO_CHAR(A.ORDER_DATE, 'YYYY.MM.DD HH24:MI:SS') ORDER_DATE,
+				DECODE(A.TICKET_DIV, '01', '입장권', (SELECT NAME2 FROM T_CODE2 WHERE CODE1 = '015' AND CODE2 = P.EXP_TYPE)) TICKET_NAME,
+				C.FE_NAME STATUS_NAME,
+				C2.NAME2 PAY_TYPE_NAME,
+				(SELECT NAME2 FROM T_CODE2 WHERE CODE1 = '014' AND CODE2 = P.PLACE) PLACE_NAME,
+				P.TIME,
+				M.UNFY_MMB_NO
+		FROM	T_TICKET_ORDER A, 
+				T_EXP_PRODUCT P,
+				T_TORDER_STATUS_CODE C,
+				T_CODE2 C2,
+				T_IMMEM M
+		WHERE	A.EXP_PID = P.EXP_PID(+)
+		AND		A.STATUS = C.STATUS
+		AND 	A.PAY_TYPE = C2.CODE2(+)
+		AND		C2.CODE1(+) = '007'
+		AND		A.USERID = M.MMB_ID(+)
+		AND		A.ORDERID = #orderid#
+	</select>
+	
+	<select id="getOrderItemList" parameterClass="java.lang.String" resultClass="param">
+		SELECT 	*
+		FROM	T_TICKET_ORDER_ITEM
+		WHERE	ORDERID = #orderid#
+	</select>
+	
+	<update id="updateStatus" parameterClass="Param">
+		UPDATE	T_TICKET_ORDER
+		SET		STATUS = #status#
+		WHERE	ORDERID = #orderid#
+	</update>
+	
+	<update id="updateReserveNum" parameterClass="Param">
+		UPDATE	T_EXP_PRODUCT
+		SET		RESERVED_NUM = RESERVED_NUM + #reserved_num#
+		WHERE	EXP_PID = #exp_pid#
+	</update>
+	
+	<select id="getReservedNumByOrderid" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		SELECT 	SUM(B.QTY * C.OCCU_NUM) RESERVED_NUM
+		FROM 	T_TICKET_ORDER A, 
+				T_TICKET_ORDER_ITEM B, 
+				T_EXP_PRODUCT_PRICE C
+		WHERE 	A.ORDERID = B.ORDERID
+		AND 	A.EXP_PID = C.EXP_PID
+		AND 	B.TICKET_TYPE = C.TICKET_TYPE
+		AND 	A.ORDERID = #orderid#
+	</select>
+
+	<select id="getOrderItemListByModerid" parameterClass="java.lang.String" resultClass="Param">
+		SELECT 	ROW_NUMBER() OVER(ORDER BY A.ORDERID DESC) RNUM,
+				A.ORDERID,
+				A.TICKET_DIV,
+				A.EXP_PID,
+				A.USERID,
+				A.NAME,
+				A.MOBILE1,
+				A.MOBILE2,
+				A.MOBILE3,
+				A.EMAIL,
+				A.TOT_AMT,
+				A.COUPON_AMT,
+				A.POINT_AMT,
+				A.GIFTCARD_AMT,
+				A.PAY_AMT,
+				A.PAY_TYPE,
+				A.MEM_COUPONID,
+				A.STATUS,
+				A.USE_YN,
+				TO_CHAR(A.RESERVE_DATE, 'YYYY.MM.DD (DY)', 'NLS_DATE_LANGUAGE=korean') RESERVE_DATE,
+				TO_CHAR(A.ORDER_DATE, 'YYYY.MM.DD HH24:MI:SS') ORDER_DATE,
+				DECODE(A.TICKET_DIV, '01', '입장권', (SELECT NAME2 FROM T_CODE2 WHERE CODE1 = '015' AND CODE2 = P.EXP_TYPE)) TICKET_NAME,
+				B.*,
+				C.FE_NAME STATUS_NAME,
+				C2.NAME2 PAY_TYPE_NAME,
+				(SELECT NAME2 FROM T_CODE2 WHERE CODE1 = '014' AND CODE2 = P.PLACE) PLACE_NAME,
+				P.TIME,
+				M.UNFY_MMB_NO
+		FROM	T_TICKET_ORDER A, 
+				T_TICKET_ORDER_ITEM B,
+				T_EXP_PRODUCT P,
+				T_TORDER_STATUS_CODE C,
+				T_CODE2 C2,
+				T_IMMEM M
+		WHERE	A.ORDERID = B.ORDERID
+		AND		A.EXP_PID = P.EXP_PID(+)
+		AND		A.STATUS = C.STATUS
+		AND 	A.PAY_TYPE = C2.CODE2(+)
+		AND		C2.CODE1(+) = '007'
+		AND		A.USERID = M.MMB_ID(+)
+		AND		A.MORDERID = #morderid#
+		ORDER BY A.ORDERID, B.TICKET_TYPE
+	</select>
+	
+</sqlMap>

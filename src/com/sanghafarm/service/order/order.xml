@@ -1,0 +1,1313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Order">
+	<resultMap id="orderFormInfo" class="Param">
+		<result property="orderid" column="orderid" />
+		<result property="form" column="form" jdbcType="CLOB" javaType="java.lang.String" />
+	</resultMap> 
+
+	<select id="getNewId" resultClass="java.lang.String">
+		 SELECT TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS') || LPAD(SEQ_COMMON.NEXTVAL, 5, 0)
+		   FROM DUAL
+	</select>
+	
+	<insert id="insertOrderCart" parameterClass="Param">
+		INSERT INTO T_ORDER_CART
+			(
+				ORDERID,
+				CARTID,
+				PID,
+				SUB_PID,
+				QTY,
+				USERID,
+				MEM_COUPONID,
+				ROUTINE_YN,
+				ROUTINE_DAY,
+				ROUTINE_CNT,
+				ROUTINE_PERIOD,
+				SALE_PRICE,
+				APPLY_PRICE,
+				COUPON_SALE_AMT,
+				ROUTINE_SALE_AMT,
+				DELIVERY_DATE
+			)
+		VALUES
+			(
+				#orderid#,
+				#cartid#,
+				#pid#,
+				#sub_pid#,
+				#qty#,
+				#userid#,
+				#mem_couponid#,
+				#routine_yn#,
+				#routine_day#,
+				#routine_cnt#,
+				#routine_period#,
+				#sale_price#,
+				#apply_price#,
+				#coupon_sale_amt#,
+				#routine_sale_amt#,
+				#delivery_date#
+			)
+	</insert>
+	
+	<insert id="insertItem" parameterClass="Param">
+		INSERT INTO T_ORDER_ITEM
+			(
+				ORDERID,
+				SHIP_SEQ,
+				ITEM_SEQ,
+				PID,
+				SUB_PID,
+				QTY,
+				PNM,
+				SUB_PNM,
+				UNIT_PRICE
+			)
+		VALUES
+			(
+				#orderid#,
+				#ship_seq#,
+				#item_seq#,
+				#pid#,
+				#sub_pid#,
+				#qty#,
+				#pnm#,
+				#sub_pnm#,
+				#unit_price#
+			)
+	</insert>
+	
+	<insert id="insertShip" parameterClass="Param">
+		INSERT INTO T_ORDER_SHIP
+			(
+				ORDERID,
+				SHIP_SEQ,
+				STATUS,
+				DELIVERY_DATE,
+				DELIVERY_TYPE,
+				SHIP_NAME,
+				SHIP_POST_NO,
+				SHIP_ADDR1,
+				SHIP_ADDR2,
+				SHIP_TEL1,
+				SHIP_TEL2,
+				SHIP_TEL3,
+				SHIP_MOBILE1,
+				SHIP_MOBILE2,
+				SHIP_MOBILE3,
+				SHIP_EMAIL,
+				SHIP_MEMO,
+				SHIP_AMT,
+				INVOICE_NO,
+				EARLY_NOTE1,
+				EARLY_NOTE2,
+				EARLY_SMS
+			)
+		VALUES
+			(
+				#orderid#,
+				#ship_seq#,
+				#status#,
+				#delivery_date#,
+				#delivery_type#,
+				#ship_name#,
+				#ship_post_no#,
+				#ship_addr1#,
+				#ship_addr2#,
+				#ship_tel1#,
+				#ship_tel2#,
+				#ship_tel3#,
+				#ship_mobile1#,
+				#ship_mobile2#,
+				#ship_mobile3#,
+				#ship_email#,
+				#ship_memo#,
+				#ship_amt#,
+				NULL,
+				#early_note1#,
+				#early_note2#,
+				#early_sms#
+			)
+	</insert>
+	
+	<insert id="insertMaster" parameterClass="Param">
+		INSERT INTO T_ORDER_MASTER
+			(
+				ORDERID,
+				USERID,
+				NAME,
+				MOBILE1,
+				MOBILE2,
+				MOBILE3,
+				TEL1,
+				TEL2,
+				TEL3,
+				EMAIL,
+				PASSWD,
+				ORDER_DATE,
+				TOT_AMT,
+				SHIP_AMT,
+				COUPON_SALE_AMT,
+				ROUTINE_SALE_AMT,
+				PAY_AMT,
+				TAX_FREE_AMT,
+				PAY_TYPE,
+				DEVICE_TYPE,
+				COUPON_CART_AMT,
+				COUPON_SHIP_AMT,
+				MEM_COUPONID_CART,
+				MEM_COUPONID_SHIP,
+				EMAIL_YN,
+				SMS_YN,
+				POINT_AMT,
+				GIFTCARD_AMT,
+				GIFTCARD_ID,
+				SOLDOUT_OPT
+			)
+		VALUES
+			(
+				#orderid#,
+				#userid#,
+				#name#,
+				#mobile1#,
+				#mobile2#,
+				#mobile3#,
+				#tel1#,
+				#tel2#,
+				#tel3#,
+				#email#,
+				#passwd#,
+				SYSDATE,
+				#tot_amt#,
+				#ship_amt#,
+				#coupon_sale_amt#,
+				#routine_sale_amt#,
+				#pay_amt#,
+				#tax_free_amt#,
+				#pay_type#,
+				#device_type#,
+				#coupon_cart_amt#,
+				#coupon_ship_amt#,
+				#mem_couponid_cart#,
+				#mem_couponid_ship#,
+				#email_yn#,
+				#sms_yn#,
+				#point_amt#,
+				#giftcard_amt#,
+				#giftcard_id#,
+				#soldout_opt#
+			)
+	</insert>
+	
+	<insert id="insertStatusLog" parameterClass="Param">
+		INSERT INTO T_ORDER_STATUS_LOG
+			(
+				ORDERID,
+				SHIP_SEQ,
+				STATUS,
+				NOTE,
+				REGIST_USER,
+				REGIST_DATE
+			)
+		VALUES
+			(
+				#orderid#,
+				#ship_seq#,
+				#status#,
+				#note#,
+				#regist_user#,
+				SYSDATE
+			)
+	</insert>
+	
+	<insert id="insertLgdPaymentLog" parameterClass="Param">
+		INSERT INTO T_LGD_PAYMENT_LOG
+			(
+				LGD_RESPCODE,
+				LGD_RESPMSG,
+				LGD_MID,
+				LGD_OID,
+				LGD_AMOUNT,
+				LGD_TID,
+				LGD_PAYTYPE,
+				LGD_PAYDATE,
+				LGD_HASHDATA,
+				LGD_FINANCECODE,
+				LGD_FINANCENAME,
+				LGD_ESCROWYN,
+				LGD_TRANSAMOUNT,
+				LGD_EXCHANGERATE,
+				LGD_BUYER,
+				LGD_BUYERID,
+				LGD_BUYERPHONE,
+				LGD_BUYEREMAIL,
+				LGD_PRODUCTINFO,
+				LGD_CARDNUM,
+				LGD_CARDINSTALLMONTH,
+				LGD_CARDNOINTYN,
+				LGD_FINANCEAUTHNUM,
+				LGD_CASHRECEIPTNUM,
+				LGD_CASHRECEIPTSELFYN,
+				LGD_CASHRECEIPTKIND,
+				LGD_ACCOUNTNUM,
+				LGD_CASTAMOUNT,
+				LGD_CASCAMOUNT,
+				LGD_CASFLAG,
+				LGD_CASSEQNO,
+				LGD_OCBSAVEPOINT,
+				LGD_OCBAMOUNT,
+				LGD_OCBTOTALPOINT,
+				LGD_OCBUSABLEPOINT,
+				LGD_TELNO
+			)
+		VALUES
+			(
+				#lgd_respcode#,
+				#lgd_respmsg#,
+				#lgd_mid#,
+				#lgd_oid#,
+				#lgd_amount#,
+				#lgd_tid#,
+				#lgd_paytype#,
+				#lgd_paydate#,
+				#lgd_hashdata#,
+				#lgd_financecode#,
+				#lgd_financename#,
+				#lgd_escrowyn#,
+				#lgd_transamount#,
+				#lgd_exchangerate#,
+				#lgd_buyer#,
+				#lgd_buyerid#,
+				#lgd_buyerphone#,
+				#lgd_buyeremail#,
+				#lgd_productinfo#,
+				#lgd_cardnum#,
+				#lgd_cardinstallmonth#,
+				#lgd_cardnointyn#,
+				#lgd_financeauthnum#,
+				#lgd_cashreceiptnum#,
+				#lgd_cashreceiptselfyn#,
+				#lgd_cashreceiptkind#,
+				#lgd_accountnum#,
+				#lgd_castamount#,
+				#lgd_cascamount#,
+				#lgd_casflag#,
+				#lgd_casseqno#,
+				#lgd_ocbsavepoint#,
+				#lgd_ocbamount#,
+				#lgd_ocbtotalpoint#,
+				#lgd_ocbusablepoint#,
+				#lgd_telno#
+			)
+	</insert>
+	
+	<select id="getOrderCartList" parameterClass="Param" resultClass="Param">
+		SELECT OC.*,
+			   P1.PNM,
+			   P1.THUMB,
+			   P1.IMAGE1,
+			   P2.OPT_PNM SUB_PNM,
+			   P2.TAX_YN,
+			   P2.DEFAULT_PRICE,
+			   P2.THUMB OPT_THUMB,
+			   P2.PTYPE
+		  FROM T_ORDER_CART OC,
+		  	   T_PRODUCT P1,
+		  	   T_PRODUCT P2
+		 WHERE OC.PID = P1.PID
+		   AND OC.SUB_PID = P2.PID
+		   AND OC.ORDERID = #orderid#
+		   AND OC.ROUTINE_YN = #routine_yn#
+		<isNotEmpty property="pid">
+		   AND OC.PID = #pid#
+		</isNotEmpty>
+		<isNotEmpty property="ptype">
+		   AND P2.PTYPE = #ptype#
+		</isNotEmpty>
+	</select>
+	
+	<!-- select id="getOrderMaster" parameterClass="Param" resultClass="Param">
+		SELECT OM.*,
+			   NVL((
+			   	SELECT 'N'
+			   	  FROM DUAL
+			   	 WHERE EXISTS (
+							   	SELECT SHIP_SEQ 
+							   	  FROM T_ORDER_SHIP
+							   	 WHERE ORDERID = OM.ORDERID
+							   	   AND STATUS > '130'
+			   	 			  )
+		   	   ), 'Y') IS_CANCELABLE,
+			   C.NAME2 PAY_TYPE_NAME,
+			   C2.NAME2 SOLDOUT_OPT_NAME,
+			   IM.UNFY_MMB_NO
+		  FROM T_ORDER_MASTER OM,
+		  	   T_CODE2 C,
+		  	   T_CODE2 C2,
+		  	   T_IMMEM IM
+		 WHERE OM.PAY_TYPE = C.CODE2
+		   AND OM.USERID = IM.MMB_ID(+)
+		   AND IM.MMB_ST_CD(+) = '1'
+		   AND C.CODE1 = '007'
+		   AND OM.SOLDOUT_OPT = C2.CODE2(+)
+		   AND C2.CODE1(+) = '031'
+		   AND OM.ORDERID = #orderid#
+	</select -->
+	
+	<select id="getOrderMaster" parameterClass="Param" resultClass="Param">
+		SELECT OM.*,
+			   NVL((
+			   	SELECT 'N'
+			   	  FROM DUAL
+			   	 WHERE EXISTS (
+							   	SELECT SHIP_SEQ 
+							   	  FROM T_ORDER_SHIP
+							   	 WHERE ORDERID = OM.ORDERID
+							   	   AND STATUS > '130'
+			   	 			  )
+		   	   ), 'Y') IS_CANCELABLE,
+			   C.NAME2 PAY_TYPE_NAME,
+			   C2.NAME2 SOLDOUT_OPT_NAME,
+               (SELECT UNFY_MMB_NO FROM T_IMMEM
+                 WHERE (MMB_ID = OM.USERID OR UNFY_MMB_NO || '_' || SOC_KIND_CD = OM.USERID)
+                   AND MMB_ST_CD = '1') UNFY_MMB_NO
+		  FROM T_ORDER_MASTER OM,
+		  	   T_CODE2 C,
+		  	   T_CODE2 C2
+		 WHERE OM.PAY_TYPE = C.CODE2
+		   AND C.CODE1 = '007'
+		   AND OM.SOLDOUT_OPT = C2.CODE2(+)
+		   AND C2.CODE1(+) = '031'
+		   AND OM.ORDERID = #orderid#
+	</select>
+	
+	<select id="getOrderShip" parameterClass="Param" resultClass="Param">
+		SELECT OS.*,
+			   OM.USERID,
+			   F_ITEMS(OS.ORDERID, OS.SHIP_SEQ) ITEMS,
+			   C.FE_NAME STATUS_NAME
+		  FROM T_ORDER_SHIP OS,
+		  	   T_ORDER_MASTER OM,
+		  	   T_ORDER_STATUS_CODE C
+		 WHERE OS.ORDERID = OM.ORDERID
+		   AND OS.STATUS = C.STATUS
+		   AND OS.ORDERID = #orderid#
+		<isNotEmpty property="ship_seq">
+		   AND OS.SHIP_SEQ = #ship_seq#
+		</isNotEmpty>
+	</select>
+	
+	<select id="getOrderItem" parameterClass="Param" resultClass="Param" >
+		SELECT OI.*,
+			   OS.STATUS,
+			   OS.DELIVERY_TYPE,
+			   OS.DELIVERY_DATE,
+			   OM.USERID,
+			   C.FE_NAME STATUS_NAME
+		  FROM T_ORDER_ITEM OI,
+		  	   T_ORDER_SHIP OS,
+		  	   T_ORDER_MASTER OM,
+		  	   T_ORDER_STATUS_CODE C
+		 WHERE OI.ORDERID = OS.ORDERID
+		   AND OI.SHIP_SEQ = OS.SHIP_SEQ
+		   AND OS.ORDERID = OM.ORDERID
+		   AND OS.STATUS = C.STATUS
+		   AND OI.ORDERID = #orderid#
+		<isNotEmpty property="ship_seq">
+		   AND OI.SHIP_SEQ = #ship_seq#
+		</isNotEmpty>
+		<isNotEmpty property="item_seq">
+		   AND OI.ITEM_SEQ = #item_seq#
+		</isNotEmpty>
+	</select>
+	
+	<update id="updateStatus" parameterClass="Param">
+		UPDATE T_ORDER_SHIP
+		   SET STATUS = #status#
+		 WHERE ORDERID = #orderid#
+		   AND SHIP_SEQ = #ship_seq#
+	</update>
+	
+	<select id="getOrderList" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		 SELECT *
+		   FROM
+		    (
+				SELECT ROW_NUMBER() OVER(ORDER BY OM.ORDERID DESC, OS.SHIP_SEQ DESC) RNUM,
+					   OM.ORDERID,
+					   OM.USERID,
+					   OM.PAY_TYPE,
+					   OM.SHIP_AMT,
+					   OM.TOT_AMT,
+					   OM.PAY_AMT,
+					   OM.TAX_FREE_AMT,
+					   OM.POINT_AMT,
+					   OM.GIFTCARD_AMT,
+					   OM.GIFTCARD_ID,
+					   TO_CHAR(OM.ORDER_DATE, 'YYYY.MM.DD') ORDER_DATE,
+					   TO_CHAR(OM.ORDER_DATE, 'YYYY.MM.DD HH24:MM:SS') AS ORDER_DATE_FOR_INDEX,
+					   OM.MEM_COUPONID_CART,
+					   OM.MEM_COUPONID_SHIP,
+					   OS.SHIP_SEQ,
+					   OS.STATUS,
+					   OS.DELIVERY_TYPE,
+					   OS.DELIVERY_DATE,
+					   OS.INVOICE_NO,
+					   OS.DELIVERY_CO,
+					   C.FE_NAME,
+					   NVL((
+						   	SELECT 'N'
+						   	  FROM DUAL
+						   	 WHERE EXISTS (
+										   	SELECT SHIP_SEQ 
+										   	  FROM T_ORDER_SHIP
+										   	 WHERE ORDERID = OM.ORDERID
+										   	   AND STATUS > '130'
+						   	 			  )
+					   	   ), 'Y') IS_CANCELABLE,
+					   F_ITEMS(OS.ORDERID, OS.SHIP_SEQ) ITEMS,
+					   (
+					   	SELECT SUM(QTY * UNIT_PRICE)
+					   	  FROM T_ORDER_ITEM
+					   	 WHERE ORDERID = OS.ORDERID
+					   	   AND SHIP_SEQ = OS.SHIP_SEQ
+					   ) SUM_AMT,
+					   (
+					   	SELECT SUM(QTY)
+					   	  FROM T_ORDER_ITEM
+					   	 WHERE ORDERID = OS.ORDERID
+					   	   AND SHIP_SEQ = OS.SHIP_SEQ
+					   ) SUM_QTY,
+			   		   (
+			   		   	SELECT SUB_PID FROM T_ORDER_ITEM 
+			   			 WHERE ORDERID = OM.ORDERID
+			   			   AND SHIP_SEQ = OS.SHIP_SEQ
+			   			   AND ROWNUM = 1
+			   		   ) SUB_PID
+				  FROM T_ORDER_MASTER OM,
+				  	   T_ORDER_SHIP OS,
+				  	   T_ORDER_STATUS_CODE C
+				 WHERE OM.ORDERID = OS.ORDERID
+				   AND OS.STATUS = C.STATUS
+		]]>
+		<isNotEqual property="referer" compareValue="SYSTEM_BATCH">
+				   AND OM.USERID = #userid#
+		</isNotEqual>
+		<isNotEmpty property="orderid">
+				   AND OM.ORDERID = #orderid#
+		</isNotEmpty>
+		<isNotEmpty property="status_type">
+				   AND OS.STATUS LIKE #status_type# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="status">
+				   AND OS.STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty property="period">
+				   AND OM.ORDER_DATE >= TRUNC(SYSDATE - #period#)
+		</isNotEmpty>
+		<isNotEmpty property="startDate">
+				   AND OM.ORDER_DATE >= TO_DATE(#startDate# || '00:00:00', 'YYYY-MM-DD HH24:mi:ss')
+		</isNotEmpty>
+		<isNotEmpty property="endDate">
+				   AND OM.ORDER_DATE <![CDATA[ <= ]]> TO_DATE(#endDate# || '23:59:59', 'YYYY-MM-DD HH24:mi:ss')
+		</isNotEmpty>
+		<isNotEmpty property="pName">
+				   AND OM.ORDERID IN (SELECT ORDERID FROM T_ORDER_ITEM 
+				   					   WHERE ORDERID = OM.ORDERID AND SHIP_SEQ = OS.SHIP_SEQ 
+				   					     AND PNM LIKE '%' || #pName# || '%')	
+		</isNotEmpty>
+		 ) 
+		<![CDATA[
+		  WHERE RNUM > #POS_STA#
+            AND RNUM <= #POS_END#
+		]]>
+	</select>
+
+	<select id="getOrderListCount" parameterClass="Param" resultClass="java.lang.Integer" remapResults="true">
+		<![CDATA[
+		SELECT COUNT(*)
+		  FROM T_ORDER_MASTER OM,
+		  	   T_ORDER_SHIP OS,
+		  	   T_ORDER_STATUS_CODE C
+		 ]]>
+		 WHERE OM.ORDERID = OS.ORDERID
+		   AND OS.STATUS = C.STATUS
+		<isNotEqual property="referer" compareValue="SYSTEM_BATCH">
+		   AND OM.USERID = #userid#
+		</isNotEqual>
+		<isNotEmpty property="orderid">
+		   AND OM.ORDERID = #orderid#
+		</isNotEmpty>
+		<isNotEmpty property="status_type">
+		   AND OS.STATUS LIKE #status_type# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="status">
+		   AND OS.STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty property="period">
+		   AND OM.ORDER_DATE >= TRUNC(SYSDATE - #period#)
+		</isNotEmpty>
+		<isNotEmpty property="startDate">
+		   AND OM.ORDER_DATE >= TO_DATE(#startDate# || '00:00:00', 'YYYY-MM-DD HH24:mi:ss')
+		</isNotEmpty>
+		<isNotEmpty property="endDate">
+		   AND OM.ORDER_DATE <![CDATA[ <= ]]> TO_DATE(#endDate# || '23:59:59', 'YYYY-MM-DD HH24:mi:ss')
+		</isNotEmpty>
+		<isNotEmpty property="pName">
+		   AND OM.ORDERID IN (SELECT ORDERID FROM T_ORDER_ITEM 
+		   					   WHERE ORDERID = OM.ORDERID AND SHIP_SEQ = OS.SHIP_SEQ 
+		   					     AND PNM LIKE '%' || #pName# || '%')	
+		</isNotEmpty>
+	</select>
+	
+	<select id="getOrderListIndexCount" parameterClass="Param" resultClass="Param">
+		SELECT OS.STATUS, COUNT(OS.STATUS) AS COUNT
+		  FROM T_ORDER_MASTER OM,
+		  	   T_ORDER_SHIP OS,
+		  	   T_ORDER_STATUS_CODE C
+		 WHERE OM.ORDERID = OS.ORDERID
+		   AND OS.STATUS = C.STATUS
+		   AND OM.USERID = #userid#
+		<isNotEmpty property="status_type">
+		   AND OS.STATUS LIKE #status_type# || '%'
+		</isNotEmpty>		   
+		   GROUP BY OS.STATUS
+	</select>
+	
+	<select id="getLGDPaymentInfo" parameterClass="java.lang.String" resultClass="Param">
+		SELECT *
+		  FROM (
+				SELECT ROW_NUMBER() OVER(ORDER BY A.LGD_PAYDATE) RNUM,
+				       A.*
+				  FROM T_LGD_PAYMENT_LOG A
+				 WHERE A.LGD_OID = #orderid#
+		  	   )
+		 WHERE RNUM = 1
+	</select>
+	
+	<select id="getKakaoPayInfo" parameterClass="java.lang.String" resultClass="Param">
+		SELECT A.*
+		  FROM T_KAKAOPAY_LOG A
+		 WHERE A.ORDERID = #orderid#
+	</select>
+	
+	<select id="getPaycoInfo" parameterClass="java.lang.String" resultClass="Param">
+		SELECT A.*
+		  FROM T_PAYCO_LOG A
+		 WHERE A.SELLER_ORDER_REFERENCE_KEY = #orderid#
+	</select>
+	
+	<insert id="insertDeliveryDateLog" parameterClass="Param">
+		INSERT INTO T_DELIVERY_DATE_LOG
+			(
+				ORDERID,
+				SHIP_SEQ,
+				ORG_DATE,
+				DELIVERY_DATE,
+				REGIST_USER,
+				REGIST_DATE
+			)
+		VALUES
+			(
+				#orderid#,
+				#ship_seq#,
+				#org_date#,
+				#delivery_date#,
+				#regist_user#,
+				SYSDATE
+			)
+	</insert>
+	
+	<update id="updateDeliveryDate" parameterClass="Param">
+		UPDATE T_ORDER_SHIP
+		   SET DELIVERY_DATE	= #delivery_date#
+		 WHERE ORDERID			= #orderid#
+		   AND SHIP_SEQ			= #ship_seq#
+	</update>
+	
+	<insert id="insertReturn" parameterClass="Param">
+		INSERT INTO T_ORDER_RETURN
+			(
+				ORDERID,
+				SHIP_SEQ,
+				RTYPE,
+				CATE,
+				CONTENTS,
+				ATTACH,
+				REGIST_DATE
+			)
+		VALUES
+			(
+				#orderid#,
+				#ship_seq#,
+				#rtype#,
+				#cate#,
+				#contents#,
+				#attach#,
+				SYSDATE
+			)
+	</insert>
+	
+	<insert id="insertKakaoPayLog" parameterClass="Param">
+		INSERT INTO T_KAKAOPAY_LOG (
+			ORDERID,
+			RESULT_CODE,
+			RESULT_MSG,
+			TID,
+			MOID,
+			MID,
+			PAY_METHOD,
+			AMT,
+			DISCOUNT_AMT,
+			AUTH_DATE,
+			AUTH_CODE,
+			CARD_CODE,
+			ACQU_CARD_CODE,
+			CARD_NAME,
+			CARD_QUOTA,
+			CARD_INTEREST,
+			CARD_CL,
+			CARD_BIN,
+			CARD_POINT,
+			CC_PART_CL,
+			PROMOTION_CC_PART_CL,
+			VAN_CODE,
+			FN_NO
+		) VALUES (
+			#orderid#,
+			#result_code#,
+			#result_msg#,
+			#tid#,
+			#moid#,
+			#mid#,
+			#pay_method#,
+			#amt#,
+			#discount_amt#,
+			#auth_date#,
+			#auth_code#,
+			#card_code#,
+			#acqu_card_code#,
+			#card_name#,
+			#card_quota#,
+			#card_interest#,
+			#card_cl#,
+			#card_bin#,
+			#card_point#,
+			#cc_part_cl#,
+			#promotion_cc_part_cl#,
+			#van_code#,
+			#fn_no#
+		)
+	</insert>
+
+	<insert id="insertKakaoPayCancelLog" parameterClass="Param">
+		INSERT INTO T_KAKAOPAY_CANCEL_LOG (
+			ORDERID,
+			RESULT_CODE,
+			RESULT_MSG,
+			ERROR_CD,
+			ERROR_MSG,
+			CANCEL_AMT,
+			CANCEL_DATE,
+			CANCEL_TIME,
+			PAY_METHOD,
+			MID,
+			TID,
+			STATE_CD,
+			CC_PART_CL,
+			CANCEL_NUM,
+			VAN_CODE
+		) VALUES (
+			#orderid#,
+			#result_code#,
+			#result_msg#,
+			#error_cd#,
+			#error_msg#,
+			#cancel_amt#,
+			#cancel_date#,
+			#cancel_time#,
+			#pay_method#,
+			#mid#,
+			#tid#,
+			#state_cd#,
+			#cc_part_cl#,
+			#cancel_num#,
+			#van_code#
+		)
+	</insert>
+	
+	<insert id="insertPaycoLog" parameterClass="Param">
+		INSERT INTO T_PAYCO_LOG (
+			SELLER_ORDER_REFERENCE_KEY,
+			RESERVE_ORDER_NO,
+			ORDER_NO,
+			MEMBER_NAME,
+			MEMBER_EMAIL,
+			ORDER_CHANNEL,
+			TOTAL_ORDER_AMT,
+			TOTAL_DELIVERY_FEE_AMT,
+			TOTAL_REMOTE_AREA_DELIVERY_AMT,
+			TOTAL_PAYMENT_AMT,
+			PAYMENT_COMPLETION_YN,
+			DELIVERY_PLACE,
+			ORDER_PRODUCTS,
+			PAYMENT_DETAILS,
+			ORDER_CERTIFY_KEY,
+			CODE,
+			MESSAGE
+		) VALUES (
+			#seller_order_reference_key#,
+			#reserve_order_no#,
+			#order_no#,
+			#member_name#,
+			#member_email#,
+			#order_channel#,
+			#total_order_amt#,
+			#total_delivery_fee_amt#,
+			#total_remote_area_delivery_amt#,
+			#total_payment_amt#,
+			#payment_completion_yn#,
+			#delivery_place#,
+			#order_products#,
+			#payment_details#,
+			#order_certify_key#,
+			#code#,
+			#message#
+		)
+	</insert>
+	
+	<insert id="insertPaycoCancelLog" parameterClass="Param">
+		INSERT INTO T_PAYCO_CANCEL_LOG (
+			ORDERID,
+			ORDER_NO,
+			CANCEL_TRADE_SEQ,
+			TOTAL_CANCEL_PAYMENT_AMT,
+			REMAIN_CANCEL_POSSIBLE_AMT,
+			CANCEL_PAYMENT_DETAILS,
+			CODE,
+			MESSAGE
+		) VALUES (
+			#orderid#,
+			#order_no#,
+			#cancel_trade_seq#,
+			#total_cancel_payment_amt#,
+			#remain_cancel_possible_amt#,
+			#cancel_payment_details#,
+			#code#,
+			#message#
+		)
+	</insert>
+	
+	<insert id="insertPointLog" parameterClass="Param">
+		INSERT INTO T_POINT_LOG (
+			ORDERID,
+			SHIP_SEQ,
+			TRSC_TYP_CD,
+			TRSC_BIZ_DV_CD,
+			COOPCO_CD,
+			TRSC_DT,
+			TRSC_HR,
+			TRC_NO,
+			CHNL_TYP_CD,
+			APV_DT,
+			APV_NO,
+			ACML_PINT,
+			USE_PINT,
+			RMND_PINT,
+			RES_CD,
+			RES_MSG
+		) VALUES (
+			#orderid#,
+			#ship_seq#,
+			#trsc_typ_cd#,
+			#trsc_biz_dv_cd#,
+			#coopco_cd#,
+			#trsc_dt#,
+			#trsc_hr#,
+			#trc_no#,
+			#chnl_typ_cd#,
+			#apv_dt#,
+			#apv_no#,
+			#acml_pint#,
+			#use_pint#,
+			#rmnd_pint#,
+			#res_cd#,
+			#res_msg#
+		)
+	</insert>
+	
+	<select id="getPointLogInfo" parameterClass="Param" resultClass="Param">
+		SELECT	*
+		FROM	T_POINT_LOG
+		WHERE 	ORDERID 		= #orderid#
+		AND		TRSC_TYP_CD		= #trsc_typ_cd#
+		AND		TRSC_BIZ_DV_CD	= #trsc_biz_dv_cd#
+		AND		ROWNUM			= 1
+		<isNotEmpty property="ship_seq">
+		AND		SHIP_SEQ		= #ship_seq#
+		</isNotEmpty>
+	</select>
+	
+	<select id="getOrderShipSeqInfo" parameterClass="Param" resultClass="Param">
+		SELECT	SHIP_SEQ, STATUS
+		FROM	T_ORDER_SHIP
+		WHERE 	ORDERID 		= #orderid#
+		<isNotEmpty property="shipSeq">
+		AND 	SHIP_SEQ = #shipSeq#
+		</isNotEmpty>
+	</select>
+	
+	<insert id="insertOrderForm" parameterClass="Param">
+		INSERT INTO T_ORDER_FORM (
+			ORDERID, FORM
+		) VALUES (
+			#orderid#, #form#
+		)
+	</insert>
+	
+	<update id="updateOrderForm" parameterClass="Param">
+		UPDATE	T_ORDER_FORM
+		SET 	FORM	= #form#
+		WHERE	ORDERID	= #orderid#
+	</update>
+	
+	<select id="getOrderFormInfo" parameterClass="java.lang.String" resultMap="orderFormInfo">
+		SELECT 	ORDERID, FORM
+		FROM	T_ORDER_FORM
+		WHERE	ORDERID = #orderid#
+	</select>
+	
+	<insert id="insertGiftcardLog" parameterClass="Param">
+		INSERT INTO T_GIFTCARD_LOG (
+			ORDERID,
+			SHIP_SEQ,
+			TRSC_TYP_CD,
+			TRSC_BIZ_DV_CD,
+			COOPCO_CD,
+			TRSC_DT,
+			TRSC_HR,
+			TRC_NO,
+			CHNL_TYP_CD,
+			CRD_ID,
+			CRD_BAL,
+			APV_DT,
+			APV_NO,
+			RES_CD,
+			RES_MSG		
+		) VALUES (
+			#orderid#,
+			#ship_seq#,
+			#trsc_typ_cd#,
+			#trsc_biz_dv_cd#,
+			#coopco_cd#,
+			#trsc_dt#,
+			#trsc_hr#,
+			#trc_no#,
+			#chnl_typ_cd#,
+			#crd_id#,
+			#crd_bal#,
+			#apv_dt#,
+			#apv_no#,
+			#res_cd#,
+			#res_msg#		
+		)
+	</insert>
+
+	<select id="getGiftcardLogInfo" parameterClass="Param" resultClass="Param">
+		SELECT *
+		  FROM (
+				SELECT ROW_NUMBER() OVER(ORDER BY A.ORDERID DESC, A.TRC_NO DESC) RNUM,
+					   A.*
+				  FROM T_GIFTCARD_LOG A
+				 WHERE A.ORDERID 		LIKE #orderid# || '%'
+				   AND A.TRSC_TYP_CD	= #trsc_typ_cd#
+				   AND A.TRSC_BIZ_DV_CD	= #trsc_biz_dv_cd#
+		<isNotEmpty property="ship_seq">
+				   AND A.SHIP_SEQ		= #ship_seq#
+		</isNotEmpty>
+		  	   )
+		 WHERE RNUM = 1
+	</select>
+
+	<insert id="insertLgdCashreceiptLog" parameterClass="Param">
+		INSERT INTO T_LGD_CASHRECEIPT_LOG (
+			LGD_RESPCODE,
+			LGD_RESPMSG,
+			LGD_OID,
+			LGD_METHOD,
+			LGD_TID,
+			LGD_CASHRECEIPTNUM,
+			LGD_RESPDATE,
+			LGD_AMOUNT,
+			LGD_CASHCARDNUM,
+			LGD_CASHRECEIPTUSE
+		) VALUES (
+			#lgd_respcode#,
+			#lgd_respmsg#,
+			#lgd_oid#,
+			#lgd_method#,
+			#lgd_tid#,
+			#lgd_cashreceiptnum#,
+			#lgd_respdate#,
+			#lgd_amount#,
+			#lgd_cashcardnum#,
+			#lgd_cashreceiptuse#
+		)
+	</insert>
+	
+	<select id="getLgdCashreceiptLogInfo" parameterClass="Param" resultClass="Param">
+		SELECT *
+		  FROM T_LGD_CASHRECEIPT_LOG
+		 WHERE LGD_OID = #lgd_oid#
+		<isNotEmpty property="lgd_method">
+		   AND LGD_METHOD = #lgd_method#
+		</isNotEmpty>		 
+		<isNotEmpty property="lgd_respcode">
+		   AND LGD_RESPCODE = #lgd_respcode#
+		</isNotEmpty>		 
+	</select>
+
+	<select id="getGiftcardCancelAmt" parameterClass="java.lang.String" resultClass="java.lang.Integer">
+		SELECT NVL(SUM(CANCEL_AMT), 0)
+		  FROM T_GIFTCARD_CANCEL_LOG
+		 WHERE ORDERID = #orderid#
+	</select>
+
+	<select id="getOrderItemList" parameterClass="java.lang.String" resultClass="Param">
+		SELECT OI.*, OS.DELIVERY_DATE, OS.STATUS, OC.ROUTINE_YN, OC.ROUTINE_DAY, OC.ROUTINE_CNT, OC.ROUTINE_PERIOD, 
+			   P.THUMB, R.SEQ REVIEW_SEQ, P2.THUMB OPT_THUMB
+		  FROM T_ORDER_ITEM OI, T_ORDER_SHIP OS, T_ORDER_CART OC, T_PRODUCT P, T_REVIEW R, T_PRODUCT P2
+		 WHERE OI.ORDERID = OS.ORDERID
+		   AND OI.SHIP_SEQ = OS.SHIP_SEQ
+		   AND OI.ORDERID = OC.ORDERID
+		   AND OI.PID = OC.PID
+		   AND OI.SUB_PID = OC.SUB_PID
+		   AND OI.PID = P.PID
+		   AND OI.SUB_PID = P2.PID
+		   AND OI.ORDERID = R.ORDERID(+)
+		   AND OI.SHIP_SEQ = R.SHIP_SEQ(+)
+		   AND OI.ITEM_SEQ = R.ITEM_SEQ(+)
+		   AND OI.ORDERID = #orderid#
+		ORDER BY OI.SHIP_SEQ, OI.ITEM_SEQ
+	</select>
+	
+	<select id="getMemoList" parameterClass="java.lang.String" resultClass="Param">
+		SELECT ROW_NUMBER() OVER(ORDER BY A.SEQ DESC) RNUM,
+			   A.SEQ,
+			   A.MEMO,
+			   TO_CHAR(A.REGIST_DATE, 'YYYY.MM.DD HH24:MI') REGIST_DATE
+		  FROM T_ORDER_MEMO A
+		 WHERE ORDERID	= #orderid#
+		   AND STATUS	= 'S'
+	</select>
+
+	<insert id="insertKakaoPay2Log" parameterClass="Param">
+		INSERT INTO T_KAKAOPAY2_LOG (
+			ORDERID,
+			AID,
+			TID,
+			CID,
+			SID,
+			PARTNER_ORDER_ID,
+			PARTNER_USER_ID,
+			PAYMENT_METHOD_TYPE,
+			AMOUNT,
+			CARD_INFO,
+			ITEM_NAME,
+			ITEM_CODE,
+			QUANTITY,
+			CREATED_AT,
+			APPROVED_AT,
+			PAYLOAD,
+			REGIST_DATE
+		) VALUES (
+			#orderid#,
+			#aid#,
+			#tid#,
+			#cid#,
+			#sid#,
+			#partner_order_id#,
+			#partner_user_id#,
+			#payment_method_type#,
+			#amount#,
+			#card_info#,
+			#item_name#,
+			#item_code#,
+			#quantity#,
+			#created_at#,
+			#approved_at#,
+			#payload#,
+			SYSDATE
+		)
+	</insert>
+
+	<insert id="insertKakaoPayCancel2Log" parameterClass="Param">
+		INSERT INTO T_KAKAOPAY_CANCEL2_LOG (
+			ORDERID,
+			AID,
+			TID,
+			CID,
+			STATUS,
+			PARTNER_ORDER_ID,
+			PARTNER_USER_ID,
+			PAYMENT_METHOD_TYPE,
+			AMOUNT,
+			CANCELED_AMOUNT,
+			CANCEL_AVAILABLE_AMOUNT,
+			ITEM_NAME,
+			ITEM_CODE,
+			QUANTITY,
+			CREATED_AT,
+			APPROVED_AT,
+			CANCELED_AT,
+			PAYLOAD,
+			REGIST_DATE
+		) VALUES (
+			#orderid#,
+			#aid#,
+			#tid#,
+			#cid#,
+			#status#,
+			#partner_order_id#,
+			#partner_user_id#,
+			#payment_method_type#,
+			#amount#,
+			#canceled_amount#,
+			#cancel_available_amount#,
+			#item_name#,
+			#item_code#,
+			#quantity#,
+			#created_at#,
+			#approved_at#,
+			#canceled_at#,
+			#payload#,
+			SYSDATE
+		)
+	</insert>
+
+	<select id="getKakaoPay2Info" parameterClass="java.lang.String" resultClass="Param">
+		SELECT A.*
+		  FROM T_KAKAOPAY2_LOG A
+		 WHERE A.ORDERID = #orderid#
+	</select>
+	
+	<insert id="insertSmilePayLog" parameterClass="Param">
+		INSERT INTO T_SMILEPAY_LOG (
+			ORDERID,
+			RESULT_CODE,
+			RESULT_MSG,
+			ERROR_CD,
+			ERROR_MSG,
+			TID,
+			MOID,
+			MID,
+			PAY_METHOD,
+			AMT,
+			DISCOUNT_AMT,
+			AUTH_DATE,
+			AUTH_CODE,
+			CARD_CODE,
+			ACQU_CARD_CODE,
+			CARD_NAME,
+			CARD_QUOTA,
+			CARD_INTEREST,
+			CARD_CL,
+			CARD_BIN,
+			CARD_POINT,
+			CC_PART_CL,
+			PROMOTION_CC_PART_CL,
+			VAN_CODE,
+			FN_NO,
+			BUYER_NAME,
+			GOODS_NAME,
+			CARD_NO,
+			SMILE_CASH,
+			PROMOTION_CD,
+			POSSI_BIN,
+			BLOCK_BIN,
+			REGIST_DATE
+		) VALUES (
+			#orderid#,
+			#result_code#,
+			#result_msg#,
+			#error_cd#,
+			#error_msg#,
+			#tid#,
+			#moid#,
+			#mid#,
+			#pay_method#,
+			#amt#,
+			#discount_amt#,
+			#auth_date#,
+			#auth_code#,
+			#card_code#,
+			#acqu_card_code#,
+			#card_name#,
+			#card_quota#,
+			#card_interest#,
+			#card_cl#,
+			#card_bin#,
+			#card_point#,
+			#cc_part_cl#,
+			#promotion_cc_part_cl#,
+			#van_code#,
+			#fn_no#,
+			#buyer_name#,
+			#goods_name#,
+			#card_no#,
+			#smile_cash#,
+			#promotion_cd#,
+			#possi_bin#,
+			#block_bin#,
+			SYSDATE
+		)
+	</insert>
+
+	<insert id="insertSmilePayCancelLog" parameterClass="Param">
+		INSERT INTO T_SMILEPAY_CANCEL_LOG (
+			ORDERID,
+			RESULT_CODE,
+			RESULT_MSG,
+			ERROR_CD,
+			ERROR_MSG,
+			CANCEL_AMT,
+			CANCEL_DATE,
+			CANCEL_TIME,
+			PAY_METHOD,
+			MID,
+			TID,
+			STATE_CD,
+			CANCEL_NUM,
+			VAN_CODE,
+			SMILE_CASH,
+			REGIST_DATE
+		) VALUES (
+			#orderid#,
+			#result_code#,
+			#result_msg#,
+			#error_cd#,
+			#error_msg#,
+			#cancel_amt#,
+			#cancel_date#,
+			#cancel_time#,
+			#pay_method#,
+			#mid#,
+			#tid#,
+			#state_cd#,
+			#cancel_num#,
+			#van_code#,
+			#smile_cash#,
+			SYSDATE
+		)
+	</insert>
+
+	<select id="getSmilePayInfo" parameterClass="java.lang.String" resultClass="Param">
+		SELECT A.*
+		  FROM T_SMILEPAY_LOG A
+		 WHERE A.ORDERID = #orderid#
+	</select>
+
+	<insert id="insertNaverPayLog" parameterClass="Param">
+		INSERT INTO T_NAVERPAY_LOG (
+			ORDERID,
+			CODE,
+			MESSAGE,
+			PAYMENT_ID,
+			PAY_HIST_ID,
+			MERCHANT_ID,
+			MERCHANT_NAME,
+			MERCHANT_PAY_KEY,
+			MERCHANT_USER_KEY,
+			ADMISSION_TYPE_CODE,
+			ADMISSION_YMDT,
+			TRADE_CONFIRM_YMDT,
+			ADMISSION_STATE,
+			TOTAL_PAY_AMOUNT,
+			PRIMARY_PAY_AMOUNT,
+			NPOINT_PAY_AMOUNT,
+			PRIMARY_PAY_MEANS,
+			CARD_CORP_CODE,
+			CARD_NO,
+			CARD_AUTH_NO,
+			CARD_INST_COUNT,
+			BANK_CORP_CODE,
+			BANK_ACCOUNT_NO,
+			PRODUCT_NAME,
+			SETTLE_EXPECTED,
+			SETTLE_EXPECT_AMOUNT,
+			PAY_COMMISSION_AMOUNT,
+			EXTRA_DEDUCTION,
+			USE_CFM_YMDT
+		) VALUES (
+			#orderid#,
+			#code#,
+			#message#,
+			#payment_id#,
+			#pay_hist_id#,
+			#merchant_id#,
+			#merchant_name#,
+			#merchant_pay_key#,
+			#merchant_user_key#,
+			#admission_type_code#,
+			#admission_ymdt#,
+			#trade_confirm_ymdt#,
+			#admission_state#,
+			#total_pay_amount#,
+			#primary_pay_amount#,
+			#npoint_pay_amount#,
+			#primary_pay_means#,
+			#card_corp_code#,
+			#card_no#,
+			#card_auth_no#,
+			#card_inst_count#,
+			#bank_corp_code#,
+			#bank_account_no#,
+			#product_name#,
+			#settle_expected#,
+			#settle_expect_amount#,
+			#pay_commission_amount#,
+			#extra_deduction#,
+			#use_cfm_ymdt#
+		)
+	</insert>
+
+	<insert id="insertNaverPayCancelLog" parameterClass="Param">
+		INSERT INTO T_NAVERPAY_CANCEL_LOG (
+			ORDERID,
+			CODE,
+			MESSAGE,
+			PAYMENT_ID,
+			PAY_HIST_ID,
+			PRIMARY_PAY_MEANS,
+			PRIMARY_PAY_CANCEL_AMOUNT,
+			PRIMARY_PAY_REST_AMOUNT,
+			NPOINT_CANCEL_AMOUNT,
+			NPOINT_REST_AMOUNT,
+			CANCEL_YMDT,
+			TOTAL_REST_AMOUNT
+		) VALUES (
+			#orderid#,
+			#code#,
+			#message#,
+			#payment_id#,
+			#pay_hist_id#,
+			#primary_pay_means#,
+			#primary_pay_cancel_amount#,
+			#primary_pay_rest_amount#,
+			#npoint_cancel_amount#,
+			#npoint_rest_amount#,
+			#cancel_ymdt#,
+			#total_rest_amount#
+		)
+	</insert>
+	
+	<select id="getNaverPayInfo" parameterClass="java.lang.String" resultClass="Param">
+		SELECT A.*
+		  FROM T_NAVERPAY_LOG A
+		 WHERE A.ORDERID = #orderid#
+	</select>
+	
+</sqlMap>

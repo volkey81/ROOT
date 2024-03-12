@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ExpContent">
+	<resultMap id="ExpContentInfo" class="Param"> 
+		<result property="seq" column="seq"></result>
+		<result property="exp_gb" column="exp_gb"></result>
+		<result property="exp_type" column="exp_type"></result>
+		<result property="start_date" column="start_date"></result>
+		<result property="end_date" column="end_date"></result>
+		<result property="status" column="status"></result>
+		<result property="link_yn" column="link_yn"></result>
+		<result property="summary" column="summary"></result>
+		<result property="contents" column="contents" jdbcType="CLOB" javaType="java.lang.String"></result>
+		<result property="thumb" column="thumb"></result>
+		<result property="image" column="image"></result>
+		<result property="wdate" column="wdate"></result>						
+		<result property="age" column="age"></result>
+		<result property="season" column="season"></result>
+		<result property="time" column="time"></result>
+		<result property="protector_yn" column="protector_yn"></result>
+		<result property="erp_cd" column="erp_cd"></result>
+		<result property="erp_nm" column="erp_nm"></result>
+		<result property="hit" column="hit"></result>
+		<result property="exp_type_nm" column="exp_type_nm"></result>
+		<result property="alergy" column="alergy"></result>
+	</resultMap>
+    
+	<select id="getList" resultClass="Param" parameterClass="Param"> 
+		<![CDATA[
+	     SELECT *
+		   FROM (
+				 SELECT ROW_NUMBER() OVER(ORDER BY A.LINK_YN DESC, A.WDATE DESC) RNUM,
+					    A.SEQ, 
+					    A.SUMMARY,
+					    A.EXP_GB,
+					    A.THUMB,
+					    A.STATUS, 
+					    A.LINK_YN,
+					    C1.NAME2 EXP_GB_NM,
+					    C2.NAME2 EXP_TYPE_NM
+				   FROM T_EXP_CONTENT A, T_CODE2 C1, T_CODE2 C2
+				  WHERE A.EXP_GB = C1.CODE2
+				    AND C1.CODE1 = '037'
+				    AND A.EXP_TYPE = C2.CODE2
+				    AND C2.CODE1 = '015'
+				    AND A.STATUS = 'Y'
+				    AND A.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+				    AND A.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		]]>
+		<isNotEmpty property="exp_gb">
+					AND A.EXP_GB = #exp_gb#
+		</isNotEmpty>
+		<![CDATA[
+		    )
+		  WHERE rnum > #POS_STA#
+	        AND rnum <= #POS_END#
+		]]>
+  	</select>
+
+	<select id="getListCount" parameterClass="Param" resultClass="Integer">
+		<![CDATA[
+		 SELECT COUNT(*)
+		   FROM T_EXP_CONTENT A, T_CODE2 C1, T_CODE2 C2
+		  WHERE A.EXP_GB = C1.CODE2
+		    AND C1.CODE1 = '037'
+		    AND A.EXP_TYPE = C2.CODE2
+		    AND C2.CODE1 = '015'
+		    AND A.STATUS = 'Y'
+		    AND A.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		    AND A.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		]]>
+		<isNotEmpty property="exp_gb">
+			AND A.EXP_GB = #exp_gb#
+		</isNotEmpty>
+	</select>
+
+	<select id="getInfo" resultMap="ExpContentInfo" parameterClass="java.lang.String">
+		 SELECT A.*,
+		 		C.NAME2 EXP_TYPE_NM
+		   FROM T_EXP_CONTENT A, T_CODE2 C
+		  WHERE A.EXP_TYPE = C.CODE2
+		    AND C.CODE1 = '015'
+		    AND A.SEQ = #seq#
+	</select>
+	
+	<select id="getAreaList" parameterClass="java.lang.String" resultClass="Param">
+		SELECT A.CODE2, A.NAME2, B.AREA
+		  FROM T_CODE2 A, T_EXP_CONTENT_AREA B
+		 WHERE A.CODE2 = B.AREA(+)
+		   AND B.SEQ(+) = #seq#
+		   AND A.CODE1 = '040' 
+	</select>
+
+	<select id="getListByDate" resultClass="Param" parameterClass="java.lang.String"> 
+		 SELECT ROW_NUMBER() OVER(ORDER BY A.LINK_YN DESC, P.TIME) RNUM,
+			    A.SEQ, 
+			    A.SUMMARY,
+			    A.EXP_GB,
+			    A.THUMB,
+			    A.STATUS, 
+			    A.LINK_YN,
+			    C1.NAME2 EXP_GB_NM,
+			    C2.NAME2 EXP_TYPE_NM,
+			    P.TIME
+		   FROM T_EXP_CONTENT A, T_CODE2 C1, T_CODE2 C2, T_EXP_PRODUCT P
+		  WHERE A.EXP_GB = C1.CODE2
+		    AND C1.CODE1 = '037'
+		    AND A.EXP_TYPE = C2.CODE2
+		    AND C2.CODE1 = '015'
+		    AND A.EXP_TYPE = P.EXP_TYPE
+		    AND A.STATUS = 'Y'
+		    AND P.EXP_DATE = TO_DATE(#date#, 'YYYY.MM.DD')
+		    AND P.STATUS = 'S'
+		    AND P.LOCK_YN = 'Y'
+  	</select>
+  	
+	<select id="getListByTime" resultClass="Param" parameterClass="java.lang.String"> 
+		 SELECT 	    	   
+			     DISTINCT P.TIME,
+			     P.EXP_DATE
+		   FROM T_EXP_CONTENT A, T_CODE2 C1, T_CODE2 C2, T_EXP_PRODUCT P
+		  WHERE A.EXP_GB = C1.CODE2
+		    AND C1.CODE1 = '037'
+		    AND A.EXP_TYPE = C2.CODE2
+		    AND C2.CODE1 = '015'
+		    AND A.EXP_TYPE = P.EXP_TYPE
+		    AND A.STATUS = 'Y'
+		    AND P.EXP_DATE = TO_DATE(#date#, 'YYYY.MM.DD')
+		    AND P.STATUS = 'S'
+		    AND P.LOCK_YN = 'Y'
+		   ORDER BY P.TIME
+  	</select>
+  	
+  	<select id="getListByDateOrderNM" resultClass="Param" parameterClass="Param"> 
+		 SELECT ROW_NUMBER() OVER(ORDER BY A.LINK_YN DESC, C2.NAME2, P.TIME) RNUM,
+			    A.SEQ, 
+			    A.SUMMARY,
+			    A.EXP_GB,
+			    A.THUMB,
+			    A.STATUS, 
+			    A.LINK_YN,
+			    C1.NAME2 EXP_GB_NM,
+			    C2.NAME2 EXP_TYPE_NM,
+			    P.TIME,
+			    P.SEAT_NUM,
+			    P.RESERVED_NUM,
+			    P.EXP_PID
+		   FROM T_EXP_CONTENT A, T_CODE2 C1, T_CODE2 C2, T_EXP_PRODUCT P
+		  WHERE A.EXP_GB = C1.CODE2
+		    AND C1.CODE1 = '037'
+		    AND A.EXP_TYPE = C2.CODE2
+		    AND C2.CODE1 = '015'
+		    AND A.EXP_TYPE = P.EXP_TYPE
+		    AND A.STATUS = 'Y'
+		    AND P.EXP_DATE = TO_DATE(#date#, 'YYYY.MM.DD')
+		    AND P.STATUS = 'S'
+		    AND P.LOCK_YN = 'Y'
+		    	<![CDATA[
+		    AND P.TIME >= #time#
+		     ]]>
+  	</select>
+</sqlMap>

@@ -1,0 +1,938 @@
+@CHARSET "utf-8";
+@import url('/css/default.css');
+
+/********** layout **********/
+body, table, input, select, textarea {color:#342e1e !important;}
+#header {border-bottom:1px solid #e3e3e3; background:#fff !important;}
+#header .btnReservation {margin-top:15px; height:18px;}
+#header .btnReservation img {width:auto; height:100%;}
+#header {overflow:initial;}
+#header .topMenu {display:none; position:absolute; left:0; top:49px; width:100%;background:#fff;}
+#header .topMenu li {padding:13px 0; border-bottom:1px solid #eee;}
+.btnCate a:before, .btnCate a:after, .btnCate a span:before {background:#3b3b3b !important;}
+.bgLayer {display:none; position:fixed; left:0; top:0; z-index:100; width:100%; height:100%; background:#000; opacity:0.4; filter:alpha(opacity=40);}
+#header .logo.hotel .logoImg img {width:150px; margin-top:14px;}		
+#header .logo.hotel .meunBtn {display:inline-block; height:16px;}
+#header .logo.hotel.on .meunBtn {transform:rotate(180deg)}
+
+#category {width:88%;}
+#category.on {background:#f3f3f3;}
+#category .btn {padding:14px 13px; right:-45px; top:0; background:#f1f1f1;}
+#category .member {position:fixed; width:100%; border-bottom:1px solid #ebebeb; background-color:#fff; z-index:10;}
+#category .member li a {color:#666;}
+#category .member li.logout:before {background-position-x:-145px;}
+#category .member li.mypage:before {background-position-x:-163px;}
+#category .member li.alram:before {margin-top:-3px;background-position-x:-184px;}
+#category .quickNav {position:fixed; top:48px; width:100%; padding:20px 0 25px 0; border-top:4px solid #f4f4f4; border-bottom:1px solid #ebebeb;background:#fff;}
+#category .quickNav.shopping:before {border:none;}
+#category .quickNav.shopping +.iscrollArea {top:158px;}
+#category .quickNav li {width:33.3%; line-height:42px;}
+#category .quickNav li +li {border:none;}
+#category .quickNav li a:before {border-radius:30px; background:#f1f1f1 url(/mobile/images/layout/ico_cate.png) no-repeat 0 -25px; background-size:400px; background-position-y:-75px;}
+#category .quickNav li.reservation a:before {background-position-x:-148px;}
+#category .quickNav li.reservationList a:before {background-position-x:-195px;}
+#category .quickNav li.promotion a:before {background-position-x:-240px;}
+#category .bann {margin-top:4px; background:#fff;}
+#category .bann:after {content:""; display:block; clear:both;}
+#category .bann li {float:left; padding:20px 0; width:50%; text-align:center; border-bottom:1px solid #ebebeb; border-left:1px solid #ebebeb; box-sizing:border-box;}
+#category .bann li a {position:relative; display:inline-block; padding-left:20px;  font-size:13px; color:#666;}
+#category .bann li a:before {content:""; display:block; clear:both; position:absolute; left:0; top:0; width:15px; height:14px; background:url(/mobile/images/layout/ico_cate.png) no-repeat 0 -25px; background-size:400px; background-position:-135px -130px;}
+#category .bann li:nth-child(1) {border-left:none;}
+#category .bann li:nth-child(3) {width:100%; border-bottom:none;}
+#category .bann li:nth-child(2) a:before {background-position:-162px -130px;}
+#category .bann li:nth-child(3) a:before {background-position:-191px -130px;}
+
+#gnb>li {background:#fff;}
+#gnb >li ul {padding:15px; background:#f9f9f9;}
+#gnb >li p {border-bottom:1px solid #ebebeb;}
+#gnb >li p .icoFold {display:inline-block; position:absolute; right:30px; top:15px; width:14px; height:14px; background:url("/mobile/images/hotel/blt/blt03.png") no-repeat 0 0; background-size:100% auto;}
+#gnb >li p .icoFold.on {background-position-y:-14px;}
+#gnb >li p a {color:#522b1c;}
+#gnb >li ul li {border-bottom:none;}
+#gnb >li ul li a {padding:15px 10px; color:#353535;}
+
+.inquiryBtn {position:fixed; left:0; bottom:0; width:100%; z-index:10;}
+/* .inquiryBtn.on a {margin-left:-30px} */
+
+/********** 00_main **********/
+/* 프로모션 */
+.promotionWrap {margin-top:40px;}
+.promotionWrap h2 {margin-bottom:20px;}
+.promotionSlide {position:relative;}
+.promotionSlide:after {content:""; display:block; clear:both; width:100%; height:230px; background:#f2efe2;}
+.promotionSlide ul li {position:relative;}
+.promotionSlide ul li img {padding-left:10px; width:100%; box-sizing:border-box;}
+.promotionSlide ul li .txtArea  {position:absolute; left:0; top:90%; padding:30px 0; width:92%; text-align:left; background:#fff;box-sizing:border-box;}
+.promotionSlide ul li .txtArea .tit {padding:0 10%; font-size:19px; color:#522b1c; line-height:24px; letter-spacing:-1px}
+.promotionSlide ul li .txtArea .txt {padding:17px 10% 15px 10%; height:38px; font-size:12px; color:#3b3b3b; line-height:18px;}
+.promotionSlide ul li .txtArea .date {position:relative; display:inline-block; padding:6px 0 0 10%; font-size:12px; color:#342e1e; font-weight:bold;}
+.promotionSlide ul li .txtArea .date:before {content:""; display:block; clear:both; position:absolute; right:0; top:0; width:100%; height:1px; background:#522b1c;}
+.promotionSlide ul li .txtArea .ico {position:absolute; right:40px; bottom:30px; display:block; width:52px;}
+.promotionSlide .control  {position:absolute; bottom:4%; padding:8px 0; width:20px; z-index:21;}
+.promotionSlide .control.prev {left:15px;}
+.promotionSlide .control.next {right:15px;}
+.promotionSlide .swiperNav li {margin:0 10px !important; background:none;opacity:1;}
+.promotionSlide .swiperNav li:after {display:block; clear:both; width:10px; height:20px; font-size:12px; color:#939393; line-height:20px;}
+.promotionSlide .swiperNav li.swiper-pagination-bullet-active:after {color:#332f21; font-weight:bold; text-decoration:underline;}
+.promotionSlide .swiperNav li:nth-child(1):after {content:"01";}
+.promotionSlide .swiperNav li:nth-child(2):after {content:"02";}
+.promotionSlide .swiperNav li:nth-child(3):after {content:"03";}
+.promotionSlide .swiperNav li:nth-child(4):after {content:"04";}
+.promotionSlide .swiperNav li:nth-child(5):after {content:"05";}
+.promotionSlide .swiperNav li:nth-child(6):after {content:"06";}
+.promotionSlide .swiperNav li:nth-child(7):after {content:"07";}
+.promotionSlide .swiperNav li:nth-child(8):after {content:"08";}
+.promotionSlide .swiperNav li:nth-child(9):after {content:"09";}
+.promotionSlide .swiperNav li:nth-child(10):after {content:"10";}
+.promotionSlide .swiperNav li:nth-child(11):after {content:"11";}
+.promotionSlide .swiperNav li:nth-child(12):after {content:"12";}
+.promotionSlide .swiperNav li:nth-child(13):after {content:"13";}
+.promotionSlide .swiperNav li:nth-child(14):after {content:"14";}
+.promotionSlide .swiperNav li:nth-child(15):after {content:"15";}
+
+/* 갤러리 */	
+.galleryArea {position:relative; background:#522b1c;}
+.galleryArea h2 {padding:40px 0 66px 0;}
+.galleryArea .tabArea {position:absolute; right:40px; top:40px; background:none;}
+.galleryArea .tabArea li {position:relative; float:inherit; padding:0 0 7px 43px;}
+.galleryArea .tabArea li a {font-size:14px; color:#846f64;}
+.galleryArea .tabArea li.on a {color:#fff;}
+.galleryArea .tabArea li.on:before {content:""; display:block; clear:both; position:absolute; left:0; top:8px; width:34px; height:1px; background:#fff;}		
+.galleryCont {position:relative;}
+
+.slideNum {position:absolute; left:40px; bottom:20px; width:80px;z-index:2;}
+.slideNum span {font-size:25px; color:#fff; font-weight:bold;}
+.slideNum span.allNum {position:relative; padding-left:10px; font-size:15px; font-weight:normal;}
+.slideNum span.allNum:before {content:"/"; display:block; clear:both; position:absolute; left:0; top:0;}
+
+.galleryCont .swiper-slide {position:relative;}
+.galleryCont .swiper-slide .galleryName {position:absolute; left:40px; top:80px; width:123px; height:105px; border:1px solid #fff; text-align:left;}
+.galleryCont .swiper-slide span.tit {display:block; padding:15px 20px; font-size:16px; color:#fff; line-height:18px;}
+.galleryCont .swiper-slide span.ico {display:inline-block; position:absolute; right:15px; bottom:15px; width:29px;}
+
+/* 상하 */	
+.sangha {margin-top:60px;}
+.sangha h2 {margin-bottom:30px;}
+.sangha ul li {margin-bottom:30px;}
+.sangha ul li div.txtArea {position:relative;}
+.sangha ul li dl {margin:20px 0 0 40px;}
+.sangha ul li dl dt {position:relative; font-size:17px; color:#522b1c;}
+.sangha ul li dl dt:after {content:""; display:block; clear:both; position:absolute; left:93px; top:10px; width:40px; height:1px; background:#522b1c;}
+.sangha ul li dl dd {margin-top:10px; font-size:13px; color:#3b3b3b; line-height:18px; font-family:'nsl';}
+.sangha ul li div.txtArea span.ico {position:absolute; left:185px; top:-3px; width:40px;}
+.sangha ul li:nth-child(2) dl dt:after {left:76px;}
+.sangha ul li:nth-child(2) div.txtArea span.ico {left:166px;}
+.sangha ul li:nth-child(3) {margin-bottom:0;}
+
+/********** 01_빌리지소개 **********/
+.village h2 {margin-top:20px; font-size:19px; color:#512c1c; text-align:center;}
+/* 01_01_소개 */
+.introductionWrap {padding-bottom:0 !important;}
+.introduction h2 {margin:20px 0; font-size:19px; color:#512c1c; text-align:center;}
+.introduction .cont {position:relative; }
+.introduction .cont .txtArea {position:absolute; left:0; top:50px;}
+.introduction .cont .tit {padding-bottom:35px;}
+.introduction .cont .txt {padding:0 10px 10px 10px; font-size:13px; color:#686868; line-height:20px; letter-spacing:-0.5px;}
+.introduction .cont .txt:last-child {padding-bottom:30px;}
+
+/* 01_02_오시는길 */
+.locationWrap h2 {margin:20px 0; font-size:19px; color:#512c1c; text-align:center;}
+.locationWrap ul.tabArea {padding-bottom:0;}
+.locationWrap .mapArea {height:335px;}
+.locationWrap .mapArea #map {border-top:1px solid #e3e3e3; height:217px; border-bottom:1px solid #e3e3e3;}
+.mapArea .address {padding:25px;}
+.mapArea .address .txt01 {font-size:21px; color:#522b1c; font-weight:bold; line-height:28px;}
+.mapArea .address .txt02 {margin-top:13px; font-size:13px; color:#3b3b3b;}
+.mapArea .address .txt02 span {display:inline-block; margin-right:5px;padding:2px 5px; font-size:12px; color:#fff; background:#ad8a57; border-radius:5px;}
+.locationWrap .method {margin-top:45px;}
+.locationWrap .method .tabArea {border-bottom:1px solid #ad8a57;}
+.locationWrap .method .tabArea:after {content:""; display:block; clear:both;}
+.locationWrap .method .tabArea li {float:left; width:25%; text-align:center;}
+.locationWrap .method .tabArea li.on a {display:inline-block; padding-bottom:12px; border-bottom:3px solid #ad8a57}
+.locationWrap .method .tabArea li a {font-size:15px; color:#ad8a57; font-weight:bold;}
+.locationWrap .method .methodCont {padding:20px 35px 0 35px;}
+.locationWrap .method .methodCont dl {margin-bottom:23px;}
+.locationWrap .method .methodCont dl dt {position:relative;display:inline-block;padding-bottom:15px; font-size:16px; color:#353535; font-weight:bold;}
+.locationWrap .method .methodCont dl dt.tit:after {content:"";display:block; clear:both; position:absolute; right:-25px; top:-1px; width:17px; height:17px; background:url("/mobile/images/hotel/village/locationIcon.png") no-repeat 0 0; background-size:auto 100%;}
+.locationWrap .method #method02 dl dt.tit:after {background-position-x:-17px;}
+.locationWrap .method #method03 dl dt.tit:after {background-position-x:-34px;}
+.locationWrap .method #method04 dl dt.tit:after {background-position-x:-51px;}
+.locationWrap .method .methodCont dl dd {position:relative; padding:0 0 5px 8px; font-size:13px; color:#353535;}
+.locationWrap .method .methodCont dl dd:before {content:"";display:block; clear:both; position:absolute; left:0; top:7px; width:2px; height:2px; background:#a0a0a0;}
+.locationWrap .method .methodCont dl dd.bigTxt {padding-left:0; margin-bottom:21px; font-size:16px; color:#666; font-weight:bold;}
+.locationWrap .method .methodCont dl dd.bigTxt:before {display:none;}
+.locationWrap .method .methodCont dl dd.bigTxt ul {margin-top:13px;}
+.locationWrap .method .methodCont dl dd.bigTxt ul li {margin-bottom:10px; font-size:13px; color:#353535;}
+.locationWrap .method .methodCont .caption {padding:0; margin:0;}
+
+/* 01_03_층별안내 */
+.floorWrap h2 {margin:20px 0 40px 0; font-size:19px; color:#512c1c; text-align:center;}
+.floorWrap ul li {padding-bottom:45px; margin-bottom:45px; min-height:600px; border-bottom:1px solid #ad8a57; }
+.floorWrap ul li:nth-child(3) {padding-bottom:0; border-bottom:none;}
+.floorWrap ul li {position:relative;}
+.floorWrap ul li.floor02>div,
+.floorWrap ul li.floor02>img,
+.floorWrap ul li.floor03>div,
+.floorWrap ul li.floor03>img {display:none;}
+.floorWrap ul li.floor02.on>div,
+.floorWrap ul li.floor02.on>img,
+.floorWrap ul li.floor03.on>div,
+.floorWrap ul li.floor03.on>img {display:block;}
+.floorWrap ul li.floor02.on .txt {animation-delay:0.2s;animation-duration: 0.75s; animation-fill-mode: both;  animation-name: fadeInUp;}
+.floorWrap ul li.floor02.on>img {animation-delay:0.4s;animation-duration: 0.75s; animation-fill-mode: both;  animation-name: fadeInUp;}
+.floorWrap ul li.floor03.on .txt {animation-delay:0.2s;animation-duration: 0.75s; animation-fill-mode: both;  animation-name: fadeInUp;}
+.floorWrap ul li.floor03.on>img {animation-delay:0.4s;animation-duration: 0.75s; animation-fill-mode: both;  animation-name: fadeInUp;}
+.floorWrap ul li .txt>span {position:absolute; left:25px; top:5px; font-size:30px; color:#353535; font-weight:bold;}
+.floorWrap ul li .txt {padding:0 25px 20px 75px;}
+.floorWrap ul li .txt p {position:relative; padding-left:110px; margin-bottom:15px; font-size:13px; color:#3b3b3b;}
+.floorWrap ul li .txt p span {display:inline-block; position:absolute; left:0; top:0;  font-size:16px; color:#353535; font-weight:bold;}
+		
+/* 01_04_공지사항 */
+
+/* 01_05_프로모션 */
+.promotionTab {padding:30px 0 25px 0;}
+.promotionTab li {margin:0 13px;}
+.promotionTab li a {font-size:14px; color:#a89b94;}
+.promotionTab li.on a {color:#522b1c; font-weight:bold;}
+.promotionTab li.on a:after {content:""; display:block; clear:both; margin-top:5px; width:100%; height:2px; background:#522b1c;}
+
+.promotionList li {margin-bottom:30px;}
+.promotionList li:nth-child(1) {animation-delay:0.4s}
+.promotionList li:nth-child(2) {animation-delay:0.6s}
+.promotionList li:nth-child(3) {animation-delay:0.8s}
+.promotionList li:nth-child(4) {animation-delay:1.0s}
+.promotionList li:nth-child(5) {animation-delay:1.2s}
+.promotionList li:nth-child(6) {animation-delay:1.4s}
+.promotionList li img {width:100%;}
+.promotionList li div.txtArea {position:relative; padding:23px 0; margin:0 14px; box-sizing:border-box; border-bottom:1px solid #e5e5e5;}
+.promotionList li div.txtArea .tit {width:73%; height:38px; font-size:16px; color:#332f21; font-weight:bold; line-height:20px; overflow:hidden;}
+.promotionList li div.txtArea .date {display:inline-block; margin-top:15px; width:73%;  font-size:12px; color:#3b3b3b;}
+.promotionList li .ico {position:absolute; right:0; top:23px; width:23%;font-size:12px; color:#ad8a57; text-align:center;}
+.promotionList li .ico:after {content:""; display:block; clear:both; position:absolute; left:0; top:10px;width:1px; height:35px; background:#d8d8d8;}
+.promotionList li .ico:before {content:""; display:block; clear:both; margin-bottom:5px; width:100%; height:27px; background:url("/mobile/images/hotel/village/promotionIcon.png") no-repeat center center; background-size:34px auto;}
+.promotionList li .ico1:before {background-position-y:0;}
+.promotionList li .ico2:before {background-position-y:-27px;}
+.promotionList li .ico3:before {background-position-y:-54px;}
+.promotionList li .ico4:before {background-position-y:-81px;}
+.promotionList li .ico5:before {background-position-y:-108px;}
+
+/********** 02_객실 **********/
+.room h2 {margin:20px 0; font-size:19px; color:#512c1c; text-align:center;}
+ul.tabArea {padding-bottom:20px; background:#fff;}
+ul.tabArea.on {position:fixed; top:49px; padding-top:20px; width:100%; border-bottom:1px solid #e3e3e3; z-index:11;}
+ul.tabArea:after {content:""; display:block; clear:both;}
+ul.tabArea li {float:left; width:25%; text-align:center;}
+ul.tabArea.group li {width:50%;}
+ul.tabArea li a{font-size:14px; color:#a89b94;}
+/* .subTab ul li.on a:after{content:""; display:block; clear:both; width:100%; height:2px; background:#522b1c;} */
+ul.tabArea li.on a {padding-bottom:5px; border-bottom: 2px solid #522b1c;}
+ul.tabArea li.on a{color:#522b1c; font-weight:bold;}
+ul.tabArea.tblType {display:table; table-layout:fixed; width:100%;}
+ul.tabArea.tblType li {display:table-cell; width:auto; float:none;}
+ul.tabArea.tblType:after {display:none;}
+
+.tabFix .roomTab {position:fixed; top:91px;}
+.tabFix .roomTop {margin-top:60px;}
+
+.roomTab {/* padding:0 15px;  */ background:#fff;}
+.roomTab.on {position:fixed; top:49px; z-index:10;}
+.roomTab.on ul {padding-top:20px; }
+.roomTab ul {padding:20px 0;}
+.roomTab ul:after {content:""; display:block; clear:both;}
+.roomTab ul li {float:left; width:auto; padding:0 16px; text-align:center;}
+.roomTab ul li a{font-size:14px; color:#a89b94;}
+.roomTab ul a li.on a {padding-bottom:5px; border-bottom: 2px solid #522b1c;}
+.roomTab ul li.on a{color:#522b1c; font-weight:bold;}
+
+.room>.btnArea {position:fixed; bottom:0; z-index:2;}
+.groupRoom>.btnArea .btnStyle05 {width:100% !important;}
+.groupRoom>.btnArea .btnStyle05:after {content:""; display:block; clear:both; position:absolute; right:50%; top:24px; margin-right:-70px; width:32px; height:7px; background:url("/mobile/images/hotel/blt/blt04.png") no-repeat 0 0; background-size:32px auto; }
+
+/* 02_01_전체보기 */
+.roomTop {}
+.roomTop .sec {position:relative;}
+.roomTop .sec .cont {position:absolute; left:20px; top:20px;}
+.roomTop .sec .cont h2 {position:relative; margin:0; color:#554039; font-size:1.4rem; font-weight:600; line-height:1.2em; text-align:left;}
+.roomTop .sec .cont h2:before {position:absolute; left:0; bottom:0; width:40px; height:1px; background:#554039;}
+.roomTop .sec .cont .text {margin-top:10px; color:#554039; font-size:.9rem; line-height:1.8em; font-family:'NanumMyeongjoExtraBold';}
+.roomTop .sec:nth-child(2) .cont {left:initial; top:initial; right:20px; bottom:20px; text-align:right;}
+.roomTop .sec:nth-child(2) .cont .box {display:inline-block; padding:10px 20px 10px 50px; margin-right:-20px; background:linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);}
+.roomTop .sec:nth-child(2) .cont .box h2, .roomTop .sec:nth-child(2) .cont .text {color:#fff; text-align:right;}
+.roomTop .sec:nth-child(2) .cont .box h2:before {left:initial; right:0; background:#fff;}
+.roomTop ul {overflow:hidden; margin-top:10px; font-size:0;}
+.roomTop li {position:relative; display:inline-block; margin-bottom:15px; color:#614c3f; line-height:1em; font-size:13px;}
+.roomTop li a {color:#614c3f;}
+.roomTop li +li {padding-left:7px; margin-left:6px;}
+.roomTop li +li:before {content:""; position:absolute; left:0; top:50%; width:1px; height:12px; margin-top:-6px; background:#614c3f;}
+.roomTop .sec:nth-child(2) li, .roomTop .sec:nth-child(2) li a {color:#fff;}
+.roomTop .sec:nth-child(2) li:before {background:#fff;}
+.roomTop .btnStyle01 {height:20px; line-height:20px; padding:0 12px; font-size:13px;}
+.roomTop .sec:nth-child(1) .btnStyle01:after {content:""; display:inline-block; width:7px; height:12px; margin:-2px 0 0 6px; vertical-align:middle; background:url("/images/hotel/blt/blt01.png") no-repeat 0 0;}
+.roomTop .sec:nth-child(2) .btnStyle01:before {content:""; display:inline-block; width:7px; height:12px; margin:-2px 6px 0 0; vertical-align:middle; background:url("/images/hotel/blt/blt09.png") no-repeat 0 0;}
+
+.roomType {margin-top:60px;}
+.roomType .section .txtArea {position:relative; padding:25px 15px 45px 15px;}
+.roomType .section .txtArea a {display:block;}
+.roomType .section .txtArea:after {content:""; display:block; clear:both; position:absolute; right:20px; top:38px; width:16px; height:17px; background:url("/mobile/images/hotel/room/roomIcon.png?ver=2") no-repeat 0 0; background-size:550px auto; background-position-y:-156px;}
+.roomType .section .txtArea .roomTit {position:relative; display:inline-block; padding:12px 0 20px 0; font-size:24px; color:#522b1c;}
+.roomType .section .txtArea .roomTit:after {content:""; display:block; clear:both; position:absolute; right:-45px; top:5px; width:34px; height:26px; background:url("/mobile/images/hotel/room/roomIcon.png?ver=2") no-repeat 0 0; background-size:550px auto; background-position-y:-52px;}
+.roomType .ondol .txtArea .roomTit:after {background-position-x:-102px; background-position-y:-52px;}
+.roomType .family .txtArea .roomTit:after {background-position-x:-172px; background-position-y:0;}
+.roomType .suite .txtArea .roomTit:after {background-position-x:-202px; background-position-y:0;}
+.roomType .groupA .txtArea .roomTit:after {background-position-x:-236px; background-position-y:0;}
+.roomType .groupB {margin-bottom:-50px;}
+.roomType .groupB .txtArea .roomTit:after {background-position-x:-236px; background-position-y:0;}
+.roomType .glampingA .txtArea .roomTit:after {background-position-x:-270px; background-position-y:0;}
+.roomType .glampingB .txtArea .roomTit:after {background-position-x:-304px; background-position-y:0;}
+.roomType .section .txtArea .roomTxt {position:relative; padding-left:45px; font-size:13px; color:#3b3b3b; line-height:18px;}
+.roomType .section .txtArea .roomTxt:before {content:""; display:block; clear:both; position:absolute; left:0; top:7px; width:30px; height:1px; background:#522b1c;}
+.roomPriceInfo {padding-top:150px;}
+.roomPriceInfo h3 {padding:0 0 20px 15px; font-size:20px; color:#522b1c;}
+.roomPriceInfo .caption {margin:0; word-break:keep-all; text-align:left;}
+.roomPriceInfo .text {position:relative; padding-left:10px; margin:10px 0 20px 10px; font-size:12px; color:#846f64;}
+.roomPriceInfo .text:before {content:""; display:block; clear:both; position:absolute; left:0; top:6px; width:2px; height:2px; background:#a89b94;}
+.roomPriceInfo .text a {color:#846f64;}
+.roomPriceInfo .text+.text {margin-top:-15px;}
+.roomPriceInfo table {table-layout:fixed;}
+.roomPriceInfo .typeB {border-top:3px solid #846f64;}
+.roomPriceInfo .typeB th:first-child {border-left:0;}
+.roomPriceInfo table+table {margin-top:-2px;}
+.roomPriceInfo .typeB th {padding:10px 0; color:#522b1c;}
+.roomPriceInfo .typeB td {padding:10px 0; font-size:12px; line-height:1.4em; border-left:1px solid #fff; border-bottom:1px solid #fff; background:#f7f5ec;}
+
+/* 02_02_룸&스위트 */
+.roomCont .topArea {position:relative; height:449px; text-align:center; }
+.roomCont .topArea:before {content:"";display:block;clear:both;width:100%;height:100%;background:#f2efe2;}
+.roomCont .topArea .topTxtArea {margin-top:-390px;}
+
+.roomCont .topArea .tit {min-height:52px; font-size:27px; color:#342e1e;}
+.roomCont .topArea .tit img {margin-bottom:20px;}
+.roomCont .topArea .tit em {font-size:15px;}
+.roomCont .topArea .tit .pr {padding-right:116px;}
+.roomCont .topArea .tit .pr em {position:absolute; bottom:-10px; padding-left:6px; text-align:left;}
+.roomCont .topArea .tit .pr em span {font-size:13px;}
+.roomCont .topArea .txt {padding:20px 0 40px 0; font-size:13px; color:#3b3b3b;}
+.roomCont .topArea .floorTxt {position:absolute; left:21px; top:92px; font-size:9px; color:#522b1c; font-weight:bold; writing-mode: tb-rl; letter-spacing:1px; z-index:10;}
+.roomCont .topArea .floorTxt:after {content:""; display:block; clear:both; position:absolute; left:8px; top:75px; width:1px; height:50px; background:#522b1c;}
+
+.suiteRoom .slideWrap {position:relative;}
+.roomInfo {margin:63px 15px 0 15px;}
+.roomInfo h3 {padding:20px 0 13px 0; font-size:16px; color:#342e1e; font-weight:bold; border-bottom:1px solid #cbc3bf;}
+.roomInfo>div {margin-top:10px;}
+.roomInfo>div:after {content:""; display:block; clear:both;}
+.roomInfo>div span {display:inline-block; position:relative; float:left; padding-left:35px; margin:0 20px 10px 0; font-size:12px; color:#5c5c5c; line-height:28px; box-sizing:border-box;}
+.roomInfo>div.type02 span {padding-left:80px;}
+.roomInfo>div.type03 span {padding-left:40px;}
+.roomInfo>div span:before {content:""; display:block; clear:both; position:absolute; left:0; top:0; width:34px; height:26px; background:url("/mobile/images/hotel/room/roomIcon.png?ver=3") no-repeat 0 0; background-size:550px auto;}
+.roomInfo>div.type02 span:before {width:69px;}
+.roomInfo>div span.extent:before {background-position: -35px 0;}
+.roomInfo>div span.nosmoking:before {background-position: -70px 0;}
+.roomInfo>div span.shower:before {background-position: -105px 0;}
+.roomInfo>div span.number:before {background-position: 0 -28px;}
+.roomInfo>div span.bed:before {background-position: 0 -52px;}
+.roomInfo>div span.desk:before {background-position: -35px -52px;}
+.roomInfo>div span.floor:before {background-position: -68px -52px;}
+.roomInfo>div span.service0101:before {background-position: 0 -77px;}
+.roomInfo>div span.service0102:before {background-position: -35px -77px;}
+.roomInfo>div span.service0103:before {background-position: -70px -77px;}
+.roomInfo>div span.service0104:before {background-position: -105px -77px;}
+.roomInfo>div span.service0105:before {background-position: -140px -77px;}
+.roomInfo>div span.service0106:before {background-position: -175px -77px;}
+.roomInfo>div span.service0107:before {background-position: -210px -77px;}
+.roomInfo>div span.service0201:before {background-position: 0 -104px;}
+.roomInfo>div span.service0202:before {background-position: -35px -104px;}
+.roomInfo>div span.service0203:before {background-position: -70px -104px;}
+.roomInfo>div span.service0204:before {background-position: -105px -104px;}
+.roomInfo>div span.service0205:before {background-position: -140px -104px;}
+.roomInfo>div span.service0206:before {background-position: -175px -104px;}
+.roomInfo>div span.service0301:before {background-position: 0 -130px;}
+.roomInfo>div span.service0302:before {background-position: -35px -130px;}
+.roomInfo>div span.service0303:before {background-position: -70px -130px;}
+.roomInfo>div span.service0304:before {background-position: -105px -130px;}
+.roomInfo>div span.service0 {padding-left:20px;}
+.roomInfo>div span.service0:before {content:""; display:block; clear:both; position:absolute; left:5px; top:12px; width:3px; height:3px; background:#a89b94;}
+.roomInfo>div span em {margin-left:5px; font-size:.8rem;}
+.roomInfo .txt {position:relative; padding-left:10px; margin-bottom:20px; font-size:13px; color:#939393;}
+.roomInfo .txt:before {content:"-"; display:block; clear:both; position:absolute; left:0; top:0;}
+.roomInfo ul {margin:20px 0 50px 0;}
+.roomInfo ul li {position:relative; padding-left:10px; margin-bottom:5px; font-size:12px; color:#846f64; line-height:18px;}
+.roomInfo ul li:before {content:""; display:block; clear:both; position:absolute; left:0; top:5px; width:4px; height:4px; background:#a89b94;}
+	
+#ondolCont .roomInfo>div span.bed:before {background-position: -102px -52px;}
+#ondolCont .roomInfo>div span.desk:before {background-position: -137px -52px;}
+#ondolCont .roomInfo>div span.floor:before {background-position: -172px -52px;}
+
+#familyCont .roomInfo>div span.terrace:before {background-position: -135px 0;}
+#familyCont .roomInfo>div span.number {padding-left:95px;}
+#familyCont .roomInfo>div span.number:before {width:90px; background-position: -90px -28px;}
+#familyCont .roomInfo>div span.bed:before {background-position: -102px -52px;}
+#familyCont .roomInfo>div span.floor:before {background-position: -172px -52px;}
+
+#suiteCont .roomInfo>div span.number {padding-left:90px;}
+#suiteCont .roomInfo>div span.number:before {width:81px; background-position:-450px -28px;}
+.roomInfo>div span.number2-4:before {background-position: -380px -28px;}
+.roomInfo>div span.number3-4:before {width:90px; background-position: -90px -28px;}
+
+/* 02_03_단체룸 */
+#groupACont .roomInfo>div span.number {padding-left:60px;}
+#groupACont .roomInfo>div span.number:before {width:50px; background-position: -244px -28px;}	
+#groupACont .roomInfo>div span.service0103:before {height:30px; background-position:-170px -77px;}	
+#groupBCont .roomInfo>div span.number {padding-left:70px;}
+#groupBCont .roomInfo>div span.number:before {width:60px; background-position: -318px -28px;}			
+#groupBCont .roomInfo>div span.service0103:before {height:30px; background-position:-170px -77px;}		
+
+/* 02_04_예약하기 */
+.reservation h3{padding-bottom:10px; font-size:14px; color:#332f21; font-weight:bold; border-bottom:2px solid #846f64;}
+.reservationTab {margin:24px 0 20px 0;}
+.reservationTab:after {content:""; display:block; clear:both;}
+.reservationTab li {position:relative; float:left; width:25%; font-size:14px; color:#a99c96; text-align:center;}
+.reservationTab li.on {color:#522b1c; font-weight:bold;}
+.reservationTab li:after {content:">"; display:block; clear:both; position:absolute;right:-7%; top:0;}
+.reservationTab li:last-child:after {display:none;}
+
+/* 02_04_01_날짜선택 */
+.reservation .topTxt {font-size:18px; color:#342e1e; line-height:24px;}
+.reservation .reservationSearch {position:relative; margin-top:20px; }
+.reservation .reservationSearch .dateTxt {color:#939393;}
+.reservation .reservationSearch .checkIn {position:relative; line-height:0;}
+.reservation .reservationSearch .checkIn>a {position:relative; left:0; display:inline-block; width:100%;}
+.reservation .reservationSearch .checkIn>a>div.date  {margin-top:24px;}
+.reservation .reservationSearch .checkIn>a img {position:absolute; right:20px;top:14px;}
+
+	/*달력 pop*/
+.calendarWrap {position:fixed; left:0; top:0; opacity:0; padding-top:20px; width:100%; background:#fff; z-index:101;}
+.calendarWrap>a.btnClose {position:absolute; right:15px; top:15px; width:20px;}
+.calendarWrap .slideCont {margin:0 auto; overflow:hidden;}
+.calendarWrap .calendar {margin:0 auto;}
+.calendarWrap ul {margin-top:40px;}
+.calendarWrap ul:after {content:""; display:block; clear:both;}
+.calendarWrap .monthArea {float:left; text-align:center;}
+.calendarWrap .monthArea h2 {margin-bottom:40px; font-size:20px; color:#342e1e; text-align:center;}
+.calendarWrap .monthArea ol:after {content:""; display:block; clear:both;}
+.calendarWrap .monthArea ol.week {margin-bottom:25px; border-bottom:1px solid #d8d8d8;}
+.calendarWrap .monthArea li {float:left; width:14.2%; height:30px; font-size:15px;}
+.calendarWrap .monthArea li a {font-size:14px; color:#342e1e; font-weight:bold; line-height:35px;}
+.calendarWrap .monthArea li.disable {color:#bfbfbf; font-weight:bold; line-height:35px;}
+.calendarWrap .monthArea li.disable a {color:#bfbfbf;}
+.calendarWrap .monthArea li.sunday {color:#d60815;}
+.calendarWrap .monthArea li.choice {background:#522b1c;}
+.calendarWrap .monthArea li.choice a {color:#fff;}
+.calendarWrap .monthArea .day li {margin:5px 0; height:35px;}
+.calendarWrap .monthArea .day li.start {background:#522b1c; border-radius:20px 0 0 20px;}
+.calendarWrap .monthArea .day li.end {background:#522b1c; border-radius:0 20px 20px 0;}
+.calendarWrap .monthArea .day li.on {background:#522b1c;}
+.calendarWrap .monthArea .day li.start a,
+.calendarWrap .monthArea .day li.end a,
+.calendarWrap .monthArea .day li.on a {color:#fff;}
+.calendarWrap .prev {position:absolute; left:50px; top:59px; width:12px;}
+.calendarWrap .next {position:absolute; right:50px; top:59px; width:12px;}
+.calendarWrap .btn {text-align:center;}
+.calendarWrap .caution {margin:30px 0 20px; text-align:center;}
+.calendarWrap .caution span {display:inline-block; color:#342e1e; font-weight:bold;}
+.calendarWrap .caution span.disable {color:#bfbfbf;}
+.calendarWrap .caution span.choice {padding:0 3px; background:#522b1c; color:#fff;}
+.calendarWrap .caution .txt {margin-top:10px; color:#111; word-break:keep-all;}
+.calendarWrap .caution .txt2 {margin-top:6px; color:#111; font-size:16px; line-height:1.4em; font-weight:bold; word-break:keep-all;}
+.calendarWrap.on {opacity:1;}
+	/*객실 검색 pop*/
+#popCont .noRoom .txt	{padding-bottom:22px; font-size:15px; color:#332f21; font-weight:bold; text-align:center;}
+
+/* 02_04_02_객실선택 */
+.roomChoice {position:relative;}
+.choiceTop {margin-bottom:25px;}
+.choiceTop .choiceDate {font-size:14px; font-weight:bold; line-height:39px;}
+.choiceTop .choiceDate>span {position:relative; margin-left:12px; padding-left:12px;}
+.choiceTop .choiceDate>span:before {content:""; display:block; clear:both; position:absolute; left:0; top:4px; width:2px; height:12px; background:#e3e3e3;}
+.choiceTop .reSelect {display:inline-block; position:absolute; right:0px; top:0; padding:10px 0; width:63px; font-size:14px; color:#016740; font-weight:bold;text-align:center; border:1px solid #016740;}
+.choiceTop {position:relative;left:0; padding:0 15px; width:100%; box-sizing:border-box;transition:all 0.3s linear;}
+/* .choiceTop.fix {position:fixed; left:0; top:0; padding:15px;background:#fff;z-index:30; border-bottom:1px solid #ccc; transition:all 0.3s linear;}
+.choiceTop.fix .reSelect {top:15px; right:10px;} */
+
+#container.fix .choiceTop {position:fixed; left:0; top:0; padding:5px 15px;background:#e3e3e3;z-index:30; border-bottom:1px solid #ada19b; transition:all 0.3s linear;}
+#container.fix .choiceTop .reSelect {top:5px; right:20px; background:#fff;}
+#container.fix .infoCont{padding-top:70px;}
+/* #container.fix .choiceDate {margin-left:10px;} */
+#container.fix .choiceDate>span:before {background:#ada19b;}
+
+.choiceTop .reSelect {right:15px;}
+.choiceTop .listStyleA {width:75%;}
+.roomCont>li {margin-bottom:20px;}
+.roomCont .roomTxt {position:relative; padding-bottom:25px;margin:20px 15px 0 15px; border-bottom:2px solid #e5e5e5;}
+.roomCont .roomTxt .tit {display:block; margin-bottom:15px; font-size:20px; color:#332f21;}
+.roomCont .roomTxt .info span {display:block; font-size:12px; color:#3b3b3b; font-weight:bold;}
+.roomCont .roomTxt .btnStyle01 {position:absolute; right:-10px; bottom:25px; display:block; min-width:75px; text-align:left;}
+.roomCont .roomTxt .btnStyle01:after {content:""; display:block; clear:both; position:absolute; right:6px; top:18px; width:10px; height:6px; background:url("/mobile/images/hotel/blt/blt01.png") no-repeat 0 0; background-size:100% auto;}
+.roomCont .roomTxt .btnStyle01.on:after {background-position-y:-6px;}
+.reservationInfo {display:none; margin-top:15px;}
+.reservationInfo .txt {margin:0 15px;}
+.reservationInfo .txt>p {font-size:12px; color:#3b3b3b; font-weight:bold;}
+
+.roomNumber {position:relative;}
+.roomNumber:before {content:""; display:block; clear:both; position:absolute; left:0; top:20px; width:100%; height:100%; background:#f7f5ec;}
+.roomNumber .number {position:relative;padding:5px 0 5px 15px; margin:10px 15px 0 15px; height:35px; font-size:16px; color:#332f21; font-weight:bold; line-height:32px; border:2px solid #e3e3e3; background:#fff;}
+.roomNumber .number select {position:absolute; right:15px; top:5px; margin-left:10px; width:40%; height:35px; border:1px solid #e3e3e3;}
+.roomNumber .people {margin:0 15px;}
+.roomNumber .people>li {margin-top:15px;}
+.roomNumber .people li span.type {position:relative; display:block; padding:0 0 5px 10px; font-size:14px; color:#016740; font-weight:bold;}
+.roomNumber .people li span.type:before {content:""; display:block; clear:both; position:absolute; left:0; top:2px; width:2px; height:14px; background:#016740;}
+.roomNumber .people li>ul>li {position:relative; margin-top:5px;border:2px solid #e3e3e3;}
+.roomNumber .people li>ul>li.peopleNum {padding:9px 0 9px 15px; font-size:14px; color:#332f21; font-weight:bold; background:#fff;}
+.roomNumber .people li>ul>li div {position:absolute; right:15px; top:0; height:35px; }
+.roomNumber .people li>ul>li div>a {display:inline-block; width:16px; font-size:24px; line-height:28px;}
+.roomNumber .people li>ul>li div input {width:100px; font-size:16px; color:#342e1e; font-weight:bold; text-align:center; border:none;}
+		
+.allPriceArea {margin:30px 15px 0 15px; border-bottom:1px solid #e5e5e5;}
+.allPriceArea ul li	{position:relative; margin-bottom:20px; min-height:36px;}
+.allPriceArea ul li strong {font-size:14px; color:#332f21;}
+.allPriceArea ul li p.price {position:absolute; right:0; top:0; font-size:20px; color:#5c5c5c; font-weight:bold; text-align:right; line-height:22px;}
+.allPriceArea ul li p.price span {display:block; font-size:12px; color:#5c5c5c;}
+.allPriceArea ul li.allPrice p.price {font-size:21px; color:#332f21;}
+
+.reservationInfo .request {margin:0 15px;}
+.reservationInfo .request .tit {margin:15px 0 10px 0; font-size:14px; color:#332f21; font-weight:bold;}
+.reservationInfo .request textarea {width:100%; height:88px; border:1px solid #e3e3e3;}		
+/* 02_04_03_고객정보 */
+.reservationCont {position:relative; }
+.infoCont .cont {position:relative; padding-bottom:20px; margin-bottom:30px;}
+.infoCont .cont:first-child {border-bottom:2px solid #d9d9d9;}
+.infoCont .cont .agreeChk {position:absolute; right:0; top:0; font-size:12px; color:#666;}
+.infoCont td {padding:10px;}
+.infoCont td select {position:relative; top:-2px;}
+.infoCont .infoAgree li {position:relative; padding:10px 0; border-bottom:1px solid #e3e3e3;}
+.infoCont .infoAgree li>span {margin-right:10px;font-size:12px; color:#666;}
+.infoCont .infoAgree li>span.checkIcon {display:inline-block; position:absolute; right:0; top:16px; width:11px; height:7px; background:url("/mobile/images/hotel/blt/blt02.png") no-repeat 0 0; background-size:100% auto;}
+.infoCont .infoAgree li.on>span.checkIcon {background-position-y:-7px;}
+.infoCont .infoAgree li .agreeTxt {display:none; margin-top:10px; padding:10px; height:78px; border:1px solid #e3e3e3; overflow-y:scroll;}
+.infoCont .infoAgree li .agreeTxt .txtArea p {font-size:12px; color:#666;}
+.infoCont .infoAgree li .agreeTxt h4,
+.infoCont .infoAgree li .agreeTxt h5,
+.infoCont .infoAgree li .agreeTxt h6 {padding:10px 0; font-size:13px; color:#666; font-weight:bold;}
+.infoCont .infoAgree li .agreeTxt li {font-size:12px; color:#666;}
+.infoCont .infoAgree li .agreeTxt table {margin-top:10px; border:1px solid #ccc;}
+.infoCont .infoAgree li .agreeTxt table th {padding:5px; font-size:12px; color:#000; border-bottom:1px solid #ccc; border-left:1px solid #ccc;}
+.infoCont .infoAgree li .agreeTxt table td {padding:5px; font-size:12px;border-bottom:1px solid #ccc; border-left:1px solid #ccc;}
+.infoCont .infoAgree .caution li {position:relative; padding:0 0 5px 10px; border:0;}
+.infoCont .infoAgree .caution li:before {content:"-"; position:absolute; left:0; top:0;}
+.infoCont .infoAgree .caution li li {padding:0 0 0 6px;}
+.infoCont .infoAgree .caution li li:before {content:""; top:6px; width:1px; height:1px; background:#111;}
+
+/* 02_04_04_결재하기 */
+
+.infoArea {margin-bottom:30px;}
+.infoArea ul.tit {border-bottom:2px solid #e5e5e5;}
+.infoArea ul.tit:after {content:""; display:block; clear:both;}
+.infoArea ul.tit li{float:left; padding:12px 0; width:50%; font-size:13px; color:#332f21; text-align:center; font-weight:bold;}
+.infoArea .infoTxt {position:relative; z-index:10;}
+.infoArea .infoTxt:before {content:""; display:block; position:absolute; left:0; top:0; width:100%; height:80%;background:#f7f5ec;}
+.infoArea .infoTxt ul.checkDate {position:relative; padding:17px 0;z-index:10;}
+.infoArea .infoTxt ul.checkDate:after {content:""; display:block; clear:both;}
+.infoArea .infoTxt ul.checkDate li {float:left; width:50%; font-size:30px; color:#342e1e; text-align:center;}
+.infoArea .infoTxt ul.checkDate li span {display:block; margin-top:10px; font-size:13px; color:#666; font-weight:bold;}
+.infoArea .infoTxt .dateNum {position:absolute; left:50%; top:30px; margin-left:-20px; width:40px; font-size:14px; color:#666;text-align:center;}
+
+.reservationRoom {position:relative; margin:0 10px; padding:15px; border:2px solid #e5e5e5; background:#fff; z-index:10;}
+.reservationRoom>.tit {padding-bottom:10px; font-size:14px; color:#332f21; font-weight:bold; border-bottom:2px solid #846f64;}
+.reservationRoom>.roomList {margin-top:15px;}
+.reservationRoom>.roomList>li {position:relative; padding-top:15px; margin:15px 0; font-size:13px; color:#342e1e; font-weight:bold; border-top:2px dotted #cecece;}
+.reservationRoom>.roomList>li:first-child {border:none; padding-top:0;}
+.reservationRoom>.roomList>li span {position:absolute; right:0; top:0;}
+.reservationRoom>.roomList>li:first-child>span {top:0;}
+.reservationRoom>.roomList>li>span {top:15px;}
+.reservationRoom>.roomList>li>ul {margin-top:5px;}
+.reservationRoom>.roomList>li>ul>li {position:relative; color:#5c5c5c; line-height:20px}
+
+.paymentArea table {width:100%;}
+.paymentArea table th {position:relative; padding-left:10px; font-size:13px; color:#332f21; font-weight:bold; text-align:left; border-bottom:1px solid #dbdbdb;}
+.paymentArea table th>span {position:absolute; left:10px; top:20px;}
+.paymentArea table td {padding:10px 0; border-bottom:1px solid #dbdbdb;}
+.paymentArea table td>div {position:relative;}
+.paymentArea table td input {margin-right:5px; width:75%;height:32px;}
+.paymentArea table td>div>.btnStyle03 { min-width:45px; width:45px !important; height:32px; font-size:12px; color:#fff; line-height:32px; vertical-align:top;}
+.paymentArea table td>div>span.priceTxt {display:block; margin-top:5px; font-size:12px; color:#666; text-align:right;}
+.pointAll {padding:10px 7px;background:#ebebeb;}
+.pointAll label {font-size:12px; color:#666;}
+.allPriceWrap {padding:15px; margin:23px 0 30px 0; border-top:2px solid #d9d9d9; border-bottom:2px solid #d9d9d9; background:#f7f7f7;}
+.allPriceWrap li {position:relative; padding-bottom:15px; font-size:13px; color:#332f21; font-weight:bold;}
+.allPriceWrap li>span {position:absolute; right:20px; top:0; font-size:15px;}
+.allPriceWrap li.last {padding-top:15px; border-top:2px dotted #cecece;}
+.allPriceWrap li.last>span {position:initial; display:block; margin-top:20px; font-size:30px; text-align:center;}
+
+.paymentMethod {padding:15px; margin:10px 0 40px 0; border:1px solid #e3e3e3;}
+.paymentMethod ul {overflow:hidden; margin-left:-5px;}
+.paymentMethod ul li {position:relative; float:left; box-sizing:border-box; width:25%; height:50px; padding-left:5px; margin-top:5px; font-size:.85rem; color:#fff; text-align:center;}
+.paymentMethod ul li  input {opacity:0;}
+.paymentMethod ul li  label {position:absolute; left:5px; top:0; right:0; bottom:0; font-size:.85rem; color:#5c5c5c; box-sizing:border-box; padding-top:5px; margin-left:0; border:1px solid #d4d4d4; border-radius:4px; color:#333; background:#f9f9f9;}
+.paymentMethod ul li  label:before {content:""; display:block; width:50px; height:25px; margin:0 auto; background:url(/mobile/images/common/ico_payment1.png) no-repeat 0 0; background-size:300px;}
+.paymentMethod ul li  input:checked +label {border-color:#499735; color:#fff; background:#499735;}
+.paymentMethod ul li  input:checked +label:before {background-position-y:-25px;}
+.paymentMethod ul li.pay001 label:before {background-position-x:0;}
+.paymentMethod ul li.pay002 label:before {background-position-x:-50px;}
+.paymentMethod ul li.pay003 label:before {background-position-x:-100px;}
+.paymentMethod ul li.pay004 label:before {background-position-x:-150px;}
+.paymentMethod ul li.pay005 label:before {background-position-x:-250px;}
+.paymentMethod ul li.pay006 label:before {background-position-x:-200px;}
+.paymentMethod ul li.pay009 label:before {background-position:-61px -50px}
+.paymentMethod ul li.pay009 input:checked +label:before {background-position-y:100%;}
+
+/* 02_04_05_결제 완료 */
+.completeArea .top {margin:23px 15px 0 15px; padding:20px 0; border-top:2px solid #846f64; border-bottom:2px solid #e5e5e5; text-align:center;}
+.completeArea .top .tit {font-size:18px;}
+.completeArea .top .num {margin-top:10px; font-size:16px; font-weight:bold;} 
+.completeArea .caption {margin:0 15px;}
+.completeArea h3 {padding-top:30px;margin:0 15px;} 
+.completeArea table {margin:0 15px;width:100%; border-bottom:2px solid #dbdbdb;} 
+.completeArea table th {padding:15px 0 15px 10px; font-size:13px; font-weight:bold;text-align:left; border-bottom:1px solid #dbdbdb; } 
+.completeArea table td {font-size:13px; color:#666; border-bottom:1px solid #dbdbdb;} 
+.completeArea td .roomList li {padding:15px 0; border-top:2px dotted #cecece;} 
+.completeArea td .roomList li:first-child {border-top:none;} 
+.completeArea td .roomList dl {padding-top:7px;} 
+.completeArea td .roomList dt {padding-bottom:7px; font-size:13px; font-weight:bold;} 
+.completeArea td .roomList dt.request {color:#666; font-weight:normal;} 
+.completeArea td .roomList dd {padding-left:10px; color:#666; line-height:18px;} 
+.completeArea table.allPriceList {margin-top:20px; border-bottom:none;} 
+.completeArea table.allPriceList th {padding:7px 0 7px 10px; border-bottom:none; color:#666;} 
+.completeArea table.allPriceList td>div {position:relative; height:31px;} 
+.completeArea table.allPriceList td {border-bottom:none; } 
+.completeArea table.allPriceList td>div>span {position:absolute; right:40px; top:7px; color:#332f21; font-weight:bold;} 
+.completeArea .allPriceTxt {margin:0 15px;padding:15px 0 30px 0; margin-top:30px; border-top:2px dotted #cecece; border-bottom:2px solid #dadada;}
+.completeArea .allPriceTxt strong {padding-left:10px; font-size:13px;}
+.completeArea .allPriceTxt>.price {padding-top:15px; font-size:30px; font-weight:bold;text-align:center;}
+.completeArea .allPriceTxt>.price span {font-size:25px; font-weight:normal; }
+.completeArea .btnArea {}
+.bannerArea {margin:60px -10px -40px -10px;}
+.completeArea .caption {margin-top:20px;}
+
+
+/********** 03_다이닝 **********/
+.slideWrap,
+.slideWrap2 {position:relative; margin-left:15px; }
+.slideWrap .slideNum,
+.slideWrap2 .slideNum {left:20px;}
+
+.slideArea button {position:absolute; right:0; bottom:-40px ;width:52px; height:40px; background:#522b1c;text-indent:-10000px;}
+.slideArea button:after {content:""; display:block; clear:both; position:absolute; left:17px; top:18px; width:20px; height:8px; }
+.slideArea .slick-prev {right:52px; }
+.slideArea .slick-prev:after {background:url("/mobile/images/btn/btn_prev8.png") no-repeat 0 0; background-size:20px auto;}
+.slideArea .slick-next:after {background:url("/mobile/images/btn/btn_next8.png") no-repeat 0 0; background-size:20px auto;}
+.room .slideArea button {bottom:0; z-index:1;}	
+
+.hotelContTop {margin:32px 0 0 15px;}
+.hotelContTop .sTxt {font-size:12px; color:#522b1c;}
+.hotelContTop h2 {margin-top:13px; font-size:27px; color:#342e1e;}
+.hotelContTop h2 span {position:relative; display:block; padding:21px 0 0 40px; font-size:16px; color:#522b1c; line-height:22px; letter-spacing:-.5px;}
+.hotelContTop h2 span:before {content:""; display:block; clear:both; position:absolute; left:0; top:32px; width:30px; height:1px; background:#522b1c;}
+
+.hotelCont .section {margin:60px 0;}
+.hotelCont .section h3 {margin-bottom:30px; line-height:1.2em;}
+.hotelCont .section .txtArea {margin:50px 15px 0 15px;}
+.hotelCont .section .txtArea h4 {position:relative; display:inline-block; font-size:20px; color:#522b1c; line-height:28px;}
+.hotelCont .section .txtArea h4:after {content:""; display:block; clear:both; position:absolute; right:-36px; top:0; width:30px; height:28px; background:url("/mobile/images/hotel/common/subIcon.png") no-repeat 0 0; background-size:150px auto; }
+.hotelCont .section .txtArea .sectionTxt {padding:15px 0 22px 0; font-size:13px; color:#3b3b3b; line-height:18px;}
+.hotelCont .section .txtArea .info {padding:19px 5px 9px 5px; border-top:1px solid #cbc3bf; border-bottom:1px solid #cbc3bf;}
+.hotelCont .section .txtArea .info p {position:relative; padding:0 0 10px 90px; font-size:14px; color:#522b1c; line-height:20px;}
+.hotelCont .section .txtArea .info p span {position:absolute; left:0; top:0; font-weight:bold;}
+.hotelCont .section .txtArea .info p>img {margin-top:10px}
+.hotelCont .section .txtArea>ul {padding:20px 0 30px 0}
+.hotelCont .section .txtArea>ul li {position:relative; padding:0 0 5px 10px; font-size:13px; color:#939393;}
+.hotelCont .section .txtArea>ul li:before {content:"-"; display:block; clear:both; position:absolute; left:0; top:0; color:#939393;}
+.hotelCont .section .btn {display:inline-block; margin-left:15px;}
+.hotelCont .section .btn a {display:inline-block; padding:12px 28px; font-size:12px; color:#fff; background:#b59666;}
+.hotelCont .section .btn a.btn2 {background:#522b1c;}
+
+.hotelCont .section01 .thumArea {position:relative; margin-left:15px;}
+.hotelCont .section01 .thumArea:before {content:""; display:block; clear:both; position:absolute; right:0; top:15px; width:50%; height:280px; background:#f2efe2;}
+.hotelCont .section01 .thumArea img {position:relative; width:240px; z-index:2;}
+		
+.hotelCont .section02 .thumArea {position:relative; margin-right:15px;}
+.hotelCont .section02 .thumArea:before {content:""; display:block; clear:both; position:relative; top:15px; width:50%; height:280px; background:#f2efe2;}
+.hotelCont .section02 .thumArea img {position:absolute; right:0; top:0; width:240px; z-index:2;}
+.hotelCont .section02 .txtArea h4:after {background-position-x:-30px;}
+
+.btnFix .btnArea.on a {width:50% !important; }
+
+.hotelCont .btnArea .btnStyle03 {width:100% !important; box-sizing:border-box;}
+.hotelCont .btnArea .btnStyle05 {position:relative; width:100% !important; box-sizing:border-box;}
+.hotelCont .btnArea .btnStyle05:after {content:""; display:block; clear:both; position:absolute; left:50%; top:24px; margin-left:33px;width:32px; height:7px; background:url("/mobile/images/hotel/blt/blt04.png") no-repeat 0 0; background-size:32px auto; }
+
+.hotelCont.lounge .section01 .txtArea h4:after {background-position:-60px 0;}
+.hotelCont.lounge .section02 .txtArea h4:after {background-position:-90px 0;}
+
+.hotelCont.wedding .section01 .txtArea h4:after {background-position:0 -28px;}
+.hotelCont.wedding .section02 .txtArea h4:after {background-position:0 -28px;}
+.hotelCont.wedding .section01.left .txtArea h4:after {background-position:-30px 0;}
+
+.hotelCont.seminar .section01 .txtArea h4:after {background-position:-30px -28px;}
+.hotelCont.seminar .section02 .txtArea h4:after {background-position:-60px -28px;}
+
+/* 농원식당,상하키친 */
+.restaurantCont {margin:55px 15px 120px;}
+.restaurantCont h2 {font-weight:bold; font-size:20px; color:#373737;}
+.restaurantCont dl {position:relative; padding-top:15px; margin:20px 0 10px; border-top:1px solid #cbc3bf; }
+.restaurantCont dt {position:absolute; left:3px; color:#522b1c; font-weight:bold; line-height:1.5em;}
+.restaurantCont dd {padding-left:90px; margin-bottom:15px; line-height:1.5em;}
+.restaurantCont .caution {margin-bottom:15px;}
+.restaurantCont .caution li {position:relative; padding-left:8px; font-size:.9rem; line-height:1.5em; word-break:keep-all;}
+.restaurantCont .caution li:before {content:""; position:absolute; left:0; top:8px; width:2px; height:2px; border-radius:50%; background:#363332;}
+.restaurantCont .thumb {padding-top:50px; border-top:1px solid #cbc3bf; text-align:center;}
+
+/* 상하농원 */
+.farmCont {padding:50px 15px; margin-top:50px; text-align:center; background:#fbf5dc url(/mobile/images/hotel/enjoy/bg_farm01.jpg) no-repeat 100% calc(100% - 110px) / 100%;}
+.farmCont2 {margin-top:0; background:#f6f4f8 url(/mobile/images/hotel/enjoy/bg_farm02.jpg) no-repeat 100% calc(100% - 110px) / 100%;}
+.farmCont3 {margin-top:0; margin-bottom:-40px; background:#fdede7 url(/mobile/images/hotel/enjoy/bg_farm03.jpg) no-repeat 100% calc(100% - 30px) / 100%;}
+.farmCont h2 {position:relative; margin-bottom:40px; padding-bottom:15px; font-size:20px; line-height:1em; color:#522b1c; font-weight:bold;}
+.farmCont h2:after {content:""; position:absolute; left:calc(50% - 18px); bottom:0; width:36px; height:2px; background:#2c2c2c;}
+.farmCont table {width:100%; margin:25px auto 45px; table-layout:fixed;}
+.farmCont table th {width:35%; height:25px; line-height:25px; font-weight:bold; color:#fff; background:#522b1c;}
+.farmCont table td {height:25px; line-height:25px; font-weight:bold; background:#fff;}
+.farmCont table tr:nth-child(2n+1) td {background:#f6f6f6;}
+.farmCont2 table tr:nth-child(2n+1) td {background:#f0f0f0;}
+.farmCont table tr+tr th {border-top:2px solid #fbf5dc;}
+.farmCont table tr+tr td {border-top:2px solid #fff;}
+.farmCont .text {font-size:18px; font-weight:bold; color:#522b1c; line-height:1em;}
+.farmCont .text2 {margin-top:15px; line-height:1.5rem; font-weight:bold;}
+.farmCont .cautionArea {margin:40px -15px 0 0;}
+.farmCont .cautionArea h3 {margin-bottom:15px; margin-right:15px; font-size:16px; line-height:1em; font-weight:bold;}
+.farmCont .cautionArea li {position:relative; padding-left:8px; font-size:0.9rem; line-height:1.5em; word-break:keep-all; text-align:left;}
+.farmCont .cautionArea li:before {content:""; position:absolute; left:0; top:8px; width:2px; height:2px; border-radius:50%; background:#363332;}
+.farmCont .btnArea {margin-top:30px;}
+.farmCont .btnArea a {width:250px; font-size:16px;}
+.paging {margin-top:20px; text-align:center;}
+.paging li {display:inline-block; vertical-align:middle;}
+.paging li a, .paging li strong {display:inline-block; width:20px; height:20px; margin:0 6px; line-height:20px; vertical-align:top;}
+.paging li strong {color:#fff; background:#b0b900;}
+.paging li.btnL2, .paging li.btnR2 {margin:0;}
+.paging li.btnL {margin:0 4px 0 -6px;}
+.paging li.btnR {margin:0 -6px 0 4px;}
+.paging li.btnL2 a, .paging li.btnL a, .paging li.btnR a, .paging li.btnR2 a {display:inline-block; overflow:hidden; width:20px; height:0; padding-top:20px; margin:0; background-repeat:no-repeat; background-position:50% 50%; background-size:10px;}
+.paging li.btnL2 a {background-image:url(/mobile/images/btn/btn_pgPrev4.png);}
+.paging li.btnL a {background-image:url(/mobile/images/btn/btn_pgPrev3.png);}
+.paging li.btnR a {background-image:url(/mobile/images/btn/btn_pgNext3.png);}
+.paging li.btnR2 a {background-image:url(/mobile/images/btn/btn_pgNext4.png);}
+#programList .programList {font-size:0;}
+#programList .programList li {position:relative; display:block; width:92%; margin:0 auto; background:#fff;}
+#programList .programList li:not(:first-child) {margin-top:15px;}
+#programList .programList li .thum {max-height:180px; overflow:hidden;}
+#programList .programList li .cont {padding:15px 15px 25px; text-align:left;}
+#programList .programList li .cont strong {display:block; font-size:18px; color:#171515; margin-bottom:8px; line-height:23px;}
+#programList .programList li .cont strong span {margin-right:10px;}
+#programList .programList li .cont strong .cate {display:inline-block; margin-top:-3px; width:auto; vertical-align:middle;}
+#programList .programList li .cont p{font-size:14px; color:#666; line-height:14px; line-height:18px;}
+#programList .programList li .end {position:absolute; top:0; left:0; width:100%; height:100%; z-index:1;}
+#programList .programList li .end:before {content:''; position:absolute; top:0; left:0; width:100%; height:100%; background:#000; opacity:0.7;}
+#programList .programList li .end p {position:absolute; top:50%; transform:translateY(-50%); width:100%; font-size:14px; color:#fff; text-align:center; vertical-align:middle;}
+#programList .programList li .end strong {display:block; width:60px; height:60px; border:3px solid #fff; border-radius:50%; line-height:60px; margin:0 auto 14px;}
+
+/* 수영장 */
+.poolHead {margin:0 0 50px;}
+.poolHead .sTxt {display:block; margin:25px 15px 0;}
+.poolHead h2 {margin:13px 15px 0;}
+.poolHead .info {margin:0 15px 0 55px; line-height:1.5em;}
+.poolHead .info h3 {font-family:'nsb'; margin:40px 0 10px !important; color:#000;}
+.poolHead .info .sub {position:relative; padding-left:8px; color:#8d8d8d;}
+.poolHead .info .sub:before {content:""; position:absolute; left:0; top:7px; width:2px; height:2px; background:#8d8d8d;}
+.poolCont *, .poolHead * {word-break:keep-all;}
+.poolCont h2 {margin:60px 0 20px; font-size:27px; font-family:'nsb'; color:#000;}
+.poolCont h3 {font-family:'nsb'; margin-top:50px !important;}
+.poolCont table {table-layout:fixed;}
+.poolCont table thead th {background:#e6f6ff;}
+.poolCont table td {border-left:0 !important; border-right:1px solid #e0dad2;}
+.poolCont table td:last-child:not(.border) {border-right-width:0;}
+.poolCont table .bg {background:#f8f8f8;}
+.poolCont .facility {overflow:hidden;}
+.poolCont .facility li {line-height:1.5em;}
+.poolCont .facility li p {font-size:20px; font-family:'nsb'; margin:20px 0 10px;}
+.poolCont .facility li .sub {position:relative; padding-left:8px; color:#8d8d8d;}
+.poolCont .facility li .sub:before {content:""; position:absolute; left:0; top:7px; width:2px; height:2px; background:#8d8d8d;}
+.poolCont .facility li+li {margin-top:50px;}
+.poolCont .caption {margin-top:20px;}
+.poolCont .info2 .caption li {color:#000; line-height:1.5em;}
+.poolCont .info2 table {margin-top:50px;}
+.poolCont .info2 table td {padding-left:10px; padding-right:5px; vertical-align:top;}
+.poolCont .info2 table td .caption {margin:0; color:#000;}
+.poolCont .info2 table td .caption li {color:#000; line-height:1.5em; text-align:left;}
+.poolCont .info2 table td .caption li:before {top:8px; width:2px; height:2px;}
+
+/* 03_01_파머스테이블 */
+
+/* 03_02_웰컴라운지 */
+
+/********** 04_웨딩&이벤트 **********/
+/* 04_01_웨딩&가족파티 */
+
+/* 04_02_세미나 */
+
+/********** 05_즐길거리 **********/
+/* 05_01_정원 */
+.garden {margin-bottom:50px !important;}
+
+/* 05_02_체험교실 */
+.experience .hotelCont{margin:0 15px;}
+.experience h3{margin:70px 0 15px 0; font-size:20px; color:#522b1c;}
+.experience .listStyleB th {border-bottom:none;border-left:1px solid #e0dad2;}
+.experience .listStyleB th.line,
+.experience .listStyleB td.line {border-top:2px solid #cbc3bf;}
+.experience .listStyleB th:first-child {border-left:none;}
+.experience .listStyleB td {border-left:1px solid #e0dad2; border-bottom:1px solid #e0dad2; border-top:none;}
+.experience .listStyleB td.week {border-left:none; background:#f8f8f8;}
+.experience .listStyleB thead th {border-bottom:2px solid #cbc3bf;}
+.experience .listStyleB tbody th.tit {border-bottom:1px solid #e0dad2;}
+.experience .listStyleB .bestIcon {position:absolute; left:5px; top:5px; width:20px;}
+.experience .caption {padding:0; margin-bottom:50px;}
+.experience .caption li {font-size:13px; color:#939393; line-height:18px;}
+.experience .caption li:before {width:5px; height:1px; top:8px;}
+.experience .btnArea {position:fixed; bottom:0; z-index:10;}
+
+/* 05_03_캠페인 */
+.campaign.styleA {padding-bottom:0 !important}
+
+.campaignTxt {text-align:center; background:#f2efe2;}
+.campaignTxt .top {position:relative; padding:20px 0; font-size:15px; color:#fff;  line-height:20px; background:#016a42;}
+.campaignTxt .top:after {content:""; display:block; clear:both; position:absolute; left:50%; bottom:0; width:1px; height:10px; background:#fff;}
+.campaignTxt .top.bottom:after {width:0; height:0;}
+.campaignTxt .tit {position:relative; margin-top:68px; font-size:31px; color:#522b1c; line-height:41px;}
+.campaignTxt .tit:after {content:""; display:block; clear:both; position:absolute; left:50%; top:-68px; width:1px; height:20px; background:#016a42;}
+.campaignTxt .txt {padding:40px 0 70px 0; font-size:15px; color:#846f64; line-height:25px; font-weight:bold;}
+.campaignTxt .coin .coinTit {margin:45px 0 40px 0; font-size:30px; color:#522b1c; font-weight:bold;letter-spacing:14px;}
+.campaignTxt .coin .coinTxt {padding-bottom:80px; font-size:16px; color:#522b1c; line-height:23px;}
+
+.campaign .section {text-align:center;}
+.campaign .section .missionTit {margin-top:20px; font-size:25px; color:#522b1c; font-weight:bold; line-height:35px;}
+.campaign .section .missionTxt {margin:20px 0 40px 0; font-size:16px; color:#5c5c5c; line-height:23px;}
+.campaign .section ul li {margin-bottom:30px; font-size:16px; color:#3b3b3b; font-weight:bold;}
+.campaign .section ul li:before {content:""; display:block; clear:both; margin:0 auto 20px auto; width:130px; height:130px; border:1px solid #016a42; background:url(/mobile/images/hotel/enjoy/campaignIcon.png) no-repeat 25px 25px; background-size:500px auto;}
+.campaign .section ul li.mission2:before {background-position:-84px 25px;}
+.campaign .section ul li.mission3:before {background-position:-184px 25px;}
+.campaign .section ul li.mission4:before {background-position:-284px 25px;}
+.campaign .section ul li.mission5:before {background-position:25px -84px;}
+.campaign .section ul li.mission6:before {background-position:-84px -84px;}
+.campaign .section ul li.mission7:before {background-position:-184px -84px;}
+.campaign .section ul li.mission8:before {background-position:-294px -84px;}
+.campaign .section ul li.mission9:before {background-position:25px -194px;}
+.campaign .section ul li.mission10:before {background-position:-80px -194px;}		
+.campaign .section .coinTxtBox {position:relative; padding:25px; text-align:left; background:#f2efe2;}
+.campaign .section .coinTxtBox:before {content:""; display:block; clear:both;  position:absolute; left:35px; top:40px; width:50px; height:40px; background:url(/mobile/images/hotel/enjoy/campaignIcon.png) no-repeat 0 0; background-size:500px auto; background-position:-225px -235px;}
+.campaign .section .coinTxtBox p {position:relative; padding-left:110px; font-size:14px; color:#846f64;line-height:18px}
+.campaign .section .coinTxtBox p:before {content:""; display:block; clear:both;  position:absolute; left:90px; top:0; width:1px; height:70px; background:#522b1c;}
+
+/* 스페셜오퍼 */
+.offerList {margin-top:23px;}
+.offerList li {margin:0 -15px;}
+.offerList li p {margin:0 15px; word-break:keep-all;}
+.offerList li .tit {position:relative; padding-bottom:15px; margin:20px 15px 15px; color:#522b1c; font-size:1.2rem; line-height:1.5em; font-family:'nsb'; }
+.offerList li .tit span {display:-webkit-box;  overflow:hidden; text-overflow:ellipsis; -webkit-line-clamp:2; -webkit-box-orient:vertical;}
+.offerList li .tit:before {content:""; position:absolute; left:0; bottom:0; width:23px; height:2px; background:#522b1c;}
+.offerList li .text {display:-webkit-box; overflow:hidden; text-overflow:ellipsis; -webkit-line-clamp:1; -webkit-box-orient:vertical; line-height:1.5em; font-weight:600; color:#5c5c5c;}
+.offerList li .text2 {display:-webkit-box; overflow:hidden; text-overflow:ellipsis; -webkit-line-clamp:2; -webkit-box-orient:vertical; line-height:1.5em; }
+.offerList li .price {margin-top:10px; color:#522b1c; font-family:'nsb';}
+.offerList li+li {margin-top:50px;}
+
+.offerDetail {word-break:keep-all; margin:23px -10px 0;}
+.offerDetail h3 {padding:30px 10px; text-align:center; font-size:1.6em; font-family:'nsb'; color:#322f20; background:#f2efe2;}
+.offerDetail .info dl {position:relative; margin:20px 18px 0;}
+.offerDetail .info dt {position:absolute; left:0; line-height:17px; font-weight:600; color:#522b1c;}
+.offerDetail .info dd {padding-left:120px; min-height:17px; line-height:17px; margin-bottom:20px;}
+.offerDetail .info dd a {display:inline-block; margin-top:5px; height:20px; padding:0 10px; text-align:center; line-height:20px; color:#fff !important; font-size:.8rem; box-sizing:border-box; background:#522b1c;}
+.offerDetail .info dt.long {position:static; margin-bottom:20px;}
+.offerDetail .info dd.long {padding-left:0;}
+.offerDetail h4 {margin:80px 18px 30px; font-size:1.1rem; color:#181818;}
+.offerDetail h4 span {display:inline-block; min-width:170px; padding-bottom:15px; border-bottom:1px solid #363636;}
+
+.offerDetail .detail {margin:100px 0 0;}
+.offerDetail .promotion {position:relative; overflow:hidden; padding-left:18px;}
+.offerDetail .promotion li {position:relative; width:150px; word-break:keep-all;}
+.offerDetail .promotion li .cont {position:absolute; left:10px; top:25px; right:10px; text-align:center;}
+.offerDetail .promotion li .tit {color:#fff; line-height:1.4em; font-size:.8em;}
+.offerDetail .promotion li .price {margin-top:10px; color:#fff; font-size:.8em;}
+
+.offerInfoDetail {width:100%; padding:80px 0 10px; margin-top:150px; background:#f2f2f2;}
+.offerInfoDetail h2 {width:990px; margin:0 auto;}
+.offerInfoDetail dl {position:relative; width:990px; margin:60px auto 0;}
+.offerInfoDetail dt {position:absolute; left:0; font-size:17px; line-height:31px; font-weight:600; color:#522b1c;}
+.offerInfoDetail dd {padding-left:165px; min-height:31px; margin-bottom:70px; font-size:17px; line-height:31px;}
+
+.popReserLayer {display:none; opacity:0; z-index:50; position:fixed; left:0; top:0; right:0; bottom:0; background:#f2f2f2; /*overflow-y:scroll;*/}
+.popReserLayer .layer {background:#f2f2f2;}
+.popReserLayer .close {position:fixed; right:15px; top:15px;}
+.popReserLayer .close img {width:20px;}
+.popReserLayer .layer:before {content:""; position:fixed; left:0; right:0; top:0; height:40px; background:#f2f2f2;}
+
+.loginLayer {padding:30px 15px; transform:translateY(-50%); box-sizing:border-box;}
+.loginLayer h2 {position:relative; padding-bottom:14px; text-align:center; color:#00643f; font-weight:600; font-size:2rem; line-height:1em;}
+.loginLayer h2:before {content:""; position:absolute; left:calc(50% - 70px); bottom:0; width:140px; height:2px; background:#00643f;}
+.loginLayer .close {position:absolute; right:15px; top:15px;}
+.loginLayer .close a {display:inline-block; overflow:hidden; width:20px; height:0; padding:20px 0 0; text-indent:100%; white-space:nowrap; background:url(/mobile/images/btn/btn_close6.png) no-repeat 0 0 / 20px;}
+.loginLayer .text {margin:20px 0 15px; line-height:1.4em; text-align:center;}
+.loginLayer .text2 {margin-top:30px; line-height:1,4em; text-align:center;}
+.loginLayer .caution {padding:15px; margin-top:15px; border:1px solid #00643f;}
+.loginLayer .caution li {position:relative; padding-left:8px; font-size:.85rem; word-break:keep-all;}
+.loginLayer .caution > li:before {content:""; position:absolute; left:0; top:7px; width:2px; height:2px; background:#59621d;}
+.loginLayer .btn {margin-top:15px; text-align:center;}
+.loginLayer .btn a {width:170px; background:#00643f;}
+
+.offerReserLayer {/*oveflow-x:hidden; overflow-y:auto; */padding:0 15px;}
+.offerReserDate .calendarWrap {position:relative; z-index:50; opacity:1; background:none;}
+.offerReserDate .calendarWrap .calendar .month {margin-bottom:20px;}
+.offerReserDate .calendarWrap .calendar .prev {left:40px; width:8px; top:60px;}
+.offerReserDate .calendarWrap .calendar .next {right:40px; width:8px; top:60px;}
+.offerReserDate .calendarWrap .calendar .week {margin:0; border-bottom:0; background:#a2a2a2;}
+.offerReserDate .calendarWrap .calendar .week li {box-sizing:border-box; height:26px; padding:0; border-right:1px solid #fff; font-size:1em; line-height:26px; color:#fff;} 
+.offerReserDate .calendarWrap .calendar .week li:nth-child(7n) {border-right:0;}
+.offerReserDate .calendarWrap .calendar .day {margin:0; background:#fff;}
+.offerReserDate .calendarWrap .calendar .day li {box-sizing:border-box; border-bottom:1px solid #f3f2f2; border-right:1px solid #f3f2f2; margin:0; font-size:1em;}
+.offerReserDate .calendarWrap .calendar .day li.disable {color:#d0d0d0;}
+.offerReserDate .calendarWrap .calendar .day li:nth-child(7n) {border-right:0;}
+.offerReserDate .calendarWrap .calendar .day li.start, .offerReserDate .calendarWrap .calendar .day li.end, .offerReserDate .calendarWrap .calendar .day li.on {border-radius:0; background:#10643f;}
+.offerReserDate .caution {margin-top:10px; text-align:center; font-size:.9rem;}
+.offerReserDate .caution span {font-weight:normal;}
+.offerReserDate .caution span.disable {color:#d0d0d0;}
+.offerReserDate .caution span.choice {padding:0 3px; color:#fff; background:#10643f;}
+.offerReserDetail h2 {clear:both; margin:30px 0 10px 12px; font-size:1.12rem;}
+.offerReserDetail .roomNumber2 {position:relative;}
+.offerReserDetail .roomNumber2 .number {margin:50px 0 40px;}
+.offerReserDetail .roomNumber2 .number:after {content:""; display:block; clear:both;}
+.offerReserDetail .roomNumber2 .number h2 {float:left; padding-top:8px; margin:0 0 0 12px;}
+.offerReserDetail .roomNumber2 .number select {float:right; width:100px;}
+.offerReserDetail .roomNumber2 .caution {position:relative; margin-bottom:10px; line-height:15px; font-size:.9rem; text-align:right;}
+.offerReserDetail .roomNumber2 .caution:before {content:""; display:inline-block; width:15px; height:15px; margin:-2px 4px 0 0; vertical-align:middle; background:url(/images/common/ico_warning2.png) no-repeat 0 0;}
+.offerReserDetail .roomNumber2 .people >li {overflow:hidden; padding:10px 13px; border:1px solid #dfdfdf; line-height:20px; background:#fff;}
+.offerReserDetail .roomNumber2 .people >li ul {float:right; font-size:0;}
+.offerReserDetail .roomNumber2 .people >li li {display:inline-block;}
+.offerReserDetail .roomNumber2 .people >li li span {display:inline-block; margin-right:4px; line-height:20px;}
+.offerReserDetail .roomNumber2 .people >li li a {display:inline-block; vertical-align:top;}
+.offerReserDetail .roomNumber2 .people >li li input {display:inline-block; width:27px; height:20px; line-height:16px; padding:2px 0 0; border:0; border-top:1px solid #c5c5c5; border-bottom:1px solid #c5c5c5; font-size:15px; vertical-align:top; text-align:center;}
+.offerReserDetail .roomNumber2 .people >li li+li {margin-left:20px;}
+.offerReserDetail .roomNumber2 .people >li+li {margin-top:10px;}
+.offerReserDetail textarea {width:100%; padding:10px; height:100px; background:#dae7e1;}
+.offerReserDetail .caution {margin:20px 10px 0;}
+.offerReserDetail .caution li {position:relative; padding-left:7px; font-size:.9rem; line-height:1.4em; word-break:keep-all;}
+.offerReserDetail .caution li:before {content:""; position:absolute; left:0; top:7px; width:2px; height:2px; background:#454545;}
+.choiceSrmy {position:relative; padding:30px 0 0; margin-top:20px; border-top:2px solid #016740;}
+.choiceSrmy .date {margin-bottom:15px; font-size:.9rem;}
+.choiceSrmy .price {position:relative; margin-bottom:20px; text-align:right;}
+.choiceSrmy .price .text {position:absolute; left:0; top:3px;}
+.choiceSrmy .price .original {margin-left:30px; color:#9c9c9c; text-decoration:line-through;}
+.choiceSrmy .price strong {font-size:1.6rem; color:#373737; font-weight:600; letter-spacing:-1px;}
+.choiceSrmy .price .sub {font-size:.9rem;}
+.choiceSrmy .btn {margin:0 -15px; font-size:0;}
+.choiceSrmy .btn a {width:50%; margin:0;}
+
+@media (min-width:768px) {
+	.roomInfo {margin-top:340px;}
+}
+
+@media (min-width:1024px) {
+	.roomInfo {margin-top:530px;}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

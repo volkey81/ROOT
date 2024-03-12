@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Event">
+	<resultMap id="EventInfo" class="Param"> 
+		<result property="seq" column="seq"></result>
+		<result property="title" column="title"></result>
+		<result property="subTitle" column="subTitle"></result>
+		<result property="start_date" column="start_date"></result>
+		<result property="end_date" column="end_date"></result>
+		<result property="announce_date" column="announce_date"></result>
+		<result property="announce_yn" column="announce_yn"></result>
+		<result property="contents" column="contents" jdbcType="CLOB" javaType="java.lang.String"></result>
+		<result property="mobile_contents" column="mobile_contents" jdbcType="CLOB" javaType="java.lang.String"></result>
+		<result property="result" column="result" jdbcType="CLOB" javaType="java.lang.String"></result>
+		<result property="status" column="status"></result>
+		<result property="hit" column="hit"></result>
+		<result property="regist_date" column="regist_date"></result>
+		<result property="regist_user" column="regist_user"></result>
+		<result property="update_date" column="update_date"></result>
+		<result property="update_user" column="update_user"></result>
+		<result property="event_type" column="event_type"></result>
+		<result property="content_type" column="content_type"></result>
+		<result property="url" column="url"></result>
+		<result property="img" column="img"></result>
+		<result property="banner_img" column="banner_img"></result>
+		<result property="mobile_banner_img" column="mobile_banner_img"></result>
+	</resultMap>
+    
+	<select id="getList" resultClass="Param" parameterClass="Param"> 
+		<![CDATA[
+	     SELECT *
+		   FROM (
+				 SELECT ROW_NUMBER() OVER(ORDER BY A.SEQ DESC) RNUM,
+					    A.SEQ, 
+					    A.TITLE, 
+					    A.HIT,
+					    A.STATUS, 
+					    A.START_DATE,
+					    A.END_DATE,
+					    A.CONTENTS,
+					    A.ANNOUNCE_DATE,
+					    A.ANNOUNCE_YN,
+					    A.EVENT_TYPE,
+						A.CONTENT_TYPE,
+						A.URL,
+						A.IMG,
+						A.BANNER_IMG,
+						A.MOBILE_BANNER_IMG,
+						A.SUBTITLE
+				   FROM T_EVENT A
+				  WHERE A.STATUS = 'S'
+		]]>
+		<isNotEmpty property="status">
+					AND A.STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty property="keyword">
+		    <isEqual property="keytype" compareValue="01">
+		        	AND A.TITLE LIKE '%' || #keyword# || '%'
+		    </isEqual>
+		    <isEqual property="keytype" compareValue="02">
+		        	AND A.CONTENTS LIKE '%' || #keyword# || '%'
+		    </isEqual>
+   		</isNotEmpty>
+		<![CDATA[
+		    )
+		  WHERE rnum > #POS_STA#
+	        AND rnum <= #POS_END#
+		]]>
+  	</select>
+
+	<select id="getListCount" parameterClass="Param" resultClass="Integer">
+		<![CDATA[
+		 SELECT COUNT(*)
+		   FROM T_EVENT A
+		  WHERE A.STATUS = 'S'
+		]]>
+		<isNotEmpty property="status">
+			AND A.STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty property="keyword">
+		    <isEqual property="keytype" compareValue="01">
+        	AND A.TITLE LIKE '%' || #keyword# || '%'
+		    </isEqual>
+		    <isEqual property="keytype" compareValue="02">
+        	AND A.CONTENTS LIKE '%' || #keyword# || '%'
+		    </isEqual>
+   		</isNotEmpty>
+	</select>
+
+	<select id="getInfo" resultMap="EventInfo" parameterClass="Param">
+		SELECT  A.SEQ,
+				A.TITLE,
+				A.START_DATE,
+				A.END_DATE,
+				A.ANNOUNCE_DATE,
+				A.ANNOUNCE_YN,
+				A.CONTENTS,
+				A.RESULT,
+				A.STATUS,
+				A.HIT,
+				A.REGIST_USER,
+				TO_CHAR(A.REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE,
+				A.UPDATE_USER,
+				A.UPDATE_DATE,
+				A.EVENT_TYPE,
+				A.CONTENT_TYPE,
+				A.URL,
+				A.IMG,
+				A.BANNER_IMG,
+				A.MOBILE_BANNER_IMG,
+				A.SUBTITLE,
+				A.MOBILE_CONTENTS
+		  FROM T_EVENT A
+		 WHERE A.SEQ = #seq#
+	</select>
+	
+	<insert id="insert" parameterClass="Param">
+		 INSERT
+		   INTO T_EVENT
+		    (
+		        SEQ,
+		 	    TITLE,
+		 	   	START_DATE,
+		 	   	END_DATE,
+		 	   	ANNOUNCE_DATE,
+		 	   	CONTENTS,
+		 	   	RESULT,
+		 	   	STATUS,
+		 	   	HIT,
+		        REGIST_USER,
+		        REGIST_DATE,
+		        UPDATE_USER,
+		        UPDATE_DATE
+		    )
+        SELECT 	NVL(MAX(SEQ), 0) + 1, 
+		        #title#,
+		 	   	#start_date#,
+		 	   	#end_date#,
+		 	   	#announce_date#,
+		        #contents#,
+		        #result#,
+		        #status#,
+		        0,
+		        #regist_user#,
+		        SYSDATE,
+		        #regist_user#,
+		        SYSDATE
+		  FROM 	T_EVENT
+	</insert>
+
+	<update id="update" parameterClass="Param">
+		UPDATE T_Event
+		SET    TITLE           	= #title#,
+			   START_DATE		= #start_date#,
+			   END_DATE			= #end_date#,
+			   ANNOUNCE_DATE	= #announce_date#,
+		       CONTENTS        	= #contents#,
+		       RESULT			= #result#,
+		       STATUS          	= #status#,
+			   UPDATE_USER		= #regist_user#,
+			   UPDATE_DATE		= SYSDATE
+		WHERE  SEQ             	= #seq#
+	</update>
+	
+	<update id="updateStatus" parameterClass="Param">
+		UPDATE T_EVENT
+		SET    STATUS          = #status#
+		WHERE  SEQ             = #seq#
+	</update>
+	
+	<update id="delete" parameterClass="Param">
+		UPDATE T_EVENT
+		SET    STATUS      = 'D'
+		WHERE  SEQ   = #seq#
+	</update>
+	<select id="getEventRelationProductList" parameterClass="Param" resultClass="Param">
+		SELECT ROW_NUMBER() OVER(ORDER BY E.RANK) RNUM,
+		       P.PID,
+		       P.PTYPE,
+		       P.DEFAULT_PRICE,
+		       P.PNM,
+		       P.SUMMARY,
+		       P.ROUTINE_YN,
+		       P.STATUS,
+		       P.SALE_STATUS,
+		       P.IMAGE1,
+		       P.ICON,
+		       NVL(PS.STOCK, 0) STOCK,
+		       F_ICONS(P.PID) ICONS,
+		       F_PRICE(P.PID, #gradeCode#) SALE_PRICE
+		  FROM T_EVENT_PRODUCT E, T_PRODUCT P, T_PRODUCT_STOCK PS
+		 WHERE E.PID = P.PID
+		   AND P.PID = PS.PID(+)
+		   AND P.START_DATE <![CDATA[<]]>= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND P.END_DATE  <![CDATA[>]]>= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND P.STATUS = 'Y'
+		   AND E.SEQ = #seq#
+	</select>
+	
+	<select id="getMainList" resultMap="EventInfo" parameterClass="Param"> 
+		<![CDATA[
+	     SELECT *
+		   FROM (
+				 SELECT ROW_NUMBER() OVER(ORDER BY A.SEQ DESC) RNUM,
+					    A.SEQ,
+						A.TITLE,
+						A.START_DATE,
+						A.END_DATE,
+						A.ANNOUNCE_DATE,
+						A.ANNOUNCE_YN,
+						A.CONTENTS,
+						A.RESULT,
+						A.STATUS,
+						A.HIT,
+						A.REGIST_USER,
+						TO_CHAR(A.REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE,
+						A.UPDATE_USER,
+						A.UPDATE_DATE,
+						A.EVENT_TYPE,
+						A.CONTENT_TYPE,
+						A.URL,
+						A.IMG,
+						A.BANNER_IMG,
+						A.MOBILE_BANNER_IMG,
+						A.SUBTITLE,
+						A.MOBILE_CONTENTS
+				   FROM T_EVENT A
+				  WHERE A.STATUS = 'S'
+                    AND A.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD')
+                    AND A.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD')
+		    )
+		  WHERE rnum > #POS_STA#
+	        AND rnum <= #POS_END#
+		]]>
+  	</select>
+  	
+  	<!-- 이벤트 코멘트 -->
+  	<select id="getCommentList" parameterClass="Param" resultClass="Param">
+  		<![CDATA[
+	  		SELECT	*
+	  		FROM	(
+	  					SELECT 	ROWNUM RNUM, LEVEL, SUB_SEQ, USERID, CONTENTS, STATUS, SECRET_YN, TO_CHAR(REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE  
+	  					FROM	T_EVENT_COMMENT
+	  					WHERE	SEQ = #seq#
+	  					AND		STATUS = 'S'
+	  					START WITH P_SUB_SEQ = 0
+	  					CONNECT BY PRIOR SUB_SEQ = P_SUB_SEQ
+	  					ORDER SIBLINGS BY SUB_SEQ DESC
+	  				)
+	  		WHERE 	RNUM > #POS_STA#
+	  		AND		RNUM <= #POS_END#
+  		]]>
+  	</select>
+  	
+  	<select id="getCommentListCount" parameterClass="Param" resultClass="java.lang.Integer">
+  		SELECT 	COUNT(*)
+  		FROM	T_EVENT_COMMENT
+  		WHERE	SEQ = #seq#
+  		AND		STATUS = 'S'
+  	</select>
+  	
+  	<select id="getCommentInfo" parameterClass="Param" resultClass="Param">
+  		SELECT	*
+  		FROM	T_EVENT_COMMENT
+  		WHERE	SEQ			= #seq#
+  		AND		SUB_SEQ		= #sub_seq#
+  	</select>
+  	
+  	<insert id="insertComment" parameterClass="Param">
+  		INSERT INTO T_EVENT_COMMENT (
+			SEQ,
+			SUB_SEQ,
+			P_SUB_SEQ,
+			USERID,
+			CONTENTS,
+			STATUS,
+			SECRET_YN,
+			IP,
+			REGIST_DATE
+  		) 
+  		SELECT	#seq#,
+	  			NVL(MAX(SUB_SEQ), 0) + 1,
+	  			#p_sub_seq#,
+	  			#userid#,
+	  			#contents#,
+	  			'S',
+	  			#secret_yn#,
+	  			#ip#,
+	  			SYSDATE
+  		FROM 	T_EVENT_COMMENT
+  		WHERE	SEQ = #seq#
+  	</insert>
+  	
+  	<update id="updateComment" parameterClass="Param">
+  		UPDATE	T_EVENT_COMMENT
+  		SET		CONTENTS	= #contents#
+  		WHERE	SEQ 		= #seq#
+  		AND		SUB_SEQ		= #sub_seq#
+  	</update>
+  	
+  	<update id="updateCommentStatus" parameterClass="Param">
+  		UPDATE	T_EVENT_COMMENT
+  		SET		STATUS		= #status#
+  		WHERE	SEQ 		= #seq#
+  		AND		SUB_SEQ		= #sub_seq#
+  	</update>
+
+	<update id="updateHit" parameterClass="Param">
+		UPDATE T_EVENT
+		SET    HIT	= HIT + 1
+		WHERE  SEQ  = #seq#
+	</update>
+</sqlMap>

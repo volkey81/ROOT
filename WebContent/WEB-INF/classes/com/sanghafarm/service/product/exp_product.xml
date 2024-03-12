@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ExpProduct">
+
+	<select id="getExpListByDate" parameterClass="Param" resultClass="Param">
+		SELECT	DISTINCT(A.EXP_TYPE), C.NAME2 EXP_TYPE_NAME, C.RANK
+		FROM 	T_EXP_PRODUCT A, T_CODE2 C
+		WHERE 	A.EXP_TYPE = C.CODE2
+		AND 	C.CODE1 = '015'
+		AND 	A.EXP_DATE = TO_DATE(#date#, 'YYYY.MM.DD')
+		AND 	A.STATUS = 'S'
+		AND 	A.LOCK_YN = 'Y'
+        AND     ((A.TARGET_MEM = 'A' AND 
+        		  EXISTS (SELECT GRADE_CODE FROM T_EXP_PRODUCT_GRADE 
+        		  		   WHERE EXP_PID = A.EXP_PID 
+        		  		     AND GRADE_CODE = #grade_code#))
+                 OR
+                 (A.TARGET_MEM = 'P' AND 
+                  EXISTS (SELECT USERID FROM T_EXP_PRODUCT_MEM 
+                  		   WHERE EXP_PID = A.EXP_PID 
+                  		     AND USERID = #userid#))
+                )
+		ORDER BY C.RANK
+	</select>
+	
+	<select id="getExpList" parameterClass="Param" resultClass="Param">
+		SELECT 	A.*, C.NAME2 PLACE_NAME
+		FROM 	T_EXP_PRODUCT A, T_CODE2 C
+		WHERE 	A.PLACE = C.CODE2
+		AND 	C.CODE1 = '014'
+		AND 	A.EXP_DATE = TO_DATE(#date#, 'YYYY.MM.DD')
+		AND 	A.EXP_TYPE = #exp_type#
+		AND 	A.STATUS = 'S'
+		AND 	A.LOCK_YN = 'Y'
+        AND     ((A.TARGET_MEM = 'A' AND 
+        		  EXISTS (SELECT GRADE_CODE FROM T_EXP_PRODUCT_GRADE 
+        		  		   WHERE EXP_PID = A.EXP_PID 
+        		  		     AND GRADE_CODE = #grade_code#))
+                 OR
+                 (A.TARGET_MEM = 'P' AND 
+                  EXISTS (SELECT USERID FROM T_EXP_PRODUCT_MEM 
+                  		   WHERE EXP_PID = A.EXP_PID 
+                  		     AND USERID = #userid#))
+                )
+		ORDER BY TIME
+	</select>
+	
+	<select id="getPriceList" parameterClass="java.lang.String" resultClass="Param">
+		SELECT 	A.*, C.NAME2 TICKET_NAME
+		FROM 	T_EXP_PRODUCT_PRICE A, T_CODE2 C
+		WHERE	A.TICKET_TYPE = C.CODE2
+		AND 	C.CODE1 = '016'
+		AND 	A.EXP_PID = #exp_pid#
+	</select>
+	
+	<select id="getPriceInfo" parameterClass="Param" resultClass="java.lang.Integer">
+		SELECT 	A.PRICE
+		FROM 	T_EXP_PRODUCT_PRICE A
+		WHERE	A.EXP_PID = #exp_pid#
+		AND		A.TICKET_TYPE = #ticket_type#
+	</select>
+	
+	<select id="getInfo" parameterClass="java.lang.String" resultClass="Param">
+		SELECT	A.*, C.NAME2 EXP_TYPE_NAME, C2.NAME2 PLACE_NAME,
+				((TO_DATE(TO_CHAR(A.EXP_DATE, 'YYYYMMDD') || A.TIME, 'YYYYMMDDHH24MI') - SYSDATE) * 24 * 60) DTIME 
+		FROM 	T_EXP_PRODUCT A, T_CODE2 C, T_CODE2 C2
+		WHERE 	A.EXP_TYPE = C.CODE2
+		AND 	C.CODE1 = '015'
+        AND 	A.PLACE = C2.CODE2
+        AND 	C2.CODE1 = '014'
+		AND		A.EXP_PID = #exp_pid#
+	</select>
+	
+	<select id="getAllExpListByDate" parameterClass="Param" resultClass="Param">
+		SELECT	A.EXP_PID, A.EXP_TYPE, C.NAME2 EXP_TYPE_NAME, C2.NAME2 PLACE_NAME, A.TIME, A.SEAT_NUM, A.RESERVED_NUM, C.RANK
+		FROM 	T_EXP_PRODUCT A, T_CODE2 C, T_CODE2 C2
+		WHERE 	A.EXP_TYPE = C.CODE2
+		AND 	C.CODE1 = '015'
+        AND 	A.PLACE = C2.CODE2
+        AND 	C2.CODE1 = '014'
+		AND 	A.EXP_DATE = TO_DATE(#date#, 'YYYY.MM.DD')
+		AND 	A.STATUS = 'S'
+		AND 	A.LOCK_YN = 'Y'
+        AND     ((A.TARGET_MEM = 'A' AND 
+        		  EXISTS (SELECT GRADE_CODE FROM T_EXP_PRODUCT_GRADE 
+        		  		   WHERE EXP_PID = A.EXP_PID 
+        		  		     AND GRADE_CODE = #grade_code#))
+                 OR
+                 (A.TARGET_MEM = 'P' AND 
+                  EXISTS (SELECT USERID FROM T_EXP_PRODUCT_MEM 
+                  		   WHERE EXP_PID = A.EXP_PID 
+                  		     AND USERID = #userid#))
+                )
+		ORDER BY C.RANK
+	</select>
+	
+	<select id="getSelProductList" parameterClass="Param" resultClass="Param">
+SELECT
+		A.*,
+		C1.NAME2 TICKET_NAME,
+		C2.NAME2 EXP_TYPE_NM ,
+		P.TIME, 
+		P.RESERVED_NUM,
+		P.SEAT_NUM,
+		C2.RANK
+	FROM
+		T_EXP_PRODUCT_PRICE A,
+		T_CODE2 C1,
+		T_CODE2 C2,
+		T_EXP_PRODUCT P
+	WHERE
+		A.TICKET_TYPE = C1.CODE2
+		AND C1.CODE1 = '016'
+		AND A.EXP_PID = P.EXP_PID 
+		AND P.EXP_TYPE = C2.CODE2 
+		AND C2.CODE1 = '015'
+		AND A.EXP_PID in ($exp_pid$)
+	ORDER BY A.EXP_PID
+</select>
+	
+</sqlMap>

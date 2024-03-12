@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="GroupReserve">
+
+	<insert id="insert" parameterClass="Param">
+		INSERT INTO T_GROUP_RESERVE (
+			SEQ,
+			USERID,
+			RESERVE_DATE,
+			EXP_TYPE,
+			KITCHEN_YN,
+			OTHER_YN,
+			GROUP_NM,
+			EXP_NUM,
+			SEE_NUM,
+			MOBILE1,
+			MOBILE2,
+			MOBILE3,
+			AGE,
+			CONTENT,
+			REGIST_DATE,
+			PROC_YN
+		) VALUES (
+			(SELECT NVL(MAX(SEQ), 0) + 1 FROM T_GROUP_RESERVE),
+			#userid#,
+			TO_DATE(#reserve_date#, 'YYYY.MM.DD'),
+			#exp_type#,
+			#kitchen_yn#,
+			#other_yn#,
+			#group_nm#,
+			#exp_num#,
+			#see_num#,
+			#mobile1#,
+			#mobile2#,
+			#mobile3#,
+			#age#,
+			#content#,
+			SYSDATE,
+			'N'
+		)
+	</insert>
+</sqlMap>

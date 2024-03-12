@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ImageBoard">
+	<select id="getList" resultClass="Param" parameterClass="Param"> 
+		<![CDATA[
+	     SELECT *
+		   FROM (
+				 SELECT ROW_NUMBER() OVER(ORDER BY A.SEQ DESC) RNUM,
+					    A.SEQ, 
+					    A.CATE,
+					    A.TITLE,
+					    A.THUMB,
+					    A.IMG,
+					    A.URL,
+					    A.STATUS, DECODE(A.STATUS, 'S', '활성', 'H', '비활성', 'D', '삭제') STATUS_NAME,
+					    A.REGIST_USER, TO_CHAR(A.REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE,
+					    C.NAME2 CATE_NAME
+				   FROM T_IMAGE_BOARD A, T_CODE2 C
+				  WHERE A.CATE = C.CODE2
+				    AND C.CODE1 = '020'
+				    AND A.STATUS <> 'D'
+		]]>
+		<isNotEmpty property="cate">
+					AND A.CATE = #cate#
+		</isNotEmpty>
+		<isNotEmpty property="status">
+					AND A.STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty property="title">
+		        	AND A.TITLE LIKE '%' || #keyword# || '%'
+   		</isNotEmpty>
+		<![CDATA[
+		    )
+		  WHERE rnum > #POS_STA#
+	        AND rnum <= #POS_END#
+		]]>
+  	</select>
+
+	<select id="getListCount" parameterClass="Param" resultClass="Integer">
+		<![CDATA[
+		 SELECT COUNT(*)
+		   FROM T_IMAGE_BOARD A, T_CODE2 C
+		  WHERE A.CATE = C.CODE2
+		    AND C.CODE1 = '020'
+		    AND A.STATUS <> 'D'
+		]]>
+		<isNotEmpty property="cate">
+			AND A.CATE = #cate#
+		</isNotEmpty>
+		<isNotEmpty property="status">
+			AND A.STATUS = #status#
+		</isNotEmpty>
+		<isNotEmpty property="title">
+        	AND A.TITLE LIKE '%' || #keyword# || '%'
+   		</isNotEmpty>
+	</select>
+
+	<select id="getInfo" resultClass="Param" parameterClass="java.lang.Integer">
+		 SELECT A.*
+		   FROM T_IMAGE_BOARD A
+		  WHERE A.SEQ	= #seq#
+	</select>
+
+</sqlMap>

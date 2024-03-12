@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="SecondAnniversary">
+	<select id="getInfo" resultClass="Param">
+		SELECT *
+		  FROM T_2ND_ANNI
+		 WHERE SEQ = (SELECT MAX(SEQ) FROM T_2ND_ANNI)
+	</select>
+	
+	<select id="getProductList" parameterClass="java.lang.Long" resultClass="Param">
+		SELECT *
+		  FROM T_2ND_ANNI_PRD
+		 WHERE SEQ = #seq#
+	</select>
+	
+	<select id="getOrderList" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT OI.*
+		  FROM T_ORDER_MASTER OM, T_ORDER_SHIP OS, T_ORDER_ITEM OI
+		 WHERE OM.ORDERID = OS.ORDERID
+		   AND OS.ORDERID = OI.ORDERID
+		   AND OS.SHIP_SEQ = OI.SHIP_SEQ
+		   AND OM.USERID = #userid#
+		   AND OM.ORDER_DATE >= TRUNC(SYSDATE)
+		   AND OS.STATUS <> '290'
+		   AND OI.SUB_PID = #pid#
+		]]>
+	</select>
+</sqlMap>

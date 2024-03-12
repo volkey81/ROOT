@@ -1,0 +1,277 @@
+@CHARSET "utf-8";	
+/********** 01_상하농원이란 **********/
+.contBody {width:1100px; margin:0 auto; box-sizing:border-box;}
+	/* 01_01_상아농원은 */
+.storyWrap {width:100% !important; background:url(/images/brand/introduce/story/bg.jpg) no-repeat 50% 100%;}
+.storyWrap h2 {padding:40px 0 30px 0; line-height:48px; font-size:30px; color:#535353; letter-spacing:-1px; text-align:center;}
+.storyWrap h2 span {display:block; color:#8e9125; font-size:42px;}
+.storyWrap .handTxt {padding-top:50px;}
+.storyWrap .keywordArea {padding-top:285px; *zoom:1;}
+.storyWrap .keywordArea:after {content:""; display:block; clear:both;}
+.storyWrap .keywordArea .section {float:left; width:350px; height:420px; margin-left:25px; padding:50px 50px 0; background:#fff; box-sizing:border-box;}
+.storyWrap .keywordArea .section:first-child {margin-left:0;}
+.storyWrap .keywordArea .section p {color:#332f21; letter-spacing:-1px;}
+.storyWrap .keywordArea .section .copy {padding-top:28px; font-size:18px; font-family:nsb; line-height:24px;}
+.storyWrap .keywordArea .section .txt {padding-top:10px; font-size:14px; line-height:22px; color:#666;}	
+
+	/* 01_02_걸어온길 */
+.historyWrap {}
+.historyWrap h2 {padding:40px 0 65px 0; line-height:48px; font-size:30px; color:#535353; letter-spacing:-1px; text-align:center;}
+.historyWrap h2 span {display:block; color:#8e9125; font-size:42px;}
+	.historyList {position:relative; width:772px; margin:0 auto; padding-bottom:175px; background:url(/images/brand/introduce/history/bg_mount.png) no-repeat 50% 100%;} 
+	.historyList .section {position:relative; padding-bottom:40px; z-index:10;}
+	.historyList .section:before {content:""; display:block; position:absolute; left:50%; top:0; width:1px; height:100%; margin:10px 0 0; border-left:1px dashed #c3c3c3;}
+	.historyList .section:after {content:""; display:block; clear:both;}
+	.historyList .section div {float:left; width:50%;}
+	.historyList .section div img {float:left; width:264px;}
+	.historyList .section div strong {float:right; width:122px; margin-top:-4px; text-align:center; color:#332f21; font-family:Roboto; font-weight:500; font-size:32px; line-height:36px;}
+	.historyList .section ul {position:relative; float:right; width:50%; margin-top:-3px; left:-8px;}
+	.historyList .section ul li {position:relative; padding:0 0 0 65px; min-height:32px; margin-top:20px; background:url(/images/brand/introduce/history/blt2.png) no-repeat 0 7px;}
+	.historyList .section ul li:first-child {margin-top:0; background-image:url(/images/brand/introduce/history/blt1.png);} 
+	.historyList .section ul li .month {display:block; position:absolute; left:30px; top:0; font-size:14px; font-family:Roboto; color:#332f21; line-height:32px;}
+	.historyList .section ul li b {display:block; color:#332f21; font-size:18px; font-family:'nsb'; letter-spacing:-1px; line-height:32px;}
+	.historyList .section ul li p {font-size:14px; color:#332f21; line-height:20px;}
+	.historyList .section.ar div {float:right;}
+	.historyList .section.ar div img {float:right;}
+	.historyList .section.ar div strong {float:left;}
+	.historyList .section.ar ul {float:left; right:-9px; left:auto;}
+	.historyList .section.ar ul li {position:relative; padding:0 65px 0 0; background-position:100% 7px;}
+	.historyList .section.ar ul li .month {left:auto; right:30px;}
+	.historyList #his2008:before {content:""; display:block; position:absolute; left:50%; top:0; width:0; height:0; margin:0; border-left:none;}
+	.historyList #his2008:before {content:""; display:block; position:absolute; left:50%; top:0; width:0; height:0; margin:0; border-left:none;}
+	.historyList #his2008 .firstTxt {clear:both; padding-top:30px; text-align:center; color:#332f21; font-size:30px; line-height:36px; letter-spacing:-1px;}
+	.historyList .bg1 {position:absolute; left:337px; top:335px; width:298px; height:246px; background:url(/images/brand/introduce/history/bg_chicken.png) no-repeat 0 0;}
+	.historyList .bg2 {position:absolute; left:150px; top:733px; width:273px; height:183px;  background:url(/images/brand/introduce/history/bg_rice.png) no-repeat 0 0;}
+
+	/* 01_03_이용안내 */
+.guideWrap {width:100% !important; padding-bottom:0 !important;}
+.guideWrap h2 {padding:40px 0 30px 0; line-height:48px; font-size:30px; color:#535353; letter-spacing:-1px; text-align:center;}
+.guideWrap h2 span {display:block; color:#8e9125; font-size:42px;}
+.guideWrap .guideBtn {position:relative; display:inline-block; width:210px; height:54px; padding:0 20px; background:#b0b900; line-height:54px; font-size:18px; color:#fff; font-family:'nsb'; box-sizing:border-box; text-align:left;}
+.guideWrap .guideBtn:after {content:url(/images/brand/introduce/guide/blt.png); position:absolute; right:20px; top:2px;}
+.guideWrap .section .contBody > strong.tit {display:block; color:#fff; line-height:42px; font-size:28px; font-family:'nsb';}
+.guideWrap .section .contBody > ul {padding:10px 0 30px;}
+.guideWrap .section .contBody > ul li {position:relative; padding-left:12px; font-size:16px; color:#fff; line-height:28px; letter-spacing:-1px;}
+.guideWrap .section .contBody > ul li.bold {font-family:'nsb';}
+.guideWrap .section .contBody > ul li:before {display:block; position:absolute; left:0; top:0; content:"-"; line-height:28px;}
+.guideWrap .section .guideBtn {position:relative; display:inline-block; width:210px; height:54px; padding:0 20px; background:#b0b900; line-height:54px; font-size:18px; color:#fff; font-family:'nsb'; box-sizing:border-box;}
+.guideWrap .section .guideBtn:after {content:url(/images/brand/introduce/guide/blt.png); position:absolute; right:20px; top:2px;}
+.guideWrap .section1 {position:relative; height:574px;}
+.guideWrap .section2 {margin-top:65px;}
+.guideWrap .section2 .contBody {position:relative; height:515px; *zoom:1;}
+.guideWrap .section2 .contBody:after {content:""; display:block; clear:both;}
+.guideWrap .section2 .titArea {float:right; width:190px; height:100%; padding-top:135px; background:#f2a500 url(/images/brand/introduce/guide/ico4.png) no-repeat 50% 213px; text-align:center; box-sizing:border-box;}
+.guideWrap .section2 .titArea strong {display:block; padding-top:22px; color:#fff; font-size:28px; font-family:'nsb'; line-height:32px; letter-spacing:-1px;}
+.guideWrap .section2 .contArea {float:left; width:910px; height:100%; padding:24px 70px 0; background:#f5f5f5; box-sizing:border-box;}
+.guideWrap .section2 .contArea table {table-layout:fixed; width:100%;}
+.guideWrap .section2 .contArea table thead th {height:70px; border-bottom:3px solid #828282; text-align:center; color:#332f21; font-size:18px; font-family:'nsb';}
+.guideWrap .section2 .contArea table thead th img {vertical-align:middle;}
+.guideWrap .section2 .contArea table tbody th {padding:15px 0; text-align:center;  border-bottom:1px dotted #c0c0c0;}
+.guideWrap .section2 .contArea table tbody th div {display:inline-block; width:77px; height:77px; padding-top:28px; border-radius:50%; background:#f7f7f7; color:#332f21; font-size:18px; font-family:'nsb'; text-align:center; box-sizing:border-box;}
+.guideWrap .section2 .contArea table tbody th div.other {padding-top:22px;}
+.guideWrap .section2 .contArea table tbody th div span {display:block; text-align:center; font-size:12px;}
+.guideWrap .section2 .contArea table tbody td {text-align:center; border-bottom:1px dotted #c0c0c0; font-family:Roboto; color:#332f21; font-size:17px; font-weight:600; line-height:22px;}
+.guideWrap .section2 .contArea table tbody td span {display:inline-block; color:#828282; font-size:14px; letter-spacing:-1px; font-family:'ns';  line-height:22px; vertical-align:2px; font-weight:normal;}
+
+.guideWrap .section2 ul {padding:10px 0 0px;}
+.guideWrap .section2 ul li {position:relative; padding:0px 0 0px 12px; font-size:13px; color:#949494; line-height:20px;}
+.guideWrap .section2 ul li:before {display:block; position:absolute; left:0; top:0px; content:"-"; line-height:20px;}
+
+.guideWrap .section3 { height:571px;  background:url(/images/brand/introduce/guide/bg2.jpg) no-repeat 50% 0;}
+.guideWrap .section3 .contBody {padding-top:55px; padding-left:50px;}
+.guideWrap .section3 .contBody > strong.tit {color:#332f21;}
+.guideWrap .section3 .contBody > ul li {color:#332f21;}
+.guideWrap .section3 .boxArea {padding-top:10px; *zoom:1;}
+.guideWrap .section3 .boxArea:after {content:""; display:block; clear:both;}
+.guideWrap .section3 .box {float:left; padding:35px 40px 0; margin-left:32px; width:483px; height:252px; background:url(/images/brand/introduce/guide/box.png) no-repeat 0 0; box-sizing:border-box;}
+.guideWrap .section3 .box:first-child {margin-left:0;}
+.guideWrap .section3 .box strong {display:block; font-size:18px; line-height:28px; font-family:'nsb'; color:#fff; letter-spacing:-1px;}
+.guideWrap .section3 .box ul {padding-top:12px;}
+.guideWrap .section3 .box ul li {position:relative; padding:7px 0 7px 15px; border-top:1px dotted #545750; background:url(/images/brand/introduce/guide/blt2.png) no-repeat 6px 50%; font-size:15px; color:#fff; letter-spacing:-1px; line-height:22px; box-sizing:border-box;}
+.guideWrap .section3 .box ul li:first-child {border-top:none;}
+.guideWrap .section3 .box ul li span {display:block; position:absolute; right:8px; top:7px; line-height:22px; font-family:'nsb';}
+
+	/* 01_04_시설소개 */
+
+.facilityWrap {}
+.facilityWrap h2 {padding:40px 0 30px 0; line-height:48px; font-size:30px; color:#535353; letter-spacing:-1px; text-align:center;}
+.facilityWrap h2 span {display:block; color:#8e9125; font-size:42px;}
+
+.facilityWrap #mapArea {position:relative; height:750px; *zoom:1;}
+.facilityWrap #mapArea:after {content:""; display:block; clear:both;}
+.facilityWrap #mapArea .mapListArea {float:right; width:254px; height:100%; border:4px solid #b0b900; background:#fff; box-sizing:border-box;}
+.facilityWrap #mapArea .mapListArea .tit {position:relative; height:180px; background:#b0b900;}
+.facilityWrap #mapArea .mapListArea .tit strong {position:absolute; left:0; top:0; right:0; bottom:0; display:inline-block; width:136px; height:136px; padding-top:78px; margin:auto; background:#a1a900 url(/images/brand/introduce/facility/ico.png) no-repeat 50% 30px; border-radius:50%; color:#fff; font-size:24px; font-weight:'nsb'; text-align:center; box-sizing:border-box;}
+.facilityWrap #mapArea .mapListArea ul {padding-top:30px;}
+.facilityWrap #mapArea .mapListArea ul li {padding:0 0 0 50px; line-height:34px;}
+.facilityWrap #mapArea .mapListArea ul li a {position:relative; display:inline-block; height:34px; padding-left:40px; line-height:34px; color:#666; font-size:17px;}
+.facilityWrap #mapArea .mapListArea ul li a span {position:absolute; left:0; top:0; display:block; width:34px; height:34px; line-height:34px; color:#666; font-size:12px; text-align:center; box-sizing:border-box;}
+.facilityWrap #mapArea .mapListArea ul li a:hover,
+.facilityWrap #mapArea .mapListArea ul li.on a {color:#332f21; font-family:'nsb';}
+.facilityWrap #mapArea .mapListArea ul li a:hover span,
+.facilityWrap #mapArea .mapListArea ul li.on a span {border:3px solid #7d5933; border-radius:50%; line-height:29px;}
+.facilityWrap #mapArea .mapListArea ul li a:hover span:before,
+.facilityWrap #mapArea .mapListArea ul li.on a span:before {position:absolute; left:0; top:0; right:0; bottom:0; margin:auto; content:""; width:24px; height:24px; box-sizing:border-box; border:1px dashed #7d5933; border-radius:50%;} 
+.facilityWrap #mapArea .mapPointer {position:relative; float:left; width:846px; height:100%; background:url(/images/brand/introduce/facility/map.jpg) no-repeat 0 0;}
+.facilityWrap #mapArea .mapPointer .section {position:absolute; width:29px; height:29px; font-size:11px; font-family:'nsb'; color:#fff; text-align:center; line-height:31px; border-radius:50%; background:#7d5933; cursor:pointer;
+	-webkit-transition:all 0.2s ease-in-out; -moz-transition:all 0.2s ease-in-out; -o-transition:all 0.2s ease-in-out; transition:all 0.1s ease-in-out;
+}
+.facilityWrap #mapArea .mapPointer .section:before {position:absolute; left:0; top:0; right:0; bottom:0; margin:auto; content:""; width:27px; height:27px; box-sizing:border-box; border:1px dashed #fff; border-radius:50%;
+	-webkit-transition:all 0.2s ease-in-out; -moz-transition:all 0.2s ease-in-out; -o-transition:all 0.2s ease-in-out; transition:all 0.1s ease-in-out;
+}
+.facilityWrap #mapArea .mapPointer .section span {display:none; position:absolute; left:0; top:32px; width:100%; text-align:center; 
+	-webkit-transition:all 0.2s ease-in-out; -moz-transition:all 0.2s ease-in-out; -o-transition:all 0.2s ease-in-out; transition:all 0.1s ease-in-out;
+}
+.facilityWrap #mapArea .mapPointer .section1 {left:413px; top:681px;}
+.facilityWrap #mapArea .mapPointer .section2 {left:480px; top:414px;}
+.facilityWrap #mapArea .mapPointer .section3 {left:181px; top:516px;}
+.facilityWrap #mapArea .mapPointer .section4 {left:481px; top:531px;}
+.facilityWrap #mapArea .mapPointer .section5 {left:566px; top:451px;}
+.facilityWrap #mapArea .mapPointer .section6 {left:683px; top:477px;}
+.facilityWrap #mapArea .mapPointer .section7 {left:171px; top:692px;}
+.facilityWrap #mapArea .mapPointer .section8 {left:129px; top:277px;}
+.facilityWrap #mapArea .mapPointer .section9 {left:476px; top:259px;}
+.facilityWrap #mapArea .mapPointer .section10 {left:403px; top:232px;}
+.facilityWrap #mapArea .mapPointer .section11 {left:240px; top:125px;}
+.facilityWrap #mapArea .mapPointer .section12 {left:723px; top:156px;}
+.facilityWrap #mapArea .mapPointer .section13 {left:590px; top:70px;}
+.facilityWrap #mapArea .mapPointer .section14 {left:286px; top:496px;}
+
+.facilityWrap #mapArea .mapPointer .section.active,
+.facilityWrap #mapArea .mapPointer .section.on {width:85px; height:85px; padding-top:15px; margin:-60px 0 0 -30px; font-size:12px; font-family:'nseb'; color:#332f21; border:5px solid #7d5933; line-height:18px; background:#fff; box-sizing:border-box;}
+.facilityWrap #mapArea .mapPointer .section.active:before,
+.facilityWrap #mapArea .mapPointer .section.on:before {width:71px; height:71px; border:2px dashed #7d5933;}
+.facilityWrap #mapArea .mapPointer .section.active:after,
+.facilityWrap #mapArea .mapPointer .section.on:after {display:block; content:""; position:absolute; left:50%; bottom:-14px; border-style:solid; margin-left:-8px; border-width:11px 8px 0px; border-color:#7d5933 transparent transparent  ; height:0; width:0;}
+.facilityWrap #mapArea .mapPointer .section.active span,
+.facilityWrap #mapArea .mapPointer .section.on span {display:block; font-family:'nseb'; color:#332f21; font-size:15px; line-height:22px;}
+.facilityWrap #mapArea .mapPointer .section.active.line2,
+.facilityWrap #mapArea .mapPointer .section.on.line2 {padding-top:10px;}
+.facilityWrap #mapArea .mapPointer .section.line2 span {top:29px; line-height:16px;}
+
+.facilityWrap #mapCont {display:table; position:relative; margin-top:65px; width:100%; *zoom:1;}
+.facilityWrap #mapCont:after {content:""; display:block; clear:both;}
+.facilityWrap #mapCont .txtArea {width:100%; padding:35px 0; background:#7d5933; text-align:center; vertical-align:middle; box-sizing:border-box;}
+.facilityWrap #mapCont .txtArea strong {position:relative; display:block; font-size:28px; letter-spacing:-1px; font-family:'nsb'; color:#fff; line-height:38px; font-weight:normal;}
+.facilityWrap #mapCont .txtArea strong:after {display:block; position:absolute; left:50%; bottom:-10px; margin-left:-7px;  content:""; width:14px; height:1px; font-size:0; line-height:0; background:#cbbdad;}
+.facilityWrap #mapCont .txtArea p {padding:33px 40px 0; font-size:15px; color:#fff; line-height:24px;}
+.facilityWrap #mapCont .txtArea .btn {display:inline-block; position:absolute; right:30px; top:30px; height:34px; padding:0 55px 0 10px; border:2px solid #cbbdad; font-size:14px; color:#fff; font-family:'nsb'; line-height:30px; box-sizing:border-box;}
+.facilityWrap #mapCont .txtArea .btn:after {position:absolute; right:12px; top:2px; content:url(/images/brand/introduce/facility/blt.png);}
+.facilityWrap #mapCont .imgArea {position:relative; margin-top:1px; height:268px; box-sizing:border-box; overflow:hidden;}
+.facilityWrap #mapCont .imgArea .btnSlidePrev,
+.facilityWrap #mapCont .imgArea .btnSlideNext {position:absolute; top:50%; margin-top:-20px; z-index:20;}
+.facilityWrap #mapCont .imgArea .btnSlidePrev {left:0;}
+.facilityWrap #mapCont .imgArea .btnSlideNext {right:0;}
+.facilityWrap #mapCont .imgArea .slideCont {position:relative; height:268px; overflow:hidden;}
+.facilityWrap #mapCont .imgArea ul {position:relative; *zoom:1;}
+.facilityWrap #mapCont .imgArea ul:after {content:""; display:block; clear:both;}
+.facilityWrap #mapCont .imgArea ul li {float:left; margin-left:1px; width:366px; height:268px;}
+.facilityWrap #mapCont .imgArea ul li:first-child {margin-left:0;}
+
+	/* 01_05_주변관광 */
+	
+.tourWrap {}
+.tourWrap:before {content:""; position:absolute; left:0; top:761px; width:100%; height:830px;}
+.tourWrap h2 {padding:40px 0 30px 0; line-height:48px; font-size:30px; color:#535353; letter-spacing:-1px; text-align:center;}
+.tourWrap h2 span {display:block; color:#8e9125; font-size:42px;}
+
+.tourWrap #mapArea {position:relative; height:620px; /* border-bottom:1px solid #d9d9d9;  */box-sizing:border-box; *zoom:1;}
+.tourWrap #mapArea:after {content:""; display:block; clear:both;}
+.tourWrap #mapArea .mapListArea {float:right; width:254px; height:100%; border:4px solid #b0b900; background:#fff; box-sizing:border-box;}
+.tourWrap #mapArea .mapListArea .tit {position:relative; height:180px; background:#b0b900;}
+.tourWrap #mapArea .mapListArea .tit strong {position:absolute; left:0; top:0; right:0; bottom:0; display:inline-block; width:136px; height:136px; padding-top:78px; margin:auto; background:#a1a900 url(/images/brand/introduce/facility/ico.png) no-repeat 50% 30px; border-radius:50%; color:#fff; font-size:24px; font-weight:'nsb'; text-align:center; box-sizing:border-box;}
+.tourWrap #mapArea .mapListArea ul {padding-top:30px;}
+.tourWrap #mapArea .mapListArea ul li {padding:0 0 0 35px; line-height:34px;}
+.tourWrap #mapArea .mapListArea ul li a {position:relative; display:inline-block; height:34px; padding-left:40px; line-height:34px; color:#666; font-size:17px;}
+.tourWrap #mapArea .mapListArea ul li a span {position:absolute; left:0; top:0; display:block; width:34px; height:34px; line-height:34px; color:#666; font-size:12px; text-align:center; box-sizing:border-box;}
+.tourWrap #mapArea .mapListArea ul li a:hover,
+.tourWrap #mapArea .mapListArea ul li.on a {color:#332f21; font-family:'nsb';}
+.tourWrap #mapArea .mapListArea ul li a:hover span,
+.tourWrap #mapArea .mapListArea ul li.on a span {border:3px solid #7d5933; border-radius:50%; line-height:29px;}
+.tourWrap #mapArea .mapListArea ul li a:hover span:before,
+.tourWrap #mapArea .mapListArea ul li.on a span:before {position:absolute; left:0; top:0; right:0; bottom:0; margin:auto; content:""; width:24px; height:24px; box-sizing:border-box; border:1px dashed #7d5933; border-radius:50%;} 
+.tourWrap #mapArea .mapPointer {position:relative; float:left; width:846px; height:100%; background:#faf6e3 url(/images/brand/introduce/tour/map.png) no-repeat 100% 45px;}
+.tourWrap #mapArea .mapPointer .section {position:absolute; width:29px; height:29px; font-size:11px; font-family:'nsb'; color:#fff; text-align:center; line-height:31px; border-radius:50%; background:#7d5933; cursor:pointer;
+	-webkit-transition:all 0.2s ease-in-out; -moz-transition:all 0.2s ease-in-out; -o-transition:all 0.2s ease-in-out; transition:all 0.1s ease-in-out;
+}
+.tourWrap #mapArea .mapPointer .section:before {position:absolute; left:0; top:0; right:0; bottom:0; margin:auto; content:""; width:27px; height:27px; box-sizing:border-box; border:1px dashed #fff; border-radius:50%;
+	-webkit-transition:all 0.2s ease-in-out; -moz-transition:all 0.2s ease-in-out; -o-transition:all 0.2s ease-in-out; transition:all 0.1s ease-in-out;
+}
+.tourWrap #mapArea .mapPointer .section span {display:none; position:absolute; left:0; top:32px; width:100%; text-align:center; 
+	-webkit-transition:all 0.2s ease-in-out; -moz-transition:all 0.2s ease-in-out; -o-transition:all 0.2s ease-in-out; transition:all 0.1s ease-in-out;
+}
+.tourWrap #mapArea .mapPointer .section1 {left:382px; top:453px;}
+.tourWrap #mapArea .mapPointer .section2 {left:111px; top:322px;}
+.tourWrap #mapArea .mapPointer .section3 {left:202px; top:416px;}
+.tourWrap #mapArea .mapPointer .section4 {left:234px; top:70px;}
+.tourWrap #mapArea .mapPointer .section5 {left:427px; top:112px;}
+.tourWrap #mapArea .mapPointer .section6 {left:643px; top:295px;}
+.tourWrap #mapArea .mapPointer .section7 {left:661px; top:404px;}
+.tourWrap #mapArea .mapPointer .section8 {left:745px; top:135px;}
+
+.tourWrap #mapArea .mapPointer .section.active,
+.tourWrap #mapArea .mapPointer .section.on {width:85px; height:85px; padding-top:15px; margin:-60px 0 0 -30px; font-size:12px; font-family:'nseb'; color:#332f21; border:5px solid #7d5933; line-height:18px; background:#fff; box-sizing:border-box;}
+.tourWrap #mapArea .mapPointer .section.active:before,
+.tourWrap #mapArea .mapPointer .section.on:before {width:71px; height:71px; border:2px dashed #7d5933;}
+.tourWrap #mapArea .mapPointer .section.active:after,
+.tourWrap #mapArea .mapPointer .section.on:after {display:block; content:""; position:absolute; left:50%; bottom:-14px; border-style:solid; margin-left:-8px; border-width:11px 8px 0px; border-color:#7d5933 transparent transparent  ; height:0; width:0;}
+.tourWrap #mapArea .mapPointer .section.active span,
+.tourWrap #mapArea .mapPointer .section.on span {display:block; font-family:'nseb'; color:#332f21; font-size:15px; line-height:22px;}
+.tourWrap #mapArea .mapPointer .section.active.line2,
+.tourWrap #mapArea .mapPointer .section.on.line2 {padding-top:10px;}
+.tourWrap #mapArea .mapPointer .section.line2 span {top:29px; line-height:16px;}
+
+.tourWrap #mapCont {display:table; position:relative; padding-top:65px; width:100%; *zoom:1;}
+.tourWrap #mapCont:after {content:""; display:block; clear:both;}
+.tourWrap #mapCont h3 {width:295px; margin:0 auto 40px; border-top:2px solid #332f21; border-bottom:2px solid #332f21; line-height:36px; font-size:22px; color:#332f21; text-align:center;}
+.tourWrap #mapCont .section {margin-top:20px;}
+.tourWrap #mapCont #section0 {margin-top:0;}
+.tourWrap #mapCont .txtArea {position:relative; width:100%; padding:35px 0; background:#7d5933; text-align:center; vertical-align:middle; box-sizing:border-box;}
+.tourWrap #mapCont #section1 .txtArea  {background:#b0b900;}
+.tourWrap #mapCont #section1 .btn {border-color:#dfe399;}
+.tourWrap #mapCont .txtArea strong {position:relative; display:block; font-size:28px; letter-spacing:-1px; font-family:'nsb'; color:#fff; line-height:38px; font-weight:normal;}
+.tourWrap #mapCont .txtArea strong:after {display:block; position:absolute; left:50%; bottom:-10px; margin-left:-7px;  content:""; width:14px; height:1px; font-size:0; line-height:0; background:#cbbdad;}
+.tourWrap #mapCont .txtArea p {padding:33px 40px 0; font-size:15px; color:#fff; line-height:24px;}
+.tourWrap #mapCont .txtArea .btn {display:inline-block; position:absolute; right:30px; top:30px; height:34px; padding:0 55px 0 10px; border:2px solid #cbbdad; font-size:14px; color:#fff; font-family:'nsb'; line-height:30px; box-sizing:border-box;}
+.tourWrap #mapCont .txtArea .btn:after {position:absolute; right:12px; top:2px; content:url(/images/brand/introduce/facility/blt.png);}
+.tourWrap #mapCont .imgArea {position:relative; margin-top:1px; height:268px; box-sizing:border-box; overflow:hidden;}
+.tourWrap #mapCont .imgArea .btnSlidePrev,
+.tourWrap #mapCont .imgArea .btnSlideNext {position:absolute; top:50%; margin-top:-20px; z-index:20;}
+.tourWrap #mapCont .imgArea .btnSlidePrev {left:0;}
+.tourWrap #mapCont .imgArea .btnSlideNext {right:0;}
+.tourWrap #mapCont .imgArea .slideCont {position:relative; height:268px; overflow:hidden;}
+.tourWrap #mapCont .imgArea ul {position:relative; *zoom:1;}
+.tourWrap #mapCont .imgArea ul:after {content:""; display:block; clear:both;}
+.tourWrap #mapCont .imgArea ul li {float:left; margin-left:1px; width:366px; height:268px;}
+.tourWrap #mapCont .imgArea ul li:first-child {margin-left:0;}
+	
+	
+	/* 01_06_오시는길 */
+.locationWrap {width:100% !important;}
+.locationWrap .addrArea {padding:40px 0 30px 0; text-align:center;}
+.locationWrap .addrArea address {display:inline-block; color:#8e9125; font-style:normal; font-size:42px; line-height:50px; letter-spacing:-1px;  vertical-align:middle;}
+.locationWrap .addrArea address.addr2 {font-size:30px; line-height:44px; color:#535353;}
+.locationWrap .addrArea b {display:inline-block; height:34px; width:50px; margin-right:10px; border:1px solid #535353; border-radius:4px; color:#535353; vertical-align:middle; line-height:32px; box-sizing:border-box; font-size:17px; font-family:'ns'; font-weight:normal;}
+	.trafficInfo {padding:15px 55px 0;}
+	.trafficInfo .section {position:relative; display:table; min-height:130px; width:100%; border-top:1px dotted #c0c0c0;}
+	.trafficInfo .section:first-child {border-top:none;}
+	.trafficInfo .section strong {position:absolute; left:18px; top:18px; display:block; width:96px; height:96px; padding-top:52px; border-radius:50%; background:#f7f7f7; color:#332f21; font-weight:normal; font-family:'nsb'; text-align:center; box-sizing:border-box; letter-spacing:-1px; font-size:16px;}
+	.trafficInfo .section1 strong {background:#f7f7f7 url(/images/brand/introduce/location/ico1.png) no-repeat 50% 20px;}
+	.trafficInfo .section2 strong {background:#f7f7f7 url(/images/brand/introduce/location/ico2.png) no-repeat 50% 20px;}
+	.trafficInfo .section3 strong {background:#f7f7f7 url(/images/brand/introduce/location/ico3.png) no-repeat 50% 20px;}
+	.trafficInfo .section4 strong {background:#f7f7f7 url(/images/brand/introduce/location/ico3.png) no-repeat 50% 20px;}
+	.trafficInfo .section div {display:table-cell; padding-left:180px; width:100%; vertical-align:middle; box-sizing:border-box;}
+	.trafficInfo .section4 div {padding-top:30px;}
+	.trafficInfo .section div p {padding:4px 0; font-size:18px; color:#535353; line-height:24px; letter-spacing:-1px}
+	.trafficInfo .section div p img {margin:0 2px; vertical-align:0;}
+	.trafficInfo .section .schedule {padidng-top:10px; font-size:16px; color:#535353; line-height:24px;}
+	.trafficInfo .section .schedule li {padding-top:10px;}
+	.trafficInfo .section .schedule li b {display:block; font-weight:normal; font-size:16px; color:#8e9125; line-height:24px;}
+	.trafficInfo .section .schedule li b img {margin:0 2px; vertical-align:0;}
+	.trafficInfo .section .infoTxt {padding:20px 0 30px;}
+	.trafficInfo .section .infoTxt li {position:relative; padding-left:10px; font-size:13px; color:#939393; line-height:20px;}
+	.trafficInfo .section .infoTxt li:before {display:block; position:absolute; left:0; top:0; content:"-"; line-height:20px; color:#c8cd00}
+	
+	
+	
+	

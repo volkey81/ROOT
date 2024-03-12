@@ -1,0 +1,11 @@
+@CHARSET "utf-8";
+
+/* common */
+.bbsList.typeB tbody td {border-left-width:0;}
+.bbsList.typeB tbody td.last {border-left-width:1px;}
+
+/* 쇼핑 */
+.pdtList li:first-child +li+li+li {margin-right:0;}
+
+/* 브랜드 */
+.agreeChk .section h3 input[type=checkbox].checked +label {background-position-y:100%;}

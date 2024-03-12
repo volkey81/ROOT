@@ -1,0 +1,132 @@
+@CHARSET "utf-8";
+
+/********** 01_ **********/
+
+
+
+/********** 02_짓다 **********/
+.workshopWrapper #container	{width:100% !important; padding-bottom:0;}
+.brantTopTxt	{padding:20px 0; font-size:16px; color:#8e9125; text-align:center;letter-spacing:-1px;}
+.brantTopTxt span	{display:block; padding-top:5px;font-size:13px; color:#535353; }
+/* 햄공방, 과일공방, 빵공방, 발효공방 */
+.workshopArea	{text-align:center;}
+.workshopArea img	{width:100%}
+.workshopArea .scheduleArea	{padding:0 6.1% 25px 6.1%; background:#7d5933;}
+.workshopArea .scheduleArea .txtArea	{background:#b0b900;}
+.workshopArea .scheduleArea .txtArea p	{padding:22px 0; }
+.workshopArea .scheduleArea .txtArea p img	{display:block; margin:0 auto; padding-bottom:13px; width:94px;}
+.workshopArea .scheduleArea .txtArea p span	{font-size:13px; color:#fff;}
+.workshopArea .scheduleArea .schedule	{padding-top:25px;}
+.workshopArea .scheduleArea .schedule p	{padding-bottom:15px; font-size:16px; color:#fff; font-weight:bold;}
+.workshopArea .scheduleArea .schedule ul:after	{content:""; display:block; clear:both;}
+.workshopArea .scheduleArea .schedule ul li	{float:left; width:14%; font-size:12px; color:#fff;}
+.workshopArea .scheduleArea .schedule ul li span	{display:block; padding:8px 0; width:98%; border-top:1px dotted #a48b71;border-bottom:1px dotted #a48b71;}
+.workshopArea .scheduleArea .schedule ul li a	{display:block; margin-left:20%; padding-top:15px; width:25x; height:22px; background:url("/images/brand/workshop/scheduleBtn_off.png") no-repeat 0 15px;}
+.workshopArea .scheduleArea .schedule ul li a.on	{display:block; margin-left:20%; padding-top:15px; width:25px; height:22px; background:url("/images/brand/workshop/scheduleBtn_on.png") no-repeat 0 15px;}
+.workshopArea .scheduleArea .schedule>span	{display:block; padding-top:15px;font-size:12px; color:#e5ded6; line-height:16px; letter-spacing:-0.6px;}
+.workshopArea .movieArea p	{padding:9px 0; font-size:16px; color:#fff; background:#f2a500 url("/mobile/images/brand/workshop/workshop0105.jpg") no-repeat 0 0; background-size:35px 35px;}
+.workshopArea .movieArea .mvArea {position:relative; width:100%; padding-top:56.25%;}
+.workshopArea .movieArea .mvArea iframe {position:absolute; left:0; top:0; width:100%; height:100%;}
+.gardenArea .txtArea	{margin-bottom:20px;}
+
+/* 텃밭정원 */
+.gardenArea .brantTopTxt	{padding:7% 0; font-size:21px; color:#8e9125; /*background:url("/mobile/images/brand/workshop/workshop0501.jpg") no-repeat center 0; background-size:100% 100%;*/}
+.gardenArea .brantTopTxt span	{display:block; padding-top:10px;font-size:15px; color:#535353;}
+.gardenArea .txtArea p	{margin:0 6.3%; padding-bottom:20px; font-size:13px; color:#fff; background:#f2a501;}
+.gardenArea .txtArea img	{width:100%;}
+.gardenArea .workshopSlide	{background:#f5f5f5;}
+
+/* 주요제품 슬라이드 */
+.productSlide	{position:relative; margin-top:0; /*height:205px;*/ padding:0 13px 15px 13px; background:#fff;}
+.productSlide p	{padding:9px 0; margin:0 -13px 13px; font-size:16px; color:#fff; background:#b0b900 url("/mobile/images/brand/workshop/workshop0104.jpg") no-repeat 0 0; background-size:35px 35px;}
+.productSlide ul:after	{content:""; display:block; clear:both;}
+.productSlide ul li	{position:relative; float:left; margin-right:2px; width:143px; border:2px solid #c1c1c1;}
+.productSlide ul li span	{display:block; position:absolute; left:50%; bottom:10px; padding-top:3px; margin-left:-71px; width:143px;font-size:12px; color:#fff; background:url("/images/brand/workshop/slideTxtBg.gif") no-repeat center 0; }
+
+/* 인테리어 슬라이드 */
+.gallerySlide	{position:relative; overflow:hidden; padding-bottom:35px; margin:0 20px; text-align:center;}
+.gallerySlide .slideCont {width:100%;}
+.gallerySlide ul:after	{content:""; display:block; clear:both;}
+.gallerySlide ul li	{position:relative; float:left; margin-right:15px;}
+.gallerySlide .control {margin-top:17px; text-align:center;}
+.gallerySlide .prev, .gallerySlide .next	{display:inline-block; width:25px; height:25px;}
+
+/********** 03_놀다 **********/
+.playWrapper #container	{width:100% !important; }
+.playWrapper .gallery	{padding-bottom:0 !important}
+.playArea	{text-align:center;}
+/* 전시관 */
+.playArea .galleryCont .galleryTopTxt	{padding:20px 15px;font-size:15px; color:#8e9125; text-align:center;letter-spacing:-1.5px}
+.playArea .galleryCont .galleryTopTxt span	{display:block; font-size:13px; color:#666; line-height:24px;}
+.playArea .galleryCont .galleryHead	{padding:16% 0 43.7% 0; background:url("/mobile/images/brand/play/gallery01.jpg") no-repeat center 0; background-size:100% 100%;}
+.playArea .galleryCont .galleryHead p	{font-size:13px; color:#fff; line-height:20px;letter-spacing:-1px;}
+.playArea .galleryCont .yearCont .cont01	{padding-top:20px;}
+.playArea .galleryCont .yearCont .cont p.tit	{padding:15px 0; font-size:21px; color:#332f21; line-height:26px; text-align:center; letter-spacing:-1px;background:url("/images/brand/play/blt_gallery.gif") no-repeat center 0;}
+.playArea .galleryCont .yearCont .cont p.tit span	{display:block;padding-top:5px; font-size:12px; color:#666;}
+.playArea .galleryCont .yearCont .cont .txtArea	p{background:none;}
+.playArea .galleryCont .cont2017 .cont01 .txtArea .txt	{margin:0;padding-top:25px;font-size:16px; color:#332f21; text-align:center; background:#f6f6f6;}
+.playArea .galleryCont .yearCont .cont .txtArea .txt span	{display:block; padding-top:10px; font-size:13px; color:#666; line-height:18px;}
+.playArea .galleryCont .cont2017 .cont02 p.tit	{margin-top:20px !important;}
+
+.playArea .galleryCont .cont2016	{margin-top:30px;}
+.playArea .galleryCont .cont2016	 .cont{margin-top:25px;}
+.playArea .galleryCont .cont2016 .cont .txtArea	{text-align:center;}
+.playArea .galleryCont .cont2016 .cont .txtArea .txt	{margin:0;padding-top:25px;font-size:16px; color:#332f21; text-align:center; background:#f6f6f6;}
+
+
+/* 동물농장,양떼목장,유기농목장 */
+.playArea .brantTopTxt	{font-size:21px; color:#fff; }
+.animal .brantTopTxt	{padding:16% 0 22.5% 0; background:url("/mobile/images/brand/play/animal01.jpg") no-repeat center 0; background-size:100% 100%;}
+.sheep .brantTopTxt	{padding:13% 0 20.8% 0; background:url("/mobile/images/brand/play/sheep01.jpg") no-repeat center 0; background-size:100% 100%; line-height:26px;}
+.organic .brantTopTxt	{padding:13% 0 20.8% 0; background:url("/mobile/images/brand/play/organic01.jpg") no-repeat center 0; background-size:100% 100%; line-height:26px;}
+.playArea .brantTopTxt span	{padding-top:10px;font-size:15px; color:#fff; line-height:20px; }
+.playArea .txtArea p	{margin:0 6.3%; padding-bottom:20px; font-size:13px; color:#fff; background:#f2a501; letter-spacing:-1px;}
+.playArea .txtArea img	{width:100%;}
+.playArea .playSlide	{background:#f5f5f5;}
+.playArea .playSlide .slideTxt	{margin:0 20px; padding:11px 10px 20px 10px; border-top:2px solid #dde0dc;}
+.playArea .playSlide .slideTxt p	{font-size:12px; color:#939393; text-align:left; letter-spacing:-1px;}
+.playArea .playSlide .slideTxt p span	{color:#c8cd00;}
+.playTime	{padding-top:20px; margin:0 auto;}
+.playTime>strong	{display:block; padding-bottom:10px; font-size:15px; color:#332f21; text-align:center;}
+.playTime table	{width:100%; border-top:2px solid #828282;}
+.playTime table th	{padding:10px 0;font-size:13px; color:#332f21; background:#f6f6f6; border-bottom:1px solid #dde0dc;}
+.playTime table th span	{display:block; font-size:12px; }
+.playTime table td	{font-size:12px; color:#332f21;border-bottom:1px solid #dde0dc; border-right:1px solid #dde0dc; text-align:center;}
+.playTime table td:nth-child(5)	{border-right:none;}
+.playTime ul	{padding:10px 0 0 10px; text-align:left;}
+.playTime ul li	{font-size:12px; color:#939393;letter-spacing:-0.5px;}
+.playTime ul li span	{color:#c8cd00;}
+
+/********** 04_먹다 **********/
+.foodWrapper #container	{width:100% !important; padding-bottom:0;}
+/* 상하키친, 농원식당, 카페젤라또 */
+.store1 .foodHead{padding:16% 0 22.5% 0; background:url("/mobile/images/brand/food/food0101.jpg") no-repeat center 0; background-size:100% 100%;}
+.store2 .foodHead{padding:16% 0 22.5% 0; background:url("/mobile/images/brand/food/food0201.jpg") no-repeat center 0; background-size:100% 100%;}
+.store3 .foodHead{padding:16% 0 22.5% 0; background:url("/mobile/images/brand/food/food0301.jpg") no-repeat center 0; background-size:100% 100%;}
+.store4 .foodHead{padding:16% 0 22.5% 0; background:url("/mobile/images/brand/food/food0401.jpg") no-repeat center 0; background-size:100% 100%;}
+.store5 .foodHead{padding:16% 0 22.5% 0; background:url("/mobile/images/brand/food/food0501.jpg") no-repeat center 0; background-size:100% 100%;}
+.store3 .foodSlide{padding-top:20px;}
+.foodArea .foodHead	{position:relative; width:100%;text-align:center;}
+.foodArea .foodHead p	{ font-size:21px; color:#fff; line-height:25px;letter-spacing:-1px;}
+.foodArea .foodHead img	{width:100%;}
+.foodArea .timeInfo	{background:#7d5933;}
+.foodArea .timeInfo>img	{width:100%;}
+.store4 .timeInfo p.txt	{padding:0 25px 20px 25px !important;font-size:12px; color:#fff; text-align:center; line-height:18px;}
+.store5 .timeInfo p.txt	{padding:0 25px 20px 25px !important;font-size:12px; color:#fff; text-align:center; line-height:18px;}
+.store5 .timeInfo	{padding-bottom:20px;}
+.foodArea .timeInfo .time:after	{content:""; display:block; clear:both;}
+.foodArea .timeInfo .time	{ margin:0 20px; border-top:1px solid #977a5c;border-bottom:1px solid #977a5c;}
+.foodArea .timeInfo .time .timeTit	{padding:23px 0 23px 37px; font-size:14px; color:#efe1d4; letter-spacing:-1px;background:url("/mobile/images/brand/food/food0103.gif") no-repeat 5px 20px; background-size:28px 28px;}
+.foodArea .timeInfo .time .timeTxt	{padding:23px 5px 23px 0; font-size:14px; color:#fff;}
+.foodArea .timeInfo .time .timeTxt span	{display:block; font-size:12px; color:#fff;}
+.foodArea .timeInfo p	{padding:12px 33px 20px 33px;font-size:12px; color:#efe1d4; line-height:16px; letter-spacing:-1px;}
+.foodArea .timeInfo p span	{display:block; padding-top:5px;}
+.foodArea .foodSlide	{margin:0 auto;  background:#7d5933;}
+.foodArea .productSlide	{text-align:center;}
+
+/********** 05_농원이야기 **********/
+
+
+
+
+

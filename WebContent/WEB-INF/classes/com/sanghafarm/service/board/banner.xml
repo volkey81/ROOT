@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Banner">
+	<select id="getList" resultClass="Param" parameterClass="Param"> 
+		<![CDATA[
+	     SELECT *
+		   FROM (
+				 SELECT ROW_NUMBER() OVER(ORDER BY A.RANK, A.REGIST_DATE DESC) RNUM,
+					    A.*
+				   FROM T_BANNER A
+				  WHERE A.POSITION = #position#
+				    AND A.STATUS = 'S'
+				    AND A.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+				    AND A.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		    )
+		  WHERE rnum > #POS_STA#
+	        AND rnum <= #POS_END#
+		]]>
+  	</select>
+
+</sqlMap>

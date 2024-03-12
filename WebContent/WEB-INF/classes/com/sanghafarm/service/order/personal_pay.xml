@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="PersonalPay">
+	<select id="getList" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		 SELECT *
+		   FROM 
+		    (
+				SELECT ROW_NUMBER() OVER(ORDER BY PP.ORDERID DESC) RNUM,
+					   PP.ORDERID,
+					   PP.UNFY_MMB_NO,
+					   TO_CHAR(PP.REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE,
+					   NVL(IM.MMB_ID, IM.UNFY_MMB_NO || '_' || IM.SOC_KIND_CD) MMB_ID,
+					   IM.MMB_NM,
+					   C.FE_NAME STATUS_NAME,
+					   C2.NAME2 DIV_NAME
+				  FROM T_PERSONAL_PAY PP, 
+				  	   T_IMMEM IM, 
+				  	   T_ORDER_STATUS_CODE C,
+				  	   T_CODE2 C2
+				 WHERE PP.UNFY_MMB_NO = IM.UNFY_MMB_NO
+				   AND PP.STATUS = C.STATUS
+				   AND PP.DIV = C2.CODE2
+				   AND C2.CODE1 = '032'
+				   AND PP.STATUS2 = 'S'
+		 ) 
+		  WHERE RNUM > #POS_STA#
+            AND RNUM <= #POS_END#
+		]]>
+	</select>
+
+	<select id="getListCount" resultClass="java.lang.Integer">
+		<![CDATA[
+		SELECT COUNT(*)
+		  FROM T_PERSONAL_PAY PP, T_IMMEM IM, T_ORDER_STATUS_CODE C
+		 WHERE PP.UNFY_MMB_NO = IM.UNFY_MMB_NO
+		   AND PP.STATUS = C.STATUS
+		   AND PP.STATUS2 = 'S'
+		]]>
+	</select>
+	
+	<select id="getInfo" parameterClass="java.lang.String" resultClass="Param">
+		SELECT PP.ORDERID,
+			   PP.UNFY_MMB_NO,
+			   PP.CONTENTS,
+			   PP.SALE_PRICE,
+			   PP.STATUS, 
+			   TO_CHAR(PP.REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE,
+			   NVL(IM.MMB_ID, IM.UNFY_MMB_NO || '_' || IM.SOC_KIND_CD) MMB_ID,
+			   IM.MMB_NM,
+			   C2.NAME2 DIV_NAME
+		  FROM T_PERSONAL_PAY PP,
+		  	   T_IMMEM IM,
+		  	   T_CODE2 C2
+		 WHERE PP.UNFY_MMB_NO = IM.UNFY_MMB_NO
+		   AND PP.DIV = C2.CODE2
+		   AND C2.CODE1 = '032'
+		   AND PP.ORDERID = #orderid#
+	</select>
+	
+	<update id="updateStatus" parameterClass="Param">
+		UPDATE T_PERSONAL_PAY
+		   SET STATUS = #status#
+		 WHERE ORDERID = #orderid#
+	</update>
+	
+</sqlMap>

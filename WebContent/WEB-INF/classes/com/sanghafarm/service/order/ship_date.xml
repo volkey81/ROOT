@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="ShipDate">
+	<select id="getShipDate" parameterClass="java.lang.Integer" resultClass="java.lang.String">
+		<![CDATA[
+		SELECT TO_CHAR(TO_DATE(MIN(SHIP_DATE), 'YYYYMMDD') + 1, 'YYYYMMDD')
+		  FROM T_SHIP_DATE
+		  WHERE SHIP_DATE >= TO_CHAR(CASE WHEN TO_NUMBER(TO_CHAR(SYSDATE, 'HH24')) < #hour# 
+		  									THEN SYSDATE 
+											ELSE SYSDATE + 1 END, 'YYYYMMDD')
+		]]>
+	</select>
+
+	<select id="getShipDateList" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT X.*
+		  FROM (
+				SELECT ROW_NUMBER() OVER(ORDER BY A.SHIP_DATE) RNUM, 
+					   A.*,
+					   TO_CHAR(TO_DATE(A.SHIP_DATE, 'YYYYMMDD') + 1, 'YYYY.MM.DD') DELIVERY_DATE
+				  FROM T_SHIP_DATE A
+				 WHERE A.SHIP_DATE >= TO_CHAR(CASE WHEN TO_NUMBER(TO_CHAR(SYSDATE, 'HH24')) < 18 
+				  									THEN SYSDATE 
+													ELSE SYSDATE + 1 END, 'YYYYMMDD')
+		  	   ) X
+		 WHERE RNUM > #POS_STA#
+		   AND RNUM <= #POS_END#
+		]]>
+	</select>
+</sqlMap>

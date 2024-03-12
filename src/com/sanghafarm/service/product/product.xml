@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Product">
+
+	<resultMap id="info" class="Param">
+		<result property="pid" column="pid" />
+		<result property="pnm" column="pnm" />
+		<result property="opt_pnm" column="opt_pnm" />
+		<result property="summary" column="summary" />
+		<result property="ptype" column="ptype" />
+		<result property="default_price" column="default_price" />
+		<result property="contents" column="contents" jdbcType="CLOB" javaType="java.lang.String" />
+		<result property="start_date" column="start_date" />
+		<result property="end_date" column="end_date" />		
+		<result property="routine_yn" column="routine_yn" />
+		<result property="status" column="status" />
+		<result property="sale_status" column="sale_status" />
+		<result property="sale_type" column="sale_type" />
+		<result property="routine_sale_type" column="routine_sale_type" />
+		<result property="thumb" column="thumb" />
+		<result property="image1" column="image1" />
+		<result property="image2" column="image2" />
+		<result property="image3" column="image3" />
+		<result property="image4" column="image4" />
+		<result property="image5" column="image5" />
+		<result property="image6" column="image6" />
+		<result property="tax_yn" column="tax_yn" />
+		<result property="sale_info" column="sale_info" />
+		<result property="auth" column="auth" />
+		<result property="pack_unit" column="pack_unit" />
+		<result property="declared" column="declared" />
+		<result property="maker" column="maker" />
+		<result property="keep_method" column="keep_method" />
+		<result property="origin" column="origin" />
+		<result property="counsel_tel" column="counsel_tel" />
+		<result property="dom" column="dom" />
+		<result property="rank" column="rank" />
+		<result property="rank_manual_yn" column="rank_manual_yn" />
+		<result property="regist_user" column="regist_user" />
+		<result property="regist_date" column="regist_date" />
+		<result property="update_user" column="update_user" />
+		<result property="update_date" column="update_date" />
+		<result property="mcontents" column="mcontents" jdbcType="CLOB" javaType="java.lang.String" />
+		<result property="weight" column="weight" />
+		<result property="sale_unit" column="sale_unit" />
+		<result property="delivery_type" column="delivery_type" />
+		<result property="erp_cd" column="erp_cd" />
+		<result property="sale_chance" column="sale_chance" />
+		<result property="producer_seq" column="producer_seq" />
+		<result property="adult_auth" column="adult_auth" />
+		<result property="sale_price" column="sale_price" />
+		<result property="stock" column="stock" />
+		<result property="wish_yn" column="wish_yn" />
+		<result property="keep_method2" column="keep_method2" />
+		<result property="icon" column="icon" />
+		<result property="delivery_type2" column="delivery_type2" />
+		<result property="expiration" column="expiration" />
+		<result property="info" column="info" />
+		<result property="early_only" column="early_only" />
+	</resultMap> 
+  
+	<select id="getInfo" resultMap="info" parameterClass="Param">
+		 SELECT P.*, 
+		 		F_PRICE(P.PID, #grade_code#) SALE_PRICE, 
+		 		NVL(PS.STOCK, 0) STOCK,
+		 		PS.SOLDOUT_MSG,
+		 		(SELECT COUNT(*) FROM T_PRODUCT_OPTION WHERE PID = P.PID) OPT_CNT,
+		 		NVL((SELECT 'Y' FROM T_WISHLIST WHERE USERID = #userid# AND PID = #pid#), 'N') WISH_YN			    
+		   FROM T_PRODUCT P, 
+		   		T_PRODUCT_STOCK PS
+		  WHERE P.PID = PS.PID(+)
+		    AND P.PID = #pid#
+	</select>
+
+	<select id="getOptionList" resultClass="Param" parameterClass="Param">
+	 	SELECT A.PID,
+	 		   A.OPT_PID,
+			   B.PNM,
+			   B.OPT_PNM,
+			   B.IMAGE1,
+			   B.SALE_STATUS,
+			   F_PRICE(A.OPT_PID, #grade_code#) SALE_PRICE,
+			   NVL(PS.STOCK, 0) STOCK
+		  FROM T_PRODUCT_OPTION A, T_PRODUCT B, T_PRODUCT_STOCK PS
+		 WHERE A.PID = #pid#
+		   AND A.OPT_PID = B.PID
+		   AND B.PID = PS.PID(+)
+    	   AND B.START_DATE <![CDATA[<]]>= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+    	   AND B.END_DATE  >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		ORDER BY A.RANK
+	</select>
+
+	<select id="getRefList" resultClass="Param" parameterClass="Param">
+	 	SELECT B.PID,
+			   B.PNM,
+			   B.IMAGE1,
+			   F_PRICE(A.REF_PID, #grade_code#) SALE_PRICE
+		  FROM T_PRODUCT_REF A, T_PRODUCT B
+		 WHERE A.REF_PID = B.PID 
+		   AND A.PID = #pid#
+    	   AND B.START_DATE <![CDATA[<]]>= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+    	   AND B.END_DATE  >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND B.STATUS = 'Y'
+		ORDER BY A.RANK
+	</select>
+
+	<select id="getDeliveryDayList" parameterClass="java.lang.String" resultClass="Param">
+		SELECT A.DAY, A.DAY_NAME, B.DELIVERY_DAY
+		  FROM (
+				SELECT #value# PID, '1' DAY, '일' DAY_NAME FROM DUAL
+				UNION ALL
+				SELECT #value# PID, '2' DAY, '월' DAY_NAME FROM DUAL
+				UNION ALL
+				SELECT #value# PID, '3' DAY, '화' DAY_NAME FROM DUAL
+				UNION ALL
+				SELECT #value# PID, '4' DAY, '수' DAY_NAME FROM DUAL
+				UNION ALL
+				SELECT #value# PID, '5' DAY, '목' DAY_NAME FROM DUAL
+				UNION ALL
+				SELECT #value# PID, '6' DAY, '금' DAY_NAME FROM DUAL
+				UNION ALL
+				SELECT #value# PID, '7' DAY, '토' DAY_NAME FROM DUAL
+			   ) A, T_PRODUCT_DELIVERY_DAY B
+		 WHERE A.PID = B.PID
+		   AND A.DAY = B.DELIVERY_DAY
+		   AND A.PID = #value#
+		ORDER BY A.DAY
+	</select>
+	
+	<select id="getIconList" parameterClass="java.lang.String" resultClass="Param">
+		SELECT C.CODE2, C.NAME2, PI.ICON_CODE
+		  FROM T_CODE2 C, T_PRODUCT_ICON PI
+		 WHERE C.CODE2 = PI.ICON_CODE
+		   AND C.CODE1 = '004'
+		   AND PI.PID(+) = #pid#
+	</select>
+	
+	<select id="getRoutineSaleList" parameterClass="java.lang.String" resultClass="Param">
+		SELECT *
+		  FROM T_PRODUCT_ROUTINE_SALE
+		 WHERE PID = #pid#
+		ORDER BY FROM_CNT
+	</select>
+
+	<select id="getList" parameterClass="Param" resultClass="Param">
+		 SELECT *
+		   FROM
+		    (
+				 SELECT 
+		<isEqual property="sort" compareValue="pop">
+						ROW_NUMBER() OVER(ORDER BY P.SALE_STATUS DESC, DECODE(NVL(PS.STOCK, 0), 0, '2', '1'), P.RANK, P.RANK_MANUAL_YN DESC, P.REGIST_DATE DESC) RNUM,
+		</isEqual>
+		<isEqual property="sort" compareValue="rec">
+						ROW_NUMBER() OVER(ORDER BY P.SALE_STATUS DESC, DECODE(NVL(PS.STOCK, 0), 0, '2', '1'), NVL(PR.RANK, 999999), P.RANK, P.RANK_MANUAL_YN DESC, P.REGIST_DATE DESC) RNUM,
+		</isEqual>
+		<isEqual property="sort" compareValue="date">
+						ROW_NUMBER() OVER(ORDER BY P.SALE_STATUS DESC, DECODE(NVL(PS.STOCK, 0), 0, '2', '1'), P.NEW_DATE DESC) RNUM,
+		</isEqual>
+		<isEmpty property="sort">
+						ROW_NUMBER() OVER(ORDER BY P.SALE_STATUS DESC, DECODE(NVL(PS.STOCK, 0), 0, '2', '1'), NVL(PR.RANK, 999999), P.RANK, P.RANK_MANUAL_YN DESC, P.REGIST_DATE DESC) RNUM,
+		</isEmpty>
+					    P.PID,
+					    P.PTYPE,
+					    P.DEFAULT_PRICE,
+					    P.PNM,
+					    P.SUMMARY,
+					    P.ROUTINE_YN,
+					    P.STATUS,
+					    P.SALE_STATUS,
+					    P.IMAGE1,
+					    P.IMAGE6,
+					    P.MAKER,
+					    (SELECT PC.NAME FROM T_PRODUCER PC WHERE PC.PRODUCER_SEQ = P.PRODUCER_SEQ) AS PRODUCER_NAME,
+						(SELECT PC.IMG FROM T_PRODUCER PC WHERE PC.PRODUCER_SEQ = P.PRODUCER_SEQ) AS PRODUCER_IMG,
+					    P.ORIGIN,
+					    P.ADULT_AUTH,
+					    P.ICON,
+					    NVL(PS.STOCK, 0) STOCK,
+					    PS.SOLDOUT_MSG,
+					    F_PRICE(P.PID, #grade_code#) SALE_PRICE,
+					    (
+					    	SELECT CATE_NAME
+							  FROM T_CATE
+							 WHERE P_CATE_SEQ = 0
+							START WITH CATE_SEQ = 
+		<isEmpty property="cate_seq">
+									(
+										SELECT CATE_SEQ FROM T_PRODUCT_CATE
+										 WHERE PID = P.PID
+										  AND ROWNUM = 1
+									)
+		</isEmpty>
+		<isNotEmpty property="cate_seq">
+									#cate_seq#
+		</isNotEmpty>
+							CONNECT BY PRIOR P_CATE_SEQ = CATE_SEQ
+						) CATE_NAME,
+						(SELECT COUNT(*) FROM T_PRODUCT_OPTION WHERE PID = P.PID) OPT_CNT,
+						F_ICONS(P.PID) ICONS
+				   FROM T_PRODUCT P,
+					    T_PRODUCT_STOCK PS,
+					    T_PRODUCT_RANK PR
+				  WHERE P.PID		= PS.PID(+)
+				    AND P.PID		= PR.PID(+)
+				    AND PR.CATE_SEQ(+) = #cate_seq#	
+		    		AND P.START_DATE <![CDATA[<]]>= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		    		AND P.END_DATE  >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+					AND P.STATUS = 'Y'
+		<isNotEmpty property="pid">
+					AND P.PID = #pid#
+		</isNotEmpty>
+		<isNotEmpty property="pnm">
+					AND (P.PNM LIKE '%' || #pnm# || '%'
+						 OR P.KEYWORD LIKE '%' || #pnm# || '%') 
+		</isNotEmpty>
+		<isNotEmpty property="cate_seq">
+				    AND P.PID IN (
+							SELECT PID FROM T_PRODUCT_CATE
+							 WHERE CATE_SEQ IN (
+									 SELECT CATE_SEQ
+									   FROM T_CATE 
+									 START WITH CATE_SEQ = #cate_seq#
+									 CONNECT BY PRIOR CATE_SEQ = P_CATE_SEQ
+								)
+				    	)
+		</isNotEmpty>
+		<![CDATA[
+		    )
+		  WHERE RNUM > #POS_STA#
+		    AND RNUM <= #POS_END#
+		]]>
+  	</select>
+
+	<select id="getListCount" parameterClass="Param" resultClass="Integer">
+				 SELECT COUNT(P.PID)
+				   FROM T_PRODUCT P,
+					    T_CODE2 C1,
+					    T_PRODUCT_STOCK PS
+				  WHERE P.PTYPE     = C1.CODE2
+				    AND C1.CODE1    = '002'
+				    AND P.PID		= PS.PID(+)
+		    		AND P.START_DATE <![CDATA[<]]>= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		    		AND P.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+					AND P.STATUS = 'Y'
+		<isNotEmpty property="pid">
+					AND P.PID = #pid#
+		</isNotEmpty>
+		<isNotEmpty property="pnm">
+					AND (P.PNM LIKE '%' || #pnm# || '%'
+						 OR P.KEYWORD LIKE '%' || #pnm# || '%') 
+		</isNotEmpty>
+		<isNotEmpty property="cate_seq">
+				    AND P.PID IN (
+							SELECT PID FROM T_PRODUCT_CATE
+							 WHERE CATE_SEQ IN (
+									 SELECT CATE_SEQ
+									   FROM T_CATE 
+									 START WITH CATE_SEQ = #cate_seq#
+									 CONNECT BY PRIOR CATE_SEQ = P_CATE_SEQ
+								)
+				    	)
+		</isNotEmpty>
+	</select>
+	
+	<update id="updateStock" parameterClass="Param">
+		UPDATE T_PRODUCT_STOCK
+		   SET STOCK = STOCK - #qty#
+		 WHERE PID = #pid#
+	</update>
+	
+	<update id="mergeToRecentProduct" parameterClass="Param">
+		MERGE INTO T_RECENT_VIEW_PRODUCT
+		USING DUAL
+		ON (USERID = #userid# AND PID = #pid#)
+		WHEN MATCHED THEN
+			UPDATE
+			SET		REGIST_DATE	= SYSDATE
+		WHEN NOT MATCHED THEN
+			INSERT (
+				USERID,
+				PID,
+				REGIST_DATE
+			) VALUES (
+				#userid#,
+				#pid#,
+				SYSDATE
+			)
+	</update>
+	
+	<select id="getRecentProduct" parameterClass="Param" resultClass="Param">
+	<![CDATA[
+		SELECT *
+			  FROM
+			    (
+			SELECT ROW_NUMBER() OVER(ORDER BY EVP.REGIST_DATE DESC) RNUM,P.PID, P.THUMB		    
+			   FROM T_PRODUCT P, 
+			   		T_PRODUCT_STOCK PS,
+			   		T_RECENT_VIEW_PRODUCT EVP
+			  WHERE P.PID = PS.PID(+)
+			  	AND P.PID = EVP.PID(+)
+			    AND EVP.USERID = #userid# )
+			   WHERE RNUM > #POS_STA#
+			   AND RNUM <= #POS_END#
+		]]>
+	</select>
+	
+	<select id="getRecentProductCount" parameterClass="String" resultClass="Integer">
+		SELECT COUNT(PID) FROM 
+		T_RECENT_VIEW_PRODUCT 
+		WHERE USERID = #userid# ORDER BY REGIST_DATE ASC
+	</select>
+
+	<delete id="deleteRecentProduct" parameterClass="Param">
+		DELETE	FROM T_RECENT_VIEW_PRODUCT
+		WHERE	USERID = #userid#
+		AND		PID = #pid#
+	</delete>
+		
+	<!-- select id="getRefProductList" parameterClass="Param" resultClass="Param">
+		SELECT * FROM (
+			SELECT  P.*,
+					MP.IMG,
+					MP.RMK,
+					F_PRICE(P.PID, #grade_code#) SALE_PRICE,
+					(SELECT NVL(PS.STOCK, 0) FROM T_PRODUCT_STOCK PS WHERE P.PID = PID(+)) AS STOCK,
+					(SELECT PD.IMG FROM  T_PRODUCER PD WHERE PD.PRODUCER_SEQ = P.PRODUCER_SEQ AND PD.STATUS = 'S') AS PRODUCER_IMG,
+					(SELECT PD.NAME FROM  T_PRODUCER PD WHERE PD.PRODUCER_SEQ = P.PRODUCER_SEQ AND PD.STATUS = 'S') AS PRODUCER_NAME,
+					(SELECT NVL(PS.SOLDOUT_MSG, '001') FROM T_PRODUCT_STOCK PS WHERE P.PID = PID(+)) AS SOLDOUT_MSG,
+					(SELECT COUNT(*) FROM T_PRODUCT_OPTION WHERE PID = P.PID) OPT_CNT,
+					ROWNUM RNUM 
+			FROM T_MAIN_PRODUCT MP, T_MAIN_PRODUCT_REF MPR, T_PRODUCT P
+			WHERE MP.SEQ = MPR.SEQ(+)
+			AND P.PID = MPR.REF_PID
+			AND MP.STATUS = 'S'
+			<isNotEmpty property="cate1">
+				AND MP.CATE1 = #cate1#
+			</isNotEmpty>
+			<isNotEmpty property="cate2">
+				AND TRIM(MP.CATE2) = TRIM(#cate2#)
+			</isNotEmpty>
+			ORDER BY MPR.RANK ASC )
+		WHERE RNUM > #POS_STA# AND RNUM <![CDATA[<=]]> #POS_END#
+	</select -->
+
+	<select id="getRefProductList" parameterClass="Param" resultClass="Param">
+		SELECT * FROM (
+			SELECT  ROW_NUMBER() OVER(ORDER BY MPR.RANK) RNUM,
+					P.*,
+					MP.IMG,
+					MP.RMK,
+					F_PRICE(P.PID, #grade_code#) SALE_PRICE,
+					(SELECT NVL(PS.STOCK, 0) FROM T_PRODUCT_STOCK PS WHERE P.PID = PID(+)) AS STOCK,
+					(SELECT PD.IMG FROM  T_PRODUCER PD WHERE PD.PRODUCER_SEQ = P.PRODUCER_SEQ AND PD.STATUS = 'S') AS PRODUCER_IMG,
+					(SELECT PD.NAME FROM  T_PRODUCER PD WHERE PD.PRODUCER_SEQ = P.PRODUCER_SEQ AND PD.STATUS = 'S') AS PRODUCER_NAME,
+					(SELECT NVL(PS.SOLDOUT_MSG, '001') FROM T_PRODUCT_STOCK PS WHERE P.PID = PID(+)) AS SOLDOUT_MSG,
+					(SELECT COUNT(*) FROM T_PRODUCT_OPTION WHERE PID = P.PID) OPT_CNT
+			FROM T_MAIN_PRODUCT MP, T_MAIN_PRODUCT_REF MPR, T_PRODUCT P
+			WHERE MP.SEQ = MPR.SEQ(+)
+			AND P.PID = MPR.REF_PID
+			AND MP.SEQ = (SELECT MAX(SEQ) FROM T_MAIN_PRODUCT
+						   WHERE STATUS = 'S'
+			<isNotEmpty property="cate1">
+							 AND CATE1 = #cate1#
+			</isNotEmpty>
+			<isNotEmpty property="cate2">
+							 AND TRIM(CATE2) = TRIM(#cate2#)
+			</isNotEmpty>
+						  )
+		<![CDATA[
+    		AND P.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+    		AND P.END_DATE  >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+			AND P.STATUS = 'Y'
+		)
+		WHERE RNUM > #POS_STA# AND RNUM <= #POS_END#
+		]]>
+	</select>
+
+	<select id="getPidForRootCateseq" parameterClass="Integer" resultClass="Param">
+		SELECT CONNECT_BY_ROOT(cate_seq) AS cate_seq
+		FROM t_cate
+		WHERE cate_seq =  #cateSeq#
+	     START WITH p_cate_seq     = 0
+	     CONNECT BY PRIOR cate_seq = p_cate_seq
+	</select>
+
+	<select id="getCateSeqForPid" parameterClass="String" resultClass="Integer">
+		SELECT MAX(CATE_SEQ) FROM T_PRODUCT_CATE WHERE PID = #pid# GROUP BY PID
+	</select>
+
+	<select id="getDeliveryDateList" parameterClass="java.lang.String" resultClass="Param">
+		<![CDATA[
+		SELECT *
+		  FROM T_PRODUCT_DELIVERY_DATE
+		 WHERE PID = #pid#
+		   AND DELIVERY_DATE >= TO_CHAR(CASE WHEN TO_NUMBER(TO_CHAR(SYSDATE, 'HH24')) < 10 
+				  								THEN SYSDATE + 1
+												ELSE SYSDATE + 2 END, 'YYYY.MM.DD') 
+		ORDER BY DELIVERY_DATE
+		]]>
+	</select>
+	
+	<select id="getProductCateList" parameterClass="java.lang.String" resultClass="Param">
+		SELECT PC.*, C.CATE_NAME
+		  FROM T_PRODUCT_CATE PC, T_CATE C
+		 WHERE PC.CATE_SEQ = C.CATE_SEQ
+		   AND PC.PID = #pid#
+	</select>
+
+
+</sqlMap>

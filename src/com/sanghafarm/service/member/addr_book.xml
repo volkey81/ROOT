@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="AddrBook">
+	<select id="getList" resultClass="Param" parameterClass="Param"> 
+	    <![CDATA[
+	    SELECT *
+		  FROM (
+				 SELECT ROW_NUMBER() OVER(ORDER BY A.USERID, A.SEQ DESC) RNUM,
+					    A.*
+				   FROM T_ADDR_BOOK A
+				  WHERE A.USERID = #userid#
+				    AND A.STATUS = 'S'
+		
+		       )
+		 WHERE RNUM > #POS_STA#
+	       AND RNUM <= #POS_END#
+		]]>
+  	</select>
+
+	<select id="getListCount" parameterClass="Param" resultClass="Integer">
+		 SELECT COUNT(*)
+		   FROM T_ADDR_BOOK A
+		  WHERE A.USERID = #userid#
+		    AND A.STATUS = 'S'
+	</select>
+
+	<insert id="insert" parameterClass="Param">
+		<selectKey resultClass="int" keyProperty="seq">
+			SELECT NVL(MAX(SEQ), 0) + 1 AS SEQ FROM T_ADDR_BOOK WHERE USERID = #userid#
+		</selectKey>
+		INSERT INTO T_ADDR_BOOK
+			(
+				USERID,
+				SEQ,
+				DEFAULT_YN,
+				ADDR_NAME,
+				POST_NO,
+				ADDR1,
+				ADDR2,
+				TEL1,
+				TEL2,
+				TEL3,
+				MOBILE1,
+				MOBILE2,
+				MOBILE3,
+				NAME,
+				STATUS,
+				REGIST_DATE
+			)
+		VALUES
+			(
+				#userid#,
+				#seq#,
+				'N',
+				#addr_name#,
+				#post_no#,
+				#addr1#,
+				#addr2#,
+				#tel1#,
+				#tel2#,
+				#tel3#,
+				#mobile1#,
+				#mobile2#,
+				#mobile3#,
+				#name#,
+				'S',
+				SYSDATE
+			)
+	</insert>
+	
+	<select id="getInfo" parameterClass="Param" resultClass="Param">
+		SELECT *
+		  FROM T_ADDR_BOOK
+		 WHERE USERID 	= #userid#
+		   AND SEQ 		= #seq#
+	</select>	
+	
+	<select id="getDefaultInfo" parameterClass="java.lang.String" resultClass="Param">
+		SELECT *
+		  FROM T_ADDR_BOOK
+		 WHERE USERID 		= #userid#
+		   AND DEFAULT_YN	= 'Y'
+	</select>	
+	
+	<select id="getLatestInfo" parameterClass="java.lang.String" resultClass="Param">
+		SELECT *
+		  FROM T_ORDER_SHIP
+		 WHERE ORDERID = (SELECT MAX(ORDERID) FROM T_ORDER_MASTER WHERE USERID = #userid#)
+		   AND SHIP_SEQ = 1
+	</select>
+
+	<update id="update" parameterClass="Param">
+		UPDATE T_ADDR_BOOK
+		   SET ADDR_NAME	= #addr_name#,
+			   POST_NO		= #post_no#,
+			   ADDR1		= #addr1#,
+			   ADDR2		= #addr2#,
+			   TEL1			= #tel1#,
+			   TEL2			= #tel2#,
+			   TEL3			= #tel3#,
+			   MOBILE1		= #mobile1#,
+			   MOBILE2		= #mobile2#,
+			   MOBILE3		= #mobile3#,
+			   NAME			= name
+		 WHERE USERID		= #userid#
+		   AND SEQ			= #seq#
+	</update>
+
+	<update id="delete" parameterClass="Param">
+		UPDATE T_ADDR_BOOK
+		   SET STATUS		= 'D'
+		 WHERE USERID		= #userid#
+		   AND SEQ			= #seq#
+	</update>
+
+	<update id="updateDefault" parameterClass="Param">
+		UPDATE T_ADDR_BOOK
+		   SET DEFAULT_YN	= #default_yn#
+		 WHERE USERID		= #userid#
+		<isNotEmpty property="seq">
+		   AND SEQ			= #seq#
+		</isNotEmpty>
+	</update>
+	
+</sqlMap>

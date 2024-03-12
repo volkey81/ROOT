@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Counsel">
+	<select id="getList" resultClass="Param" parameterClass="Param"> 
+		<![CDATA[
+	     SELECT *
+		   FROM (
+				 SELECT ROW_NUMBER() OVER(ORDER BY A.USERID, A.REGIST_DATE DESC) RNUM,
+					    A.SEQ, 
+					    A.TITLE,
+					    A.QUESTION,
+					    A.ANSWER,
+					    A.CATE,
+					    TO_CHAR(A.REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE,
+					    C.NAME2 CATE_NAME,
+					    A.IMAGE,
+					    A.IMAGE2,
+					    A.IMAGE3
+				   FROM T_COUNSEL A, T_CODE2 C
+				  WHERE A.CATE = C.CODE2
+				    AND C.CODE1 = '008'
+				    AND A.USERID = #userid#
+		    )
+		  WHERE rnum > #POS_STA#
+	        AND rnum <= #POS_END#
+		]]>
+  	</select>
+
+	<select id="getListCount" parameterClass="Param" resultClass="Integer">
+		 SELECT COUNT(*)
+		   FROM T_COUNSEL A, T_CODE2 C
+		  WHERE A.CATE = C.CODE2
+		    AND C.CODE1 = '007'
+		    AND A.USERID = #userid#
+	</select>
+
+	<insert id="insert" parameterClass="Param">
+		<selectKey resultClass="int" keyProperty="seq">
+			SELECT NVL(MAX(SEQ), 0) + 1 AS SEQ FROM T_COUNSEL
+		</selectKey>
+		INSERT INTO T_COUNSEL
+			(
+				SEQ,
+				USERID,
+				TITLE,
+				QUESTION,
+				CATE,
+				REGIST_DATE,
+				USERNM,
+				MOBILE,
+				EMAIL,
+				IMAGE,
+				MOBILE_DEVICE,
+				MOBILE_DEVICE_TXT,
+				IMAGE2,
+				IMAGE3
+			)
+		VALUES
+			(
+				#seq#, 
+				#userid#,
+				#title#,
+				#question#,
+				#cate#,
+				SYSDATE,
+				#usernm#,
+				#mobile#,
+				#email#,
+				#image#,
+				#mobile_device#,
+				#mobile_device_txt#,
+				#image2#,
+				#image3#
+			)
+	</insert>	
+</sqlMap>

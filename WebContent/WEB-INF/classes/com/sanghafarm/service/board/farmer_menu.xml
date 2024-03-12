@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="FarmerMenu">
+	<resultMap id="FarmerMenuInfo" class="Param"> 
+		<result property="seq" column="seq"></result>
+		<result property="title" column="title"></result>
+		<result property="summary" column="summary"></result>
+		<result property="contents" column="contents" jdbcType="CLOB" javaType="java.lang.String"></result>
+		<result property="mcontents" column="mcontents" jdbcType="CLOB" javaType="java.lang.String"></result>
+		<result property="list_img" column="list_img"></result>
+		<result property="banner_img" column="banner_img"></result>
+		<result property="hit" column="hit"></result>
+		<result property="status" column="status"></result>
+		<result property="regist_date" column="regist_date"></result>
+	</resultMap>
+    
+	<select id="getList" resultClass="Param" parameterClass="Param"> 
+		<![CDATA[
+	     SELECT *
+		   FROM (
+				 SELECT ROW_NUMBER() OVER(ORDER BY A.CATE, A.SEQ DESC) RNUM,
+					    A.SEQ, 
+					    A.TITLE, 
+					    A.SUMMARY,
+					    A.HIT,
+					    A.LIST_IMG,
+					    A.BANNER_IMG,
+					    A.STATUS, DECODE(A.STATUS, 'S', '활성', 'H', '비활성', 'D', '삭제') STATUS_NAME,
+					    A.REGIST_USER, 
+					    TO_CHAR(A.REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE
+				   FROM T_FARMER_MENU A
+				  WHERE A.STATUS = 'S'
+				    AND A.CATE = #cate#
+		]]>
+		<isNotEmpty property="keyword">
+		    <isEqual property="keytype" compareValue="1">
+		        	AND (
+		        		A.TITLE LIKE '%' || #keyword# || '%'
+		        		OR
+		    	    	A.SEQ IN (SELECT X.SEQ FROM T_FMENU_PRODUCT X, T_PRODUCT Y
+		    	    			   WHERE X.PID = Y.PID
+		    	    			     AND Y.PNM LIKE '%' || #keyword# || '%')
+		    	    	)
+		    </isEqual>
+		    <isEqual property="keytype" compareValue="2">
+		        	AND A.TITLE LIKE '%' || #keyword# || '%'
+		    </isEqual>
+		    <isEqual property="keytype" compareValue="3">
+		    	    AND A.SEQ IN (SELECT X.SEQ FROM T_FMENU_PRODUCT X, T_PRODUCT Y
+		    	    			   WHERE X.PID = Y.PID
+		    	    			     AND Y.PNM LIKE '%' || #keyword# || '%')
+		    </isEqual>
+   		</isNotEmpty>
+		<![CDATA[
+		    )
+		  WHERE rnum > #POS_STA#
+	        AND rnum <= #POS_END#
+		]]>
+  	</select>
+
+	<select id="getListCount" parameterClass="Param" resultClass="Integer">
+		<![CDATA[
+		 SELECT COUNT(*)
+		   FROM T_FARMER_MENU A
+		  WHERE A.STATUS = 'S'
+		    AND A.CATE = #cate#
+		]]>
+		<isNotEmpty property="keyword">
+		    <isEqual property="keytype" compareValue="1">
+        	AND (
+        		A.TITLE LIKE '%' || #keyword# || '%'
+        		OR
+    	    	A.SEQ IN (SELECT X.SEQ FROM T_FMENU_PRODUCT X, T_PRODUCT Y
+    	    			   WHERE X.PID = Y.PID
+    	    			     AND Y.PNM LIKE '%' || #keyword# || '%')
+    	    	)
+		    </isEqual>
+		    <isEqual property="keytype" compareValue="2">
+        	AND A.TITLE LIKE '%' || #keyword# || '%'
+		    </isEqual>
+		    <isEqual property="keytype" compareValue="3">
+    	    AND A.SEQ IN (SELECT X.SEQ FROM T_FMENU_PRODUCT X, T_PRODUCT Y
+    	    			   WHERE X.PID = Y.PID
+    	    			     AND Y.PNM LIKE '%' || #keyword# || '%')
+		    </isEqual>
+   		</isNotEmpty>
+	</select>
+
+	<select id="getInfo" resultMap="FarmerMenuInfo" parameterClass="Param">
+		 SELECT A.SEQ, 
+			    A.TITLE, 
+			    A.SUMMARY,
+			    A.HIT,
+			    A.LIST_IMG,
+			    A.CONTENTS,
+			    A.MCONTENTS,
+			    A.BANNER_IMG,
+			    A.STATUS, DECODE(A.STATUS, 'S', '활성', 'H', '비활성', 'D', '삭제') STATUS_NAME,
+			    A.REGIST_USER, 
+			    TO_CHAR(A.REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE
+		   FROM T_FARMER_MENU A
+		  WHERE A.SEQ = #seq#
+	</select>
+	
+	<select id="getProductList" parameterClass="Param" resultClass="Param">
+		SELECT A.SEQ,
+			   P.PID,
+			   P.PNM,
+			   P.THUMB,
+			   P.DEFAULT_PRICE,
+			   F_PRICE(P.PID, #grade_code#) SALE_PRICE
+		  FROM T_FMENU_PRODUCT A, T_PRODUCT P
+		 WHERE A.PID = P.PID
+		   AND A.SEQ = #seq#
+	</select>
+
+	<select id="getPrevInfo" resultClass="Param" parameterClass="Param"> 
+		<![CDATA[
+	     SELECT *
+		   FROM (
+				 SELECT ROW_NUMBER() OVER(ORDER BY A.CATE, A.SEQ DESC) RNUM,
+					    A.SEQ, 
+					    A.TITLE,
+					    TO_CHAR(A.REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE
+				   FROM T_FARMER_MENU A
+				  WHERE A.STATUS = 'S'
+				    AND A.SEQ < #seq#  
+				    AND A.CATE = #cate#
+		]]>
+		<isNotEmpty property="keyword">
+		    <isEqual property="keytype" compareValue="01">
+		        	AND A.TITLE LIKE '%' || #keyword# || '%'
+		    </isEqual>
+		    <isEqual property="keytype" compareValue="02">
+		        	AND A.CONTENTS LIKE '%' || #keyword# || '%'
+		    </isEqual>
+   		</isNotEmpty>
+		<![CDATA[
+		    )
+		  WHERE rnum = 1
+		]]>
+  	</select>
+
+	<select id="getNextInfo" resultClass="Param" parameterClass="Param"> 
+		<![CDATA[
+	     SELECT *
+		   FROM (
+				 SELECT ROW_NUMBER() OVER(ORDER BY A.CATe, A.SEQ) RNUM,
+					    A.SEQ, 
+					    A.TITLE,
+					    TO_CHAR(A.REGIST_DATE, 'YYYY.MM.DD') REGIST_DATE
+				   FROM T_FARMER_MENU A
+				  WHERE A.STATUS = 'S'
+				    AND A.SEQ > #seq#  
+				    AND A.CATE = #cate#
+		]]>
+		<isNotEmpty property="keyword">
+		    <isEqual property="keytype" compareValue="01">
+		        	AND A.TITLE LIKE '%' || #keyword# || '%'
+		    </isEqual>
+		    <isEqual property="keytype" compareValue="02">
+		        	AND A.CONTENTS LIKE '%' || #keyword# || '%'
+		    </isEqual>
+   		</isNotEmpty>
+		<![CDATA[
+		    )
+		  WHERE rnum = 1
+		]]>
+  	</select>
+  	
+  	<update id="updateHit" parameterClass="Param">
+		UPDATE T_FARMER_MENU
+		SET    HIT	= HIT + 1
+		WHERE  SEQ  = #seq#
+	</update>
+  	
+</sqlMap>

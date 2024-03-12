@@ -1,0 +1,206 @@
+{
+	"mapContents": {
+		"section": [
+			{
+				"copy" : "푸른 청보리 사잇길",
+				"acticle" : [
+					{
+						"title": "학원농장",
+						"desc": "봄에는 30만 여평에 이르는 완만한 구릉지대에 펼쳐진 푸른 청보리 밭으로, 여름에는 뜨거운 햇살을 온 몸으로 이겨낸 해바라기 꽃 밭으로,<br>가을에는 구름이 내려앉은 듯한 하얀 메밀꽃 밭으로, 허허벌판에 켜켜이 쌓인 혹독한 눈 밭의 겨울까지 학원농장은 사계절 싱그러움을 느낄 수 있습니다.<br>샤르르, 샤르르 부딪히는 청보리 소리를 통해 하늘과 땅, 사람이 만들어낸 초록빛 청춘을 느껴보세요!",
+						"link" : {
+							"txt" : "사이트 바로가기", 
+							"href" : "",
+							"target" : "_blank"
+						},
+						"imgs": {
+							"url": [
+								"/images/brand/introduce/tour/img1_1.jpg",
+								"/images/brand/introduce/tour/img1_2.jpg",
+								"/images/brand/introduce/tour/img1_3.jpg"
+							]
+						}							
+					}
+				]
+			},
+			{
+				"copy" : "자연을 벗 삼아 즐기는 골프장",
+				"acticle" : [
+					{
+						"title": "고창 웰파크 시티 & 석정힐 C.C",
+						"desc": "고창 웰파크 시티는 47만평 규모의 골프장, 펜션, 대형 온천장 등을 갖춘 대규모 가족 휴양 리조트입니다.<br>특히, 석정힐 C.C는 완만한 경사의 라운딩 코스를 통해 온 가족이 모두 즐길 수 있는 가족형 레저 공간입니다.<br>이번 라운딩은 우리가족 다 같이 즐겨 보는 건 어떨까요?",
+						"link" : {
+							"txt" : "사이트 바로가기",
+							"href" : "",
+							"target" : "_blank"
+						},
+						"imgs": {
+							"url": [
+								"/images/brand/introduce/tour/img2_1_1.jpg",
+								"/images/brand/introduce/tour/img2_1_2.jpg",
+								"/images/brand/introduce/tour/img2_1_3.jpg"
+							]
+						}							
+					},
+					{
+						"title": "고창 컨트리 클럽",
+						"desc": "고창 컨트리 클럽은 바다에 인접하여 탁 트인 경관과 해수를 끌어들인 자연적인 워터 해저드<br>송림을 타고 불어 오는시원한 바다 바람 등 자연 환경을 최대한 살린 골프 공간 입니다. 자연을 이겨내는<br>짜릿한 라운딩을 즐긴다면, 고창CC로!",
+						"link" : {
+							"txt" : "사이트 바로가기",
+							"href" : "",
+							"target" : "_blank"
+						},
+						"imgs": {
+							"url": [
+								"/images/brand/introduce/tour/img2_2_1.jpg",
+								"/images/brand/introduce/tour/img2_2_2.jpg",
+								"/images/brand/introduce/tour/img2_2_3.jpg"
+							]
+						}							
+					},
+					{
+						"title": "골프존 카운티 선운 CC",
+						"desc": "골프존 카운티 선운CC는 입체적인 자연 지형이 만든 골프를 위한 최적의 코스를 가지고 있습니다.<br>골프장의 자연 요소를 그대로 담고 있는 전략적 코스와 태양을 등지는 동남방향의 플레이까지!<br>편안한 라운딩을 즐겨보세요!",
+						"link" : {
+							"txt" : "사이트 바로가기",
+							"href" : "",
+							"target" : "_blank"
+						},
+						"imgs": {
+							"url": [
+								"/images/brand/introduce/tour/img2_3_1.jpg",
+								"/images/brand/introduce/tour/img2_3_2.jpg",
+								"/images/brand/introduce/tour/img2_3_3.jpg"
+							]
+						}							
+					}
+				]
+			},
+			{
+				"copy" : "가족 여름 휴양지",
+				"acticle" : [
+					{
+						"title": "장호 어촌 체험마을",
+						"desc": "장호 어촌 마을 바로 앞에는 노을이 아름다운 백사장이 있습니다.<br>길게 쭉 뻗은 4km의 백사장에서는 해양 스포츠를 즐기고, 0.5~1.5m으로 낮은 수심의 갯벌에서는 백합, 노랑조개, 맛조개 등 다양한 해양생물을 만나볼 수 있습니다.<br>이번 주에는 아이들과 생생한 바다 속 생명의 힘을 느껴보세요!",
+						"link" : {
+							"txt" : "사이트 바로가기",
+							"href" : "",
+							"target" : "_blank"
+						},
+						"imgs": {
+							"url": [
+								"/images/brand/introduce/tour/img3_1.jpg",
+								"/images/brand/introduce/tour/img3_2.jpg",
+								"/images/brand/introduce/tour/img3_3.jpg"
+							]
+						}							
+					}
+				]
+			},
+			{
+				"copy" : "고즈넉한 사찰에서의 여유",
+				"acticle" : [
+					{
+						"title": "문수사 & 신기계곡",
+						"desc": "청량산 자락에 위치한 문수사는 맑은 물과 단풍나무 군락이 이루는 운치 있는 풍경으로 유명합니다.<br>여름이면 시원한 신기 계곡 물에 발을 담그고 먹는 수박의 맛이 그립고, 가을이면 천연기념물로 지정되어 있는 수 백 년 된 단풍나무 숲 사이<br>좁다란 그늘 길이 그리운, 문수사는 그리움의 공간이자 세상의 지혜를 찾는 조용한 공간입니다.<br>인적이 드물어 오염되지 않은 청정 자연 속 고즈넉한 사찰의 풍경 속에서 잠시 세상사를 잊어보세요!",
+						"link" : {
+							"txt" : "사이트 바로가기",
+							"href" : "",
+							"target" : "_blank"
+						},
+						"imgs": {
+							"url": [
+								"/images/brand/introduce/tour/img4_1.jpg",
+								"/images/brand/introduce/tour/img4_2.jpg",
+								"/images/brand/introduce/tour/img4_3.jpg"
+							]
+						}							
+					}
+				]
+			},
+			{
+				"copy" : "세계유산이 된 천 년의 흔적",
+				"acticle" : [
+					{
+						"title": "고인돌 유적",
+						"desc": "고인돌은 청동기시대의 대표적인 무덤양식으로 서남해안 지역에 밀집 분포하고 있습니다,<br>고창지역 고인돌은 185개의 군집, 1,600여 기 이상으로 전세계 70%의 고인돌이 밀집되어 있고,<br>탁자식, 변형탁자식, 바둑판식, 개석식 등 각종 형식이 혼재되어 사료로서 높은 가치를 인정받았습니다.<br>이에 2,000년에는 유네스코 세계유산에 등재되었습니다. 지붕 없는 박물관 고인돌에서 살아 있는 역사의 흔적을 밟아보세요!",
+						"link" : {
+							"txt" : "사이트 바로가기",
+							"href" : "",
+							"target" : "_blank"
+						},
+						"imgs": {
+							"url": [
+								"/images/brand/introduce/tour/img5_1.jpg",
+								"/images/brand/introduce/tour/img5_2.jpg",
+								"/images/brand/introduce/tour/img5_3.jpg"
+							]
+						}							
+					}
+				]
+			},
+			{
+				"copy" : "명사십리 해수찜",
+				"acticle" : [
+					{
+						"title": "구시포/동호",
+						"desc": "금빛 명사십리에 기암괴석이 멋드러진 구시포 해수욕장은 오토 캠핑장과 해수찜 목욕탕까지 갖춘 팔방미인의 매력적인 황금빛 여름 바다입니다.<br>반면, 수백년 된 아름드리 소나무 숲이 장관을 이루고 있는 동호 해수욕장은 해당화가 드리워진 그늘에서 신선한 회 한 접시로 대변되는 조용한 물빛 바다입니다.<br>이렇게 서로 다른 매력을 가진 고창의 두 해수욕장에서 뜨거운 여름을 내 방식대로 즐겨보세요!",
+						"link" : {
+							"txt" : "사이트 바로가기",
+							"href" : "",
+							"target" : "_blank"
+						},
+						"imgs": {
+							"url": [
+								"/images/brand/introduce/tour/img6_1.jpg",
+								"/images/brand/introduce/tour/img6_2.jpg",
+								"/images/brand/introduce/tour/img6_3.jpg"
+							]
+						}							
+					}
+				]
+			},
+			{
+				"copy" : "호남의 내금강",
+				"acticle" : [
+					{
+						"title": "선운산",
+						"desc": "봉우리를 이루고 있는 기암괴석, 경관이 빼어나고 숲이 울창한 선운산 도립공원.<br>구름속에 참선하는 산이라는 이름대로 다양한 문화재를 지닌 천년 고찰 선운사가 위치하고 있으며,<br>동백나무숲, 장사송, 송악 등의 천연기념물이 있어 1979년 도립공원으로 지정되었습니다. 따스한 볕으로 어우러진 꽃들의 봄,<br>시원한 계곡과 산바람이 있는 여름, 붉은 단풍으로 물든 가을, 눈 내린 선운사의 절경을 느끼는 겨울까지 선운산의 4계절을 느껴보세요!",
+						"link" : {
+							"txt" : "사이트 바로가기",
+							"href" : "",
+							"target" : "_blank"
+						},
+						"imgs": {
+							"url": [
+								"/images/brand/introduce/tour/img7_1.jpg",
+								"/images/brand/introduce/tour/img7_2.jpg",
+								"/images/brand/introduce/tour/img7_3.jpg"
+							]
+						}							
+					}
+				]
+			},
+			{
+				"copy" : "유비무환의 정신",
+				"acticle" : [
+					{
+						"title": "고창읍성",
+						"desc": "고창읍성은 나주의 입암산성과 이어지며 호남 내륙 방어의 전초기지 역할을 하던 자연석 성곽입니다.<br>모양성이라고도 불리는 이 성은 손바닥만한 돌을 머리에 얹은 채로 한 바퀴 돌면 다릿병이 낫고, 두 바퀴 돌면 무병장수하면, 세 바퀴 돌면 극락승천한다는 전설이 있어.<br>매년 중앙절인 음력 9월9일 즈음 모양성제를 통해 성곽 밟기, 답성 놀이춤 등의 전통을 이어가고 있습니다.<br>언제나 그 자리에서 세월을 지키는 고창읍성에 선조의 지혜를 배워보세요!",
+						"link" : {
+							"txt" : "사이트 바로가기",
+							"href" : "",
+							"target" : "_blank"
+						},
+						"imgs": {
+							"url": [
+								"/images/brand/introduce/tour/img8_1.jpg",
+								"/images/brand/introduce/tour/img8_2.jpg",
+								"/images/brand/introduce/tour/img8_3.jpg"
+							]
+						}							
+					}
+				]
+			}
+		]
+	}
+}

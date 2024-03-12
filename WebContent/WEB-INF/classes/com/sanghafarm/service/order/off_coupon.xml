@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="OffCoupon">
+	<select id="getInfo" parameterClass="java.lang.String" resultClass="Param">
+		SELECT *
+		  FROM T_OFF_COUPON
+		 WHERE COUPONID = #couponid#
+	</select>
+	
+	<select id="getInfoByMemCoupon" parameterClass="java.lang.String" resultClass="Param">
+		SELECT *
+		  FROM T_OFF_COUPON
+		 WHERE COUPONID = (SELECT COUPONID FROM T_MEM_OFF_COUPON WHERE MEM_COUPONID = #mem_couponid#)
+	</select>
+	
+	<select id="getMemCouponInfo" parameterClass="java.lang.String" resultClass="Param">
+		<![CDATA[
+		SELECT A.*, C.SALE_CODE,
+		       CASE WHEN (A.USE_DATE IS NULL 
+		       			  AND A.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		       			  AND A.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')) THEN 'Y'
+		       ELSE 'N' END AVAILABLE 
+		  FROM T_MEM_OFF_COUPON A, T_OFF_COUPON C
+		 WHERE A.COUPONID = C.COUPONID
+		   AND A.MEM_COUPONID = #mem_couponid#
+		]]>
+	</select>
+	
+	<insert id="insertMemCoupon" parameterClass="Param">
+		INSERT INTO T_MEM_OFF_COUPON
+			(
+				MEM_COUPONID,
+				UNFY_MMB_NO,
+				COUPONID,
+				START_DATE,
+				END_DATE,
+				REGIST_DATE,
+				USE_DATE
+			)
+		SELECT 	TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS') || LPAD(SEQ_COMMON.NEXTVAL, 5, 0),
+				#unfy_mmb_no#,
+				COUPONID,
+				TO_CHAR(SYSDATE, 'YYYY.MM.DD') || ' 00:00:00',
+				DECODE(NVL(PERIOD, 0), 0, END_DATE, TO_CHAR(SYSDATE + PERIOD, 'YYYY.MM.DD') || ' 23:59:59'),
+				SYSDATE,
+				NULL
+		  FROM	T_OFF_COUPON
+		 WHERE	COUPONID = #couponid#
+	</insert>
+	
+	<update id="useMemCoupon" parameterClass="java.lang.String">
+		UPDATE T_MEM_OFF_COUPON
+		   SET USE_DATE = SYSDATE
+		 WHERE MEM_COUPONID = #mem_couponid#
+	</update>
+
+	<select id="getMemCouponList" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+	     SELECT *
+		   FROM (
+					SELECT ROW_NUMBER() OVER(ORDER BY MC.MEM_COUPONID DESC) RNUM,
+						   MC.*,
+						   C.COUPON_NAME,
+						   C.SALE_CODE,
+						   C.NOTE
+					  FROM T_OFF_COUPON C, T_MEM_OFF_COUPON MC
+					 WHERE C.COUPONID = MC.COUPONID
+					   AND C.STATUS = 'S'
+					   AND MC.UNFY_MMB_NO = #unfy_mmb_no#
+					   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+					   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		    )
+		  WHERE rnum > #POS_STA#
+	        AND rnum <= #POS_END#
+		]]>
+	</select>
+
+	<select id="getMemCouponListCount" parameterClass="Param" resultClass="java.lang.Integer">
+		<![CDATA[
+		SELECT COUNT(*)
+		  FROM T_OFF_COUPON C, T_MEM_OFF_COUPON MC
+		 WHERE C.COUPONID = MC.COUPONID
+		   AND C.STATUS = 'S'
+		   AND MC.UNFY_MMB_NO = #unfy_mmb_no#
+		   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		]]>
+	</select>
+	
+	<select id="getMemUseableCouponList" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+	     SELECT *
+		   FROM (
+					SELECT ROW_NUMBER() OVER(ORDER BY MC.MEM_COUPONID DESC) RNUM,
+						   MC.*,
+						   C.COUPON_NAME,
+						   C.SALE_CODE,
+						   C.NOTE
+					  FROM T_OFF_COUPON C, T_MEM_OFF_COUPON MC
+					 WHERE C.COUPONID = MC.COUPONID
+					   AND C.STATUS = 'S'
+					   AND MC.UNFY_MMB_NO = #unfy_mmb_no#
+					   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+					   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+					   AND MC.USE_DATE IS NULL
+		    )
+		  WHERE rnum > #POS_STA#
+	        AND rnum <= #POS_END#
+		]]>
+	</select>
+
+
+	<select id="getMemUseableCouponListCount" parameterClass="java.lang.Long" resultClass="java.lang.Integer">
+		<![CDATA[
+		SELECT COUNT(*)
+		  FROM T_OFF_COUPON C, T_MEM_OFF_COUPON MC
+		 WHERE C.COUPONID = MC.COUPONID
+		   AND C.STATUS = 'S'
+		   AND MC.UNFY_MMB_NO = #unfy_mmb_no#
+		   AND MC.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND MC.USE_DATE IS NULL
+		]]>
+	</select>
+	
+	<!-- 주문 취소시 쿠폰 복원 -->	
+	<update id="resetMemCoupon" parameterClass="java.lang.String">
+		UPDATE	T_MEM_OFF_COUPON
+		SET		USE_DATE	= NULL
+		WHERE	MEM_COUPONID	= #mem_couponid#
+	</update>
+	
+	<delete id="removeMemCoupon" parameterClass="Param">
+		<![CDATA[
+		DELETE FROM T_MEM_OFF_COUPON
+		 WHERE UNFY_MMB_NO	= #unfy_mmb_no#
+		   AND COUPONID		= #couponid#
+		   AND START_DATE	<= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND END_DATE		>= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND USE_DATE		IS NULL
+		]]>
+	</delete>
+
+	<select id="getDownloadableList" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT C.*,
+			   (SELECT COUNT(*) FROM T_MEM_OFF_COUPON WHERE COUPONID = C.COUPONID) TOT_DOWN_CNT,
+			   (SELECT COUNT(*) FROM T_MEM_OFF_COUPON WHERE COUPONID = C.COUPONID AND UNFY_MMB_NO = #unfy_mmb_no#) MEM_DOWN_CNT
+		  FROM T_OFF_COUPON C
+		 WHERE C.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND C.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND C.STATUS = 'S'
+		   AND C.MAX_DOWNLOAD > 0
+		   AND C.TARGET_MEM = 'A'
+	       AND EXISTS (
+			   			SELECT GRADE_CODE 
+			   			  FROM T_COUPON_APPLY_GRADE
+			   			 WHERE COUPONID = C.COUPONID
+			   			   AND GRADE_CODE = #grade_code#
+			   		)
+		UNION ALL
+		SELECT C.*,
+			   (SELECT COUNT(*) FROM T_MEM_OFF_COUPON WHERE COUPONID = C.COUPONID) TOT_DOWN_CNT,
+			   (SELECT COUNT(*) FROM T_MEM_OFF_COUPON WHERE COUPONID = C.COUPONID AND UNFY_MMB_NO = #unfy_mmb_no#) MEM_DOWN_CNT
+		  FROM T_OFF_COUPON C
+		 WHERE C.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND C.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND C.STATUS = 'S'
+		   AND C.MAX_DOWNLOAD > 0
+	       AND C.TARGET_MEM = 'P'
+		   AND EXISTS (
+			   			SELECT USERID 
+			   			  FROM T_COUPON_APPLY_MEM
+			   			 WHERE COUPONID = C.COUPONID
+			   			   AND USERID = #userid#
+			   		)
+		]]>
+	</select>
+
+	<select id="getDownloadableInfo" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT C.*,
+			   (SELECT COUNT(*) FROM T_MEM_OFF_COUPON WHERE COUPONID = C.COUPONID) TOT_DOWN_CNT,
+			   (SELECT COUNT(*) FROM T_MEM_OFF_COUPON WHERE COUPONID = C.COUPONID AND UNFY_MMB_NO = #unfy_mmb_no#) MEM_DOWN_CNT
+		  FROM T_OFF_COUPON C
+		 WHERE C.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND C.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND C.STATUS = 'S'
+		   AND C.MAX_DOWNLOAD > 0
+		   AND C.TARGET_MEM = 'A'
+	       AND EXISTS (
+			   			SELECT GRADE_CODE 
+			   			  FROM T_COUPON_APPLY_GRADE
+			   			 WHERE COUPONID = C.COUPONID
+			   			   AND GRADE_CODE = #grade_code#
+			   		)
+		   AND C.COUPONID = #couponid#
+		UNION ALL
+		SELECT C.*,
+			   (SELECT COUNT(*) FROM T_MEM_OFF_COUPON WHERE COUPONID = C.COUPONID) TOT_DOWN_CNT,
+			   (SELECT COUNT(*) FROM T_MEM_OFF_COUPON WHERE COUPONID = C.COUPONID AND UNFY_MMB_NO = #unfy_mmb_no#) MEM_DOWN_CNT
+		  FROM T_OFF_COUPON C
+		 WHERE C.START_DATE <= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND C.END_DATE >= TO_CHAR(SYSDATE, 'YYYY.MM.DD HH24:MI:SS')
+		   AND C.STATUS = 'S'
+		   AND C.MAX_DOWNLOAD > 0
+	       AND C.TARGET_MEM = 'P'
+		   AND EXISTS (
+			   			SELECT USERID 
+			   			  FROM T_COUPON_APPLY_MEM
+			   			 WHERE COUPONID = C.COUPONID
+			   			   AND USERID = #userid#
+			   		)
+		   AND C.COUPONID = #couponid#
+		]]>
+	</select>
+	
+	<select id="getUsedCount" parameterClass="Param" resultClass="java.lang.Integer">
+		SELECT COUNT(*)
+		  FROM T_MEM_OFF_COUPON
+		 WHERE UNFY_MMB_NO = #unfy_mmb_no#
+		   AND COUPONID = #couponid#
+		<isEqual property="gb" compareValue="today">
+		   AND TO_CHAR(USE_DATE, 'YYYYMMDD') = TO_CHAR(SYSDATE, 'YYYYMMDD')
+		</isEqual>
+		<isEqual property="gb" compareValue="notoday">
+		<![CDATA[
+		   AND TO_CHAR(USE_DATE, 'YYYYMMDD') <> TO_CHAR(SYSDATE, 'YYYYMMDD')
+		]]>
+		</isEqual>
+	</select>
+</sqlMap>

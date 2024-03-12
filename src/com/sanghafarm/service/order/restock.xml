@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Restock">
+	<insert id="insert" parameterClass="Param">
+		INSERT INTO T_RESTOCK (
+			SEQ,
+			PID,
+			NAME,
+			MOBILE,
+			REGIST_DATE,
+			NOTICE_YN,
+			NOTICE_DATE
+		) VALUES (
+			(SELECT NVL(MAX(SEQ), 0) + 1 AS SEQ FROM T_RESTOCK),
+			#pid#,
+			#name#,
+			#mobile#,
+			SYSDATE,
+			'N',
+			NULL
+		)
+	</insert>
+
+</sqlMap>

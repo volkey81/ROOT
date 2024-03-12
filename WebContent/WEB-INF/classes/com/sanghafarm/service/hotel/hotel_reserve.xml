@@ -1,0 +1,976 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="HotelReserve">
+	<select id="getNewId" resultClass="java.lang.String">
+		 SELECT TO_CHAR(SYSDATE, 'YYYYMMDDHH24MISS') || LPAD(SEQ_COMMON.NEXTVAL, 5, 0)
+		   FROM DUAL
+	</select>
+	
+	<insert id="insert" parameterClass="Param">
+		INSERT INTO T_HRESERVE (
+			ORDERID,
+			USERID,
+			NAME,
+			MOBILE1,
+			MOBILE2,
+			MOBILE3,
+			CHKI_DATE,
+			CHOT_DATE,
+			TOT_AMT,
+			MEM_COUPONID,
+			COUPON_AMT,
+			PROMOCDID,
+			PROMOCD_AMT,
+			POINT_AMT,
+			GIFTCARD_AMT,
+			GIFTCARD_ID,
+			PAY_AMT,
+			PAY_TYPE,
+			DEVICE_TYPE,
+			ORDER_DATE,
+			INTG_RESV_NO
+		) VALUES (
+			#orderid#,
+			#userid#,
+			#name#,
+			#mobile1#,
+			#mobile2#,
+			#mobile3#,
+			#chki_date#,
+			#chot_date#,
+			#tot_amt#,
+			#mem_couponid#,
+			#coupon_amt#,
+			#promocdid#,
+			#promocd_amt#,
+			#point_amt#,
+			#giftcard_amt#,
+			#giftcard_id#,
+			#pay_amt#,
+			#pay_type#,
+			#device_type#,
+			SYSDATE,
+			#intg_resv_no#
+		)
+	</insert>
+	
+	<insert id="insertRoom" parameterClass="Param">
+		INSERT INTO T_HRESERVE_ROOM (
+			ORDERID,
+			ROOM_KND_GBCD,
+			ROOM_KND_NM,
+			CHRG_GRUP_GBCD,
+			PERS_ADLT,
+			PERS_KIDS,
+			AMT,
+			ADD_AMT,
+			REM_CNTN
+		) VALUES (
+			#orderid#,
+			#room_knd_gbcd#,
+			#room_knd_nm#,
+			#chrg_grup_gbcd#,
+			#pers_adlt#,
+			#pers_kids#,
+			#amt#,
+			#add_amt#,
+			#rem_cntn#
+		)
+	</insert>
+	
+	<select id="getHreserveInfo" parameterClass="java.lang.String" resultClass="Param">
+		SELECT A.*, C.NAME2 PAY_TYPE_NAME
+		  FROM T_HRESERVE A, T_CODE2 C
+		 WHERE A.PAY_TYPE = C.CODE2(+)
+		   AND C.CODE1(+) = '007'
+		   AND A.ORDERID = #orderid#
+	</select>
+	
+	<select id="getHreserveInfoByResno" parameterClass="java.lang.String" resultClass="Param">
+		SELECT A.*, C.NAME2 PAY_TYPE_NAME
+		  FROM T_HRESERVE A, T_CODE2 C
+		 WHERE A.PAY_TYPE = C.CODE2(+)
+		   AND C.CODE1(+) = '007'
+		   AND A.INTG_RESV_NO = #intg_resv_no#
+	</select>
+	
+	<select id="getHreserveRoomList" parameterClass="java.lang.String" resultClass="Param">
+		SELECT *
+		  FROM T_HRESERVE_ROOM
+		 WHERE ORDERID = #orderid#
+		ORDER BY ROOM_KND_GBCD
+	</select>
+	
+	<update id="updateSmsyn" parameterClass="java.lang.String">
+		UPDATE T_HRESERVE
+		   SET SMS_YN = 'Y'
+		 WHERE ORDERID = #orderid#
+	</update>
+
+	<!-- select id="getDateList" parameterClass="java.lang.String" resultClass="Param">
+		<![CDATA[
+        SELECT T1.APLY_DATE
+             , T1.SSN_GBCD
+             , T1.HDAY_GBCD
+             , T1.APLY_DY
+             , T1.SUM_QTY AS SUM_QTY
+             , T1.A 
+             , T1.B 
+             , T1.C 
+             , T1.D 
+             , T1.E 
+             , T1.F 
+          FROM (
+                SELECT BUSES_CD
+                     , APLY_DATE
+                     , SSN_GBCD
+                     , HDAY_GBCD
+                     , TO_CHAR(TO_DATE(APLY_DATE, 'YYYYMMDD'), 'DY', 'NLS_DATE_LANGUAGE=KOREAN') AS APLY_DY
+                     , SUM(FORCASTING_QTY) AS F_SUM_QTY
+                     , SUM(INTE_QTY) AS I_SUM_QTY
+                     , SUM(DECODE(SIGN(FORCASTING_QTY - INTE_QTY),-1,FORCASTING_QTY,INTE_QTY)) AS SUM_QTY
+                     , SUM(CASE WHEN ROOM_KND_GBCD = 'A' THEN DECODE(SIGN(FORCASTING_QTY - INTE_QTY),-1,FORCASTING_QTY,INTE_QTY) ELSE 0 END) AS A
+                     , SUM(CASE WHEN ROOM_KND_GBCD = 'B' THEN DECODE(SIGN(FORCASTING_QTY - INTE_QTY),-1,FORCASTING_QTY,INTE_QTY) ELSE 0 END) AS B
+                     , SUM(CASE WHEN ROOM_KND_GBCD = 'C' THEN DECODE(SIGN(FORCASTING_QTY - INTE_QTY),-1,FORCASTING_QTY,INTE_QTY) ELSE 0 END) AS C
+                     , SUM(CASE WHEN ROOM_KND_GBCD = 'D' THEN DECODE(SIGN(FORCASTING_QTY - INTE_QTY),-1,FORCASTING_QTY,INTE_QTY) ELSE 0 END) AS D
+                     , SUM(CASE WHEN ROOM_KND_GBCD = 'E' THEN DECODE(SIGN(FORCASTING_QTY - INTE_QTY),-1,FORCASTING_QTY,INTE_QTY) ELSE 0 END) AS E
+                     , SUM(CASE WHEN ROOM_KND_GBCD = 'F' THEN DECODE(SIGN(FORCASTING_QTY - INTE_QTY),-1,FORCASTING_QTY,INTE_QTY) ELSE 0 END) AS F
+                  FROM (
+                        SELECT T1.BUSES_CD
+                             , T1.APLY_DATE     
+                             , T1.ROOM_KND_GBCD
+                             , T1.SSN_GBCD
+                             , T1.HDAY_GBCD
+                             , NVL(T1.APLY_QTY,0) - ( NVL(T1.BLCK_QTY,0) + NVL(T2.RESVROOM_QTY,0) + NVL(T3.CHKIROOM_QTY, 0)) AS FORCASTING_QTY 
+                             , NVL(T1.INNET_QTY,0) - ( NVL(T2.INTERESV_QTY,0) + NVL(T3.INTECHKI_QTY, 0)) AS INTE_QTY 
+                          FROM (
+                                SELECT T1.BUSES_CD
+                                     , T1.APLY_DATE
+                                     , T1.SSN_GBCD
+                                     , T1.HDAY_GBCD
+                                     , T2.ROOM_KND_GBCD
+                                     , T2.APLY_QTY
+                                     , T2.INNET_QTY
+                                     , T2.BLCK_QTY
+                                  FROM (  
+                                        SELECT BUSES_CD
+                                             , APLY_DATE
+                                             , SSN_GBCD
+                                             , HDAY_GBCD
+                                          FROM RMSMAS_DATEMGT@DBLINK_FARMPRD
+                                         WHERE BUSES_CD = '00'
+                                           AND APLY_DATE BETWEEN #sdate# AND TO_CHAR(TRUNC(ADD_MONTHS(TO_DATE(#sdate#, 'YYYYMMDD'), 3), 'MM'), 'YYYYMMDD')
+                                       ) T1
+                                     , (
+                                        SELECT APLY_DATE AS BGN_DT
+                                             , BUSES_CD
+                                             , ROOM_KND_GBCD
+                                             , APLY_QTY
+                                             , INNET_QTY
+                                             , BLCK_QTY
+                                          FROM RMSMAS_OPERROOM@DBLINK_FARMPRD A
+                                         WHERE APLY_DATE BETWEEN (
+                                                            SELECT MAX(APLY_DATE) 
+                                                              FROM RMSMAS_OPERROOM@DBLINK_FARMPRD
+                                                             WHERE APLY_DATE <= #sdate#
+                                                             AND BUSES_CD = '00'
+                                                           )
+                                                             AND (TO_CHAR(TRUNC(ADD_MONTHS(TO_DATE(#sdate#, 'YYYYMMDD'), 3), 'MM'), 'YYYYMMDD'))
+                                           AND BUSES_CD = '00'
+                                       ) T2
+                                 WHERE T1.BUSES_CD = T2.BUSES_CD
+                                   AND T1.APLY_DATE = T2.BGN_DT
+                               ) T1                                
+                             , (    
+                                SELECT T1.BUSES_CD             
+                                     , T2.APLY_DATE
+                                     , T1.ROOM_KND_GBCD
+                                     , SUM(T1.ROOM_CNT) AS RESVROOM_QTY       
+                                     , SUM(T1.INTE_CNT) AS INTERESV_QTY            
+                                  FROM (  
+                                        SELECT A.BUSES_CD                     
+                                             , A.ROOM_KND_GBCD
+                                             , A.CHKI_DATE
+                                             , A.LODG_CNT
+                                             , A.CHOT_DATE
+                                             , A.ROOM_CNT - NVL(A.CHKI_CNT,0) AS ROOM_CNT
+                                             , DECODE(A.IPMN,'INT',A.ROOM_CNT - NVL(A.CHKI_CNT,0),0) AS INTE_CNT
+                                          FROM RMSDTL_RESVROOM@DBLINK_FARMPRD A
+                                             , RMSMAS_COMMCD@DBLINK_FARMPRD Z
+                                         WHERE Z.BUSES_CD   = A.BUSES_CD
+                                           AND Z.COMM_CD    = 'R0014'
+                                           AND Z.DTL_GBCD   = A.RESV_ST_GBCD
+                                           AND Z.ATTR1      = 'R'                              
+                                           AND A.CHKI_DATE  <= TO_CHAR(TRUNC(ADD_MONTHS(TO_DATE(#sdate#, 'YYYYMMDD'), 3), 'MM'), 'YYYYMMDD')
+                                           AND CHOT_DATE   > #sdate#
+                                       ) T1
+                                     , RMSMAS_DATEMGT@DBLINK_FARMPRD T2
+                                 WHERE T1.BUSES_CD = T2.BUSES_CD
+                                   AND T1.CHKI_DATE <= T2.APLY_DATE
+                                   AND T1.CHOT_DATE > T2.APLY_DATE
+                                 GROUP BY T1.BUSES_CD             
+                                     , T2.APLY_DATE
+                                     , T1.ROOM_KND_GBCD 
+                               ) T2
+                             , (
+                                SELECT T1.BUSES_CD             
+                                     , T2.APLY_DATE
+                                     , T1.ROOM_KND_GBCD
+                                     , COUNT(*) AS CHKIROOM_QTY    
+                                     , SUM(DECODE(T1.IPMN,'INT',1,0)) AS INTECHKI_QTY         
+                                  FROM (  
+                                        SELECT A.BUSES_CD                     
+                                             , A.ROOM_KND_GBCD
+                                             , A.CHKI_DATE
+                                             , A.LODG_CNT
+                                             , A.CHOT_DATE                
+                                             , B.IPMN      
+                                          FROM RMSMAS_CHKIMGT@DBLINK_FARMPRD A
+                                             , RMSDTL_RESVROOM@DBLINK_FARMPRD B
+                                         WHERE A.CHKI_GBCD NOT IN ('21', '31')
+                                           AND A.CHKI_DATE  <= TO_CHAR(TRUNC(ADD_MONTHS(TO_DATE(#sdate#, 'YYYYMMDD'), 3), 'MM'), 'YYYYMMDD')
+                                           AND A.CHOT_DATE   > #sdate#
+                                           AND B.BUSES_CD     = A.BUSES_CD    
+                                           AND B.INTG_RESV_NO = A.INTG_RESV_NO
+                                           AND B.RESV_NO      = A.RESV_NO   
+                                       ) T1
+                                     , RMSMAS_DATEMGT@DBLINK_FARMPRD T2
+                                 WHERE T1.BUSES_CD = T2.BUSES_CD
+                                   AND T1.CHKI_DATE <= T2.APLY_DATE
+                                   AND T1.CHOT_DATE > T2.APLY_DATE
+                                 GROUP BY T1.BUSES_CD             
+                                     , T2.APLY_DATE
+                                     , T1.ROOM_KND_GBCD 
+                               ) T3
+                         WHERE T1.BUSES_CD        = T2.BUSES_CD(+)   
+                           AND T1.APLY_DATE    = T2.APLY_DATE(+)
+                           AND T1.ROOM_KND_GBCD  = T2.ROOM_KND_GBCD(+)
+                           AND T1.BUSES_CD     = T3.BUSES_CD(+)   
+                           AND T1.APLY_DATE    = T3.APLY_DATE(+)
+                           AND T1.ROOM_KND_GBCD  = T3.ROOM_KND_GBCD(+)
+                       )
+                 GROUP BY BUSES_CD
+                     , APLY_DATE
+                     , SSN_GBCD
+                     , HDAY_GBCD
+               ) T1
+         ORDER BY 1,2
+		]]>
+	</select -->
+
+	<!-- 
+	<select id="getDateList" parameterClass="java.lang.String" resultClass="Param">
+		<![CDATA[
+        SELECT T1.APLY_DATE
+             , T1.SSN_GBCD
+             , T1.HDAY_GBCD
+             , T1.APLY_DY
+             , T1.SUM_QTY AS SUM_QTY
+             , CASE WHEN T1.A < 0 THEN 0 ELSE T1.A END AS A
+             , CASE WHEN T1.B < 0 THEN 0 ELSE T1.B END AS B
+             , CASE WHEN T1.C < 0 THEN 0 ELSE T1.C END AS C
+             , CASE WHEN T1.D < 0 THEN 0 ELSE T1.D END AS D
+             , CASE WHEN T1.E < 0 THEN 0 ELSE T1.E END AS E
+             , CASE WHEN T1.F < 0 THEN 0 ELSE T1.F END AS F
+             , CASE WHEN T1.P < 0 THEN 0 ELSE T1.P END AS P
+             , CASE WHEN T1.Q < 0 THEN 0 ELSE T1.Q END AS Q
+          FROM (
+                SELECT BUSES_CD
+                     , APLY_DATE
+                     , SSN_GBCD
+                     , HDAY_GBCD
+                     , TO_CHAR(TO_DATE(APLY_DATE, 'YYYYMMDD'), 'DY', 'NLS_DATE_LANGUAGE=KOREAN') AS APLY_DY
+                     , SUM(FORCASTING_QTY) AS F_SUM_QTY
+                     , SUM(INTE_QTY) AS I_SUM_QTY
+                     , SUM(DECODE(SIGN(FORCASTING_QTY - INTE_QTY),-1,FORCASTING_QTY,INTE_QTY)) AS SUM_QTY
+                     , SUM(CASE WHEN ROOM_KND_GBCD = 'A' THEN DECODE(SIGN(FORCASTING_QTY - INTE_QTY),-1,FORCASTING_QTY,INTE_QTY) ELSE 0 END) AS A
+                     , SUM(CASE WHEN ROOM_KND_GBCD = 'B' THEN DECODE(SIGN(FORCASTING_QTY - INTE_QTY),-1,FORCASTING_QTY,INTE_QTY) ELSE 0 END) AS B
+                     , SUM(CASE WHEN ROOM_KND_GBCD = 'C' THEN DECODE(SIGN(FORCASTING_QTY - INTE_QTY),-1,FORCASTING_QTY,INTE_QTY) ELSE 0 END) AS C
+                     , SUM(CASE WHEN ROOM_KND_GBCD = 'D' THEN DECODE(SIGN(FORCASTING_QTY - INTE_QTY),-1,FORCASTING_QTY,INTE_QTY) ELSE 0 END) AS D
+                     , SUM(CASE WHEN ROOM_KND_GBCD = 'E' THEN DECODE(SIGN(FORCASTING_QTY - INTE_QTY),-1,FORCASTING_QTY,INTE_QTY) ELSE 0 END) AS E
+                     , SUM(CASE WHEN ROOM_KND_GBCD = 'F' THEN DECODE(SIGN(FORCASTING_QTY - INTE_QTY),-1,FORCASTING_QTY,INTE_QTY) ELSE 0 END) AS F
+                     , SUM(CASE WHEN ROOM_KND_GBCD = 'P' THEN DECODE(SIGN(FORCASTING_QTY - INTE_QTY),-1,FORCASTING_QTY,INTE_QTY) ELSE 0 END) AS P
+                     , SUM(CASE WHEN ROOM_KND_GBCD = 'Q' THEN DECODE(SIGN(FORCASTING_QTY - INTE_QTY),-1,FORCASTING_QTY,INTE_QTY) ELSE 0 END) AS Q
+                  FROM (
+                        SELECT T1.BUSES_CD
+                             , T1.APLY_DATE     
+                             , T1.ROOM_KND_GBCD
+                             , T1.SSN_GBCD
+                             , T1.HDAY_GBCD
+                             , NVL(T1.APLY_QTY,0) - ( NVL(T1.BLCK_QTY,0) + NVL(T2.RESVROOM_QTY,0) + NVL(T3.CHKIROOM_QTY, 0)) AS FORCASTING_QTY 
+                             , NVL(T1.INNET_QTY,0) - ( NVL(T2.INTERESV_QTY,0) + NVL(T3.INTECHKI_QTY, 0)) AS INTE_QTY 
+                          FROM (
+                                SELECT T1.BUSES_CD
+                                     , T1.APLY_DATE
+                                     , T1.SSN_GBCD
+                                     , T1.HDAY_GBCD
+                                     , T2.ROOM_KND_GBCD
+                                     , T2.APLY_QTY
+                                     , T2.INNET_QTY
+                                     , T2.BLCK_QTY
+                                  FROM (  
+                                        SELECT BUSES_CD
+                                             , APLY_DATE
+                                             , SSN_GBCD
+                                             , HDAY_GBCD
+                                          FROM RMSMAS_DATEMGT@DBLINK_FARMPRD
+                                         WHERE BUSES_CD = '00'
+                                           AND APLY_DATE BETWEEN #sdate# AND TO_CHAR(TRUNC(ADD_MONTHS(TO_DATE(#sdate#, 'YYYYMMDD'), 2), 'MM'), 'YYYYMMDD')
+                                       ) T1
+                                     , (
+                                        SELECT APLY_DATE AS BGN_DT
+                                             , BUSES_CD
+                                             , ROOM_KND_GBCD
+                                             , APLY_QTY
+                                             , INNET_QTY
+                                             , BLCK_QTY
+                                          FROM RMSMAS_OPERROOM@DBLINK_FARMPRD A
+                                         WHERE APLY_DATE BETWEEN (
+                                                            SELECT MAX(APLY_DATE) 
+                                                              FROM RMSMAS_OPERROOM@DBLINK_FARMPRD
+                                                             WHERE APLY_DATE <= #sdate#
+                                                             AND BUSES_CD = '00'
+                                                           )
+                                                             AND (TO_CHAR(TRUNC(ADD_MONTHS(TO_DATE(#sdate#, 'YYYYMMDD'), 2), 'MM'), 'YYYYMMDD'))
+                                           AND BUSES_CD = '00'
+                                       ) T2
+                                 WHERE T1.BUSES_CD = T2.BUSES_CD
+                                   AND T1.APLY_DATE = T2.BGN_DT
+                               ) T1                                
+                             , (    
+                                SELECT T1.BUSES_CD             
+                                     , T2.APLY_DATE
+                                     , T1.ROOM_KND_GBCD
+                                     , SUM(T1.ROOM_CNT) AS RESVROOM_QTY       
+                                     , SUM(T1.INTE_CNT) AS INTERESV_QTY            
+                                  FROM (  
+                                        SELECT A.BUSES_CD                     
+                                             , A.ROOM_KND_GBCD
+                                             , A.CHKI_DATE
+                                             , A.LODG_CNT
+                                             , A.CHOT_DATE
+                                             , A.ROOM_CNT - NVL(A.CHKI_CNT,0) AS ROOM_CNT
+                                             , DECODE(A.IPMN,'INT',A.ROOM_CNT - NVL(A.CHKI_CNT,0),0) AS INTE_CNT
+                                          FROM RMSDTL_RESVROOM@DBLINK_FARMPRD A
+                                             , RMSMAS_COMMCD@DBLINK_FARMPRD Z
+                                         WHERE Z.BUSES_CD   = A.BUSES_CD
+                                           AND Z.COMM_CD    = 'R0014'
+                                           AND Z.DTL_GBCD   = A.RESV_ST_GBCD
+                                           AND Z.ATTR1      = 'R'                              
+                                           AND A.CHKI_DATE  <= TO_CHAR(TRUNC(ADD_MONTHS(TO_DATE(#sdate#, 'YYYYMMDD'), 2), 'MM'), 'YYYYMMDD')
+                                           AND CHOT_DATE   > #sdate#
+                                       ) T1
+                                     , RMSMAS_DATEMGT@DBLINK_FARMPRD T2
+                                 WHERE T1.BUSES_CD = T2.BUSES_CD
+                                   AND T1.CHKI_DATE <= T2.APLY_DATE
+                                   AND T1.CHOT_DATE > T2.APLY_DATE
+                                 GROUP BY T1.BUSES_CD             
+                                     , T2.APLY_DATE
+                                     , T1.ROOM_KND_GBCD 
+                               ) T2
+                             , (
+                                SELECT T1.BUSES_CD             
+                                     , T2.APLY_DATE
+                                     , T1.ROOM_KND_GBCD
+                                     , COUNT(*) AS CHKIROOM_QTY    
+                                     , SUM(DECODE(T1.IPMN,'INT',1,0)) AS INTECHKI_QTY         
+                                  FROM (  
+                                        SELECT A.BUSES_CD                     
+                                             , A.ROOM_KND_GBCD
+                                             , A.CHKI_DATE
+                                             , A.LODG_CNT
+                                             , A.CHOT_DATE                
+                                             , B.IPMN      
+                                          FROM RMSMAS_CHKIMGT@DBLINK_FARMPRD A
+                                             , RMSDTL_RESVROOM@DBLINK_FARMPRD B
+                                         WHERE A.CHKI_GBCD NOT IN ('21', '31')
+                                           AND A.CHKI_DATE  <= TO_CHAR(TRUNC(ADD_MONTHS(TO_DATE(#sdate#, 'YYYYMMDD'), 2), 'MM'), 'YYYYMMDD')
+                                           AND A.CHOT_DATE   > #sdate#
+                                           AND B.BUSES_CD     = A.BUSES_CD    
+                                           AND B.INTG_RESV_NO = A.INTG_RESV_NO
+                                           AND B.RESV_NO      = A.RESV_NO   
+                                       ) T1
+                                     , RMSMAS_DATEMGT@DBLINK_FARMPRD T2
+                                 WHERE T1.BUSES_CD = T2.BUSES_CD
+                                   AND T1.CHKI_DATE <= T2.APLY_DATE
+                                   AND T1.CHOT_DATE > T2.APLY_DATE
+                                 GROUP BY T1.BUSES_CD             
+                                     , T2.APLY_DATE
+                                     , T1.ROOM_KND_GBCD 
+                               ) T3
+                         WHERE T1.BUSES_CD        = T2.BUSES_CD(+)   
+                           AND T1.APLY_DATE    = T2.APLY_DATE(+)
+                           AND T1.ROOM_KND_GBCD  = T2.ROOM_KND_GBCD(+)
+                           AND T1.BUSES_CD     = T3.BUSES_CD(+)   
+                           AND T1.APLY_DATE    = T3.APLY_DATE(+)
+                           AND T1.ROOM_KND_GBCD  = T3.ROOM_KND_GBCD(+)
+                       )
+                 GROUP BY BUSES_CD
+                     , APLY_DATE
+                     , SSN_GBCD
+                     , HDAY_GBCD
+               ) T1
+         ORDER BY 1,2
+		]]>
+	</select> -->
+
+	<select id="getDateList" parameterClass="java.lang.String" resultClass="Param">
+		<![CDATA[
+		SELECT T1.APLY_DATE
+		             , T1.SSN_GBCD
+		             , T1.HDAY_GBCD
+		             , T1.APLY_DY
+		             , T1.SUM_QTY AS SUM_QTY
+		             , CASE WHEN T1.A < 0 THEN 0 ELSE T1.A END AS A
+		             , CASE WHEN T1.B < 0 THEN 0 ELSE T1.B END AS B
+		             , CASE WHEN T1.C < 0 THEN 0 ELSE T1.C END AS C
+		             , CASE WHEN T1.D < 0 THEN 0 ELSE T1.D END AS D
+		             , CASE WHEN T1.E < 0 THEN 0 ELSE T1.E END AS E
+		             , CASE WHEN T1.F < 0 THEN 0 ELSE T1.F END AS F
+		             , CASE WHEN T1.P < 0 THEN 0 ELSE T1.P END AS P
+		             , CASE WHEN T1.Q < 0 THEN 0 ELSE T1.Q END AS Q
+		FROM (
+		  SELECT A3.APLY_DATE,
+		         A3.SSN_GBCD,
+		         A3.HDAY_GBCD,
+		         TO_CHAR (TO_DATE (A3.APLY_DATE, 'YYYYMMDD'),
+		                  'DY',
+		                  'nls_date_language=''KOREAN''') APLY_DY,
+		         SUM (
+		            DECODE (
+		               SIGN (
+		                    NVL (A3.APLY_QTY, 0)
+		                  - (  NVL (A3.BLCK_QTY, 0)
+		                     + NVL (A2.RESVROOM_QTY, 0)
+		                     + NVL (A1.CHKIROOM_QTY, 0))
+		                  - (  NVL (A3.INNET_QTY, 0)
+		                     - (  NVL (A2.INTERESV_QTY, 0)
+		                        + NVL (A1.INTECHKI_QTY, 0)))),
+		               (-1),   NVL (A3.APLY_QTY, 0)
+		                     - (  NVL (A3.BLCK_QTY, 0)
+		                        + NVL (A2.RESVROOM_QTY, 0)
+		                        + NVL (A1.CHKIROOM_QTY, 0)),
+		                 NVL (A3.INNET_QTY, 0)
+		               - (NVL (A2.INTERESV_QTY, 0) + NVL (A1.INTECHKI_QTY, 0)))) SUM_QTY,
+		         CASE
+		            WHEN SUM (
+		                    CASE A3.ROOM_KND_GBCD
+		                       WHEN 'A'
+		                       THEN
+		                          DECODE (
+		                             SIGN (
+		                                  NVL (A3.APLY_QTY, 0)
+		                                - (  NVL (A3.BLCK_QTY, 0)
+		                                   + NVL (A2.RESVROOM_QTY, 0)
+		                                   + NVL (A1.CHKIROOM_QTY, 0))
+		                                - (  NVL (A3.INNET_QTY, 0)
+		                                   - (  NVL (A2.INTERESV_QTY, 0)
+		                                      + NVL (A1.INTECHKI_QTY, 0)))),
+		                             (-1),   NVL (A3.APLY_QTY, 0)
+		                                   - (  NVL (A3.BLCK_QTY, 0)
+		                                      + NVL (A2.RESVROOM_QTY, 0)
+		                                      + NVL (A1.CHKIROOM_QTY, 0)),
+		                               NVL (A3.INNET_QTY, 0)
+		                             - (  NVL (A2.INTERESV_QTY, 0)
+		                                + NVL (A1.INTECHKI_QTY, 0)))
+		                       ELSE
+		                          0
+		                    END) < 0
+		            THEN
+		               0
+		            ELSE
+		               SUM (
+		                  CASE A3.ROOM_KND_GBCD
+		                     WHEN 'A'
+		                     THEN
+		                        DECODE (
+		                           SIGN (
+		                                NVL (A3.APLY_QTY, 0)
+		                              - (  NVL (A3.BLCK_QTY, 0)
+		                                 + NVL (A2.RESVROOM_QTY, 0)
+		                                 + NVL (A1.CHKIROOM_QTY, 0))
+		                              - (  NVL (A3.INNET_QTY, 0)
+		                                 - (  NVL (A2.INTERESV_QTY, 0)
+		                                    + NVL (A1.INTECHKI_QTY, 0)))),
+		                           (-1),   NVL (A3.APLY_QTY, 0)
+		                                 - (  NVL (A3.BLCK_QTY, 0)
+		                                    + NVL (A2.RESVROOM_QTY, 0)
+		                                    + NVL (A1.CHKIROOM_QTY, 0)),
+		                             NVL (A3.INNET_QTY, 0)
+		                           - (  NVL (A2.INTERESV_QTY, 0)
+		                              + NVL (A1.INTECHKI_QTY, 0)))
+		                     ELSE
+		                        0
+		                  END)
+		         END A,
+		         CASE
+		            WHEN SUM (
+		                    CASE A3.ROOM_KND_GBCD
+		                       WHEN 'B'
+		                       THEN
+		                          DECODE (
+		                             SIGN (
+		                                  NVL (A3.APLY_QTY, 0)
+		                                - (  NVL (A3.BLCK_QTY, 0)
+		                                   + NVL (A2.RESVROOM_QTY, 0)
+		                                   + NVL (A1.CHKIROOM_QTY, 0))
+		                                - (  NVL (A3.INNET_QTY, 0)
+		                                   - (  NVL (A2.INTERESV_QTY, 0)
+		                                      + NVL (A1.INTECHKI_QTY, 0)))),
+		                             (-1),   NVL (A3.APLY_QTY, 0)
+		                                   - (  NVL (A3.BLCK_QTY, 0)
+		                                      + NVL (A2.RESVROOM_QTY, 0)
+		                                      + NVL (A1.CHKIROOM_QTY, 0)),
+		                               NVL (A3.INNET_QTY, 0)
+		                             - (  NVL (A2.INTERESV_QTY, 0)
+		                                + NVL (A1.INTECHKI_QTY, 0)))
+		                       ELSE
+		                          0
+		                    END) < 0
+		            THEN
+		               0
+		            ELSE
+		               SUM (
+		                  CASE A3.ROOM_KND_GBCD
+		                     WHEN 'B'
+		                     THEN
+		                        DECODE (
+		                           SIGN (
+		                                NVL (A3.APLY_QTY, 0)
+		                              - (  NVL (A3.BLCK_QTY, 0)
+		                                 + NVL (A2.RESVROOM_QTY, 0)
+		                                 + NVL (A1.CHKIROOM_QTY, 0))
+		                              - (  NVL (A3.INNET_QTY, 0)
+		                                 - (  NVL (A2.INTERESV_QTY, 0)
+		                                    + NVL (A1.INTECHKI_QTY, 0)))),
+		                           (-1),   NVL (A3.APLY_QTY, 0)
+		                                 - (  NVL (A3.BLCK_QTY, 0)
+		                                    + NVL (A2.RESVROOM_QTY, 0)
+		                                    + NVL (A1.CHKIROOM_QTY, 0)),
+		                             NVL (A3.INNET_QTY, 0)
+		                           - (  NVL (A2.INTERESV_QTY, 0)
+		                              + NVL (A1.INTECHKI_QTY, 0)))
+		                     ELSE
+		                        0
+		                  END)
+		         END B,
+		         CASE
+		            WHEN SUM (
+		                    CASE A3.ROOM_KND_GBCD
+		                       WHEN 'C'
+		                       THEN
+		                          DECODE (
+		                             SIGN (
+		                                  NVL (A3.APLY_QTY, 0)
+		                                - (  NVL (A3.BLCK_QTY, 0)
+		                                   + NVL (A2.RESVROOM_QTY, 0)
+		                                   + NVL (A1.CHKIROOM_QTY, 0))
+		                                - (  NVL (A3.INNET_QTY, 0)
+		                                   - (  NVL (A2.INTERESV_QTY, 0)
+		                                      + NVL (A1.INTECHKI_QTY, 0)))),
+		                             (-1),   NVL (A3.APLY_QTY, 0)
+		                                   - (  NVL (A3.BLCK_QTY, 0)
+		                                      + NVL (A2.RESVROOM_QTY, 0)
+		                                      + NVL (A1.CHKIROOM_QTY, 0)),
+		                               NVL (A3.INNET_QTY, 0)
+		                             - (  NVL (A2.INTERESV_QTY, 0)
+		                                + NVL (A1.INTECHKI_QTY, 0)))
+		                       ELSE
+		                          0
+		                    END) < 0
+		            THEN
+		               0
+		            ELSE
+		               SUM (
+		                  CASE A3.ROOM_KND_GBCD
+		                     WHEN 'C'
+		                     THEN
+		                        DECODE (
+		                           SIGN (
+		                                NVL (A3.APLY_QTY, 0)
+		                              - (  NVL (A3.BLCK_QTY, 0)
+		                                 + NVL (A2.RESVROOM_QTY, 0)
+		                                 + NVL (A1.CHKIROOM_QTY, 0))
+		                              - (  NVL (A3.INNET_QTY, 0)
+		                                 - (  NVL (A2.INTERESV_QTY, 0)
+		                                    + NVL (A1.INTECHKI_QTY, 0)))),
+		                           (-1),   NVL (A3.APLY_QTY, 0)
+		                                 - (  NVL (A3.BLCK_QTY, 0)
+		                                    + NVL (A2.RESVROOM_QTY, 0)
+		                                    + NVL (A1.CHKIROOM_QTY, 0)),
+		                             NVL (A3.INNET_QTY, 0)
+		                           - (  NVL (A2.INTERESV_QTY, 0)
+		                              + NVL (A1.INTECHKI_QTY, 0)))
+		                     ELSE
+		                        0
+		                  END)
+		         END C,
+		         CASE
+		            WHEN SUM (
+		                    CASE A3.ROOM_KND_GBCD
+		                       WHEN 'D'
+		                       THEN
+		                          DECODE (
+		                             SIGN (
+		                                  NVL (A3.APLY_QTY, 0)
+		                                - (  NVL (A3.BLCK_QTY, 0)
+		                                   + NVL (A2.RESVROOM_QTY, 0)
+		                                   + NVL (A1.CHKIROOM_QTY, 0))
+		                                - (  NVL (A3.INNET_QTY, 0)
+		                                   - (  NVL (A2.INTERESV_QTY, 0)
+		                                      + NVL (A1.INTECHKI_QTY, 0)))),
+		                             (-1),   NVL (A3.APLY_QTY, 0)
+		                                   - (  NVL (A3.BLCK_QTY, 0)
+		                                      + NVL (A2.RESVROOM_QTY, 0)
+		                                      + NVL (A1.CHKIROOM_QTY, 0)),
+		                               NVL (A3.INNET_QTY, 0)
+		                             - (  NVL (A2.INTERESV_QTY, 0)
+		                                + NVL (A1.INTECHKI_QTY, 0)))
+		                       ELSE
+		                          0
+		                    END) < 0
+		            THEN
+		               0
+		            ELSE
+		               SUM (
+		                  CASE A3.ROOM_KND_GBCD
+		                     WHEN 'D'
+		                     THEN
+		                        DECODE (
+		                           SIGN (
+		                                NVL (A3.APLY_QTY, 0)
+		                              - (  NVL (A3.BLCK_QTY, 0)
+		                                 + NVL (A2.RESVROOM_QTY, 0)
+		                                 + NVL (A1.CHKIROOM_QTY, 0))
+		                              - (  NVL (A3.INNET_QTY, 0)
+		                                 - (  NVL (A2.INTERESV_QTY, 0)
+		                                    + NVL (A1.INTECHKI_QTY, 0)))),
+		                           (-1),   NVL (A3.APLY_QTY, 0)
+		                                 - (  NVL (A3.BLCK_QTY, 0)
+		                                    + NVL (A2.RESVROOM_QTY, 0)
+		                                    + NVL (A1.CHKIROOM_QTY, 0)),
+		                             NVL (A3.INNET_QTY, 0)
+		                           - (  NVL (A2.INTERESV_QTY, 0)
+		                              + NVL (A1.INTECHKI_QTY, 0)))
+		                     ELSE
+		                        0
+		                  END)
+		         END D,
+		         CASE
+		            WHEN SUM (
+		                    CASE A3.ROOM_KND_GBCD
+		                       WHEN 'E'
+		                       THEN
+		                          DECODE (
+		                             SIGN (
+		                                  NVL (A3.APLY_QTY, 0)
+		                                - (  NVL (A3.BLCK_QTY, 0)
+		                                   + NVL (A2.RESVROOM_QTY, 0)
+		                                   + NVL (A1.CHKIROOM_QTY, 0))
+		                                - (  NVL (A3.INNET_QTY, 0)
+		                                   - (  NVL (A2.INTERESV_QTY, 0)
+		                                      + NVL (A1.INTECHKI_QTY, 0)))),
+		                             (-1),   NVL (A3.APLY_QTY, 0)
+		                                   - (  NVL (A3.BLCK_QTY, 0)
+		                                      + NVL (A2.RESVROOM_QTY, 0)
+		                                      + NVL (A1.CHKIROOM_QTY, 0)),
+		                               NVL (A3.INNET_QTY, 0)
+		                             - (  NVL (A2.INTERESV_QTY, 0)
+		                                + NVL (A1.INTECHKI_QTY, 0)))
+		                       ELSE
+		                          0
+		                    END) < 0
+		            THEN
+		               0
+		            ELSE
+		               SUM (
+		                  CASE A3.ROOM_KND_GBCD
+		                     WHEN 'E'
+		                     THEN
+		                        DECODE (
+		                           SIGN (
+		                                NVL (A3.APLY_QTY, 0)
+		                              - (  NVL (A3.BLCK_QTY, 0)
+		                                 + NVL (A2.RESVROOM_QTY, 0)
+		                                 + NVL (A1.CHKIROOM_QTY, 0))
+		                              - (  NVL (A3.INNET_QTY, 0)
+		                                 - (  NVL (A2.INTERESV_QTY, 0)
+		                                    + NVL (A1.INTECHKI_QTY, 0)))),
+		                           (-1),   NVL (A3.APLY_QTY, 0)
+		                                 - (  NVL (A3.BLCK_QTY, 0)
+		                                    + NVL (A2.RESVROOM_QTY, 0)
+		                                    + NVL (A1.CHKIROOM_QTY, 0)),
+		                             NVL (A3.INNET_QTY, 0)
+		                           - (  NVL (A2.INTERESV_QTY, 0)
+		                              + NVL (A1.INTECHKI_QTY, 0)))
+		                     ELSE
+		                        0
+		                  END)
+		         END E,
+		         CASE
+		            WHEN SUM (
+		                    CASE A3.ROOM_KND_GBCD
+		                       WHEN 'F'
+		                       THEN
+		                          DECODE (
+		                             SIGN (
+		                                  NVL (A3.APLY_QTY, 0)
+		                                - (  NVL (A3.BLCK_QTY, 0)
+		                                   + NVL (A2.RESVROOM_QTY, 0)
+		                                   + NVL (A1.CHKIROOM_QTY, 0))
+		                                - (  NVL (A3.INNET_QTY, 0)
+		                                   - (  NVL (A2.INTERESV_QTY, 0)
+		                                      + NVL (A1.INTECHKI_QTY, 0)))),
+		                             (-1),   NVL (A3.APLY_QTY, 0)
+		                                   - (  NVL (A3.BLCK_QTY, 0)
+		                                      + NVL (A2.RESVROOM_QTY, 0)
+		                                      + NVL (A1.CHKIROOM_QTY, 0)),
+		                               NVL (A3.INNET_QTY, 0)
+		                             - (  NVL (A2.INTERESV_QTY, 0)
+		                                + NVL (A1.INTECHKI_QTY, 0)))
+		                       ELSE
+		                          0
+		                    END) < 0
+		            THEN
+		               0
+		            ELSE
+		               SUM (
+		                  CASE A3.ROOM_KND_GBCD
+		                     WHEN 'F'
+		                     THEN
+		                        DECODE (
+		                           SIGN (
+		                                NVL (A3.APLY_QTY, 0)
+		                              - (  NVL (A3.BLCK_QTY, 0)
+		                                 + NVL (A2.RESVROOM_QTY, 0)
+		                                 + NVL (A1.CHKIROOM_QTY, 0))
+		                              - (  NVL (A3.INNET_QTY, 0)
+		                                 - (  NVL (A2.INTERESV_QTY, 0)
+		                                    + NVL (A1.INTECHKI_QTY, 0)))),
+		                           (-1),   NVL (A3.APLY_QTY, 0)
+		                                 - (  NVL (A3.BLCK_QTY, 0)
+		                                    + NVL (A2.RESVROOM_QTY, 0)
+		                                    + NVL (A1.CHKIROOM_QTY, 0)),
+		                             NVL (A3.INNET_QTY, 0)
+		                           - (  NVL (A2.INTERESV_QTY, 0)
+		                              + NVL (A1.INTECHKI_QTY, 0)))
+		                     ELSE
+		                        0
+		                  END)
+		         END F,
+		         CASE
+		            WHEN SUM (
+		                    CASE A3.ROOM_KND_GBCD
+		                       WHEN 'P'
+		                       THEN
+		                          DECODE (
+		                             SIGN (
+		                                  NVL (A3.APLY_QTY, 0)
+		                                - (  NVL (A3.BLCK_QTY, 0)
+		                                   + NVL (A2.RESVROOM_QTY, 0)
+		                                   + NVL (A1.CHKIROOM_QTY, 0))
+		                                - (  NVL (A3.INNET_QTY, 0)
+		                                   - (  NVL (A2.INTERESV_QTY, 0)
+		                                      + NVL (A1.INTECHKI_QTY, 0)))),
+		                             (-1),   NVL (A3.APLY_QTY, 0)
+		                                   - (  NVL (A3.BLCK_QTY, 0)
+		                                      + NVL (A2.RESVROOM_QTY, 0)
+		                                      + NVL (A1.CHKIROOM_QTY, 0)),
+		                               NVL (A3.INNET_QTY, 0)
+		                             - (  NVL (A2.INTERESV_QTY, 0)
+		                                + NVL (A1.INTECHKI_QTY, 0)))
+		                       ELSE
+		                          0
+		                    END) < 0
+		            THEN
+		               0
+		            ELSE
+		               SUM (
+		                  CASE A3.ROOM_KND_GBCD
+		                     WHEN 'P'
+		                     THEN
+		                        DECODE (
+		                           SIGN (
+		                                NVL (A3.APLY_QTY, 0)
+		                              - (  NVL (A3.BLCK_QTY, 0)
+		                                 + NVL (A2.RESVROOM_QTY, 0)
+		                                 + NVL (A1.CHKIROOM_QTY, 0))
+		                              - (  NVL (A3.INNET_QTY, 0)
+		                                 - (  NVL (A2.INTERESV_QTY, 0)
+		                                    + NVL (A1.INTECHKI_QTY, 0)))),
+		                           (-1),   NVL (A3.APLY_QTY, 0)
+		                                 - (  NVL (A3.BLCK_QTY, 0)
+		                                    + NVL (A2.RESVROOM_QTY, 0)
+		                                    + NVL (A1.CHKIROOM_QTY, 0)),
+		                             NVL (A3.INNET_QTY, 0)
+		                           - (  NVL (A2.INTERESV_QTY, 0)
+		                              + NVL (A1.INTECHKI_QTY, 0)))
+		                     ELSE
+		                        0
+		                  END)
+		         END P,
+		         CASE
+		            WHEN SUM (
+		                    CASE A3.ROOM_KND_GBCD
+		                       WHEN 'Q'
+		                       THEN
+		                          DECODE (
+		                             SIGN (
+		                                  NVL (A3.APLY_QTY, 0)
+		                                - (  NVL (A3.BLCK_QTY, 0)
+		                                   + NVL (A2.RESVROOM_QTY, 0)
+		                                   + NVL (A1.CHKIROOM_QTY, 0))
+		                                - (  NVL (A3.INNET_QTY, 0)
+		                                   - (  NVL (A2.INTERESV_QTY, 0)
+		                                      + NVL (A1.INTECHKI_QTY, 0)))),
+		                             (-1),   NVL (A3.APLY_QTY, 0)
+		                                   - (  NVL (A3.BLCK_QTY, 0)
+		                                      + NVL (A2.RESVROOM_QTY, 0)
+		                                      + NVL (A1.CHKIROOM_QTY, 0)),
+		                               NVL (A3.INNET_QTY, 0)
+		                             - (  NVL (A2.INTERESV_QTY, 0)
+		                                + NVL (A1.INTECHKI_QTY, 0)))
+		                       ELSE
+		                          0
+		                    END) < 0
+		            THEN
+		               0
+		            ELSE
+		               SUM (
+		                  CASE A3.ROOM_KND_GBCD
+		                     WHEN 'Q'
+		                     THEN
+		                        DECODE (
+		                           SIGN (
+		                                NVL (A3.APLY_QTY, 0)
+		                              - (  NVL (A3.BLCK_QTY, 0)
+		                                 + NVL (A2.RESVROOM_QTY, 0)
+		                                 + NVL (A1.CHKIROOM_QTY, 0))
+		                              - (  NVL (A3.INNET_QTY, 0)
+		                                 - (  NVL (A2.INTERESV_QTY, 0)
+		                                    + NVL (A1.INTECHKI_QTY, 0)))),
+		                           (-1),   NVL (A3.APLY_QTY, 0)
+		                                 - (  NVL (A3.BLCK_QTY, 0)
+		                                    + NVL (A2.RESVROOM_QTY, 0)
+		                                    + NVL (A1.CHKIROOM_QTY, 0)),
+		                             NVL (A3.INNET_QTY, 0)
+		                           - (  NVL (A2.INTERESV_QTY, 0)
+		                              + NVL (A1.INTECHKI_QTY, 0)))
+		                     ELSE
+		                        0
+		                  END)
+		         END Q
+		    FROM (SELECT A5.BUSES_CD BUSES_CD,
+		                 A5.APLY_DATE APLY_DATE,
+		                 A5.SSN_GBCD SSN_GBCD,
+		                 A5.HDAY_GBCD HDAY_GBCD,
+		                 A4.ROOM_KND_GBCD ROOM_KND_GBCD,
+		                 A4.APLY_QTY APLY_QTY,
+		                 A4.INNET_QTY INNET_QTY,
+		                 A4.BLCK_QTY BLCK_QTY
+		            FROM RMSMAS_DATEMGT@DBLINK_FARMPRD A5, RMSMAS_OPERROOM@DBLINK_FARMPRD A4
+		           WHERE     A5.BUSES_CD = A4.BUSES_CD
+		                 AND A5.APLY_DATE = A4.APLY_DATE
+		                 AND A4.APLY_DATE >=
+		                        (SELECT MAX (A12.APLY_DATE)
+		                           FROM RMSMAS_OPERROOM@DBLINK_FARMPRD A12
+		                          WHERE     A12.APLY_DATE <= #sdate#
+		                                AND A12.BUSES_CD = '00')
+		                 AND A4.APLY_DATE <=
+		                        TO_CHAR (
+		                           TRUNC (ADD_MONTHS (TO_DATE (#sdate#, 'YYYYMMDD'), 2),
+		                                  'MM'),
+		                           'YYYYMMDD')
+		                 AND A4.BUSES_CD = '00'
+		                 AND A5.BUSES_CD = '00'
+		                 AND A5.APLY_DATE >= #sdate#
+		                 AND A5.APLY_DATE <=
+		                        TO_CHAR (
+		                           TRUNC (ADD_MONTHS (TO_DATE (#sdate#, 'YYYYMMDD'), 2),
+		                                  'MM'),
+		                           'YYYYMMDD')
+		                 AND A5.APLY_DATE <=
+		                        TO_CHAR (
+		                           TRUNC (ADD_MONTHS (TO_DATE (#sdate#, 'YYYYMMDD'), 2),
+		                                  'MM'),
+		                           'YYYYMMDD')
+		                 AND A4.APLY_DATE >= #sdate#
+		                 AND TO_CHAR (
+		                        TRUNC (ADD_MONTHS (TO_DATE (#sdate#, 'YYYYMMDD'), 2),
+		                               'MM'),
+		                        'YYYYMMDD') >= #sdate#
+		                 AND TO_CHAR (
+		                        TRUNC (ADD_MONTHS (TO_DATE (#sdate#, 'YYYYMMDD'), 2),
+		                               'MM'),
+		                        'YYYYMMDD') >= #sdate#
+		                 AND A4.APLY_DATE <=
+		                        TO_CHAR (
+		                           TRUNC (ADD_MONTHS (TO_DATE (#sdate#, 'YYYYMMDD'), 2),
+		                                  'MM'),
+		                           'YYYYMMDD')) A3,
+		         (  SELECT A8.BUSES_CD BUSES_CD,
+		                   A6.APLY_DATE APLY_DATE,
+		                   A8.ROOM_KND_GBCD ROOM_KND_GBCD,
+		                   SUM (A8.ROOM_CNT - NVL (A8.CHKI_CNT, 0))
+		                      RESVROOM_QTY,
+		                   SUM (
+		                      DECODE (A8.IPMN,
+		                              'INT', A8.ROOM_CNT - NVL (A8.CHKI_CNT, 0),
+		                              0))
+		                      INTERESV_QTY
+		              FROM RMSDTL_RESVROOM@DBLINK_FARMPRD A8,
+		                   RMSMAS_DATEMGT@DBLINK_FARMPRD A6
+		             WHERE     A8.BUSES_CD = A6.BUSES_CD
+		                   AND A8.CHKI_DATE <= A6.APLY_DATE
+		                   AND A8.CHOT_DATE > A6.APLY_DATE
+		                   AND A8.RESV_ST_GBCD IN ('P','R','RT','U')
+		                   AND A8.CHKI_DATE <=
+		                          TO_CHAR (
+		                             TRUNC (ADD_MONTHS (TO_DATE (#sdate#, 'YYYYMMDD'), 2),
+		                                    'MM'),
+		                             'YYYYMMDD')
+		                   AND A8.CHOT_DATE > #sdate#
+		          GROUP BY A8.BUSES_CD, A6.APLY_DATE, A8.ROOM_KND_GBCD) A2,
+		         (  SELECT A11.BUSES_CD BUSES_CD,
+		                   A9.APLY_DATE APLY_DATE,
+		                   A11.ROOM_KND_GBCD ROOM_KND_GBCD,
+		                   COUNT (*) CHKIROOM_QTY,
+		                   SUM (DECODE (A10.IPMN, 'INT', 1, 0)) INTECHKI_QTY
+		              FROM RMSMAS_CHKIMGT@DBLINK_FARMPRD A11,
+		                   RMSDTL_RESVROOM@DBLINK_FARMPRD A10,
+		                   RMSMAS_DATEMGT@DBLINK_FARMPRD A9
+		             WHERE     A11.BUSES_CD||'' = A9.BUSES_CD
+		                   AND A11.CHKI_DATE <= A9.APLY_DATE
+		                   AND A11.CHOT_DATE > A9.APLY_DATE
+		                   AND A11.CHKI_GBCD <> '21'
+		                   AND A11.CHKI_GBCD <> '31'
+		                   AND A11.CHKI_DATE <=
+		                          TO_CHAR (
+		                             TRUNC (ADD_MONTHS (TO_DATE (#sdate#, 'YYYYMMDD'), 2),
+		                                    'MM'),
+		                             'YYYYMMDD')
+		                   AND A11.CHOT_DATE > #sdate#
+		                   AND A10.BUSES_CD = A11.BUSES_CD
+		                   AND A10.INTG_RESV_NO = A11.INTG_RESV_NO
+		                   AND A10.RESV_NO = A11.RESV_NO
+		          GROUP BY A11.BUSES_CD, A9.APLY_DATE, A11.ROOM_KND_GBCD) A1
+		   WHERE     A3.BUSES_CD = A2.BUSES_CD(+)
+		         AND A3.APLY_DATE = A2.APLY_DATE(+)
+		         AND A3.ROOM_KND_GBCD = A2.ROOM_KND_GBCD(+)
+		         AND A3.BUSES_CD = A1.BUSES_CD(+)
+		         AND A3.APLY_DATE = A1.APLY_DATE(+)
+		         AND A3.ROOM_KND_GBCD = A1.ROOM_KND_GBCD(+)
+		GROUP BY A3.BUSES_CD,
+		         A3.APLY_DATE,
+		         A3.SSN_GBCD,
+		         A3.HDAY_GBCD
+		) T1
+		ORDER BY T1.APLY_DATE, T1.SSN_GBCD
+		]]>
+	</select>
+
+	<update id="closeDBLink" parameterClass="String">
+		alter session close database link $value$
+	</update>
+</sqlMap>
