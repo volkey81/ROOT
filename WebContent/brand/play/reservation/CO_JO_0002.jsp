@@ -24,9 +24,9 @@
         <![endif]-->
 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="./css/reset.css">
-        <link rel="stylesheet" href="./css/new_common.css">
-        <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/new_common.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="./js/sub.js"></script>
@@ -37,6 +37,23 @@
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script src="/js/jquery-1.10.2.min.js"></script>
+		<!-- <script src="/js/jquery-1.8.2.min.js"></script> -->
+		<script src="/js/jquery.easing.1.3.js"></script>
+		<script src="/js/jquery.cycle.all.min.js"></script>
+		<script src="/js/jquery.mousewheel.min.js"></script>
+		<!-- <script src="/js/jquery-ui-1.8.23.custom.min.js"></script> -->
+		<script src="/js/jquery-efuSlider.js"></script>
+		<script src="/mobile/js/iscroll.js"></script>
+		<script src="/js/common.js?t=<%=System.currentTimeMillis()%>"></script>
+		<script src="/js/efusioni.js?t=<%=System.currentTimeMillis()%>"></script>
+		<script src="/js/jquery-ui.min.js"></script>
+		<script src="/js/jquery.imgpreload.js"></script>
+		<script src="/js/imagesloaded.pkgd.js"></script>
+		<script src="/js/bluebird.min.js"></script>
+		<script src="/mobile/js/swiper.min.js"></script>
+		<script src="/mobile/js/slick.min.js"></script>
+		<script src="/mobile/js/jquery-ui.js?t=<%=System.currentTimeMillis()%>"></script>
     </head>
     <body>
         <div class="header_g">

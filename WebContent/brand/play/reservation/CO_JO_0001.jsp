@@ -1,4 +1,50 @@
+<%@page import="com.sanghafarm.utils.SanghafarmUtils"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.sanghafarm.common.FrontSession"%>
+<%@ page import="com.efusioni.stone.security.CryptoUtil"%>
+<%@ page import="com.efusioni.stone.common.SystemChecker"%>
+<%@ page import="com.efusioni.stone.utils.Utils"%>
+<%@ page import="com.efusioni.stone.common.Config"%>
+<%@ page import="net.sf.json.JSONObject"%>
+<%@ page import="com.efusioni.stone.utils.Param"%>
+<%
+    // String strReturnUrl = request.getScheme() + "://" + request.getServerName() + "/mobile/member/joinSns1.jsp"; //SNS계정 미가입 URL
+    
+	request.setAttribute("Depth_1", new Integer(2));
+    Param param = new Param(request);
+	String snsLoginUrl   = Config.get("api.auth.snsLogin." + SystemChecker.getCurrentName()); //APIURL
+	String strCoopcoCd   = Config.get("join.parameter.coopcoCd");        //제휴사코드
+// 	String strChnlCd     = Config.get("join.parameter.chnlCd");          //채널코드
+	String strChnlCd     = SanghafarmUtils.getChnlCd(request);                         //채널코드
+// 	String strNtryPath   = Config.get("join.parameter.ntryPath");        //사이트코드
+	String strNtryPath   = SanghafarmUtils.getNtryPath(request);                       //사이트코드
+	String strReturnUrl  = request.getScheme() + "://" + request.getServerName() + "/mobile/member/snsLoginProc.jsp"; //URL(sns로그인)
+	String strLoginUrl   = request.getScheme() + "://" + request.getServerName() + "/mobile/member/loginProc.jsp"; //URL(일반로그인)
+	String strIp         = request.getRemoteAddr();                      //IP주소
+	String strResult     = "";                                           //전송결과
+	String strMessage    = "";                                           //결과메세지
+	String strResultCode ="";                                            //결과코드
+	String strUnfyMmbNo  = "";                                           //통합회원번호
+	String strSocId      = "";                                           //소셜아이디
+	String strSocNm      = "";                                           //소셜이름
+	String strErr        = "";                                           //에러판별
+	String strId         = SanghafarmUtils.getCookie(request, "saveid"); //저장된 아이디
+	String strSaveFlg    = SanghafarmUtils.getCookie(request, "saveidflg"); //아이디저장플레그
+	FrontSession fs      = FrontSession.getInstance(request, response);
+	String device_Type   = fs.getDeviceType();
+	String referUrl      = request.getHeader("referer");
+	if(referUrl == null || "".equals(referUrl)) {
+		referUrl = Utils.safeHTML(param.get("returnUrl"));
+	}
+
+	//sns로그인URL작성
+	snsLoginUrl = snsLoginUrl + "?coopcoCd=" + strCoopcoCd 
+			                  + "&chnlCd=" + strChnlCd
+			                  + "&ntryPath=" + strNtryPath
+			                  + "&returnUrl=" + strReturnUrl
+			                  + "&clientIp=" + strIp
+			                  + "&socKindCd=";
+%>
 <html>
     <head>
         <meta charset="utf-8">
@@ -37,6 +83,72 @@
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script src="/js/jquery-1.10.2.min.js"></script>
+		<!-- <script src="/js/jquery-1.8.2.min.js"></script> -->
+		<script src="/js/jquery.easing.1.3.js"></script>
+		<script src="/js/jquery.cycle.all.min.js"></script>
+		<script src="/js/jquery.mousewheel.min.js"></script>
+		<!-- <script src="/js/jquery-ui-1.8.23.custom.min.js"></script> -->
+		<script src="/js/jquery-efuSlider.js"></script>
+		<script src="/mobile/js/iscroll.js"></script>
+		<script src="/js/common.js?t=<%=System.currentTimeMillis()%>"></script>
+		<script src="/js/efusioni.js?t=<%=System.currentTimeMillis()%>"></script>
+		<script src="/js/jquery-ui.min.js"></script>
+		<script src="/js/jquery.imgpreload.js"></script>
+		<script src="/js/imagesloaded.pkgd.js"></script>
+		<script src="/js/bluebird.min.js"></script>
+		<script src="/mobile/js/swiper.min.js"></script>
+		<script src="/mobile/js/slick.min.js"></script>
+		<script src="/mobile/js/jquery-ui.js?t=<%=System.currentTimeMillis()%>"></script>
+		<script>
+		var doubleSubmitFlag = false;    // 이중처리방지 플레그
+		var snsUrl = "";
+		var saveIdFlg = "<%=strSaveFlg%>";
+		var deviceType = "<%=device_Type%>";
+		var id = "<%=strId%>";
+		$(document).ready(function(){
+			if(saveIdFlg == "true"){
+				$("#idSave").prop("checked", true);
+				$("#userId").val(id);
+			}
+			
+			if(deviceType == "A"){
+				$("#loginAuto").show();
+				$("#loginAutoLab").show();
+			}
+			
+			$("#userPwd").keyup(function (e) {
+		        if (e.keyCode === 13) {
+		        	login();
+				}
+		    });
+		});
+		/***************************************
+		 * SNS로그인
+		 **************************************/
+		function snsLogin(snsKind) {
+			
+//		    	sessionStorage.setItem('snsKind', snsKind);
+		  	setCookie("cookieSnsKind", snsKind, 1);
+		  	
+			//이중처리방지
+		   if(doubleSubmitCheck()) return;
+		   snsUrl = "<%=snsLoginUrl %>" + snsKind;
+		   location.href = snsUrl;
+			
+		   doubleSubmitFlag = false; 
+		   
+		}
+
+		//이중처리방지
+		function doubleSubmitCheck(){
+		    if(doubleSubmitFlag){
+		        return doubleSubmitFlag;
+		    }else{
+		        doubleSubmitFlag = true;
+		    }
+		}
+		</script>
     </head>
     <body>
         <div class="header_g">
@@ -56,7 +168,7 @@
                 <p class="box_title">회원가입</p>
                 <p class="box_subtitle mt20 fs18"><span class="fcBlue">Maeil Do!</span> 통합멤버십 가입을 환영합니다.</p>
                 <div class="btn_area mt40">
-                    <button type="button" class="btn_submit w300">일반가입</button>
+                    <button type="button" class="btn_submit w300" onclick="location.href='/brand/play/reservation/CO_JO_0002.jsp'">일반가입</button>
                 </div>
                 <div class="login_etc">
                     <div class="login_sns sns_join">
@@ -64,13 +176,13 @@
                             <span>SNS 계정으로 가입하기</span>
                         </p>
                         <div class="btn_area mt20">
-                            <button type="button" class="btn_kakao"><span class="btn_title">카카오톡 로그인</span></button>
-                            <button type="button" class="btn_naver"><span class="btn_title">네이버 로그인</span></button>
-                            <button type="button" class="btn_facebook"><span class="btn_title">페이스북 로그인</span></button>
+                            <button type="button" class="btn_kakao"><span class="btn_title" onclick="snsLogin('K');">카카오톡 로그인</span></button>
+                            <button type="button" class="btn_naver"><span class="btn_title" onclick="snsLogin('N');">네이버 로그인</span></button>
+                            <button type="button" class="btn_facebook"><span class="btn_title" onclick="snsLogin('F');">페이스북 로그인</span></button>
                         </div>
                     </div>
                     <div class="ac mt50">
-                        <span class="login_use">이미 가입하셨나요?<a href="" class="fcGreen fwBold">로그인하기</a></span>
+                        <span class="login_use">이미 가입하셨나요?<a href="" class="fcGreen fwBold">로그인하기</a></span><!-- 링크추가필요 -->
                     </div>
                 </div>
             </div>
