@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <html>
     <head>
         <meta charset="utf-8">
@@ -23,12 +24,12 @@
         <![endif]-->
 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="./css/reset.css">
-        <link rel="stylesheet" href="./css/new_common.css">
-        <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/new_common.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <script src="./js/sub.js"></script>
+        <script src="${pageContext.request.contextPath}/js/sub.js"></script>
         
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -69,7 +70,7 @@
                         </p>
                     </div>
                     <div class="btn_area mt30">
-                        <button type="button" class="btn_submit w100p">로그인</button>
+                        <a type="button" class="btn_submit inB w100p">로그인</a>
                     </div>
                 </form>
                 <div class="login_etc">
@@ -84,7 +85,7 @@
                         </div>
                     </div>
                     <div class="btn_area mt20">
-                        <button type="button" class="btn_line w100p">비회원 주문/예약 조회</button>
+                        <a class="btn_line inB w100p">비회원 주문/예약 조회</a>
                     </div>
                 </div>
                 <div class="bgbox_g mt30">
@@ -102,14 +103,14 @@
                         <p class="group_if">엠즈씨드<br/>(더키친 일뽀르노)</p>
                     </div>
                     <div class="btn_area mt20">
-                        <button type="button" class="btn_line w400">상하농원 회원 가입하기</button>
+                        <a class="btn_line inB w400">상하농원 회원 가입하기</a>
                     </div>
                 </div>
             </div>
         </div>
         <div class="footer_g">
             <div class="footer_wrap flex_wrap">
-                <p class="fotter_logo"><img src="./image/footer_logo.png" alt=""></p>
+                <p class="fotter_logo"><img src="${pageContext.request.contextPath}/image/footer_logo.png" alt=""></p>
                 <div class="footer_info">
                     <div class="info_link">
                         <a href="">입점/제휴문의</a>
@@ -153,7 +154,7 @@
                 $( "#res_date" ).datepicker({
                     dateFormat:"yy년 m월 d일(DD)",
                     showOn:"both",
-                    buttonImage:"./image/icn_cal_b.png",
+                    buttonImage:"${pageContext.request.contextPath}/image/icn_cal_b.png",
                     buttonImageOnly:"true",
                     monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
                     monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
