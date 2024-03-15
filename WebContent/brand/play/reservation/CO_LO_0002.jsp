@@ -79,9 +79,9 @@
                             <span>또는</span>
                         </p>
                         <div class="btn_area mt20">
-                            <button type="button" class="btn_kakao"><span class="g_alt">카카오톡 로그인</span></button>
-                            <button type="button" class="btn_naver"><span class="g_alt">네이버 로그인</span></button>
-                            <button type="button" class="btn_facebook"><span class="g_alt">페이스북 로그인</span></button>
+                            <a class="btn_kakao"><span class="g_alt">카카오톡 로그인</span></a>
+                            <a class="btn_naver"><span class="g_alt">네이버 로그인</span></a>
+                            <a class="btn_facebook"><span class="g_alt">페이스북 로그인</span></a>
                         </div>
                     </div>
                     <div class="btn_area mt20">

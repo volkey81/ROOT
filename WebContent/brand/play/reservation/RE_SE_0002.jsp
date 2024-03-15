@@ -70,7 +70,7 @@
         			dataType : "html"
         		})
         		.done(function(html) {        			
-        				$("#selectDate").empty().append($.trim(html));
+       				$("#selectDate").empty().append($.trim(html));	//원본
         		});
             }
   // 오늘날짜 생성          
@@ -95,6 +95,7 @@
         			
         		});
             }
+  
   			function popDetail(seq){
   				$.ajax({
         			method : "POST",
@@ -112,13 +113,28 @@
             function popupOpen(popId){
                 $('.popup_g').show();
             }
+            
             function popupClose(){
                 $('.popup_g').hide();
             }
+            
             $(".dim_g").click(function(){
                 $('.popup_g').hide();
             });
 /* 달력, 퍼블 End */
+/* 체험유형 선택했을 때 보이도록 */
+$(document).ready(function() {
+    $('input[name="expgroupbox"]').change(function() {
+        console.log('Checkbox changed');
+        var checkboxes = $('input[name="expgroupbox"]:checked');
+        if(checkboxes.length > 0) {
+            $('#expList5').show();
+        } else {
+            $('#expList5').hide();
+        }
+    });
+});
+
 </script>
         <meta charset="utf-8">
         <meta http-equiv="imagetoolbar" content="no">
@@ -182,49 +198,6 @@
                         <button type="button" onClick="popupClose()" class="btn_close"><span class="g_alt">닫기</span></button>
                     </div>
                     <div class="popup_body" id="popup_body">
-                    <!-- 24.03.11 delete -->
-                        <%-- <p class="exp_label"><span>먹거리</span></p>
-                        <b class="exp_title">공장견학</b>
-                        <p class="exp_des">여기서 상하목장 우유와 치즈가 만들어져요</p>
-                        <p class="divLine mt20 mb20"></p>
-                        <div class="exp_content f_g">
-                            <div class="fl">
-                                <ul class="exp_detail">
-                                    <li>
-                                        <strong>체험영역</strong>
-                                        <span class="tag_item">#참맛</span>
-                                        <span class="tag_item">#감사</span>
-                                        <span class="tag_item">#슬기</span>
-                                        <span class="tag_item">#사랑</span>
-                                        <span class="tag_item">#행복</span>
-                                    </li>
-                                    <li>
-                                        <strong>체험 계절</strong>
-                                        <p>상시</p>
-                                    </li>
-                                    <li>
-                                        <strong>체험 시간</strong>
-                                        <p>약 60분</p>
-                                    </li>
-                                    <li>
-                                        <strong>적정 연령</strong>
-                                        <p>제한없음</p>
-                                    </li>
-                                    <li>
-                                        <strong>보호자 동반</strong>
-                                        <p>보호자 동반</p>
-                                    </li>
-                                    <li>
-                                        <strong>알레르기 유발성분</strong>
-                                        <p>-</p>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="fr">
-                                <img src="${pageContext.request.contextPath}/image/epx01_01.png" alt="">
-                            </div> --%>
-                        </div>
-						<!-- End of Delete -->
 						<!-- 24.03.11 add -->
                         <div class="popup_content">
                             <img id="expCon_PC" src="${pageContext.request.contextPath}/image/RE_SE_1006_PC.jpg" class="pc_only" alt="">
@@ -295,11 +268,11 @@
                             <div class="expgroup_wrap">
                                 <div class="expgroup_item">
                                     <input type="checkbox" name="expgroupbox" id="exp1">
-                                    <label for="exp1"><span>먹거리 체험</span></label>
+                                    <label for="exp1"><span>먹거리</span></label>
                                 </div>
                                 <div class="expgroup_item">
                                     <input type="checkbox" name="expgroupbox" id="exp2">
-                                    <label for="exp2"><span>공장 체험</span></label>
+                                    <label for="exp2"><span>공장 견학</span></label>
                                 </div>
                                 <div class="expgroup_item">
                                     <input type="checkbox" name="expgroupbox" id="exp3">
@@ -307,7 +280,7 @@
                                 </div>
                                 <div class="expgroup_item">
                                     <input type="checkbox" name="expgroupbox" id="exp4">
-                                    <label for="exp4"><span>시즌성 체험</span></label>
+                                    <label for="exp4"><span>시즌성</span></label>
                                 </div>
                                 <div class="expgroup_item">
                                     <input type="checkbox" name="expgroupbox" id="exp5">
@@ -315,7 +288,7 @@
                                 </div>
                             </div>
                             <p class="expgroup_des ar pc_only">* 해당 금액은 일반 금액이며 단체 방문자는 추가적인 할인혜택이 적용됩니다.</p>
-                            <ul class="exp_list" id="expList5">
+                            <ul class="exp_list" id="expList5" style="display:none;">
                                 <!-- 리스트  -->
                             </ul>
                             <div class="btn_area">
