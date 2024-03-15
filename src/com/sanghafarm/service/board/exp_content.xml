@@ -132,32 +132,29 @@
 		   ORDER BY P.TIME
   	</select>
   	
-  	<select id="getListByDateOrderNM" resultClass="Param" parameterClass="Param"> 
-		 SELECT ROW_NUMBER() OVER(ORDER BY A.LINK_YN DESC, C2.NAME2, P.TIME) RNUM,
-			    A.SEQ, 
-			    A.SUMMARY,
-			    A.EXP_GB,
-			    A.THUMB,
-			    A.STATUS, 
-			    A.LINK_YN,
-			    C1.NAME2 EXP_GB_NM,
-			    C2.NAME2 EXP_TYPE_NM,
-			    P.TIME,
-			    P.SEAT_NUM,
-			    P.RESERVED_NUM,
-			    P.EXP_PID
-		   FROM T_EXP_CONTENT A, T_CODE2 C1, T_CODE2 C2, T_EXP_PRODUCT P
-		  WHERE A.EXP_GB = C1.CODE2
-		    AND C1.CODE1 = '037'
-		    AND A.EXP_TYPE = C2.CODE2
-		    AND C2.CODE1 = '015'
-		    AND A.EXP_TYPE = P.EXP_TYPE
-		    AND A.STATUS = 'Y'
-		    AND P.EXP_DATE = TO_DATE(#date#, 'YYYY.MM.DD')
-		    AND P.STATUS = 'S'
-		    AND P.LOCK_YN = 'Y'
-		    	<![CDATA[
-		    AND P.TIME >= #time#
-		     ]]>
+  	<select id="getListByDateOrderNM" resultClass="Param" parameterClass="Param">
+  	/* exp_content.getListByDateOrderNM */ 
+		SELECT ROW_NUMBER() OVER(ORDER BY A.LINK_YN DESC, C2.NAME2, P.TIME) AS RNUM,
+		       A.SEQ, 
+		       A.SUMMARY,
+		       A.EXP_GB,
+		       A.THUMB,
+		       A.STATUS, 
+		       A.LINK_YN,
+		       C1.NAME2 AS EXP_GB_NM,
+		       C2.NAME2 AS EXP_TYPE_NM,
+		       P.TIME,
+		       P.SEAT_NUM,
+		       P.RESERVED_NUM,
+		       P.EXP_PID
+		FROM T_EXP_CONTENT A
+		  	JOIN T_CODE2 C1 ON A.EXP_GB = C1.CODE2 AND C1.CODE1 = '037'
+		  	JOIN T_CODE2 C2 ON A.EXP_TYPE = C2.CODE2 AND C2.CODE1 = '015'
+		  	JOIN T_EXP_PRODUCT P ON A.EXP_TYPE = P.EXP_TYPE
+		 WHERE A.STATUS = 'Y'
+		   	AND P.EXP_DATE = TO_DATE(#date#, 'YYYY.MM.DD')
+		   	AND P.STATUS = 'S'
+		   	AND P.LOCK_YN = 'Y'
+			AND P.TIME <![CDATA[>=]]> #time#
   	</select>
 </sqlMap>

@@ -59,8 +59,15 @@
                 $("#selectDate").change(function() {
                 	var _time =  $(this).val();
                 	getExpList5(strdate,_time);// 체험 유형 불러오기
+                	checkAllExpGroupBoxes();//체험 유형 모두 체크
                 });
             });
+            
+            function checkAllExpGroupBoxes() {
+                $('input[name="expgroupbox"]').each(function() {
+                    $(this).prop('checked', true).change();
+                });
+            }
 // 시간 불러오기             
             function setTime(date){
             	$.ajax({
@@ -122,10 +129,11 @@
                 $('.popup_g').hide();
             });
 /* 달력, 퍼블 End */
+
 /* 체험유형 선택했을 때 보이도록 */
 $(document).ready(function() {
+	/* 체험상품이 있을 경우 시간 select 생성되면서 All Check 되도록 함, RE_SE_expList5.jsp */
     $('input[name="expgroupbox"]').change(function() {
-        console.log('Checkbox changed');
         var checkboxes = $('input[name="expgroupbox"]:checked');
         if(checkboxes.length > 0) {
             $('#expList5').show();
@@ -335,9 +343,5 @@ $(document).ready(function() {
                 </div>
             </div>
         </div>
-
-        <script>
-
-        </script>
     </body>
 </html>
