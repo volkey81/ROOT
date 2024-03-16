@@ -131,6 +131,75 @@
 		]]>
 	</select>
 	
+	<!-- 비회원 티켓 조회  -->
+	<select id="getNoMemOrderList" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT	*
+		FROM 	(
+					SELECT 	ROW_NUMBER() OVER(ORDER BY A.ORDERID DESC) RNUM,
+							A.ORDERID,
+							A.USERID,
+							A.TICKET_DIV,
+							A.EXP_PID,
+							A.NAME,
+							A.MOBILE1,
+							A.MOBILE2,
+							A.MOBILE3,
+							A.EMAIL,
+							A.TOT_AMT,
+							A.COUPON_AMT,
+							A.POINT_AMT,
+							A.GIFTCARD_AMT,
+							A.GIFTCARD_ID,
+							A.PAY_AMT,
+							A.PAY_TYPE,
+							A.MEM_COUPONID,
+							TO_CHAR(A.RESERVE_DATE, 'YYYY.MM.DD (DY)', 'NLS_DATE_LANGUAGE=korean') RESERVE_DATE,
+							A.STATUS,
+							TO_CHAR(A.ORDER_DATE, 'YYYY.MM.DD HH24:MI:SS') ORDER_DATE,
+							DECODE(A.TICKET_DIV, '01', '입장권', (SELECT NAME2 FROM T_CODE2 WHERE CODE1 = '015' AND CODE2 = P.EXP_TYPE)) TICKET_NAME,
+							A.MORDERID,
+							P.TIME,
+							P.EXP_TYPE,
+							C.FE_NAME STATUS_NAME,
+							CASE WHEN A.STATUS = '110' AND TRUNC(A.RESERVE_DATE) - SYSDATE > 2 THEN 'Y'
+							ELSE 'N' END IS_CANCELABLE,
+							F_TICKET_ITEM_LIST(A.ORDERID) ITEMS,
+							(SELECT	TO_CHAR(REGIST_DATE, 'YYYY.MM.DD HH24:MI:SS')
+							 FROM	T_ORDER_STATUS_LOG
+							 WHERE	ORDERID = A.ORDERID
+							 AND	SHIP_SEQ = '1'
+							 AND	STATUS = '290'
+							 AND	ROWNUM = 1) CANCEL_DATE
+					FROM	T_TICKET_ORDER A, 
+							T_EXP_PRODUCT P,
+							T_TORDER_STATUS_CODE C
+					WHERE	A.EXP_PID = P.EXP_PID(+)
+					AND		A.STATUS = C.STATUS
+					AND     A.NAME = #name#
+					AND     A.MOBILE1 = #mobile1#
+					AND		A.MOBILE2 = #mobile2#
+					AND     A.MOBILE3 = #mobile3#
+		]]>
+		<isNotEmpty property="status_type">
+				   	AND 	A.STATUS LIKE #status_type# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="orderid">
+					AND		A.ORDERID = #orderid#
+		</isNotEmpty>
+		<isNotEmpty property="morderid">
+					AND		A.MORDERID = #morderid#
+		</isNotEmpty>
+		<isNotEmpty property="start_date">
+		<isNotEmpty property="end_date">
+					AND     A.ORDER_DATE BETWEEN TO_DATE(#start_date#,'YYYY.MM.DD') AND TO_DATE(#end_date#,'YYYY.MM.DD') 
+		</isNotEmpty>
+		</isNotEmpty>
+				)	
+	</select>
+	
+	
+	
 	<select id="getOrderListCount" parameterClass="Param" resultClass="java.lang.Integer">
 		SELECT 	COUNT(*)
 		FROM	T_TICKET_ORDER A, 

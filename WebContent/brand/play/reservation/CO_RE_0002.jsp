@@ -37,6 +37,43 @@
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script src="/js/jquery-efuSlider.js"></script>
+		<script src="/js/jquery-ui.js?t=<%=System.currentTimeMillis()%>"></script>
+		<script src="/js/common.js?t=<%=System.currentTimeMillis()%>"></script>
+		<script src="/js/efusioni.js?t=<%=System.currentTimeMillis()%>"></script>
+		<script src="/js/jquery-ui.min.js"></script>
+		<script src="/mobile/js/swiper.min.js"></script>
+<script>
+var v;
+		
+		$(function(){
+			v = new ef.utils.Validator($("#resform"));
+			
+			v.add("name", {
+				"empty" : "주문자 이름을 입력해 주세요.",
+				"max" : 10
+			});
+			
+			v.add("mobile2",{
+				"empty" : "휴대폰번호를 입력해 주세요.",
+				"format" : "numeric",
+				"max" : 4
+			});
+			
+			v.add("mobile3",{
+				"empty" : "휴대폰번호를 입력해 주세요.",
+				"format" : "numeric",
+				"max" : 4
+			});
+		})
+        
+        function submit(){
+        	if(v.validate()){
+        		$("#resform").submit();
+        	}
+        }
+        
+</script>
     </head>
     <body>
         <div class="header_g">
@@ -65,19 +102,22 @@
             <div class="box_wrap mt130 w1080">
                 <p class="box_title">비회원 주문 및 예약 조회</p>
                 <p class="box_subtitle mt20 fs18 fwRegular">주문(예약)자 이름과 휴대폰 번호를 입력해주세요.</p>
+           <form action="CO_RE_0003.jsp" method="post" id="resform">
                 <div class="row_g w400 mt30">
-                    <input type="text" placeholder="주문(예약)자명" class="input_g input_large">
+                    <input type="text" id="name" name="name" placeholder="주문(예약)자명" class="input_g input_large">
                 </div>
+               
                 <div class="row_g w400 mt10">
-                    <select name="" id="" class="select_g tel_input w120">
+                    <select name="mobile1" id="mobile1" class="select_g tel_input w120">
                         <option value="010">010</option>
                     </select>
-                    <input type="text" class="input_g w120 tel_input ml20">
-                    <input type="text" class="input_g w120 tel_input ml20">
+                    <input type="text" name="mobile2" id="mobile2" class="input_g w120 tel_input ml20" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">
+                    <input type="text" name="mobile3" id="mobile3" class="input_g w120 tel_input ml20" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">
                 </div>
                 <div class="btn_area mt30">
-                    <button type="button" class="btn_submit btn_h40 w400">주문(예약)내역 확인하기</button>
+                    <button type="button" onclick="submit()" class="btn_submit btn_h40 w400">주문(예약)내역 확인하기</button>
                 </div>
+           </form>
             </div>
         </div>
         <div class="footer_g">

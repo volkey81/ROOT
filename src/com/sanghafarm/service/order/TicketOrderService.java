@@ -387,6 +387,11 @@ public class TicketOrderService extends IbatisService {
 	public List<Param> getOrderList(Param param) {
 		return super._list("TicketOrder.getOrderList", param);
 	}
+	// 비회원 체험 티켓  조회 
+	public List<Param> getNoMemOrderList(Param param) {
+		return super._list("TicketOrder.getNoMemOrderList", param);
+	}
+
 
 	public Integer getOrderListCount(Param param) {
 		return (Integer) super._scalar("TicketOrder.getOrderListCount", param);
