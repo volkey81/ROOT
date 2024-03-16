@@ -1,3 +1,13 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
+	import="java.util.*,
+			com.efusioni.stone.utils.*,
+			com.sanghafarm.service.order.*" %>
+<%
+	Param param = new Param(request);
+	TicketOrderService svc = (new TicketOrderService()).toProxyInstance();
+	Param info = svc.getOrderMasterInfo(param.get("orderid"));
+	List<Param> list = svc.getOrderItemList(param.get("orderid"));
+%>
 <html>
     <head>
         <meta charset="utf-8">
@@ -23,9 +33,9 @@
         <![endif]-->
 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="./css/reset.css">
-        <link rel="stylesheet" href="./css/new_common.css">
-        <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/new_common.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="./js/sub.js"></script>
@@ -51,26 +61,7 @@
             </div>
         </div>
         <div class="body_wrap">
-            <div class="popup_g">
-                <div class="dim_g"></div>
-                <div id="cancelConfirm" class="popup_wrap popup_confirm">
-                    <div class="popup_body">
-                        <p class="exp_title ac fwBold">취소하시겠습니까?</p>
-                        <div class="btn_area">
-                            <button type="button" onclick="popupClose()" class="btn_line w120 btn_small">취소</button>
-                            <button type="button" onClick="popupOpen('cancelApply')" class="btn_submit w120 ml20 btn_small">확인</button>
-                        </div>
-                    </div>
-                </div>
-                <div id="cancelApply" class="popup_wrap popup_confirm">
-                    <div class="popup_body">
-                        <p class="exp_title ac fwBold">취소되었습니다.</p>
-                        <div class="btn_area">
-                            <button type="button" onclick="popupClose()" class="btn_submit w120 btn_small">확인</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
             <div class="top_wrap w1080 f_g">
                 <p class="page_title fl">비회원 예약조회</p>
                 <p class="navi_wrap fr">
@@ -83,59 +74,65 @@
             <div class="content_wrap mt40">
                 <p class="pageTitle">비회원 체험예약 내역 조회</p>
                 
-                <div class="ulTitle mt30">예약번호 : <a href="">20240202130036627080</a></div>
+                <div class="ulTitle mt30">예약번호 : <a href=""><%= info.get("orderid") %></a></div>
                 <ul class="ulTable">
                     <li>
                         <div class="ulTable_line">
                             <span class="line_title">예약자</span>
-                            홍길동
+                            <%= info.get("name") %>
                         </div>
                         <div class="ulTable_line">
                             <span class="line_title">휴대전화</span>
-                            010-1111-2222
+                            <%= info.get("mobile1") %>-<%= info.get("mobile2") %>-<%= info.get("mobile3") %>
                         </div>
                     </li>
                     <li>
                         <div class="ulTable_line">
                             <span class="line_title">이메일</span>
-                            -
+                            <%= info.get("email") %>
                         </div>
                     </li>
                     <li>
                         <div class="ulTable_line">
                             <span class="line_title">결제수단</span>
-                            신용카드
+                            <%= info.getInt("pay_amt", 0) == 0 ? "없음(전액할인)" : info.get("pay_type_name") %>
                         </div>
                         <div class="ulTable_line">
                             <span class="line_title">상태</span>
-                            결제완료
+                           <%= info.get("status_name") %>
                         </div>
                     </li>
                 </ul>
 
                 <div class="ulTitle mt40">예약상품</div>
                 <ul class="ulTable">
+<%
+	for(Param row : list) {
+%>	                
                     <li>
                         <div class="ulTable_line line_one">
-                            <b class="line_title">먹거리 : 치즈&피자 만들기 체험</b>
+                            <b class="line_title"><%= info.get("ticket_name") %></b>
                             <div class="flex_wrap">
-                                <p>2024.02.28 (수)</p>
-                                <p>B동 10:30</p>
-                                <p>1인권(입장권별도)</p>
-                                <p><em>3</em>개</p>
+                                <p><%= info.get("reserve_date") %></p>
+                                <p><%= info.get("place_name") %> <%= info.get("time").substring(0, 2) %>:<%= info.get("time").substring(2) %></p>
+                                <p><%= row.get("ticket_nm")  %></p>
+                                <p><em><%= Utils.formatMoney(row.get("qty")) %></em>개</p>
                             </div>
                         </div>
                     </li>
+<%
+	}
+%>
                 </ul>
 
                 <div class="bgbox_g bgBox_reserv w1080 mt20">
-                    <p>예약 소계 <em>45,000</em>원</p>
-                    <p>할인 소계 <em>-0</em>원</p>
-                    <p><b>총 결제 금액 <em>45,000</em>원</b></p>
+                    <p>예약 소계 <em><%= Utils.formatMoney(info.get("tot_amt")) %></em>원</p>
+                    <p>할인 소계 <em><%= Utils.formatMoney(info.getInt("coupon_amt") + info.getInt("point_amt")) %></em>원</p>
+                    <p><b>총 결제 금액 <em><%= Utils.formatMoney(info.get("pay_amt")) %></em>원</b></p>
                 </div>
 
                 <div class="btn_area mt40">
-                    <button type="button" class="btn_submit">목록보기</button>
+                    <button type="button" onclick="history.back()" class="btn_submit">목록보기</button>
                 </div>
             </div>
         </div>
@@ -175,50 +172,6 @@
             </div>
         </div>
 
-        <script>
-            $(".section_title").click(function() {
-                $(this).next(".section_content").stop().slideToggle(300);
-                $(this).toggleClass('on').siblings().removeClass('on');
-                $(this).next(".section_content").siblings(".section_content").slideUp(300); // 1개씩 펼치기
-            });
-            $(function() {
-                $( "#start_date" ).datepicker({
-                    dateFormat:"yy년 m월 d일(DD)",
-                    showOn:"both",
-                    buttonImage:"./image/icn_cal_b.png",
-                    buttonImageOnly:"true",
-                    monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
-                    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-                    dayNamesMin: ['일','월','화','수','목','금','토'],
-                    dayNames: ['일','월','화','수','목','금','토']
-                });
-                $('#search_date').datepicker('setDate', 'today');
-            });
-            $(function() {
-                $( "#end_date" ).datepicker({
-                    dateFormat:"yy년 m월 d일(DD)",
-                    showOn:"both",
-                    buttonImage:"./image/icn_cal_b.png",
-                    buttonImageOnly:"true",
-                    monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
-                    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-                    dayNamesMin: ['일','월','화','수','목','금','토'],
-                    dayNames: ['일','월','화','수','목','금','토']
-                });
-                $('#search_date').datepicker('setDate', 'today');
-            });
-            function countplus(resultId){
-                var countValue = document.querySelector("#" + resultId).value;
-                
-                countValue = Number(countValue) + 1;
-                document.querySelector("#" + resultId).value = countValue;
-            }
-            function countminus(resultId){
-                var countValue = document.querySelector("#" + resultId).value;
-                
-                countValue = Number(countValue) - 1;
-                document.querySelector("#" + resultId).value = countValue;
-            }
-        </script>
+      
     </body>
 </html>

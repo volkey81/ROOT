@@ -1,3 +1,31 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"
+	import="java.util.*,
+			java.text.*,
+			java.time.*,
+			com.efusioni.stone.utils.*,
+			com.sanghafarm.common.*,
+			com.sanghafarm.utils.*,
+			com.sanghafarm.service.order.*" %>
+<%
+Param param = new Param(request);
+if(param.isEmpty()){
+	param.set("name", session.getAttribute("name"));
+	param.set("mobile1", session.getAttribute("mobile1"));
+	param.set("mobile2", session.getAttribute("mobile2"));
+	param.set("mobile3", session.getAttribute("mobile3"));
+}
+
+
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+Calendar c = Calendar.getInstance();
+String today = sdf.format(c.getTime());
+c.add(c.DATE, -7);
+String stDate = sdf.format(c.getTime());
+if(param.get("start_date")=="")	param.set("start_date", stDate);
+if(param.get("end_date")=="") param.set("end_date", today);
+
+%>
+			
 <html>
     <head>
         <meta charset="utf-8">
@@ -23,9 +51,9 @@
         <![endif]-->
 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="./css/reset.css">
-        <link rel="stylesheet" href="./css/new_common.css">
-        <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/new_common.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="./js/sub.js"></script>
@@ -36,6 +64,66 @@
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <script>
+        
+        
+    	function dataFormatter(newDay, today) {
+    		let year = newDay.getFullYear()
+    		let month = newDay.getMonth()+1
+    		let date = newDay.getDate()
+    		if(today) {
+    			let todayDate = today.getDate()
+    			if(date != todayDate){
+    				if(month == 0 ) year-=1
+        			month = (month + 11) % 12
+        			date = new Date(year, month, 0).getDate()	
+    			}
+    		}
+    		month = ("0"+month).slice(-2)
+    		date = ("0"+date).slice(-2)
+    		return year + "." + month + "." + date
+    	}
+
+    	
+    	$(function(){
+    		let endDate = new Date();
+    		$("input:radio[name=recently]").change(function(){
+    			var ch = $("input[name='recently']:checked").val();
+    			let newDate = new Date();
+    			if(ch == '1'){ // 1개월
+    				newDate.setMonth(endDate.getMonth()-1)
+    				newDate = dataFormatter(newDate,endDate)
+    			}
+    			if(ch == '3'){ // 3개월
+    				newDate.setMonth(endDate.getMonth()-3)
+    				newDate = dataFormatter(newDate,endDate)
+    			}
+    			if(ch == '6'){ // 6개월
+    				newDate.setMonth(endDate.getMonth()-6)
+    				newDate = dataFormatter(newDate,endDate)
+    			}
+    			
+    			$("#start_date").val(newDate);
+        		$("#end_date").val(dataFormatter(endDate,endDate));
+    		})
+    	})
+    	
+    	function tabs(seq){
+    		if(seq == '1'){
+    			$("#tab").attr("action","CO_RE_0003.jsp").submit();
+    		}
+    		if(seq == '2'){
+    			$("#tab").attr("action","CO_RE_0005.jsp").submit();
+    		}
+    		if(seq == '3'){
+    			$("#tab").attr("action","CO_RE_0007.jsp").submit();
+    		}
+    	}
+    	
+    
+        
+        </script>
+        
     </head>
     <body>
         <div class="header_g">
@@ -79,39 +167,49 @@
                     <span>비회원 주문/예약 내역</span>
                 </p>
             </div>
+             <form action="" name="tab" id="tab" method="post">
+				<input type="hidden" name="name" value="<%= param.get("name") %>" />
+				<input type="hidden" name="mobile1" value="<%= param.get("mobile1") %>" />
+				<input type="hidden" name="mobile2" value="<%= param.get("mobile2") %>" />
+				<input type="hidden" name="mobile3" value="<%= param.get("mobile3") %>" />
+			</form>
             <div class="content_wrap mt40">
                 <p class="pageTitle">비회원 주문 및 예약 조회</p>
                 <div class="tabBox_g mt20">
-                    <button type="button" class="tabBox_item">체험예약</button>
-                    <button type="button" class="tabBox_item act">호텔예약</button>
-                    <button type="button" class="tabBox_item">마켓주문</button>
+                    <a class="tabBox_item" href="javascript:void(0);" onclick="tabs(1);">체험예약</a>
+                    <a class="tabBox_item act" href="javascript:void(0);" onclick="tabs(2);">호텔예약</a>
+                    <a class="tabBox_item" href="javascript:void(0);" onclick="tabs(3);">마켓주문</a>
                 </div>
-                <form action="">
+                <form action="CO_RE_0005.jsp" name="search" method="post">
+                <input type="hidden" name="name" value="<%= param.get("name") %>" />
+                <input type="hidden" name="mobile1" value="<%= param.get("mobile1") %>" />
+                <input type="hidden" name="mobile2" value="<%= param.get("mobile2") %>" />
+                <input type="hidden" name="mobile3" value="<%= param.get("mobile3") %>" />
                     <div class="searchBox_g">
                         <div class="searchBox_item">
                             <div class="item_line">
                                 <div class="line_content">
                                     <span class="content_title">기간</span>
                                     <p class="input_date w150">
-                                        <input type="text" id="start_date" value="2024.01.01">
+                                        <input type="text" id="start_date" name="start_date" value="2024.01.01">
                                     </p>
                                     <span>~</span>
                                     <p class="input_date w150">
-                                        <input type="text" id="end_date" value="2024.01.01">
+                                        <input type="text" id="end_date" name="end_date" value="2024.01.01">
                                     </p>
                                 </div>
                                 <div class="line_content">
                                     <span class="content_title">최근</span>
                                     <div class="radio_g radio_btn">
-                                        <input type="radio" name="recently" id="recently1" checked>
+                                        <input type="radio" name="recently" id="recently1" value="1" <% if(param.get("recently").equals("1")){ %>checked<% } %> >
                                         <label for="recently1"><span>1개월</span></label>
                                     </div>
                                     <div class="radio_g radio_btn ml10">
-                                        <input type="radio" name="recently" id="recently3">
+                                        <input type="radio" name="recently" id="recently3" value="3" <% if(param.get("recently").equals("3")){ %>checked<% } %>>
                                         <label for="recently3"><span>3개월</span></label>
                                     </div>
                                     <div class="radio_g radio_btn ml10">
-                                        <input type="radio" name="recently" id="recently6">
+                                        <input type="radio" name="recently" id="recently6" value="6" <% if(param.get("recently").equals("6")){ %>checked<% } %>>
                                         <label for="recently6"><span>6개월</span></label>
                                     </div>
                                 </div>
@@ -119,12 +217,12 @@
                             <div class="item_line">
                                 <div class="line_content">
                                     <span class="content_title">상품명</span>
-                                    <input type="text" placeholder="" class="input_g w800">
+                                    <input type="text" placeholder="" name="searchtext" class="input_g w800">
                                 </div>
                             </div>
                         </div>
                         <div class="searchBox_item">
-                            <button type="button" class="btn_line">조회</button>
+                            <button type="submit" class="btn_line">조회</button>
                         </div>
                     </div>
                 </form>
@@ -226,7 +324,7 @@
             });
             $(function() {
                 $( "#start_date" ).datepicker({
-                    dateFormat:"yy년 m월 d일(DD)",
+                	dateFormat:"yy.mm.dd",
                     showOn:"both",
                     buttonImage:"./image/icn_cal_b.png",
                     buttonImageOnly:"true",
@@ -235,11 +333,11 @@
                     dayNamesMin: ['일','월','화','수','목','금','토'],
                     dayNames: ['일','월','화','수','목','금','토']
                 });
-                $('#search_date').datepicker('setDate', 'today');
+                $('#start_date').datepicker('setDate', '<%= param.get("start_date")%>');
             });
             $(function() {
                 $( "#end_date" ).datepicker({
-                    dateFormat:"yy년 m월 d일(DD)",
+                	dateFormat:"yy.mm.dd",
                     showOn:"both",
                     buttonImage:"./image/icn_cal_b.png",
                     buttonImageOnly:"true",
@@ -248,7 +346,7 @@
                     dayNamesMin: ['일','월','화','수','목','금','토'],
                     dayNames: ['일','월','화','수','목','금','토']
                 });
-                $('#search_date').datepicker('setDate', 'today');
+                $('#end_date').datepicker('setDate', '<%= param.get("end_date")%>');
             });
             function countplus(resultId){
                 var countValue = document.querySelector("#" + resultId).value;
