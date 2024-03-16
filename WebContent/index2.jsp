@@ -43,11 +43,6 @@
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-<!-- hjm 추가 -->
-	    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	    <script>
 	        $(function() {
 	            // 현재 날짜를 yyyy.mm.dd 형식으로 포맷하는 함수
@@ -75,7 +70,6 @@
 	            }).datepicker("setDate", todayFormatted);
 	        });
 	    </script>
-<!-- End of hjm 추가 -->
     </head>
     <body>
         <!-- 전체 메뉴 START -->
@@ -244,11 +238,14 @@
             <section class="section_wrap pc_section" data-index="1">
                 <div class="header_wrap">
                     <a href="" class="gnb_logo"><span class="g_alt">상하농원</span></a>
+                    <!-- 24.03.14 add button -->
+                    <button type="button" onClick="popupOpen('allMenu')" class="btn_allmenu mo_only"><span class="g_alt">전체메뉴</span></button>
                     <div class="gnb_menu">
                         <a href="/index2.jsp">상하농원</a>
-                        <a href="/brand/play/experience/list.jsp">체험,예약</a>
-                        <a href="/hotel/index.jsp">호텔,글램핑</a>
-                        <a href="/main.jsp">쇼핑,마켓</a>
+                        <a href="/main.jsp">파머스마켓</a>
+                        <a href="/brand/play/experience/list.jsp">체험교실</a>
+                        <a href="/hotel/index.jsp">빌리지/글램핑</a>
+                        <button type="button" onClick="popupOpen('allMenu')" class="icn_allmenu pc_only">전체메뉴</button>
                     </div>
                 </div>
                 <div class="main_float">
@@ -259,7 +256,7 @@
                     <a href="/main.jsp" class="btn_4"><span>쇼핑, 마켓</span></a>
                 </div>
                 <div class="reserve_wrap">
-                    <p class="reserve_info"><a href="/hotel/index.jsp">빌리지 정보></a></p>
+                    <p class="reserve_info"><a href="/hotel/index.jsp" target="_self">빌리지 정보</a></p>
                     <form action="" class="reserve">
                         <div class="notice">빌리지 선택<br>객실선택해주세요</div>
                         <div class="date">
@@ -360,13 +357,29 @@
                             </div>
                         </div>
                     </div>
+                    <!-- 24.03.13 add START -->
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                    <!-- 24.03.13 add END -->
+                    <!-- 24.03.14 add -->
+                    <div class="swiper-pagination"></div>
                 </div>
                 <script>
-                    var swiper1 = new Swiper(".sec01", {
-                        pagination: {
-                            clickable: true,
-                        },
-                    });
+	                var swiper1 = new Swiper(".sec01", {
+	                    pagination: {
+	                        clickable: true,
+	                        el: ".swiper-pagination",
+	                        type: "fraction",
+	                    },
+	                    navigation: {
+	                        nextEl: '.swiper-button-next',
+	                        prevEl: '.swiper-button-prev',
+	                    },
+	                    autoplay: {
+	                        delay: 3000,
+	                        disableOnInteraction: false,
+	                    },
+	                });
                 </script>
             </section>
             <section class="section_wrap pc_section section_product" data-index="6">
@@ -375,7 +388,7 @@
                         <div class="left_wrap">
                             <p class="left_title">파머스마켓</p>
                             <div class="swiper-pagination"></div>
-                            <a href="/product/list.jsp?cate_seq=118" class="left_btn">상품더보기</a>
+                            <a href="/main.jsp" target="_blank" class="left_btn pc_only">상품더보기</a>
                         </div>
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
@@ -565,28 +578,36 @@
                     </script>
                 </div>
                 <div class="product_wrap">
-                    <a href="" class="banner_wrap">
-                        <img src="./image/sec6_banner.png" alt="">
+                    <!-- 24.03.13 add : a tag / add link -->
+                    <a href="/main.jsp" target="_blank" class="left_btn mo_only mb50">상품더보기</a>
+                    <!-- 24.03.13 add link -->
+                    <a href="/product/list.jsp?cate_seq=128" target="_blank" class="banner_wrap">
+                        <img src="./image/sec6_banner.png" class="pc_only" alt="">
+                        <img src="./image/sec6_banner_mo.png" class="mo_only" alt="">
                     </a>
                 </div>
             </section>
             <section class="section_wrap pc_section section_promotion" data-index="3">
                 <div class="section_title">
                     <b>이벤트와 프로모션</b>
-                    <span>365일 풍성한 이벤트와 프로모션이 가득해요</span>
+                    <span>365일 풍성한 이벤트와 프로모션을 알려드려요!</span>
                 </div>
                 <div class="flex_wrap">
                     <div class="fix_content flex_wrap">
                         <div class="sec3_con">
-                            <a href="" class="con_img"><img src="./image/sec3_con_01.png" alt=""></a>
-                            <a href="" class="con_title">
+                            <!-- 24.03.13 add link -->
+                            <a href="/brand/bbs/news/view.jsp?seq=369" target="_self" class="con_img"><img src="./image/sec3_con_01.png" alt=""></a>
+                            <!-- 24.03.13 add link -->
+                            <a href="/brand/bbs/news/view.jsp?seq=369" target="_self" class="con_title">
                                 <b>상하의 숲</b>
                                 <span>팽나무 가득한 숲속나들이 즐기기</span>
                             </a>
                         </div>
                         <div class="sec3_con">
-                            <a href="" class="con_img"><img src="./image/sec3_con_02.png" alt=""></a>
-                            <a href="" class="con_title">
+                            <!-- 24.03.13 add link -->
+                            <a href="/event/view.jsp?seq=362&type=view" target="_self" class="con_img"><img src="./image/sec3_con_02.png" alt=""></a>
+                            <!-- 24.03.13 add link -->
+                            <a href="/event/view.jsp?seq=362&type=view" target="_self" class="con_title">
                                 <b>상하농원 계란 이야기 </b>
                                 <span>건강한 닭이 낳은 건강한 계란</span>
                             </a>
@@ -610,7 +631,7 @@
                                         <b class="subject_title">자연을 오감으로 느끼는<br>먹거리 만들기 체험</b>
                                     </div>
                                     <img src="./image/sec3_slide_02.png" alt="">
-                                    <a href="/brand/play/experience/list.jsp" class="slide_btn">자세히 보기</a>
+                                    <a href="/brand/bbs/news/view.jsp?seq=367" class="slide_btn">자세히 보기</a>
                                 </div>
                             </div>
                             <div class="swiper-slide">
@@ -619,7 +640,7 @@
                                         <b class="subject_title">파머스빌리지에서 준비한<br>특별한 프로모션</b>
                                     </div>
                                     <img src="./image/sec3_slide_03.png" alt="">
-                                    <a href="/hotel/village/promotion/list.jsp" class="slide_btn">자세히 보기</a>
+                                    <a href="/brand/bbs/news/view.jsp?seq=367" class="slide_btn">자세히 보기</a>
                                 </div>
                             </div>
                             <div class="swiper-slide">
@@ -632,50 +653,56 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
                     </div>
                 </div>
                 <script>
-                    var sec3_tabname = ['연말캘린더','체험교실','빌리지 프로모션','공장견학'];
-                    var swiper3 = new Swiper(".sec03", {
-                        pagination: {
-                            el: ".swiper-pagination",
-                            clickable: true,
-                            renderBullet: function (index, className) {
-                            return '<span class="' + className + '">' + (sec3_tabname[index]) + "</span>";
-                            },
-                        },
-                    });
+	                var sec3_tabname = ['연간캘린더','체험교실','빌리지 프로모션','공장견학'];
+	                var swiper3 = new Swiper(".sec03", {
+	                    pagination: {
+	                        el: ".swiper-pagination",
+	                        clickable: true,
+	                        renderBullet: function (index, className) {
+	                        return '<span class="' + className + '">' + (sec3_tabname[index]) + "</span>";
+	                        },
+	                        navigation: {
+	                            nextEl: '.swiper-button-next',
+	                            prevEl: '.swiper-button-prev',
+	                        },
+	                    },
+	                });
                 </script>
             </section>
             <section class="section_wrap pc_section section_story" data-index="4">
                 <div class="section_title">
-                    <b>소중한 사람들과 상하에서</b>
-                    <span>추억이 더 아름다워지도록 상하농원에서 해봐요</span>
+                    <b>소중한 사람들과 상하농원에서</b>
+                    <span>아름다운 추억을 만들어 보세요</span>
                 </div>
                 <div class="flex_wrap">
                     <div class="swiper sec04">
                         <div class="swiper-pagination"></div>
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
-                            	<a href="/hotel/wedding/wedding.jsp"><img src="./image/sec4_slide_01.png" alt=""></a>
+                            	<a href="/hotel/wedding/wedding.jsp" target="_self" class="inB"><img src="./image/sec4_slide_01.png" alt=""></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="/hotel/wedding/seminar.jsp"><img src="./image/sec4_slide_02.png" alt=""></a>
+                                <a href="/hotel/wedding/seminar.jsp" target="_self" class="inB"><img src="./image/sec4_slide_02.png" alt=""></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="/hotel/enjoy/spa.jsp"><img src="./image/sec4_slide_03.png" alt=""></a>
+                                <a href="/hotel/enjoy/spa.jsp" target="_self" class="inB"><img src="./image/sec4_slide_03.png" alt=""></a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="/hotel/enjoy/pool.jsp"><img src="./image/sec4_slide_04.png" alt=""></a>
+                                <a href="/hotel/enjoy/pool.jsp" target="_self" class="inB"><img src="./image/sec4_slide_04.png" alt=""></a>
                             </div>
                         </div>
                     </div>
                     <div class="swiper_content">
-                    	<a id="sec4_link" href="/hotel/wedding/wedding.jsp">
+                    	<a id="sec4_link" href="/hotel/wedding/wedding.jsp" target="_blank" class="inB">
                         	<img id="sec4_imgS" src="./image/sec4_slide_01_s.png" alt="">
                         </a>
                         <p id="sec4_con">아름답게 새 출발하는 결혼식, 가족의 특별한 모임<br>소중한 순간을 함께 하겠습니다</p>
-                        <a href="https://pf.kakao.com/_GtCKb/chathttps://pf.kakao.com/_GtCKb/chat" class="btn_kakao inB">궁금하신 게 있으신가요? <br>카카오톡 문의하기로 이어집니다</a>
+                        <a href="https://pf.kakao.com/_GtCKb/chathttps://pf.kakao.com/_GtCKb/chat" class="btn_kakao inB" target="_blank" class="btn_kakao inB">궁금하신 게 있으신가요? <br>카카오톡 문의하기로 이어집니다</a>
                     </div>
                 </div>
                 <script>
@@ -799,6 +826,10 @@
                         </div>
                         <!-- 24.03.03 add class : pc_only -->
                         <div class="footer_btn flex_wrap pc_only">
+                            <div class="footer_contact">
+                                <div class="contact_cs"><b>고객센터</b><span>1522-3698</span></div>
+                                <div class="contact_res"><b>빌리지예약</b><span>063-563-6611</span></div>
+                            </div>
                             <div class="btn_wrap flex_wrap">
                                 <p>상하농원 <br>앱 다운로드</p>
                                 <div>
@@ -806,27 +837,22 @@
                                     <p class="btn_ios">iOS</p>
                                 </div>
                             </div>
-                            <div class="footer_contact">
-                                <div class="contact_cs"><b>고객센터</b><span>1522-3698</span></div>
-                                <div class="contact_res"><b>빌리지예약</b><span>063-563-6611</span></div>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <script>
-                    var sec5_tabname = ['호텔 예약','글램핑 예약','스페셜오퍼','파머스테이블(조식)','셀렉스헬스케어'];
-                    var swiper = new Swiper(".sec05", {
-                        direction: "vertical",
-                        effect: "cube",
-                        grabCursor: true,
-                        pagination: {
-                            el: ".swiper-pagination",
-                            clickable: true,
-                            renderBullet: function (index, className) {
-                            return '<span class="' + className + '">' + (sec5_tabname[index]) + "</span>";
-                            },
-                        },
-                    });
+	                var sec5_tabname = ['호텔 예약','글램핑 예약','스페셜오퍼','파머스테이블(조식)','셀렉스헬스케어'];
+	                var swiper = new Swiper(".sec05", {
+	                    direction: "vertical",
+	                    grabCursor: true,
+	                    pagination: {
+	                        el: ".swiper-pagination",
+	                        clickable: true,
+	                        renderBullet: function (index, className) {
+	                        return '<span class="' + className + '">' + (sec5_tabname[index]) + "</span>";
+	                        },
+	                    },
+	                });
                 </script>
             </section>
         </div>
@@ -847,20 +873,31 @@
                 resetSliders: true,
                 currentPosition: 2
             });
+            
             $(function() {
                 $( "#checkin" ).datepicker({
                     dateFormat:"yy.mm.dd",
                     showOn:"both",
                     buttonImage:"./image/icn_cal.png",
-                    buttonImageOnly:"true"
+                    buttonImageOnly:"true",
+                    monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
+                    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+                    dayNamesMin: ['일','월','화','수','목','금','토'],
+                    dayNames: ['일','월','화','수','목','금','토']
                 });
+                // 24.03.14 modify script
                 $( "#checkout" ).datepicker({
                     dateFormat:"yy.mm.dd",
                     showOn:"both",
                     buttonImage:"./image/icn_cal.png",
-                    buttonImageOnly:"true"
+                    buttonImageOnly:"true",
+                    monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
+                    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+                    dayNamesMin: ['일','월','화','수','목','금','토'],
+                    dayNames: ['일','월','화','수','목','금','토']
                 });
             });
+            
             function popupOpen(popId){
                 $('.popup_g').show();
                 if (popId != ''){

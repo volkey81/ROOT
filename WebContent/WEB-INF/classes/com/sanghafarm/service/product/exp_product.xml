@@ -4,6 +4,7 @@
 <sqlMap namespace="ExpProduct">
 
 	<select id="getExpListByDate" parameterClass="Param" resultClass="Param">
+	/* exp_product.getExpListByDate */
 		SELECT	DISTINCT(A.EXP_TYPE), C.NAME2 EXP_TYPE_NAME, C.RANK
 		FROM 	T_EXP_PRODUCT A, T_CODE2 C
 		WHERE 	A.EXP_TYPE = C.CODE2
@@ -96,27 +97,27 @@
 	</select>
 	
 	<select id="getSelProductList" parameterClass="Param" resultClass="Param">
-SELECT
-		A.*,
-		C1.NAME2 TICKET_NAME,
-		C2.NAME2 EXP_TYPE_NM ,
-		P.TIME, 
-		P.RESERVED_NUM,
-		P.SEAT_NUM,
-		C2.RANK
-	FROM
-		T_EXP_PRODUCT_PRICE A,
-		T_CODE2 C1,
-		T_CODE2 C2,
-		T_EXP_PRODUCT P
-	WHERE
-		A.TICKET_TYPE = C1.CODE2
-		AND C1.CODE1 = '016'
-		AND A.EXP_PID = P.EXP_PID 
-		AND P.EXP_TYPE = C2.CODE2 
-		AND C2.CODE1 = '015'
-		AND A.EXP_PID in ($exp_pid$)
-	ORDER BY A.EXP_PID
-</select>
-	
+		SELECT
+			A.*,
+			C1.NAME2 TICKET_NAME,
+			C2.NAME2 EXP_TYPE_NM ,
+			P.TIME, 
+			P.RESERVED_NUM,
+			P.SEAT_NUM,
+			C2.RANK
+		FROM
+			T_EXP_PRODUCT_PRICE A,
+			T_CODE2 C1,
+			T_CODE2 C2,
+			T_EXP_PRODUCT P
+		WHERE
+			A.TICKET_TYPE = C1.CODE2
+			AND C1.CODE1 = '016'
+			AND A.EXP_PID = P.EXP_PID 
+			AND P.EXP_TYPE = C2.CODE2 
+			AND C2.CODE1 = '015'
+			AND A.EXP_PID in ($exp_pid$)
+		ORDER BY A.EXP_PID
+	</select>
+
 </sqlMap>
