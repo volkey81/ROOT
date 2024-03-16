@@ -486,13 +486,15 @@ function payment_return() {
 		        	if(_ticket == ""){
 						_ticket = $(this).val();
 						
-			            var _price = parseInt($("#price_" + _pid + "_" + _ticket).val(), 10) || 0;
+			            var _priceA = parseInt($("#priceA_" + _pid + "_" + _ticket).val(), 10) || 0;
+			            var _priceS = parseInt($("#priceS_" + _pid + "_" + _ticket).val(), 10) || 0;
+			            var _priceB = parseInt($("#priceB_" + _pid + "_" + _ticket).val(), 10) || 0;
 			    		
 			            var _qtyA = parseInt($("#qtyA_" + _pid + "_" + _ticket).val(), 10) || 0;
 			            var _qtyS = parseInt($("#qtyS_" + _pid + "_" + _ticket).val(), 10) || 0;
 			            var _qtyB = parseInt($("#qtyB_" + _pid + "_" + _ticket).val(), 10) || 0;
 			
-			            totalAmt += _price * (_qtyA + _qtyS + _qtyB);	//최종결제 금액
+			            totalAmt += (_priceA*_qtyA)+(_priceS*_qtyS)+(_priceB*_qtyB);	//최종결제 금액
 			            totQty +=(_qtyA + _qtyS + _qtyB);				//validation 체크에 사용할 수량 증가
 		        	}
 		        });

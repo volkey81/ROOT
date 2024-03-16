@@ -97,10 +97,12 @@
 	</select>
 	
 	<select id="getSelProductList" parameterClass="Param" resultClass="Param">
+	/* exp_product.getSelProductList */
 		SELECT
 			A.*,
 			C1.NAME2 TICKET_NAME,
 			C2.NAME2 EXP_TYPE_NM ,
+			C2.CODE2 EXP_TYPE,
 			P.TIME, 
 			P.RESERVED_NUM,
 			P.SEAT_NUM,
