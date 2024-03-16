@@ -206,7 +206,7 @@ if(param.get("end_date")=="") param.set("end_date", today);
                     <a class="tabBox_item" href="javascript:void(0);" onclick="tabs(2);">호텔예약</a>
                     <a class="tabBox_item" href="javascript:void(0);" onclick="tabs(3);">마켓주문</a>
                 </div>
-                <form action="CO_RE_0003.jsp" name="search" method="post">
+                <form  name="search" method="post">
                 <input type="hidden" name="name" value="<%= param.get("name") %>" />
                 <input type="hidden" name="mobile1" value="<%= param.get("mobile1") %>" />
                 <input type="hidden" name="mobile2" value="<%= param.get("mobile2") %>" />

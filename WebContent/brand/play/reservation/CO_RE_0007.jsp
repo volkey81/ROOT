@@ -15,7 +15,6 @@ if(param.isEmpty()){
 	param.set("mobile3", session.getAttribute("mobile3"));
 }
 
-
 SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
 Calendar c = Calendar.getInstance();
 String today = sdf.format(c.getTime());
@@ -24,6 +23,10 @@ String stDate = sdf.format(c.getTime());
 if(param.get("start_date")=="")	param.set("start_date", stDate);
 if(param.get("end_date")=="") param.set("end_date", today);
 
+//주문/배송 현황
+	OrderService order = (new OrderService()).toProxyInstance();
+// 주문 리스트
+	List<Param> orderList = order.getOrderList(param);
 %>
 <html>
     <head>
@@ -65,8 +68,6 @@ if(param.get("end_date")=="") param.set("end_date", today);
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
         
 <script>
-        
-        
     	function dataFormatter(newDay, today) {
     		let year = newDay.getFullYear()
     		let month = newDay.getMonth()+1
@@ -83,7 +84,6 @@ if(param.get("end_date")=="") param.set("end_date", today);
     		date = ("0"+date).slice(-2)
     		return year + "." + month + "." + date
     	}
-
     	
     	$(function(){
     		let endDate = new Date();
@@ -178,7 +178,7 @@ if(param.get("end_date")=="") param.set("end_date", today);
                     <a class="tabBox_item" href="javascript:void(0);" onclick="tabs(2);">호텔예약</a>
                     <a class="tabBox_item act" href="javascript:void(0);" onclick="tabs(3);">마켓주문</a>
                 </div>
-                <form action="CO_RE_0007.jsp" name="search" method="post">
+                <form  name="search" method="post">
                 <input type="hidden" name="name" value="<%= param.get("name") %>" />
                 <input type="hidden" name="mobile1" value="<%= param.get("mobile1") %>" />
                 <input type="hidden" name="mobile2" value="<%= param.get("mobile2") %>" />
