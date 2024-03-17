@@ -911,22 +911,28 @@ if(fs.isLogin()){
                             <div class="conLine">
                                 <p class="conLine_title required"><span>*</span>핸드폰 번호</p>
                                 <select name="mobile1" id="mobile1" title="휴대전화 첫자리" class="select_g select_small tel_input">
-                                    <option value="010">010</option>
+<%
+	for(String mobiles : SanghafarmUtils.MOBILES) {
+%>
+								<option value="<%= mobiles %>"><%= mobiles %></option>
+<%
+	}
+%>
                                 </select>                               
-                             <input type="text" name="mobile2" id="mobile2" value="" title="휴대전화 가운데자리" class="input_g input_small tel_input ml10"  onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">&nbsp;-
+							<input type="text" name="mobile2" id="mobile2" value="" title="휴대전화 가운데자리" class="input_g input_small tel_input ml10"  onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">&nbsp;-
 							<input type="text" name="mobile3" id="mobile3" value="" title="휴대전화 뒷자리" class="input_g input_small tel_input ml10"  onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">
                             <button class="btn_g btn_gray ml10">수정</button>
                             </div>
                             <div class="conLine">
-                                <p class="conLine_title required"><span>*</span>이메일주소</p>
-                               <input type="text" placeholder="이메일 주소" name="email1" id="email1" value="" title="이메일 앞자리"  class="input_g input_medium email_input email_id mr10">
+								<p class="conLine_title required"><span>*</span>이메일주소</p>
+                               	<input type="text" placeholder="이메일 주소" name="email1" id="email1" value="" title="이메일 앞자리"  class="input_g input_medium email_input email_id mr10">
                                 <span class="conLine_content email_at">@</span>
                                 <input type="text" name="email2" id="email2" value="" title="이메일 뒷자리" class="input_g input_medium email_domain ml10">
                                 <select name="email3" id="email3" onchange="changeEmail3(this.value)" title="주문자 이메일 뒷자리 선택" class="select_g select_medium email_domainSel ml10">
                                     <option value="">직접입력</option>
 <%
 	for(String domain : SanghafarmUtils.EMAILS) {
-%>									
+%>
 								<option value="<%= domain %>"><%= domain %></option>
 <%
 	}

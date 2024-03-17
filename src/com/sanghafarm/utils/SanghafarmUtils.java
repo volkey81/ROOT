@@ -41,12 +41,11 @@ public class SanghafarmUtils {
 	
 	public static String[] EMAILS = {
 			"naver.com",
+			"google.com",
 			"hanmail.net",
-			"gmail.com",
 			"nate.com",
-			"yahoo.com",
-			"hotmail.com",
-			"korea.com"
+			"kakao.com",
+			"msn.com"
 		};
 
 	public static String[] MOBILES = {

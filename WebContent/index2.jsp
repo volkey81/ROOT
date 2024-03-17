@@ -43,33 +43,6 @@
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-	    <script>
-	        $(function() {
-	            // 현재 날짜를 yyyy.mm.dd 형식으로 포맷하는 함수
-	            function formatDate(date) {
-	                var d = new Date(date),
-	                    month = '' + (d.getMonth() + 1),
-	                    day = '' + d.getDate(),
-	                    year = d.getFullYear();
-	
-	                if (month.length < 2) 
-	                    month = '0' + month;
-	                if (day.length < 2) 
-	                    day = '0' + day;
-	
-	                return [year, month, day].join('.');
-	            }
-	
-	            // 오늘 날짜를 설정
-	            var today = new Date();
-	            var todayFormatted = formatDate(today);
-	
-	            // 체크인 및 체크아웃 입력 필드에 오늘 날짜를 기본값으로 설정
-	            $("#checkin, #checkout").datepicker({
-	                dateFormat: "yy.mm.dd"
-	            }).datepicker("setDate", todayFormatted);
-	        });
-	    </script>
     </head>
     <body>
         <!-- 전체 메뉴 START -->
@@ -242,16 +215,16 @@
                     <button type="button" onClick="popupOpen('allMenu')" class="btn_allmenu mo_only"><span class="g_alt">전체메뉴</span></button>
                     <div class="gnb_menu">
                         <a href="/index2.jsp">상하농원</a>
-                        <a href="/main.jsp">파머스마켓</a>
-                        <a href="/brand/play/experience/list.jsp">체험교실</a>
-                        <a href="/hotel/index.jsp">빌리지/글램핑</a>
+                        <a href="/brand/play/reservation/RE_SE_0002.jsp">체험,예약</a>
+                        <a href="/hotel/index.jsp">호텔,글램핑</a>
+                        <a href="/main.jsp">쇼핑,마켓</a>
                         <button type="button" onClick="popupOpen('allMenu')" class="icn_allmenu pc_only">전체메뉴</button>
                     </div>
                 </div>
                 <div class="main_float">
                     <!-- 24.02.28 Modify span > 텍스트 -->
                     <a class="btn_1 active"><span>고창상하농원</span></a>
-                    <a href="/brand/play/experience/list.jsp" class="btn_2"><span>체험활동</span></a>
+                    <a href="/brand/play/reservation/RE_SE_0002.jsp" class="btn_2"><span>체험활동</span></a>
                     <a href="/hotel/room/index.jsp" class="btn_3"><span>객실예약</span></a>
                     <a href="/main.jsp" class="btn_4"><span>쇼핑, 마켓</span></a>
                 </div>
@@ -301,7 +274,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div><button class="btn_reserve">예약하기</button></div>
+                        <div><a class="btn_reserve inB">예약하기</a></div>
                     </form>
                 </div>
                 <div class="swiper sec01">
@@ -875,27 +848,18 @@
             });
             
             $(function() {
-                $( "#checkin" ).datepicker({
-                    dateFormat:"yy.mm.dd",
-                    showOn:"both",
-                    buttonImage:"./image/icn_cal.png",
-                    buttonImageOnly:"true",
+                var today = new Date(); // 오늘 날짜 생성
+                $( "#checkin, #checkout" ).datepicker({
+                    dateFormat: "yy.mm.dd",
+                    showOn: "both",
+                    buttonImage: "./image/icn_cal.png",
+                    buttonImageOnly: true,
                     monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
                     monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
                     dayNamesMin: ['일','월','화','수','목','금','토'],
-                    dayNames: ['일','월','화','수','목','금','토']
-                });
-                // 24.03.14 modify script
-                $( "#checkout" ).datepicker({
-                    dateFormat:"yy.mm.dd",
-                    showOn:"both",
-                    buttonImage:"./image/icn_cal.png",
-                    buttonImageOnly:"true",
-                    monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
-                    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-                    dayNamesMin: ['일','월','화','수','목','금','토'],
-                    dayNames: ['일','월','화','수','목','금','토']
-                });
+                    dayNames: ['일','월','화','수','목','금','토'],
+                    defaultDate: today // 오늘 날짜를 기본값으로 설정
+                }).datepicker("setDate", today); // 데이트 피커의 날짜를 오늘로 설정
             });
             
             function popupOpen(popId){

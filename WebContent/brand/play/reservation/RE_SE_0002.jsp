@@ -189,7 +189,7 @@ $(document).ready(function() {
                 <!-- 24.03.05 add button -->
                 <button class="btn_allmenu mo_only"><span class="g_alt">전체메뉴</span></button>
                 <div class="gnb_menu">
-                    <a href="brand/introduce/story.jsp">고창상하농원</a>
+                    <a href="/brand/introduce/story.jsp">고창상하농원</a>
                     <a href="/brand/workshop/ham.jsp">짓다</a>
                     <a href="/brand/play/gallery.jsp">놀다</a>
                     <a href="/brand/food/store1.jsp">먹다</a>

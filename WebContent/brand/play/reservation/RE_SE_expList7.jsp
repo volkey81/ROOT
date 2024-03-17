@@ -27,7 +27,7 @@ for(Param row : list) {
  <div class="people_wrap">
    	<span class="wrap_title"><%= row.get("ticket_name") %></span>
    	<button type="button" onClick="setQty('dn','qty_<%= row.get("exp_pid") %>_<%= row.get("ticket_type") %>')" class="btn_minus brNone">-</button>
-   	<input type="number" id="qty_<%= row.get("exp_pid") %>_<%= row.get("ticket_type") %>" class="input_g input_people" name="qty_<%= row.get("exp_pid") %>_<%= row.get("ticket_type") %>" value=0 >
+   	<input type="number" name="qty_<%= row.get("exp_pid") %>_<%= row.get("ticket_type") %>" id="qty_<%= row.get("exp_pid") %>_<%= row.get("ticket_type") %>" class="input_g input_people"  value=0 >
    	<button type="button" onClick="setQty('up','qty_<%= row.get("exp_pid") %>_<%= row.get("ticket_type") %>')" class="btn_plus blNone">+</button>   
    	<input type="hidden" name="exp_pid"  value="<%= row.get("exp_pid") %>" />
    	<input type="hidden" name="ticket_type_<%= row.get("exp_pid") %>" value="<%= row.get("ticket_type") %>" />
@@ -40,7 +40,6 @@ for(Param row : list) {
 	<input type="hidden" name="place_name_<%= row.get("exp_pid") %>" id="place_name_<%= row.get("exp_pid") %>" value="<%= row.get("place_name") %>">
 	<input type="hidden" name="remain_<%= row.get("exp_pid") %>" id="remain_<%= row.get("exp_pid") %>" value="<%= remain %>">
 </div>
-
 	 
 <%				
 			}else{//이전값과 다르면 새롭게 
@@ -195,12 +194,12 @@ for(Param row : list) {
 		}
 	
 %>
-        
-   <%
+
+<%
    previousValue = row.get("exp_pid");
    currentIndex++;
 }
-   %>  
+%>  
 	 </div>
 	 </div>
    </li>   
