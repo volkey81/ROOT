@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
     <head>
         <meta charset="utf-8">
@@ -41,12 +42,13 @@
         <div class="header_g">
             <div class="header_wrap">
                 <a href="" class="gnb_logo"><span class="g_alt">상하농원</span></a>
+                <button class="btn_allmenu mo_only"><span class="g_alt">전체메뉴</span></button>
                 <div class="gnb_menu">
-                    <a href="">고창상하농원</a>
-                    <a href="">짓다</a>
-                    <a href="">놀다</a>
-                    <a href="">먹다</a>
-                    <button class="btn_allmenu">전체메뉴</button>
+                    <a href="/brand/introduce/story.jsp">고창상하농원</a>
+                    <a href="/brand/workshop/ham.jsp">짓다</a>
+                    <a href="/brand/play/gallery.jsp">놀다</a>
+                    <a href="/brand/food/store1.jsp">먹다</a>
+                    <button class="btn_allmenu pc_only">전체메뉴</button>
                 </div>
             </div>
         </div>
@@ -89,6 +91,7 @@
                             
                             <ul class="program_wrap">
                                 <li id="program1" class="program_type1">
+                                	<button type="button" class="btn_close"><span class="g_alt">삭제</span></button>
                                     <p class="program_title">치즈 & 피자 만들기 체험</p>
                                     <div class="program_time">
                                         <div class="check_g inB wAuto">
@@ -124,6 +127,7 @@
                                     </div>
                                 </li>
                                 <li class="program_type2">
+                                	<button type="button" class="btn_close"><span class="g_alt">삭제</span></button>
                                     <p class="program_title">공장견학</p>
                                     <div class="program_time">
                                         <div class="check_g inB wAuto">

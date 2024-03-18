@@ -86,10 +86,18 @@
                 </div>
                 <div class="box_wrap box800 box_resCom">
                     <p class="box_subtitle">예약 접수가 완료되었습니다.</p>
-                    <ul class="greenBox_g mt30">
+                    <!-- 24.03.17 add class : ac -->
+                    <!-- 24.03.17 회원 예약 완료 안내 영역 -->
+                    <ul class="greenBox_g ac mt30">
                         <li>예약이 성공적으로 완료되었습니다.</li>
                         <li>신청하신 정보는 회원일 경우 ‘마이페이지’, </li>
                         <li>비회원일 경우 ‘비회원 주문/예약 조회’에서 확인 가능합니다.</li>
+                    </ul>
+                    <!-- 24.03.17 비회원 예약 완료 안내 영역 추가 -->
+                    <ul class="greenBox_g mt30">
+                        <li>・ 예약이 성공적으로 완료되었습니다.</li>
+                        <li>・ 신청하신 정보는 회원일 경우 ‘마이페이지’, </li>
+                        <li>・ 비회원일 경우 ‘비회원 주문/예약 조회’에서 확인 가능합니다.</li>
                     </ul>
                     <div class="btn_area mt40">
                         <button class="btn_submit w300">확인</button>

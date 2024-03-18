@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
     <head>
         <meta charset="utf-8">
@@ -41,12 +42,13 @@
         <div class="header_g">
             <div class="header_wrap">
                 <a href="" class="gnb_logo"><span class="g_alt">상하농원</span></a>
+                <button class="btn_allmenu mo_only"><span class="g_alt">전체메뉴</span></button>
                 <div class="gnb_menu">
-                    <a href="">고창상하농원</a>
-                    <a href="">짓다</a>
-                    <a href="">놀다</a>
-                    <a href="">먹다</a>
-                    <button class="btn_allmenu">전체메뉴</button>
+                    <a href="/brand/introduce/story.jsp">고창상하농원</a>
+                    <a href="/brand/workshop/ham.jsp">짓다</a>
+                    <a href="/brand/play/gallery.jsp">놀다</a>
+                    <a href="/brand/food/store1.jsp">먹다</a>
+                    <button class="btn_allmenu pc_only">전체메뉴</button>
                 </div>
             </div>
         </div>
@@ -130,18 +132,18 @@
                         <div class="section_content">
                             <div class="f_g">
                                 <div class="conLine fl">
-                                    <p class="conLine_title required">희망일 (1순위)</p>
+                                    <p class="conLine_title required"><span>*</span> 희망일 (1순위)</p>
                                     <div class="reserveDate_wrap">
                                         <p class="input_date disabled w290">
                                             <input type="text" id="res_date1" value="2024.01.01">
                                         </p>
                                     </div>
                                 </div>
-                                <div class="conLine fr mt0">
+                                <div class="conLine fr mt0 mo_mt20">
                                     <p class="conLine_title required">희망일 (2순위)</p>
                                     <div class="reserveDate_wrap">
                                         <p class="input_date w290">
-                                            <input type="text" id="res_date2" value="날짜를 선택해주세요.">
+                                           <input type="text" id="res_date2" placeholder="날짜를 선택해주세요.">
                                         </p>
                                     </div>
                                 </div>
