@@ -118,7 +118,9 @@
 			AND A.EXP_PID = P.EXP_PID 
 			AND P.EXP_TYPE = C2.CODE2 
 			AND C2.CODE1 = '015'
+			<isNotEmpty property="exp_pid">
 			AND A.EXP_PID in ($exp_pid$)
+			</isNotEmpty>
 		ORDER BY A.EXP_PID
 	</select>
 
