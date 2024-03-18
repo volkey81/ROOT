@@ -362,7 +362,7 @@
                         <div class="left_wrap">
                             <p class="left_title">파머스마켓</p>
                             <div class="swiper-pagination"></div>
-                            <a href="/main.jsp" target="_blank" class="left_btn pc_only">상품더보기</a>
+                            <a href="main.jsp" target="_blank" class="left_btn pc_only">상품더보기</a>
                         </div>
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
