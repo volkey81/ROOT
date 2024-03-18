@@ -24,12 +24,12 @@
         <![endif]-->
 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="./css/reset.css">
-        <link rel="stylesheet" href="./css/new_common.css">
-        <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/reset.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/new_common.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <script src="./js/sub.js"></script>
+        <script src="${pageContext.request.contextPath}/js/sub.js"></script>
         
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -187,23 +187,23 @@
                                 </div>
                                 24.02.29 위쪽으로 위치 변경 END -->
                                 <div class="expgroup_item">
-                                    <input type="checkbox" name="expgroupCheck" id="exp1">
+                                    <input type="checkbox" name="expgroupCheck" id="exp1" checked>
                                     <label for="exp1"><span>먹거리 체험</span></label>
                                 </div>
                                 <div class="expgroup_item">
-                                    <input type="checkbox" name="expgroupCheck" id="exp2">
+                                    <input type="checkbox" name="expgroupCheck" id="exp2" checked>
                                     <label for="exp2"><span>공장 체험</span></label>
                                 </div>
                                 <div class="expgroup_item">
-                                    <input type="checkbox" name="expgroupCheck" id="exp3">
+                                    <input type="checkbox" name="expgroupCheck" id="exp3" checked>
                                     <label for="exp3"><span>수확 체험</span></label>
                                 </div>
                                 <div class="expgroup_item">
-                                    <input type="checkbox" name="expgroupCheck" id="exp4">
+                                    <input type="checkbox" name="expgroupCheck" id="exp4" checked>
                                     <label for="exp4"><span>시즌성 체험</span></label>
                                 </div>
                                 <div class="expgroup_item">
-                                    <input type="checkbox" name="expgroupCheck" id="exp5">
+                                    <input type="checkbox" name="expgroupCheck" id="exp5" checked>
                                     <label for="exp5"><span>이벤트&기타</span></label>
                                 </div>
                             </div>
@@ -359,7 +359,7 @@
                     dayNamesMin: ['일','월','화','수','목','금','토'],
                     dayNames: ['일','월','화','수','목','금','토']
                 });
-                $('#res_date').datepicker('setDate', 'today');
+                $('#res_date1').datepicker('setDate', 'today');
             });
             $(function() {
                 $( "#res_date2" ).datepicker({
@@ -372,7 +372,7 @@
                     dayNamesMin: ['일','월','화','수','목','금','토'],
                     dayNames: ['일','월','화','수','목','금','토']
                 });
-                $('#res_date').datepicker('setDate', 'today');
+                $('#res_date2').datepicker('setDate', 'today');
             });
             // 24.03.11 move script : sub.js
             // function popupOpen(popId){
