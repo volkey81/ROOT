@@ -116,19 +116,8 @@ if(param.get("end_date")=="") param.set("end_date", today);
     		$("input:radio[name=recently]").change(function(){
     			var ch = $("input[name='recently']:checked").val();
     			let newDate = new Date();
-    			if(ch == '1'){ // 1개월
-    				newDate.setMonth(endDate.getMonth()-1)
-    				newDate = dataFormatter(newDate,endDate)
-    			}
-    			if(ch == '3'){ // 3개월
-    				newDate.setMonth(endDate.getMonth()-3)
-    				newDate = dataFormatter(newDate,endDate)
-    			}
-    			if(ch == '6'){ // 6개월
-    				newDate.setMonth(endDate.getMonth()-6)
-    				newDate = dataFormatter(newDate,endDate)
-    			}
-    			
+  				newDate.setMonth(endDate.getMonth()-ch)
+  				newDate = dataFormatter(newDate,endDate)
     			$("#start_date").val(newDate);
         		$("#end_date").val(dataFormatter(endDate,endDate));
     		})
