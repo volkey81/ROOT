@@ -5,7 +5,8 @@
 			com.efusioni.stone.utils.*,
 			com.sanghafarm.common.*,
 			com.sanghafarm.utils.*,
-			com.sanghafarm.service.order.*" %>
+			com.sanghafarm.service.hotel.*,
+			org.json.simple.*" %>
 <%
 Param param = new Param(request);
 if(param.isEmpty()){
@@ -23,6 +24,10 @@ c.add(c.DATE, -7);
 String stDate = sdf.format(c.getTime());
 if(param.get("start_date")=="")	param.set("start_date", stDate);
 if(param.get("end_date")=="") param.set("end_date", today);
+
+
+RMSApiService svc = new RMSApiService();
+
 
 %>
 			
