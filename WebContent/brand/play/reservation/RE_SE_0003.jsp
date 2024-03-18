@@ -647,6 +647,25 @@ function payment_return() {
     				alert("입장권을 선택하세요.");
     				return;
     			}
+    			
+    			if(!$("#agree1").prop("checked")) {
+    				alert("취소/환불 규정에 대한 동의는 필수입니다.");
+    				return;
+    			}
+    			if(!$("#agree2").prop("checked")) {
+    				alert("결제대행서비스 이용동의는 필수입니다.");
+    				return;
+    			}
+    			
+    			if(!$("#agree4").prop("checked")) {
+    				alert("개인정보 수집 및 이용에 대한 동의는 필수입니다.");
+    				return;
+    			}
+
+    			if(!$("#agree3").prop("checked")) {
+    				alert("주문내역 동의는 필수입니다.");
+    				return;
+    			}
 <%
 if(fs.isLogin()){ //회원여부 확인
 %> 
@@ -819,14 +838,14 @@ if(fs.isLogin()){ //회원여부 확인
                         <b class="terms_title">이용동의</b>
                         <div class="mt50">
                             <div class="check_g">
-                                <input type="checkbox" name="partyResAll" id="partyResAgree">
-                                <label onClick="checkAll('partyResAll','partyResCheck')" for="partyResAgree"><span class="fs18 fwBold">전체 동의하기</span></label>
+                                <input type="checkbox" name="partyResAll" id="agreeAll" onclick="setAgreeAll()">
+                                <label for="agreeAll"><span class="fs18 fwBold">전체 동의하기</span></label>
                             </div>
                         </div>
                         <div class="mt30">
                             <div class="check_g">
-                                <input type="checkbox" name="partyResCheck" id="partyRes1">
-                                <label for="partyRes1"><span>취소/환불 규정에 대한 동의</span></label>
+                                <input type="checkbox" name="partyResCheck" id="agree1">
+                                <label for="agree1"><span>취소/환불 규정에 대한 동의</span></label>
                             </div>
                             <div class="textarea_g readOnly">
                                 <textarea name="" id="" redonly="redonly">- 이용 3일전까지 취소 수수료 없음
@@ -837,8 +856,8 @@ if(fs.isLogin()){ //회원여부 확인
                         </div>
                         <div class="mt30">
                             <div class="check_g">
-                                <input type="checkbox" name="partyResCheck" id="partyRes2">
-                                <label for="partyRes2"><span>결제대행서비스 표준이용약관</span></label>
+                                <input type="checkbox" name="partyResCheck" id="agree2">
+                                <label for="agree2"><span>결제대행서비스 표준이용약관</span></label>
                             </div>
                             <div class="textarea_g readOnly">
                                 <textarea name="" id="" redonly="redonly">고유식별번호 수집 및 이용 동의
@@ -847,8 +866,8 @@ if(fs.isLogin()){ //회원여부 확인
                         </div>
                         <div class="mt30">
                             <div class="check_g">
-                                <input type="checkbox" name="partyResCheck" id="partyRes2">
-                                <label for="partyRes2"><span>개인정보 수집 및 이용에 대한 동의</span></label>
+                                <input type="checkbox" name="partyResCheck" id="agree4">
+                                <label for="agree4"><span>개인정보 수집 및 이용에 대한 동의</span></label>
                             </div>
                             <div class="textarea_g readOnly">
                                 <textarea name="" id="" redonly="redonly">본인은 상하농원(유) (이하’회사’ 라 합니다) 가 제공하는 호텔 예약서비스(이하’서비스’라 합니다)를 이용하기 위해, 다음과 같이 ‘회사’가 본인의 개인정보를 수집/이용하고 개인정보의 취급을 위탁하는 것에</textarea>
@@ -856,8 +875,8 @@ if(fs.isLogin()){ //회원여부 확인
                         </div>
                         <div class="mt30">
                             <div class="check_g">
-                                <input type="checkbox" name="partyResCheck" id="partyRes2">
-                                <label for="partyRes2"><span>주문내역 동의</span></label>
+                                <input type="checkbox" name="partyResCheck" id="agree3">
+                                <label for="agree3"><span>주문내역 동의</span></label>
                             </div>
                             <div class="textarea_g readOnly">
                                 <textarea name="" id="" redonly="redonly">주문할 입장/체험 상품의 상품명, 사용일자 및 시간, 상품가격을 확인했습니다.
@@ -866,7 +885,7 @@ if(fs.isLogin()){ //회원여부 확인
                             </div>
                         </div>
                         <div class="btn_area mt40">
-                            <button class="btn_submit">결제하기</button>
+                            <button type="button" onClick="popupClose()" class="btn_submit">결제하기</button>
                         </div>
                     </div>
                 </div>
@@ -1096,7 +1115,7 @@ if(fs.isLogin()){
                         </div>
                         <div class="section_content">
                             <div class="check_g">
-                                <input type="checkbox" id="memberAgree" name="">
+                                <input type="checkbox" id="memberAgree" onclick="popupOpen('terms');" name="">
                                 <label for="memberAgree"><span>전체 동의하기</span></label>
                             </div>
                         </div>
@@ -1123,7 +1142,7 @@ if(fs.isLogin()){
                             <p class="divLine mt30 mb30"></p>
                             <div class="radio_content">
                                 <div class="radio_g radio_check">
-                                    <input type="radio" name="payGroup" id="pay2">
+                                    <input type="radio" name="payGroup" id="pay2" checked>
                                     <label for="pay2"><span>다른 결제 수단</span></label>
                                 </div>
                                 <ul class="payType_wrap">
@@ -1401,7 +1420,49 @@ if(fs.isLogin()){
                 $(this).toggleClass('on').siblings().removeClass('on');
                 $(this).next(".section_content").siblings(".section_content").slideUp(300); // 1개씩 펼치기
             });
-           
+           // 이용약관 관련  전체 동의 이벤트
+            $("#agreeAll").click(function() {
+        		if($("#agreeAll").is(":checked")){ 
+        			$("input[name=partyResCheck]").prop("checked", true);
+        			$("#memberAgree").prop("checked", true);
+        		}else{ 
+        			$("input[name=partyResCheck]").prop("checked", false);
+        			$("#memberAgree").prop("checked", false);
+        		}
+        	});
+            // 이용약관 관련  전체 동의 이벤트
+            $("#memberAgree").click(function() {
+        		if($("#agreeAll").is(":checked")){ 
+        			$("input[name=partyResCheck]").prop("checked", true);
+        			$("#memberAgree").prop("checked", true);
+        		}else{ 
+        			$("input[name=partyResCheck]").prop("checked", false);
+        			$("#memberAgree").prop("checked", false);
+        		}
+        	});
+            // 이용약관 관련  전체 동의 이벤트
+        	$("input[name=partyResCheck]").click(function() {
+        		var total = $("input[name=partyResCheck]").length;
+        		var checked = $("input[name=partyResCheck]:checked").length;
+
+        		if(total != checked){
+        			$("#agreeAll").prop("checked", false);
+        			$("#memberAgree").prop("checked", false);
+        		}
+        		else{
+        			$("#agreeAll").prop("checked", true); 
+        			$("#memberAgree").prop("checked", true);
+        		}
+        	});
+        	
+        	// 결제수단 선택 클릭이벤트 
+        	$(".maeilpay_wrap").click(function(){
+        		$('input[id="pay1"]').prop('checked',true);
+        		 $('input[name="pay_type"]').prop('checked',false);
+        	});
+			$(".payType_wrap").click(function(){
+        		$('input[id="pay2"]').prop('checked',true);
+        	});
             
         </script>
     </body>
