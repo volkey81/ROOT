@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <html>
     <head>
         <meta charset="utf-8">
@@ -41,12 +42,15 @@
         <div class="header_g">
             <div class="header_wrap">
                 <a href="" class="gnb_logo"><span class="g_alt">상하농원</span></a>
+                <!-- 24.03.05 add button -->
+                <button class="btn_allmenu mo_only"><span class="g_alt">전체메뉴</span></button>
                 <div class="gnb_menu">
                     <a href="">고창상하농원</a>
                     <a href="">짓다</a>
                     <a href="">놀다</a>
                     <a href="">먹다</a>
-                    <button class="btn_allmenu">전체메뉴</button>
+                    <!-- 24.03.05 add class : pc_only -->
+                    <button class="btn_allmenu pc_only">전체메뉴</button>
                 </div>
             </div>
         </div>
@@ -89,6 +93,8 @@
                             
                             <ul class="program_wrap">
                                 <li id="program1" class="program_type1">
+                                    <!-- 24.03.17 add button -->
+                                    <button type="button" class="btn_close"><span class="g_alt">삭제</span></button>
                                     <p class="program_title">치즈 & 피자 만들기 체험</p>
                                     <div class="program_time">
                                         <div class="check_g inB wAuto">
@@ -124,6 +130,8 @@
                                     </div>
                                 </li>
                                 <li class="program_type2">
+                                    <!-- 24.03.17 add button -->
+                                    <button type="button" class="btn_close"><span class="g_alt">삭제</span></button>
                                     <p class="program_title">공장견학</p>
                                     <div class="program_time">
                                         <div class="check_g inB wAuto">
@@ -181,10 +189,19 @@
                             예약자 정보
                         </div>
                         <div class="section_content">
-                            <div class="divLine mt30 mb20"></div>
+                            <!-- 24.02.29 add div START -->
+                            <div class="ar">
+                                <button type="button" class="btn_reset"><span>입력정보 초기화</span></button>
+                            </div>
+                            <!-- 24.02.29 add div END -->
+                            <!-- 24.02.29 change class : mt30 > mt15 -->
+                            <div class="divLine mt15 mb20"></div>
                             <div class="conLine">
                                 <p class="conLine_title required"><span>*</span>단체명</p>
                                 <input type="text" class="input_g input_medium">
+                                <select name="" id="" class="select_g select_medium ml10">
+                                    <option value="">단체 상세 선택</option>
+                                </select>
                             </div>
                             <div class="conLine">
                                 <p class="conLine_title required"><span>*</span>신청자 성명</p>
@@ -192,11 +209,14 @@
                             </div>
                             <div class="conLine">
                                 <p class="conLine_title required"><span>*</span>연락처</p>
-                                <select name="" id="" class="select_g select_small">
+                                <!-- 24.02.29 add class : tel_input -->
+                                <select name="" id="" class="select_g select_small tel_input">
                                     <option value="010">010</option>
                                 </select>
-                                <input type="text" class="input_g input_small ml10">
-                                <input type="text" class="input_g input_small ml10">
+                                <!-- 24.02.29 add class : tel_input -->
+                                <input type="text" class="input_g input_small tel_input ml10">
+                                <!-- 24.02.29 add class : tel_input -->
+                                <input type="text" class="input_g input_small tel_input ml10">
                                 <button class="btn_g btn_gray ml10 w150">인증번호 요청</button>
                             </div>
                             <div class="conLine">
@@ -223,7 +243,7 @@
                             </div>
                             <div class="divLine mt20 mb20"></div>
                             <div class="agree_wrap">
-                                <div class="check_g check_agree">
+                                <div class="check_g">
                                     <input type="checkbox" name="partyResAgree" id="partyResAgree">
                                     <label for="partyResAgree"><span>이용약관 동의</span></label>
                                 </div>
@@ -232,15 +252,40 @@
                         </div>
                     </section>
 
-                    <div class="btn_area mt40">
-                        <button class="btn_line w300 mr30">이전으로</button>
-                        <button class="btn_submit">예약 접수하기</button>
+                    <!-- 24.02.29 add class : mo_btn2 -->
+                    <div class="btn_area mo_btn2 mt40">
+                        <!-- 24.02.29 remove class : mr30 -->
+                        <button class="btn_line w300">이전으로</button>
+                        <!-- 24.02.29 add class : ml30 -->
+                        <button class="btn_submit ml30">예약 접수하기</button>
                     </div>
                 </form>
             </div>
         </div>
         <div class="footer_g">
             <div class="footer_wrap flex_wrap">
+                <div class="footer_group_mo mo_only">
+                    <div class="groupWrap">
+                        <div class="groupLine icn_cs">
+                            <span>상하농원 고객센터</span>
+                            <p><a href="tel:1522-3698">1522-3698</a></p>
+                        </div>
+                        <div class="groupLine icn_reserv">
+                            <span>파머스 빌리지 예약</span>
+                            <p><a href="tel:063-563-6611">063-563-6611</a></p>
+                        </div>
+                    </div>
+                    <div class="groupWrap">
+                        <div class="groupLine icn_and">
+                            <span>상하농원</span>
+                            <p><a href="">안드로이드 다운로드</a></p>
+                        </div>
+                        <div class="groupLine icn_ios">
+                            <span>다운로드</span>
+                            <p><a href="">iOS 다운로드</a></p>
+                        </div>
+                    </div>
+                </div>
                 <p class="fotter_logo"><img src="./image/footer_logo.png" alt=""></p>
                 <div class="footer_info">
                     <div class="info_link">
@@ -251,15 +296,23 @@
                         <a href="">윤리 HOT-LINE</a>
                     </div>
                     <div class="info_company">
-                        <div>전라북도 고창군 상하면 상하농원길 11-23  |  대표 : 최승우  |  개인정보 보호 책임자 : 최승우  |  사업자등록번호 : 415-86-00211</div>
-                        <div>통신판매업신고번호 : 제2016-4780085-30-2-00015호  |  상담이용시간 : 09:30~18:00  |  농원운영시간 : 연중무휴 09:30~21:00</div>
+                        <!-- 24.03.05 modify : .info_company 태그 및 내용 변경 -->
+                        <div class="companyLine">
+                            <p><span>전라북도 고창군 상하면 상하농원길 11-23</span><span>대표 : 최승우</span></p>
+                            <p><span>개인정보 보호 책임자 : 최승우</span><span>사업자등록번호 : 415-86-00211</span></p>
+                        </div>
+                        <div class="companyLine">
+                            <p><span>통신판매업신고번호 : 제2016-4780085-30-2-00015호</span></p>
+                            <p><span>상담이용시간 : 09:30~18:00</span><span>농원운영시간 : 연중무휴 09:30~21:00</span></p>
+                        </div>
                     </div>
                     <div class="info_extra">
                         <p>상하농원(유)은 매일유업(주)과의 제휴를 통해 공동으로 서비스를 운영하고 있습니다.</p>
                         <p>@ 2021 SANGHA FARM CO. ALL RIGHTS RESERVED</p>
                     </div>
                 </div>
-                <div class="footer_btn flex_wrap">
+                <!-- 24.03.03 add class : pc_only -->
+                <div class="footer_btn flex_wrap pc_only">
                     <div class="btn_wrap flex_wrap">
                         <p>상하농원 <br>앱 다운로드</p>
                         <div>

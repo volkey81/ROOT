@@ -65,11 +65,12 @@ span.g_alt{font-size:1px;opacity:0;text-indent:-99999px;z-index:-1}
 .box_wrap .box_title{line-height:27px;font-size:24px;font-weight:600;text-align:center}
 .box_wrap .box_subtitle{line-height:22px;font-size:20px;font-weight:600;text-align:center}
 
-.btn_submit{border-radius:20px;line-height:50px;color:#fff;font-size:18px;font-weight:600;background-color:#36880A;text-align:center}
+.btn_submit{border-radius:10px;line-height:50px;color:#fff;font-size:18px;font-weight:600;background-color:#36880A;text-align:center}
 .btn_prev{border:1px solid #36880A;border-radius:20px;line-height:50px;color:#36880A;font-size:18px;font-weight:600;background-color:#fff;text-align:center}
 .btn_line{border:1px solid #36880A;border-radius:20px;line-height:50px;color:#36880A;font-size:18px;font-weight:600;background-color:none;text-align:center}
 .btn_line.btn_gray{border-color:#ddd;color:#777}
 .btn_submit.btn_gray{border-color:#777;color:#fff;background-color:#777}
+.btn_submit.btn_disabled{border-color:#ddd;color:#777;background-color:#ddd}
 .btn_disabled{color:#fff;background-color:#ddd}
 .btn_h40{border-radius:10px;line-height:40px}
 .btn_small{border-radius:10px;line-height:40px;font-size:16px}
@@ -125,8 +126,10 @@ span.g_alt{font-size:1px;opacity:0;text-indent:-99999px;z-index:-1}
 .ui-datepicker-calendar tbody tr:first-child td{padding-top:12px !important;}
 .ui-datepicker-calendar tbody td a{display:inline-block !important;margin:0 auto;padding:0 !important;width:36px !important;border:0 !important;border-radius:100% !important;line-height:36px !important;color:#111 !important;font-size:16px !important;background:none !important;text-align:center !important}
 .ui-datepicker-calendar tbody td.ui-datepicker-unselectable span{display:inline-block !important;margin:0 auto;padding:0 !important;width:36px !important;border:0 !important;border-radius:100% !important;line-height:36px !important;color:#ddd !important;font-size:16px !important;background:none !important;text-align:center !important}
-.ui-datepicker-calendar tbody td a.ui-state-highlight{background:#FEE200 !important}
-.ui-datepicker-calendar tbody td a.ui-state-active{color:#fff !important;background:#03AA43 !important}
+.ui-datepicker-calendar tbody td a.ui-state-highlight{background:#D9E300 !important}
+.ui-datepicker-calendar tbody td a.ui-state-active{color:#fff !important;background:#36880A !important}
+.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current{display:none !important}
+.ui-datepicker .ui-datepicker-buttonpane button{position:absolute;right:10px;top:10px;width:20px !important;height:20px;border:0;line-height:0;font-size:0;background:url('../image/icn_close.png') left center no-repeat;background-size:14px}
 
 /* PC , 테블릿 가로 (해상도 1200px ~ 1600px)*/ 
 @media all and (min-width:1200px) and (max-width:1600px) { 
@@ -172,14 +175,18 @@ span.g_alt{font-size:1px;opacity:0;text-indent:-99999px;z-index:-1}
     .popup_g .popup_wrap{width:calc(100vw - 40px)}
 
     .popup_g.popup_allmenu{min-width:100vw}
-    .popup_g.popup_allmenu .popup_wrap{max-width:100vw}
+    .popup_g.popup_allmenu .popup_wrap{position:static;transform:none;margin:0;padding:30px 20px;width:100%;max-width:100vw;height:auto}
+    .popup_g.popup_allmenu .popup_wrap .popup_header .allmenu_logo{width:120px;height:37px;background-size:120px auto}
+    .popup_g.popup_allmenu .popup_wrap .popup_header .btn_close{top:30%;width:18px;height:18px;font-size:0;background-image:url('../image/icn_close_mo.png')}
+    .popup_g.popup_allmenu .popup_wrap .popup_body{height:116%}
     .allmenu_tab .tabContent_wrap + .tabContent_wrap{margin-left:0}
     .allmenu_tab .tabContent_wrap{display:inline-block;float:left;width:33.33%;line-height:40px;text-align:center}
     .allmenu_tab .tabContent_wrap input[type='radio']{display:none}
-    .allmenu_tab .tabContent_wrap label{display:block;width:100%;height:40px;line-height:40px}
+    .allmenu_tab .tabContent_wrap label{display:block;width:100%;height:40px;border:1px solid #DDDDDD;line-height:40px}
     .allmenu_tab .tabContent_wrap .tabContent_item{display:none;position:absolute;left:0;top:40px;width:100%;text-align:left}
-    .allmenu_tab .tabContent_wrap input[type='radio']:checked ~ label{background-color:#ccc}
+    .allmenu_tab .tabContent_wrap input[type='radio']:checked ~ label{border:1px solid #707070;background-color:#fff}
     .allmenu_tab .tabContent_wrap input[type='radio']:checked ~ .tabContent_item{display:block}
+    .tabContent_item .groupMenu_list li{width:33.33%;font-size:14px}
 
     .box_wrap{padding:0 20px;box-shadow:none}
     .box_wrap.box1080{width:100%}

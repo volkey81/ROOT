@@ -52,7 +52,8 @@ for(Param row : list) {
 </li>
 <li class="program_type1">
         <p class="program_time"><%= row.get("time").substring(0, 2) %>:<%= row.get("time").substring(2) %></p>
-        <p class="program_title"><%= row.get("exp_type_nm") %> <%= row.get("ticket_name") %><br/><em class="fcGreen"><%= formattedPrice  %></em>원</p>
+<%--         <p class="program_title"><%= row.get("exp_type_nm") %> <%= row.get("ticket_name") %><br/><em class="fcGreen"><%= formattedPrice  %></em>원</p> --%>
+		<p class="program_title"><%= row.get("exp_type_nm") %><br/><em class="fcGreen"><%= formattedPrice  %></em>원</p>
         <div class="program_detail">
             <div class="detail_people">
             <% if("070".equals(row.get("exp_type"))||"001".equals(row.get("exp_type"))||"002".equals(row.get("exp_type"))){ %>
@@ -125,7 +126,8 @@ for(Param row : list) {
 %>
  	<li class="program_type1">
         <p class="program_time"><%= row.get("time").substring(0, 2) %>:<%= row.get("time").substring(2) %></p>
-        <p class="program_title"><%= row.get("exp_type_nm") %> <%= row.get("ticket_name") %><br/><em class="fcGreen"><%= formattedPrice %></em>원</p>
+<%--         <p class="program_title"><%= row.get("exp_type_nm") %> <%= row.get("ticket_name") %><br/><em class="fcGreen"><%= formattedPrice %></em>원</p> --%>
+		<p class="program_title"><%= row.get("exp_type_nm") %><br/><em class="fcGreen"><%= formattedPrice %></em>원</p>
         <div class="program_detail">
             <div class="detail_people">
            	<% if("070".equals(row.get("exp_type"))||"001".equals(row.get("exp_type"))||"002".equals(row.get("exp_type"))){ %>

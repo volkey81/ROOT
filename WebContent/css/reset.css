@@ -297,3 +297,7 @@ textarea:focus:-ms-input-placeholder {color:#111; opacity:0;}
 @media(max-width:900px) and (orientation: Landscape){
     #nolandscape{display:block}
 }
+
+@media all and (max-width:767px) {
+    .mo_mt20{margin-top:20px !important}
+}
