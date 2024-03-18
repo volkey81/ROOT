@@ -170,7 +170,7 @@
                                 </div>
                                 <div class="groupMenu_title">전체 카테고리</div>
                                 <ul class="groupMenu_list col3">
-                                    <li><a href="/product/list.jsp?cate_seq=150">설 선물세트</a></li>
+                                    <li><a href="/product/list.jsp?cate_seq=150">선물세트</a></li>
                                     <li><a href="/product/list.jsp?cate_seq=118">상하브랜드관</a></li>
                                     <li><a href="/product/list.jsp?cate_seq=160">상하파머스</a></li>
                                     <li><a href="/product/list.jsp?cate_seq=120">로컬푸드</a></li>
@@ -185,18 +185,18 @@
                                     <li><a href="/product/list.jsp?cate_seq=83">요리양념/파우더류</a></li>
                                     <li><a href="/product/list.jsp?cate_seq=137">간식/과자</a></li>
                                     <li><a href="/product/list.jsp?cate_seq=163">쌀/잡곡</a></li>
-                                    <li><a href="">견과/건채소/건버섯</a></li>
+                                    <li><a href="/product/list.jsp?cate_seq=141">건강/선식</a></li>
                                 </ul>
-                                <div class="groupMenu_title">상하 브랜드관</div>
+                                <div class="groupMenu_title"><a href="/product/list.jsp?cate_seq=118">상하 브랜드관</a></div>
                                 <ul class="groupMenu_list">
                                 </ul>
-                                <div class="groupMenu_title">신상품</div>
+                                <div class="groupMenu_title"><a href="/product/list.jsp?sort=date">신상품</a></div>
                                 <ul class="groupMenu_list">
                                 </ul>
-                                <div class="groupMenu_title">베스트</div>
+                                <div class="groupMenu_title"><a href="/product/best.jsp">베스트</a></div>
                                 <ul class="groupMenu_list">
                                 </ul>
-                                <div class="groupMenu_title">알뜰상품</div>
+                                <div class="groupMenu_title"><a href="/product/list.jsp?cate_seq=38">알뜰상품</a></div>
                                 <ul class="groupMenu_list">
                                 </ul>
                             </div>
@@ -215,34 +215,34 @@
                     <button type="button" onClick="popupOpen('allMenu')" class="btn_allmenu mo_only"><span class="g_alt">전체메뉴</span></button>
                     <div class="gnb_menu">
                         <a href="/index2.jsp">상하농원</a>
-                        <a href="/brand/play/reservation/RE_SE_0002.jsp">체험,예약</a>
-                        <a href="/hotel/index.jsp">호텔,글램핑</a>
-                        <a href="/main.jsp">쇼핑,마켓</a>
+                        <a href="/brand/play/reservation/RE_SE_0002.jsp">체험활동</a>
+                        <a href="/hotel/index.jsp">객실예약</a>
+                        <a href="/main.jsp">쇼핑하기</a>
                         <button type="button" onClick="popupOpen('allMenu')" class="icn_allmenu pc_only">전체메뉴</button>
                     </div>
                 </div>
                 <div class="main_float">
                     <!-- 24.02.28 Modify span > 텍스트 -->
-                    <a class="btn_1 active"><span>고창상하농원</span></a>
+                    <a href="/index2.jsp" class="btn_1 active"><span>상하농원</span></a>
                     <a href="/brand/play/reservation/RE_SE_0002.jsp" class="btn_2"><span>체험활동</span></a>
                     <a href="/hotel/room/index.jsp" class="btn_3"><span>객실예약</span></a>
-                    <a href="/main.jsp" class="btn_4"><span>쇼핑, 마켓</span></a>
+                    <a href="/main.jsp" class="btn_4"><span>쇼핑하기</span></a>
                 </div>
                 <div class="reserve_wrap">
                     <p class="reserve_info"><a href="/hotel/index.jsp" target="_self">빌리지 정보</a></p>
-                    <form action="" class="reserve">
-                        <div class="notice">빌리지 선택<br>객실선택해주세요</div>
+                    <form id="reservationForm" action="/hotel/room/reservation/room.jsp" class="reserve" method="POST">
+                        <div class="notice">빌리지 선택<br>날짜,인원 선택해주세요</div>
                         <div class="date">
                             <div class="checkinout">
                                 <span class="areatitle">체크인</span>
                                 <p class="areainput">
-                                    <input type="text" id="checkin">
+                                    <input type="text" id="checkin" name="checkin">
                                 </p>
                             </div>
                             <div class="checkinout">
                                 <span class="areatitle">체크아웃</span>
                                 <p class="areainput">
-                                    <input type="text" id="checkout">
+                                    <input type="text" id="checkout" name="checkout">
                                 </p>
                             </div>
                         </div>
@@ -253,9 +253,9 @@
                         <div class="adult">
                             <span class="areatitle">성인</span>
                             <div class="areainput">
-                                <select name="" id="" class="main_select">
+                                <select name="adults" id="adults" class="main_select">
                                     <option value="1">1</option>
-                                    <option value="2">2</option>
+                                    <option value="2" selected>2</option>
                                     <option value="3">3</option>
                                     <option value="4">4</option>
                                     <option value="5">5</option>
@@ -265,7 +265,8 @@
                         <div class="child">
                             <span class="areatitle">소인</span>
                             <div class="areainput">
-                                <select name="" id="" class="main_select">
+                                <select name="children" id="children" class="main_select">
+                                	<option value="0">0</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -274,7 +275,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div><a class="btn_reserve inB">예약하기</a></div>
+                        <div><button type="submit" class="btn_reserve">예약하기</button></div>
                     </form>
                 </div>
                 <div class="swiper sec01">
@@ -554,7 +555,7 @@
                     <!-- 24.03.13 add : a tag / add link -->
                     <a href="/main.jsp" target="_blank" class="left_btn mo_only mb50">상품더보기</a>
                     <!-- 24.03.13 add link -->
-                    <a href="/product/list.jsp?cate_seq=128" target="_blank" class="banner_wrap">
+                    <a href="/product/list.jsp?cate_seq=128" target="_self" class="banner_wrap">
                         <img src="./image/sec6_banner.png" class="pc_only" alt="">
                         <img src="./image/sec6_banner_mo.png" class="mo_only" alt="">
                     </a>
@@ -675,7 +676,7 @@
                         	<img id="sec4_imgS" src="./image/sec4_slide_01_s.png" alt="">
                         </a>
                         <p id="sec4_con">아름답게 새 출발하는 결혼식, 가족의 특별한 모임<br>소중한 순간을 함께 하겠습니다</p>
-                        <a href="https://pf.kakao.com/_GtCKb/chathttps://pf.kakao.com/_GtCKb/chat" class="btn_kakao inB" target="_blank" class="btn_kakao inB">궁금하신 게 있으신가요? <br>카카오톡 문의하기로 이어집니다</a>
+                        <a href="https://pf.kakao.com/_GtCKb/chat" class="btn_kakao inB" target="_blank" class="btn_kakao inB">궁금하신 게 있으신가요? <br>카카오톡 문의하기로 이어집니다</a>
                     </div>
                 </div>
                 <script>
@@ -816,16 +817,17 @@
                 <script>
 	                var sec5_tabname = ['호텔 예약','글램핑 예약','스페셜오퍼','파머스테이블(조식)','셀렉스헬스케어'];
 	                var swiper = new Swiper(".sec05", {
-	                    direction: "vertical",
-	                    grabCursor: true,
-	                    pagination: {
-	                        el: ".swiper-pagination",
-	                        clickable: true,
-	                        renderBullet: function (index, className) {
-	                        return '<span class="' + className + '">' + (sec5_tabname[index]) + "</span>";
-	                        },
-	                    },
-	                });
+                        direction: "vertical",
+                        grabCursor: true,
+                        pagination: {
+                            el: ".swiper-pagination",
+                            clickable: true,
+                            renderBullet: function (index, className) {
+                            return '<span class="' + className + '">' + (sec5_tabname[index]) + "</span>";
+                            },
+                        },
+                        touchRatio: 0,
+                    });
                 </script>
             </section>
         </div>
@@ -849,7 +851,11 @@
             
             $(function() {
                 var today = new Date(); // 오늘 날짜 생성
-                $( "#checkin, #checkout" ).datepicker({
+                var tomorrow = new Date(today);
+                tomorrow.setDate(tomorrow.getDate() + 1); // 내일 날짜 생성 (오늘 날짜 + 1)
+
+                // checkin datepicker 설정
+                $("#checkin").datepicker({
                     dateFormat: "yy.mm.dd",
                     showOn: "both",
                     buttonImage: "./image/icn_cal.png",
@@ -858,8 +864,33 @@
                     monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
                     dayNamesMin: ['일','월','화','수','목','금','토'],
                     dayNames: ['일','월','화','수','목','금','토'],
-                    defaultDate: today // 오늘 날짜를 기본값으로 설정
-                }).datepicker("setDate", today); // 데이트 피커의 날짜를 오늘로 설정
+                    defaultDate: today, // 기본 날짜를 오늘로 설정
+                    minDate: today, // 최소 선택 가능 날짜를 오늘로 설정
+                    onClose: function(selectedDate) {
+                        // checkin 날짜가 선택되면 checkout의 최소 날짜를 checkin + 1로 설정
+                        var minDate = $(this).datepicker('getDate');
+                        minDate.setDate(minDate.getDate() + 1); // checkout의 최소 날짜를 설정
+                        $("#checkout").datepicker("option", "minDate", minDate);
+                        $("#checkout").datepicker("setDate", minDate); // checkout 날짜를 자동으로 설정
+                    }
+                }).datepicker("setDate", today); // checkin 날짜를 오늘로 초기 설정
+
+                // checkout datepicker 설정
+                $("#checkout").datepicker({
+                    dateFormat: "yy.mm.dd",
+                    showOn: "both",
+                    buttonImage: "./image/icn_cal.png",
+                    buttonImageOnly: true,
+                    monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
+                    monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
+                    dayNamesMin: ['일','월','화','수','목','금','토'],
+                    dayNames: ['일','월','화','수','목','금','토'],
+                    minDate: tomorrow // checkout의 최소 날짜를 내일로 설정
+                }).datepicker("setDate", tomorrow); // checkout 날짜를 내일로 초기 설정
+
+                // Datepicker 버튼에 alt 속성 추가
+                $(".ui-datepicker-trigger").attr("alt", "달력 보기");
+                $(".ui-datepicker-trigger").attr("title", "달력 보기");
             });
             
             function popupOpen(popId){
@@ -875,6 +906,8 @@
             $(".dim_g").click(function(){
                 $('.popup_g').hide();
             });
+            
+            ///hotel/room/reservation/room.jsp, chki_date, chot_date
         </script>
     </body>
 </html>

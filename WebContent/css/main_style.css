@@ -26,7 +26,7 @@ body{overflow:hidden}
 .swiper.sec01 .swiper-pagination-fraction{display:inline-block;bottom:43% !important;left:50%;transform:translateX(-50%) !important;width:auto !important;line-height:19px;font-size:16px;color:#fff}
 .swiper.sec01 .swiper-pagination-fraction .swiper-pagination-current{line-height:20px;font-size:18px;font-weight:600}
 
-.main_float{position:fixed;right:93px;top:50%;transform:translateY(-50%);width:100px;z-index:99999}
+.main_float{position:fixed;right:93px;top:50%;transform:translateY(-50%);width:max-content;z-index:99999}
 .main_float a{display:block;width:150px;height:50px;border-radius:98px;background-color:rgb(255,255,255,.4);background-repeat:no-repeat;background-size:30px}
 .main_float a + a{margin-top:15px}
 .main_float a span{display:block;line-height:50px;color:#fff;font-size:0.875rem;text-align:center}
@@ -162,7 +162,7 @@ body{overflow:hidden}
 .section_product .swiper .swiper-slide .product_item{display:inline-block;width:24.25%;vertical-align:top}
 .section_product .swiper .swiper-slide .product_item + .product_item{margin-left:1%}
 .section_product .swiper .swiper-slide .product_item .product_img img{width:100%;height:auto}
-.section_product .swiper .swiper-slide .product_item .product_info{margin-top:3%}
+.section_product .swiper .swiper-slide .product_item .product_info{margin-top:30px}
 .section_product .swiper .swiper-slide .product_item .product_info .info_text{display:block;line-height:20px;color:#777777;font-size:18px;font-weight:500}
 .section_product .swiper .swiper-slide .product_item .product_info .info_name{margin-top:0.9%;line-height:35px;color:#111;font-size:20px;font-weight:600}
 .section_product .swiper .swiper-slide .product_item .product_info .info_price{margin-top:1.8%;line-height:35px;color:#111;font-size:30px;font-weight:600}
@@ -209,7 +209,7 @@ section.section_footer .footer_wrap{max-height:208px}
     .title_wrap .title{line-height:35px;font-size:30px}
 
     .section_product{padding:60px 20px;min-width:360px}
-    .section_product .product_wrap{max-height:51.1vh}
+    .section_product .product_wrap{max-height:51.1svh}
     .section_product .swiper .left_wrap .left_title{line-height:30px;font-size:26px;text-align:center}
     .section_product .swiper .left_wrap{position:relative;width:100%;background:#fff;z-index:99999}
     .section_product .swiper .swiper-pagination{overflow:auto;white-space:nowrap;-ms-overflow-style:none;scrollbar-width:none}

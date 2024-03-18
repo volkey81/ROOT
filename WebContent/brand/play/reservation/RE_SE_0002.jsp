@@ -275,7 +275,9 @@ $(document).on("click","input[type=radio]",function(e){
                                     <li>입장료는 체험프로그램 결제에 포함되어 있지 않습니다. 현장결제 또는 객실예약시 무료로 제공하고 있습니다.</li>
                                     <li>상하농원은 단체를 위한 스페셜 프로그램을 마련하고 있습니다.</li>
                                 </ul>
-                                <button class="btn_group">단체예약 바로가기</button>
+                                <a href="RE_GR_0002.jsp">
+                                	<button class="btn_group">단체예약 바로가기</button>
+                                </a>
                             </div>
                         </div>
                     </section>

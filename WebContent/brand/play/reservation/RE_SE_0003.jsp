@@ -1081,7 +1081,7 @@ if(fs.isLogin()){
                             </div>
                             <div class="textbox_g textbox_resJoin">
                                 회원가입을 하면 쿠폰할인, 키프트카드, Maell Do 포인트 등 다양한 할인혜택을 받을 수 있습니다.
-                                <button class="btn_join">단체예약 바로가기</button>
+                                <a class="btn_join inB" style="text-align:center;">단체예약 바로가기</a>
                             </div>
                         </div>
                     </section>

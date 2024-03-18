@@ -42,12 +42,14 @@
         <div class="header_g">
             <div class="header_wrap">
                 <a href="" class="gnb_logo"><span class="g_alt">상하농원</span></a>
+                <!-- 24.03.05 add button -->
                 <button class="btn_allmenu mo_only"><span class="g_alt">전체메뉴</span></button>
                 <div class="gnb_menu">
-                    <a href="/brand/introduce/story.jsp">고창상하농원</a>
-                    <a href="/brand/workshop/ham.jsp">짓다</a>
-                    <a href="/brand/play/gallery.jsp">놀다</a>
-                    <a href="/brand/food/store1.jsp">먹다</a>
+                    <a href="">고창상하농원</a>
+                    <a href="">짓다</a>
+                    <a href="">놀다</a>
+                    <a href="">먹다</a>
+                    <!-- 24.03.05 add class : pc_only -->
                     <button class="btn_allmenu pc_only">전체메뉴</button>
                 </div>
             </div>
@@ -55,12 +57,14 @@
         <div class="body_wrap">
             <div class="popup_g">
                 <div class="dim_g"></div>
-                <div class="popup_wrap popup_exp">
+                <!-- 24.03.11 modify id -->
+                <div id="expDetail" class="popup_wrap popup_exp">
                     <div class="popup_header">
                         <button type="button" onClick="popupClose()" class="btn_close"><span class="g_alt">닫기</span></button>
                     </div>
                     <div class="popup_body">
-                        <p class="exp_label"><span>먹거리</span></p>
+                        <!-- 24.03.11 delete -->
+                        <!-- <p class="exp_label"><span>먹거리</span></p>
                         <b class="exp_title">공장견학</b>
                         <p class="exp_des">여기서 상하목장 우유와 치즈가 만들어져요</p>
                         <p class="divLine mt20 mb20"></p>
@@ -100,6 +104,11 @@
                             <div class="fr">
                                 <img src="./image/epx01_01.png" alt="">
                             </div>
+                        </div> -->
+                        <!-- 24.03.11 add -->
+                        <div class="popup_content">
+                            <img id="expCon_PC" src="./image/RE_SE_1006_PC.jpg" class="pc_only" alt="">
+                            <img id="expCon_MO" src="./image/RE_SE_1006_MO.jpg" class="mo_only" alt="">
                         </div>
                     </div>
                 </div>
@@ -132,6 +141,7 @@
                         <div class="section_content">
                             <div class="f_g">
                                 <div class="conLine fl">
+                                    <!-- 24.03.17 add span -->
                                     <p class="conLine_title required"><span>*</span> 희망일 (1순위)</p>
                                     <div class="reserveDate_wrap">
                                         <p class="input_date disabled w290">
@@ -139,11 +149,13 @@
                                         </p>
                                     </div>
                                 </div>
+                                <!-- 24.03.17 add class : mo_mt20 -->
                                 <div class="conLine fr mt0 mo_mt20">
                                     <p class="conLine_title required">희망일 (2순위)</p>
                                     <div class="reserveDate_wrap">
                                         <p class="input_date w290">
-                                           <input type="text" id="res_date2" placeholder="날짜를 선택해주세요.">
+                                            <!-- 24.03.17 delete default value / add placeholder -->
+                                            <input type="text" id="res_date2" placeholder="날짜를 선택해주세요.">
                                         </p>
                                     </div>
                                 </div>
@@ -158,13 +170,22 @@
                             체험 유형 선택
                         </div>
                         <div class="section_content">
+                            <!-- 24.02.29 위쪽으로 위치 변경 -->
+                            <div class="ar">
+                                <div class="check_g mb15">
+                                    <input type="checkbox" name="expgroupAll" id="expAll">
+                                    <label onClick="checkAll('expgroupAll','expgroupCheck')" for="expAll"><span>전체 해제</span></label>
+                                </div>
+                            </div>
                             <div class="expgroup_wrap">
+                                <!-- 24.02.29 위쪽으로 위치 변경 START
                                 <div class="ar">
                                     <div class="check_g mb15">
                                         <input type="checkbox" name="expgroupAll" id="expAll">
                                         <label onClick="checkAll('expgroupAll','expgroupCheck')" for="expAll"><span>전체 해제</span></label>
                                     </div>
                                 </div>
+                                24.02.29 위쪽으로 위치 변경 END -->
                                 <div class="expgroup_item">
                                     <input type="checkbox" name="expgroupCheck" id="exp1">
                                     <label for="exp1"><span>먹거리 체험</span></label>
@@ -200,7 +221,8 @@
                                                 </div>
                                                 <div class="item_amount">
                                                     <strong>금액: <em>18,000</em>원(1인)</strong>
-                                                    <button type="button" onClick="popupOpen('exp1')">상세보기</button>
+                                                    <!-- 24.03.11 modify button -->
+                                                    <button type="button" onClick="popupOpen('expDetail','RE_SE_1011')">상세보기</button>
                                                 </div>
                                             </div>
                                         </label>
@@ -218,7 +240,8 @@
                                                 </div>
                                                 <div class="item_amount">
                                                     <strong>금액: <em>18,000</em>원(1인)</strong>
-                                                    <button type="button" onClick="popupOpen('exp1')">상세보기</button>
+                                                    <!-- 24.03.11 modify button -->
+                                                    <button type="button" onClick="popupOpen('expDetail','RE_SE_1006')">상세보기</button>
                                                 </div>
                                             </div>
                                         </label>
@@ -236,7 +259,8 @@
                                                 </div>
                                                 <div class="item_amount">
                                                     <strong>금액: <em>18,000</em>원(1인)</strong>
-                                                    <button type="button" onClick="popupOpen('exp1')">상세보기</button>
+                                                    <!-- 24.03.11 modify button -->
+                                                    <button type="button" onClick="popupOpen('expDetail','RE_SE_1012')">상세보기</button>
                                                 </div>
                                             </div>
                                         </label>
@@ -253,6 +277,28 @@
         </div>
         <div class="footer_g">
             <div class="footer_wrap flex_wrap">
+                <div class="footer_group_mo mo_only">
+                    <div class="groupWrap">
+                        <div class="groupLine icn_cs">
+                            <span>상하농원 고객센터</span>
+                            <p><a href="tel:1522-3698">1522-3698</a></p>
+                        </div>
+                        <div class="groupLine icn_reserv">
+                            <span>파머스 빌리지 예약</span>
+                            <p><a href="tel:063-563-6611">063-563-6611</a></p>
+                        </div>
+                    </div>
+                    <div class="groupWrap">
+                        <div class="groupLine icn_and">
+                            <span>상하농원</span>
+                            <p><a href="">안드로이드 다운로드</a></p>
+                        </div>
+                        <div class="groupLine icn_ios">
+                            <span>다운로드</span>
+                            <p><a href="">iOS 다운로드</a></p>
+                        </div>
+                    </div>
+                </div>
                 <p class="fotter_logo"><img src="./image/footer_logo.png" alt=""></p>
                 <div class="footer_info">
                     <div class="info_link">
@@ -263,25 +309,34 @@
                         <a href="">윤리 HOT-LINE</a>
                     </div>
                     <div class="info_company">
-                        <div>전라북도 고창군 상하면 상하농원길 11-23  |  대표 : 최승우  |  개인정보 보호 책임자 : 최승우  |  사업자등록번호 : 415-86-00211</div>
-                        <div>통신판매업신고번호 : 제2016-4780085-30-2-00015호  |  상담이용시간 : 09:30~18:00  |  농원운영시간 : 연중무휴 09:30~21:00</div>
+                        <!-- 24.03.05 modify : .info_company 태그 및 내용 변경 -->
+                        <div class="companyLine">
+                            <p><span>전라북도 고창군 상하면 상하농원길 11-23</span><span>대표 : 최승우</span></p>
+                            <p><span>개인정보 보호 책임자 : 최승우</span><span>사업자등록번호 : 415-86-00211</span></p>
+                        </div>
+                        <div class="companyLine">
+                            <p><span>통신판매업신고번호 : 제2016-4780085-30-2-00015호</span></p>
+                            <p><span>상담이용시간 : 09:30~18:00</span><span>농원운영시간 : 연중무휴 09:30~21:00</span></p>
+                        </div>
                     </div>
                     <div class="info_extra">
                         <p>상하농원(유)은 매일유업(주)과의 제휴를 통해 공동으로 서비스를 운영하고 있습니다.</p>
                         <p>@ 2021 SANGHA FARM CO. ALL RIGHTS RESERVED</p>
                     </div>
                 </div>
-                <div class="footer_btn flex_wrap">
+                <!-- 24.03.03 add class : pc_only -->
+                <div class="footer_btn flex_wrap pc_only">
+                    <!-- 24.03.14 modify : div.footer_contact, div.btn_wrap 순서 변경 -->
+                    <div class="footer_contact">
+                        <div class="contact_cs"><b>상하농원 고객센터</b><span>1522-3698</span></div>
+                        <div class="contact_res"><b>파머스 빌리지 예약</b><span>063-563-6611</span></div>
+                    </div>
                     <div class="btn_wrap flex_wrap">
                         <p>상하농원 <br>앱 다운로드</p>
                         <div>
                             <p class="btn_and">안드로이드</p>
                             <p class="btn_ios">iOS</p>
                         </div>
-                    </div>
-                    <div class="footer_contact">
-                        <div class="contact_cs"><b>고객센터</b><span>1522-3698</span></div>
-                        <div class="contact_res"><b>빌리지예약</b><span>063-563-6611</span></div>
                     </div>
                 </div>
             </div>
@@ -319,15 +374,16 @@
                 });
                 $('#res_date').datepicker('setDate', 'today');
             });
-            function popupOpen(popId){
-                $('.popup_g').show();
-            }
-            function popupClose(){
-                $('.popup_g').hide();
-            }
-            $(".dim_g").click(function(){
-                $('.popup_g').hide();
-            });
+            // 24.03.11 move script : sub.js
+            // function popupOpen(popId){
+            //     $('.popup_g').show();
+            // }
+            // function popupClose(){
+            //     $('.popup_g').hide();
+            // }
+            // $(".dim_g").click(function(){
+            //     $('.popup_g').hide();
+            // });
         </script>
     </body>
 </html>
