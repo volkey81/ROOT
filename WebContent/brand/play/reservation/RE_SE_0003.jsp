@@ -17,10 +17,10 @@ Enumeration params = request.getParameterNames();
 List list = new ArrayList();
 while (params.hasMoreElements()){
     String name = (String)params.nextElement();
-System.out.println(name + " : " +request.getParameter(name));
-if(name.contains("item")){
-	list.add(request.getParameter(name)); // exp_pid 받아오는 부분입니다.
-}
+	System.out.println(name + " : " +request.getParameter(name));
+	if(name.contains("item")){
+		list.add(request.getParameter(name)); // exp_pid 받아오는 부분입니다.
+	}
 }
 
 %>
@@ -631,18 +631,23 @@ function payment_return() {
     	
 // 결제하기 
     	function orderProc() {
-//     		popupOpen('terms');
-    		if(payAmt < 0) {
+		    var hasFactoryTour = false;
+		
+		    // 클래스가 'program_title'인 모든 요소를 선택합니다.
+		    var programTitles = document.querySelectorAll('.program_title');
+		    for (var i = 0; i < programTitles.length; i++) {
+		        if (programTitles[i].textContent.includes('공장견학')) {
+		            hasFactoryTour = true;
+		            break; // 공장견학 찾으면 루프 종료
+		        }
+		    }
+		    
+    		if(payAmt < 0 && !hasFactoryTour) {	//결제금액 0원, 공장견학이 아닐 경우
     			alert("결제금액이 0원 미만입니다.");
     			return;
     		}
 
     		if(v.validate()) {
-    			if(totAmt == 0) {
-    				alert("입장권을 선택하세요.");
-    				return;
-    			}
-
     			if(totQty == 0) {
     				alert("입장권을 선택하세요.");
     				return;
@@ -979,9 +984,9 @@ if(fs.isLogin()){
                                 <select name="mobile1" id="mobile1" title="휴대전화 첫자리" class="select_g select_small tel_input">
                                     <option value="010">010</option>
                                 </select>
-                                 <input type="text" name="mobile2" id="mobile2" value="" title="휴대전화 가운데자리" class="input_g input_small tel_input ml10"  onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">&nbsp;-
-							<input type="text" name="mobile3" id="mobile3" value="" title="휴대전화 뒷자리" class="input_g input_small tel_input ml10"  onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">
-                                <button class="btn_g btn_gray ml10">수정</button>
+								<input type="text" name="mobile2" id="mobile2" value="" title="휴대전화 가운데자리" class="input_g input_small tel_input ml10"  onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">&nbsp;-
+								<input type="text" name="mobile3" id="mobile3" value="" title="휴대전화 뒷자리" class="input_g input_small tel_input ml10"  onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">
+								<button class="btn_g btn_gray ml10">수정</button>
                             </div>
                             <div class="conLine">
                                 <p class="conLine_title required"><span>*</span>이메일주소</p>
@@ -1100,7 +1105,7 @@ if(fs.isLogin()){
                             </div>
                             <div class="textbox_g textbox_resJoin">
                                 회원가입을 하면 쿠폰할인, 키프트카드, Maell Do 포인트 등 다양한 할인혜택을 받을 수 있습니다.
-                                <a class="btn_join inB" style="text-align:center;">단체예약 바로가기</a>
+                                <a href="RE_GR_0002.jsp" class="btn_join inB" style="text-align:center;">단체예약 바로가기</a>
                             </div>
                         </div>
                     </section>
@@ -1148,31 +1153,31 @@ if(fs.isLogin()){
                                 <ul class="payType_wrap">
                                     <li>
                                         <div class="payType_item">
-                                            <input type="radio" name="pay_type" id="pay_001" value="001" <%= "001".equals(payType) ? "checked" : "" %>>
+                                            <input type="radio" name="pay_type" id="credit" value="001" <%= "001".equals(payType) ? "checked" : "" %>>
                                             <label for="pay_001"><span>신용카드</span></label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="payType_item">
-                                            <input type="radio" name="pay_type" id="pay_002" value="002" <%= "002".equals(payType) ? "checked" : "" %>>
+                                            <input type="radio" name="pay_type" id="account" value="002" <%= "002".equals(payType) ? "checked" : "" %>>
                                             <label for="pay_002"><span>계좌이체</span></label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="payType_item">
-                                            <input type="radio" name="pay_type" id="pay_009" value="009" <%= "009".equals(payType) ? "checked" : "" %>>
+                                            <input type="radio" name="pay_type" id="naverpay" value="009" <%= "009".equals(payType) ? "checked" : "" %>>
                                             <label for="pay_009"><span>네이버페이</span></label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="payType_item">
-                                            <input type="radio" name="pay_type" id="pay_007" value="007" <%= "007".equals(payType) ? "checked" : "" %>>
+                                            <input type="radio" name="pay_type" id="kakaopay" value="007" <%= "007".equals(payType) ? "checked" : "" %>>
                                             <label for="pay_007"><span>카카오페이</span></label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="payType_item">
-                                            <input type="radio" name="pay_type" id="pay_006" value="006" <%= "006".equals(payType) ? "checked" : "" %>>
+                                            <input type="radio" name="pay_type" id="payco" value="006" <%= "006".equals(payType) ? "checked" : "" %>>
                                             <label for="pay_006"><span>페이코</span></label>
                                         </div>
                                     </li>
@@ -1181,9 +1186,7 @@ if(fs.isLogin()){
                         </div>
                     </section>
                     <div class="btn_area mo_btn2 mt100">
-                        <button class="btn_line w300">이전으로</button>
-                        <!-- popupOpen('terms') | 이용약관 팝업 함수, 넣어야 함 | 03.11 | hjm -->
-<!--                         <a class="btn_submit ml30" onclick="popupOpen('terms'); javascript:orderProc()">결제하기</a> -->
+                        <a href="RE_SE_0002.jsp" class="btn_line inB w300">이전으로</a>
                         <a class="btn_submit inB ml30" onclick="javascript:orderProc()">결제하기</a>
                     </div>
                     

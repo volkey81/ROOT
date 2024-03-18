@@ -177,9 +177,9 @@
                             <span>SNS 계정으로 가입하기</span>
                         </p>
                         <div class="btn_area mt20">
-                            <button type="button" class="btn_kakao"><span class="btn_title" onclick="snsLogin('K');">카카오톡 로그인</span></button>
-                            <button type="button" class="btn_naver"><span class="btn_title" onclick="snsLogin('N');">네이버 로그인</span></button>
-                            <button type="button" class="btn_facebook"><span class="btn_title" onclick="snsLogin('F');">페이스북 로그인</span></button>
+                            <a class="btn_kakao"><span class="btn_title" onclick="snsLogin('K');">카카오톡 로그인</span></a>
+                            <a class="btn_naver"><span class="btn_title" onclick="snsLogin('N');">네이버 로그인</span></a>
+                            <a class="btn_facebook"><span class="btn_title" onclick="snsLogin('F');">페이스북 로그인</span></a>
                         </div>
                     </div>
                     <div class="ac mt50">
@@ -198,7 +198,7 @@
                     <p class="group_cj">엠즈씨드<br/>(크리스탈제이드)</p>
                     <p class="group_if">엠즈씨드<br/>(더키친 일뽀르노)</p>
                 </div>
-                <div class="fs14 fcGray ac mt30">
+                <div class="fs14 lh16 fcGray ac mt30">
                     *상하가족 서비스를 이용하실 분은 SNS계정으로 가입, 로그인이 아닌 일반회원으로 가입, 로그인 해주세요!
                 </div>
             </div>
@@ -215,15 +215,22 @@
                         <a href="">윤리 HOT-LINE</a>
                     </div>
                     <div class="info_company">
-                        <div>전라북도 고창군 상하면 상하농원길 11-23  |  대표 : 최승우  |  개인정보 보호 책임자 : 최승우  |  사업자등록번호 : 415-86-00211</div>
-                        <div>통신판매업신고번호 : 제2016-4780085-30-2-00015호  |  상담이용시간 : 09:30~18:00  |  농원운영시간 : 연중무휴 09:30~21:00</div>
+                        <!-- 24.03.05 modify : .info_company 태그 및 내용 변경 -->
+                        <div class="companyLine">
+                            <p><span>전라북도 고창군 상하면 상하농원길 11-23</span><span>대표 : 최승우</span></p>
+                            <p><span>개인정보 보호 책임자 : 최승우</span><span>사업자등록번호 : 415-86-00211</span></p>
+                        </div>
+                        <div class="companyLine">
+                            <p><span>통신판매업신고번호 : 제2016-4780085-30-2-00015호</span></p>
+                            <p><span>상담이용시간 : 09:30~18:00</span><span>농원운영시간 : 연중무휴 09:30~21:00</span></p>
+                        </div>
                     </div>
                     <div class="info_extra">
                         <p>상하농원(유)은 매일유업(주)과의 제휴를 통해 공동으로 서비스를 운영하고 있습니다.</p>
                         <p>@ 2021 SANGHA FARM CO. ALL RIGHTS RESERVED</p>
                     </div>
                 </div>
-                <div class="footer_btn flex_wrap">
+                <div class="footer_btn flex_wrap pc_only">
                     <div class="btn_wrap flex_wrap">
                         <p>상하농원 <br>앱 다운로드</p>
                         <div>

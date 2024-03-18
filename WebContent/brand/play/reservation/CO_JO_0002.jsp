@@ -59,6 +59,7 @@
         <div class="header_g">
             <div class="header_wrap">
                 <a href="" class="gnb_logo"><span class="g_alt">상하농원</span></a>
+                <button class="btn_allmenu mo_only"><span class="g_alt">전체메뉴</span></button>
                 <div class="gnb_menu">
                     <a href="brand/introduce/story.jsp">고창상하농원</a>
                     <a href="/brand/workshop/ham.jsp">짓다</a>
@@ -78,34 +79,32 @@
                     </div>
                     <div class="popup_body">
                         <b class="exp_title">개인정보 수집 및 이용동의</b>
-                        <table class="table_terms mt20">
-                            <thead>
-                                <tr>
-                                    <th>수집항목</th>
-                                    <th>이용목적</th>
-                                    <th>보유 및 이용기간</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        이름, 아이디, 비밀번호, 휴대전화번호, <br/>
-                                        이메일, 기타 본인 확인 기관에서 제공하는 <br/>
-                                        C.I, D.I 등의 추가적인 본인확인 정보
-                                    </td>
-                                    <td>
-                                        Maeil Do 포인트 적립 및 사용, 고객 안내 <br/>
-                                        및 CS 처리, 이용회원의 부정 이용 방지 <br/>
-                                        및 비인가 사용 방지
-                                    </td>
-                                    <td>
-                                        홈페이지 회원 탈퇴 시 파기(홈페이지 <br/>
-                                        1년 이상 미이용 시에는 개인정보가 <br/>
-                                        분리 보관됨)
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="terms_table flex_wrap mt20">
+                            <div class="flex_item">
+                                <b>수집항목</b>
+                                <p>
+				                                    이름, 아이디, 비밀번호, 휴대전화번호, <br/>
+				                                    이메일, 기타 본인 확인 기관에서 제공하는 <br/>
+                                    C.I, D.I 등의 추가적인 본인확인 정보
+                                </p>
+                            </div>
+                            <div class="flex_item">
+                                <b>이용목적</b>
+                                <p>
+                                    Maeil Do 포인트 적립 및 사용, 고객 안내 <br/>
+				                                    및 CS 처리, 이용회원의 부정 이용 방지 <br/>
+				                                    및 비인가 사용 방지
+                                </p>
+                            </div>
+                            <div class="flex_item">
+                                <b>보유 및 이용기간</b>
+                                <p>
+									홈페이지 회원 탈퇴 시 파기(홈페이지 <br/>
+									1년 이상 미이용 시에는 개인정보가 <br/>
+									분리 보관됨)
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div id="terms2" class="popup_wrap popup_exp">
@@ -114,48 +113,50 @@
                     </div>
                     <div class="popup_body">
                         <b class="exp_title">개인정보 제3자 제공동의</b>
-                        <table class="table_terms mt20">
-                            <thead>
-                                <tr>
-                                    <th>제3자</th>
-                                    <th>이용목적</th>
-                                    <th>제공하는 개인정보항목</th>
-                                    <th>보유 및 이용기간</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        상하농원(유)<br/>
-                                        엠즈씨드(폴 바셋)<br/>
-                                        엠즈씨드(크리스탈제이드)<br/>
-                                        엠즈씨드(더 키친 일뽀르노)<br/>
-                                        제로투세븐(궁중비책)
-                                    </td>
-                                    <td>
-                                        웹사이트 로그인, <br/>
-                                        Maeil Do 포인트 적립 및 사용, <br/>
-                                        기타 Maeil Do Point의 <br/>
-                                        부가적인 서비스 제공 목적
-                                    </td>
-                                    <td>
-                                        (필수)이름, 휴대전화번호, 
-                                        이메일, 주소, 성별, 
-                                        생년월일(선택)<br/>
-                                        DM수신 정보, 아기생일, 
-                                        아기이름, 출산병원, 
-                                        이용한 조리원명, 
-                                        이용하는 분유 제품, 수유형태
-                                    </td>
-                                    <td>
-                                        회원이 제휴사 이용약관에 
-                                        동의한 때로부터 제휴사의 
-                                        이용약관 철회 혹은 
-                                        Maeil Do Point 탈퇴 시까지
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <!-- 24.03.07 modify : 약관 내용 구조 변경 (table -> div) START -->
+                        <div class="terms_table flex_wrap mt20">
+                            <div class="flex_item">
+                                <b>제3자</b>
+                                <p>
+                                    상하농원(유)<br/>
+                                    엠즈씨드(폴 바셋)<br/>
+                                    엠즈씨드(크리스탈제이드)<br/>
+                                    엠즈씨드(더 키친 일뽀르노)<br/>
+                                    제로투세븐(궁중비책)
+                                </p>
+                            </div>
+                            <div class="flex_item">
+                                <b>이용목적</b>
+                                <p>
+                                    웹사이트 로그인, <br/>
+                                    Maeil Do 포인트 적립 및 사용, <br/>
+                                    기타 Maeil Do Point의 <br/>
+                                    부가적인 서비스 제공 목적
+                                </p>
+                            </div>
+                            <div class="flex_item">
+                                <b>제공하는 개인정보항목</b>
+                                <p>
+                                    (필수)이름, 휴대전화번호, <br/>
+                                    이메일, 주소, 성별, <br/>
+                                    생년월일(선택)<br/>
+                                    DM수신 정보, 아기생일, <br/>
+                                    아기이름, 출산병원, <br/>
+                                    이용한 조리원명, <br/>
+                                    이용하는 분유 제품, 수유형태
+                                </p>
+                            </div>
+                            <div class="flex_item">
+                                <b>보유 및 이용기간</b>
+                                <p>
+                                    회원이 제휴사 이용약관에 <br/>
+                                    동의한 때로부터 제휴사의 <br/>
+                                    이용약관 철회 혹은 <br/>
+                                    Maeil Do Point 탈퇴 시까지
+                                </p>
+                            </div>
+                        </div>
+                        <!-- 24.03.07 modify : 약관 내용 구조 변경 (table -> div) END -->
                     </div>
                 </div>
                 <div id="terms3" class="popup_wrap popup_exp">
