@@ -24,6 +24,7 @@
 
     List<Param> list = svc.getListByDateOrderNM(param);
 %>
+
 <ul class="exp_list">
 <%
     int rIndex = 0; // 라디오 버튼 그룹화를 위한 변수 초기화

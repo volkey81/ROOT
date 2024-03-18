@@ -143,6 +143,18 @@ $(document).ready(function() {
     });
 });
 
+
+$(document).on("click","input[type=radio]",function(e){
+	var chk = $(this).is(":checked");
+	var pre = $(this).data("previous");
+	  if(chk == true && pre == $(this).val()){
+	        $(this).prop('checked',false);
+	        $(this).data("previous",'');
+	    }else{
+	        if(chk == true) $(this).data("previous",$(this).val());
+	    }
+})
+
 </script>
         <meta charset="utf-8">
         <meta http-equiv="imagetoolbar" content="no">
