@@ -165,7 +165,7 @@
 
 .input_date{display:inline-block;padding:11px 15px 10px;width:470px;height:40px;border:1px solid #F4F4F4;border-radius:10px;background:#fff}
 .input_date.disabled{border:0;background:#F4F4F4}
-.input_date .hasDatepicker{display:inline-block;width:calc(100% - 18px);height:19px;border:none;line-height:19px;font-size:16px;font-weight:600;background:none}
+.input_date .hasDatepicker{display:inline-block;width:calc(100% - 38px);height:19px;border:none;line-height:19px;font-size:16px;font-weight:600;background:none}
 .input_date .ui-datepicker-trigger{display:inline-block}
 .select_date{margin-left:10px;padding:0 20px 0 15px;width:150px;height:40px;border:1px soli #ddd;border-radius:10px;line-height:40px;color:#777777;font-size:16px}
 .input_date + span{display:inline-block;margin-left:10px;margin-right:8px;line-height:40px;color:#111;font-size:18px;vertical-align:top}
@@ -242,6 +242,20 @@
 ,.item_time.time_2 .time_select input[type="radio"] + label{padding:48px 0;height:140px}
 .item_time.time_3 .time_select input[type="radio"] + label
 ,.item_time.time_4 .time_select input[type="radio"] + label{padding:8px 0;height:60px}
+
+.item_time .time_select input[type="checkbox"]{display:none}
+.item_time .time_select input[type="checkbox"] + label{display:inline-block;margin-top:1px;padding:48px 0;width:140px;height:140px;border:1px solid #ddd;border-radius:20px;line-height:0px;font-size:0;text-align:center;cursor:pointer}
+.item_time .time_select input[type="checkbox"]:checked + label{margin-top:0;border:2px solid #36880A}
+.item_time .time_select input[type="checkbox"] + label b{display:block;line-height:20px;font-size:18px;font-weight:600}
+.item_time .time_select input[type="checkbox"] + label span{display:block;margin-top:5px;line-height:19px;font-size:16px}
+.item_time .time_select input[type="checkbox"] + label span em{color:#36880A;font-weight:600}
+
+.item_time.time_1 .time_select input[type="checkbox"] + label
+,.item_time.time_2 .time_select input[type="checkbox"] + label{padding:48px 0;height:140px}
+.item_time.time_3 .time_select input[type="checkbox"] + label
+,.item_time.time_4 .time_select input[type="checkbox"] + label{padding:8px 0;height:60px}
+
+.exp_list_none{margin-top:15px;padding:80px 0;border:1px solid #ddd;border-radius:20px;line-height:20px;color:#777;font-size:18px;font-weight:600;background-color:#F4F4F4;text-align:center}
 
 .program_wrap{margin-top:20px}
 .program_wrap .btn_close{position:absolute;right:20px;top:20px;width:16px;height:16px;;background:url('../image/icn_close.png') left center no-repeat;background-size:14px}
