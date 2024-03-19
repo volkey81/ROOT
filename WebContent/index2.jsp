@@ -206,6 +206,13 @@
             </div>
         </div>
         <!-- 전체 메뉴 END -->
+                <div class="main_float">
+                    <!-- 24.02.28 Modify span > 텍스트 -->
+                    <a href="/index2.jsp" class="btn_1 active"><span>상하농원</span></a>
+                    <a href="/brand/play/reservation/RE_SE_0002.jsp" class="btn_2"><span>체험활동</span></a>
+                    <a href="/hotel/room/index.jsp" class="btn_3"><span>객실예약</span></a>
+                    <a href="/main.jsp" class="btn_4"><span>쇼핑하기</span></a>
+                </div>
         
         <div class="body_wrap" id="main">
             <section class="section_wrap pc_section" data-index="1">
@@ -220,13 +227,6 @@
                         <a href="/main.jsp">쇼핑하기</a>
                         <button type="button" onClick="popupOpen('allMenu')" class="icn_allmenu pc_only">전체메뉴</button>
                     </div>
-                </div>
-                <div class="main_float">
-                    <!-- 24.02.28 Modify span > 텍스트 -->
-                    <a href="/index2.jsp" class="btn_1 active"><span>상하농원</span></a>
-                    <a href="/brand/play/reservation/RE_SE_0002.jsp" class="btn_2"><span>체험활동</span></a>
-                    <a href="/hotel/room/index.jsp" class="btn_3"><span>객실예약</span></a>
-                    <a href="/main.jsp" class="btn_4"><span>쇼핑하기</span></a>
                 </div>
                 <div class="reserve_wrap">
                     <p class="reserve_info"><a href="/hotel/index.jsp" target="_self">빌리지 정보</a></p>
