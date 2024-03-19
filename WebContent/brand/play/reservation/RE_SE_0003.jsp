@@ -108,6 +108,76 @@ Param memInfo = member.getInfo("donna8715");
 
 String payType = memInfo.get("pay_type", "001");
 %>
+<%
+/* 휴대폰 인증  */
+String referer = request.getHeader("Referer");
+request.setAttribute("Depth_1", new Integer(2));
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expires", 0);
+response.setHeader("Pragma", "no-store");
+response.setHeader("Cache-Control", "no-cache");
+
+String reJoin      = Utils.safeHTML(param.get("reJoin", "N"));
+String id          = "MIU002";													//회원사 ID
+String reqNum      = "";														//요청번호
+String retUrl      = "23" + request.getScheme() + "://" + request.getServerName() + "/auth/sciIpinPopup.jsp?screenCd=";
+String srvNo       = "";											   		    //서비스번호	
+if (SystemChecker.isReal()) {
+    srvNo = "034001";	
+}else{
+    srvNo = "032003";
+}
+if(reJoin.equals("Y")){
+	retUrl = retUrl + "reJoin&reJoinFlg=Y";//결과 수신 URL
+}else{
+	retUrl = retUrl + "join&reJoinFlg=N";//결과 수신 URL
+}
+String exVar       = "0000000000000000";                                        // 복호화용 임시필드
+String curDate = Utils.getTimeStampString("yyyyMMddHHmmss");
+String reqInfo = "";
+String joinUrl = request.getScheme() + "://" + request.getServerName() + "/mobile/member/joinStep3.jsp";
+int numLength = 6;
+
+String reJoinUrl = request.getScheme() + "://" + request.getServerName() + "/mobile/member/memRejoin.jsp";//결과 수신 URL
+String reJoinOKUrl = request.getScheme() + "://" + request.getServerName() + "/mobile/member/memRejoin2.jsp";//결과 수신 URL
+String loginUrl = request.getScheme() + "://" + request.getServerName() + "/mobile/member/login.jsp?type=" + param.get("type");//결과 수신 URL
+
+// 암호화 모듈 선언
+com.sci.v2.ipin.secu.SciSecuManager seed  = new com.sci.v2.ipin.secu.SciSecuManager();
+
+//랜던 문자 길이
+java.util.Random ran = new Random();
+
+String randomStr = "";
+
+for (int i = 0; i < numLength; i++) {
+    //0 ~ 9 랜덤 숫자 생성
+    randomStr += ran.nextInt(10);
+}
+reqNum = curDate + randomStr;   
+
+//작성문자 쿠키처리
+
+	SanghafarmUtils.setCookie(response, "reqNum", reqNum, fs.getDomain(), 1800);	
+
+// 1차 암호화
+String encStr = "";
+reqInfo      = reqNum+"/"+id+"/"+srvNo+"/"+exVar;  // 데이터 암호화
+
+encStr              = seed.getEncPublic(reqInfo);
+
+// 위변조 검증 값 등록
+String hmacMsg = com.sci.v2.ipin.secu.hmac.SciHmac.HMacEncriptPublic(encStr);
+
+// 2차 암호화
+reqInfo  = seed.getEncPublic(encStr + "/" + hmacMsg + "/" + "00000000");  //2차암호화
+
+if(request.getQueryString() != null || !request.getMethod().startsWith("GET") ) {
+//		response.sendRedirect(loginUrl);
+}
+
+
+%>
 			
 <html>
     <head>
@@ -378,8 +448,258 @@ function payment_return() {
         $("#orderForm").submit();
 	}
 </script>
+<script>
+/* 휴대폰 인증  */
+ // gender
+ $(function(){
+	$('#gender > a').on('click', function() {
+		console.log("남여구분;"+$(this).attr('id'))
+		$('#gender > a').removeClass('active');
+		$(this).addClass('active');
+		$('#genderVal').val($(this).attr('id'));
+	});
+ });	
+	
+	var CBA_window;
+    var height_pop = 550;
+    var timeId;
+    var SetTime = 180; // 최초 설정 시간(기본 : 초)
+    var doubleSubmitFlag = false;
+	    
+    /***************************************
+     * 휴대폰 인증 - 인증번호 요청
+     **************************************/
+    function pccAuth() {
+    
+        if (pccValidation()) {
+    
+            var certDate = "<%= curDate%>"; 
+            var reqNum = "<%=reqNum %>"; 
+            
+            if(doubleSubmitCheck()) return;
+            
+            //필수
+            var param = {
+                name : $('#name').val(),
+                gender : $('#genderVal').val(),
+                birth : $('#birth').val(),
+                fgnGbn : $('#fgnGbn').val(),
+                hpno : $("#mobile1").val() + $("#mobile2").val() + $("#mobile3").val(), 
+                hpcorp : $('#hpcorp').val(),
+                certDate: certDate,
+                reqNum : reqNum
+            }
+            
+            $.ajax({
+                type : "POST",
+                url : '/auth/sciPccCheck.jsp',
+                dataType : "json",
+                data : param,
+                success : function(data) {
+                    alert(data.message);
+                    if(data.result == "true") {
+                        $('#send').hide();
+                        $('#retry').show();
+                        $('#certi').show();
+                        $('#reqPccInfo').val(data.certMsg);
+                        $('#confirmSeq').val("01");
+                        //TimerStart();
+                    }                    
+                    doubleSubmitFlag = false;
+                }
+            });
+        }
+    }
+    
+    /***************************************
+     * 휴대폰 인증 - 인증번호 재요청
+     **************************************/
+    function pccRetry() {
+    	
+    	if(doubleSubmitCheck()) return;
+    	
+        if($('#confirmSeq').val() >= 3) {
+            alert("인증번호 재요청은 2회만 가능합니다.");
+            return false;
+        }
         
+        var param = {
+            reqPccInfo : $('#reqPccInfo').val(),
+            confirmSeq : $('#confirmSeq').val()
+        }
+    
+        $.ajax({
+            type : "POST",
+            url : '/auth/sciPccRetry.jsp',
+            data : param,
+            dataType : "json",
+            success : function(data) {
+            	alert(data.message);
+            	if(data.result == "true") {
+                    SetTime = 180;
+                    $('#confirmSeq').val(data.confirmSeq);
+                    $('#reqPccInfo').val(data.reqInfo);
+                }
+            	doubleSubmitFlag = false;
+            }
+        });
+    }
+    
+    /***************************************
+     * 휴대폰 인증 - 인증번호 확인
+     **************************************/
+    function pccSendAuthNum() {
+        var pccNum = $('#reqPccNum').val();
         
+        if(doubleSubmitCheck()) return;
+      
+        if (pccNum != '' && pccNum.length == 6) {
+            var param = {
+                reqPccInfo : $('#reqPccInfo').val(),
+                confirmSeq : $('#confirmSeq').val(),
+                screenCd : "join",
+                smsnum : pccNum,
+                reJoinFlg : "<%=reJoin %>"
+            }
+        
+            $.ajax({
+                type : "POST",
+                url : '/auth/sciPccResult.jsp',
+                dataType : "json",
+                data : param,
+                success : function(data) {
+                	if(data.result == "true") {
+                    	alert(data.message);
+                      	$("#name").attr("readonly",true); 
+                      	$("#mobile2").attr("readonly",true); 
+                      	$("#mobile3").attr("readonly",true); 
+                      	$('#retry').hide();
+                        $('#certi').hide();
+                    }else{
+                    	alert(data.message);
+                    }
+                	doubleSubmitFlag = false;
+                }
+            });
+             
+        } else {
+            alert("6자리 인증번호를 입력해주세요.");
+        }
+    }
+    
+    //에러체크 
+    function pccValidation() {
+    
+        // 본인인증 약관 동의
+      /*   var check = true;
+        $('.join_agreementView').find('input').each(function(){
+            if(!$(this).prop('checked')) {
+            	check = false;
+            }
+        });
+        
+        if(!check) {
+            alert("본인인증 약관에 동의해주세요.");
+            return false;            
+        } */
+    
+        var birthRegExp = /[12][0-9]{3}[01][0-9][0-3][0-9]/; // YYYYMMDD
+        var phoneRegExp = /([0-9]{4})$/;
+    
+        var name = $("#name").val();
+    
+        // 이름
+        if (name == '') {
+        	alert("이름을 입력해주세요.");
+            $("#name").focus();
+            return false;
+        }
+    
+        // 생년월일
+        if ($("#birth").val() == '' || !birthRegExp.test($("#birth").val()) ) {
+            alert("생년월일을 19880227형식의 8자리 숫자로 입력해주세요.");
+            $("#birth").focus();
+            return false;
+        }
+    
+        if($('#genderVal').val() == undefined || $('#genderVal').val() == '') {
+            alert("남/여 구분을 선택해 주세요.");
+            $("#genderVal").focus();
+            return false;
+        }
+    
+        // 휴대폰 번호
+        if ($("#mobile2").val() == '' || $("#mobile3").val() == '' ) {
+        	alert("휴대폰번호를 형식에 맞춰 입력해주세요");
+            $("#mobile2").focus();
+            return false;
+        } else {
+            if (!phoneRegExp.test($("#mobile2").val()) &&  !phoneRegExp.test($("#mobile3").val())  ) {
+            	alert("입력정보에 오류가 있습니다.");
+                $("#mobile2").focus();
+                return false;
+            }
+        }    
+        return true;
+    }
+    
+  
+    
+    function errorMsg(cd) {
+        var msg = ""
+        
+        return msg;
+    }
+    
+    function msg_time() { // 1초씩 카운트
+        var s = SetTime % 60;
+        if(s < 10){
+            s = "0"+s;
+        }
+         // 남은 시간 계산
+        var m = Math.floor(SetTime / 60) + ":" + s; 
+        $('#countdown').text(m); // div 영역에 보여줌
+        $('#countdown').css('color','red');
+        SetTime--; // 1초씩 감소
+        if (SetTime <= 0) { // 시간이 종료 되었으면..
+            alert("인증에 실패하였습니다.\n재인증 해주십시요.");
+            clearInterval(timeId); // 타이머 해제
+            location.reload();
+        }
+    }
+    
+    function TimerStart() {
+        if(SetTime > -1) {
+            timeId = setInterval('msg_time()', 1000);
+        }
+    };
+    
+    //이중처리방지
+    function doubleSubmitCheck(){
+        if(doubleSubmitFlag){
+            return doubleSubmitFlag;
+        }else{
+            doubleSubmitFlag = true;
+            return false;
+        }
+    }
+    
+    //숫자만입력가능
+    function isNumberPressed(obj) {
+    		return !(event.keyCode < 48 || event.keyCode > 57);
+    }
+    
+    function setCheck(obj) {
+    	if($(obj).prop('checked')) {
+    		$(".accreditlist").show();
+    	} else {
+    		$(".accreditlist").hide();
+    	}
+    }    
+	    
+	    
+ 
+</script>
 <script>
         var totAmt = 0;
     	var couponAmt = 0;
@@ -978,15 +1298,52 @@ if(fs.isLogin()){
                             <div class="conLine">
                                 <p class="conLine_title required"><span>*</span>이름</p>
                                 <input type="text" name="name" id="name" class="input_g input_medium">
+                             <label class="lgipbox">
+								<select id="fgnGbn" name="fgnGbn" style="width: 26%;" class="select_g select_small tel_input">
+									<option value="1" title="내국인">내국인</option>
+									<option value="2" title="외국인">외국인</option>
+								</select>
+							</label>
                             </div>
+                            <div class="conLine jiPHcols">
+                          		<p class="conLine_title required"><span>*</span>생년월일</p>
+								<div class="lg_wipbox">
+									<label class="lgipbox">	
+										<input type="text" id="birth" name = "birth" maxlength="8" placeholder="19880227형식의 8자리 숫자로 입력" onKeyPress="return isNumberPressed(this)"  class="input_g input_medium">
+									</label>
+								</div>
+								<div class="textbox_g textbox_resJoin lg_Abtn" id="gender">
+									<a href="javascript:void(0);" id="M">남</a>
+									<a href="javascript:void(0);" id="F">여</a>
+									<input type="hidden" id="genderVal" name ="genderVal">
+								</div>
+							</div>
+                           
                             <div class="conLine">
                                 <p class="conLine_title required"><span>*</span>핸드폰 번호</p>
+                                <select id="hpcorp" name="cellCorp" class="select_g select_small tel_input">
+										<option value="SKT">SKT</option>
+										<option value="KTF">KT</option>
+										<option value="LGT">LGU+</option>
+										<option value="SKM">SK 알뜰폰</option>
+								        <option value="KTM">KT 알뜰폰</option>
+								        <option value="LGM">LG 알뜰폰</option>
+									</select>
+                                
                                 <select name="mobile1" id="mobile1" title="휴대전화 첫자리" class="select_g select_small tel_input">
                                     <option value="010">010</option>
                                 </select>
 								<input type="text" name="mobile2" id="mobile2" value="" title="휴대전화 가운데자리" class="input_g input_small tel_input ml10"  onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">&nbsp;-
 								<input type="text" name="mobile3" id="mobile3" value="" title="휴대전화 뒷자리" class="input_g input_small tel_input ml10"  onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">
-								<button class="btn_g btn_gray ml10">수정</button>
+								<a href="javascript:void(0);" id="send" onclick="pccAuth();" class="btn_line w300">인증요청</a>
+								<a href="javascript:void(0);" id="retry" onclick="pccRetry();" style="display: none;" class="btn_line w300">재전송</a>
+                            </div>
+                            <div  class="conLine" id="certi" hidden="hidden">
+                            	 <p class="conLine_title required"><span>*</span>인증번호입력</p>
+                            	<label class="lgipbox">
+									<input type="text" maxlength="6" id="reqPccNum" onKeyPress="return isNumberPressed(this)" class="input_g input_small tel_input ml10">
+								</label>
+                            	<a href="javascript:void(0);" onclick="pccSendAuthNum();"  class="btn_line w300">인증하기</a>
                             </div>
                             <div class="conLine">
                                 <p class="conLine_title required"><span>*</span>이메일주소</p>
@@ -1469,4 +1826,8 @@ if(fs.isLogin()){
             
         </script>
     </body>
+     <form name="mobileForm" method="post">
+        <input type="hidden" name="reqPccInfo" id="reqPccInfo" value="">
+        <input type="hidden" name="confirmSeq" id="confirmSeq" value="">
+    </form>
 </html>
