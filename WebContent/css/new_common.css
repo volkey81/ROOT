@@ -79,16 +79,19 @@ span.g_alt{font-size:1px;opacity:0;text-indent:-99999px;z-index:-1}
 
 .btn_text{border-bottom:1px solid #777;line-height:19px;color:#777;font-size:16px}
 
-.swiper-slide{display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:bold;color:#fff;background-size:cover}
+.swiper-slide{display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff;background-size:cover}
 
 .swiper-button-prev, .swiper-button-next{width:81px !important;height:81px !important;border-radius:100%;background-color:rgba(255,255,255,.8) !important}
 .swiper-button-prev:after, .swiper-button-next:after{color:#111 !important;font-size:29px !important}
 
 .footer_g{min-width:1600px;height:208px;background:#777777}
+/* .footer_g{width:100%;height:208px;background:#777;} */
+/* .footer_wrap{margin:0 auto;padding:1.7% 0;width:100%;max-width:1600px;height:100%;max-height:20%} */
 .footer_wrap{margin:0 auto;padding:1.7% 0;width:100%;max-width:1600px;height:100%;max-height:20%}
 .footer_wrap .footer_group_mo{display:none}
 .footer_wrap .fotter_logo{width:138px}
 .footer_wrap .footer_info{margin-left:4%;width:668px;line-height:16px;color:#fff;font-size:12px}
+.footer_wrap .footer_info * {color:#fff; font-weight: 300;}
 .footer_wrap .footer_info > div + div{margin-top:20px}
 .footer_wrap .footer_info .companyLine > p{position:relative;display:inline-block}
 .footer_wrap .footer_info .companyLine > p + p{margin-left:16px}
@@ -101,14 +104,16 @@ span.g_alt{font-size:1px;opacity:0;text-indent:-99999px;z-index:-1}
 .footer_wrap .footer_btn{padding:12px 35px;margin-left:2%;width:670px}
 .footer_wrap .footer_btn > div{display:inline-block;padding:21px 20px;width:318px;height:86px;border-radius:20px;background:#333}
 .footer_wrap .footer_btn > div + div{margin-left:1.4%;padding:14px 20px}
-.footer_wrap .footer_btn .btn_wrap > p{display:inline-block;margin:9px 0;line-height:19px;color:#fff;font-size:16px;font-weight:600;vertical-align:top}
-.footer_wrap .footer_btn .btn_wrap > div{display:inline-block;margin-left:35px}
-.footer_wrap .footer_btn .btn_wrap .btn_and{display:inline-block;padding-top:42px;width:60px;line-height:14px;color:#fff;font-size:12px;background:url('../image/qr_and.png') top center no-repeat;background-size:37px 37px;text-align:center}
-.footer_wrap .footer_btn .btn_wrap .btn_ios{display:inline-block;padding-top:42px;margin-left:10px;width:60px;line-height:16px;color:#fff;font-size:12px;background:url('../image/qr_ios.png') top center no-repeat;background-size:37px 37px;text-align:center}
+.footer_wrap .footer_btn .btn_wrap > p{display:inline-block;margin:9px 0;line-height:23px;color:#fff;font-size:16px;font-weight:400;vertical-align:top}
+.footer_wrap .footer_btn .btn_wrap > div{display:inline-block;margin-left:25px}
+.footer_wrap .footer_btn .btn_wrap .btn_and{display:inline-block;padding-top:42px;width:60px;line-height:14px;color:#fff;font-size:12px;background:url('../image/qr_and.png') top center no-repeat;background-size:37px 37px;text-align:center;position: relative;}
+.footer_wrap .footer_btn .btn_wrap .btn_and:after{position: absolute;right: -15px; bottom: -1px;background: url(../image/arrow_active.png) center no-repeat;background-size: 50%; content: "";width: 15px;height: 15px;}
+.footer_wrap .footer_btn .btn_wrap .btn_ios{display:inline-block;padding-top:42px;margin-left:10px;width:60px;line-height:16px;color:#fff;font-size:12px;background:url('../image/qr_ios.png') top center no-repeat;background-size:37px 37px;text-align:center;position: relative;}
+.footer_wrap .footer_btn .btn_wrap .btn_ios:after{position: absolute;right: 4px; bottom: -1px;background: url(../image/arrow_active.png) center no-repeat;background-size: 50%; content: "";width: 15px;height: 15px;}
 .footer_wrap .footer_contact{padding:21px 18px;line-height:19px;color:#fff;font-size:16px}
 .footer_wrap .footer_contact > div + div{margin-top:5px}
-.footer_wrap .footer_contact b{display:inline-block;width:120px;font-weight:600;letter-spacing:-0.5px}
-.footer_wrap .footer_contact span{display:inline-block;margin-left:3px;padding-left:19px;background-repeat:no-repeat;background-position:left center}
+.footer_wrap .footer_contact b{display:inline-block;width:120px;font-weight:400;letter-spacing:-0.5px;color:#fff;}
+.footer_wrap .footer_contact span{display:inline-block;margin-left:3px;padding-left:19px;background-repeat:no-repeat;background-position:left center;color:#fff;font-weight: 300;}
 .footer_wrap .footer_contact .contact_cs span{background-image:url('../image/icn_cs.png')}
 .footer_wrap .footer_contact .contact_res span{background-image:url('../image/icn_res.png')}
 
@@ -154,12 +159,13 @@ span.g_alt{font-size:1px;opacity:0;text-indent:-99999px;z-index:-1}
     .footer_g{min-width:360px;height:fit-content}
 
     .footer_wrap{max-height:unset;text-align:center}
+    .footer_wrap *{color:#fff;}
     .footer_wrap.flex_wrap{display:block;padding:50px 20px}
     .footer_wrap .footer_group_mo{display:block;padding:20px;border-radius:20px;background:#333}
     .footer_wrap .footer_group_mo .groupWrap + .groupWrap{margin-top:15px;padding-top:15px;border-top:1px solid #fff}
     .footer_wrap .footer_group_mo .groupLine{position:relative;padding-left:130px;line-height:0;color:#fff;font-size:0}
     .footer_wrap .footer_group_mo .groupLine + .groupLine{margin-top:10px}
-    .footer_wrap .footer_group_mo .groupLine span{display:block;position:absolute;left:0;top:0;width:130px;line-height:16px;font-size:14px;font-weight:600;text-align:left}
+    .footer_wrap .footer_group_mo .groupLine span{display:block;position:absolute;left:0;top:0;width:130px;line-height:16px;font-size:14px;font-weight:600;text-align:left;}
     .footer_wrap .footer_group_mo .groupLine p{position:relative;padding-left:18px;line-height:16px;font-size:14px;text-align:left}
     .footer_wrap .footer_group_mo .groupLine p:before{content:'';display:block;position:absolute;left:0;top:50%;transform:translateY(-50%);width:15px;height:15px;background-repeat:no-repeat;background-position:center}
     .footer_wrap .footer_group_mo .groupLine.icn_cs p:before{background-image:url('../image/icn_footer_cs.png')}

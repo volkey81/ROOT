@@ -231,7 +231,7 @@
                 <div class="reserve_wrap">
                     <p class="reserve_info"><a href="/hotel/index.jsp" target="_self">빌리지 정보</a></p>
                     <form id="reservationForm" action="/hotel/room/reservation/room.jsp" class="reserve" method="POST">
-                        <div class="notice">빌리지 선택<br>날짜,인원 선택해주세요</div>
+                        <div class="notice"><span class="fs14 fcGray">HOTEL</span><br/>파머스빌리지</div>
                         <div class="date">
                             <div class="checkinout">
                                 <span class="areatitle">체크인</span>
@@ -714,8 +714,11 @@
                     <div class="swiper-wrapper">
                         <div class="swiper-slide slide01">
                             <div class="slide_title">
-                                <b>힐링, 그 자체</b>
-                                <span>바람과 자연을 느끼며 <br>가족, 연인과 편안하게</span>
+                            	<div class="l">
+	                                <b>힐링, 그 자체</b>
+	                                <span>바람과 자연을 느끼며 <br>가족, 연인과 편안하게</span>
+                                </div>
+                                <div class="r"></div>
                             </div>
                             <a href="/hotel/room/suite.jsp" class="slide_btn">객실 정보 더보기</a>
                         </div>
