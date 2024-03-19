@@ -115,7 +115,7 @@ if(param.get("end_date")=="") param.set("end_date", today);
     <body>
         <div class="header_g">
             <div class="header_wrap">
-                <a href="" class="gnb_logo"><span class="g_alt">상하농원</span></a>
+                <a href="/index2.jsp" class="gnb_logo"><span class="g_alt">상하농원</span></a>
                 <div class="gnb_menu">
                     <a href="/brand/introduce/story.jsp">고창상하농원</a>
                     <a href="/brand/workshop/ham.jsp">짓다</a>

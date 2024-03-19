@@ -36,7 +36,7 @@
             	getExpList5(strdate,"");
             	$("#param_date").val(strdate);
             	
-                $( "#res_date" ).datepicker({                	
+                $( "#res_date" ).datepicker({
                     dateFormat:"yy년 m월 d일(DD)",
                     showOn:"both",
                     buttonImage:"${pageContext.request.contextPath}/image/icn_cal_b.png",
@@ -197,7 +197,7 @@ $(document).on("click","input[type=radio]",function(e){
     <body>
         <div class="header_g">
             <div class="header_wrap">
-                <a href="/brand/index.jsp" class="gnb_logo"><span class="g_alt">상하농원</span></a>
+                <a href="/index2.jsp" class="gnb_logo"><span class="g_alt">상하농원</span></a>
                 <!-- 24.03.05 add button -->
                 <button class="btn_allmenu mo_only"><span class="g_alt">전체메뉴</span></button>
                 <div class="gnb_menu">
@@ -255,14 +255,8 @@ $(document).on("click","input[type=radio]",function(e){
                         <div class="section_content">
                             <div class="reserveDate_wrap">
                                 <p class="input_date">
-<%
-					Date date = new Date();
-					SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy.MM.dd");
-					String strDate = simpleDate.format(date);
-					// 달력부분
-%>
-                                    <input type="text" id="res_date" name="res_date" value="<%=strDate%>">
-                                    <input type="hidden" id="param_date" name="param_date" value="<%=strDate%>">
+                                    <input type="text" id="res_date" name="res_date" value="">
+                                    <input type="hidden" id="param_date" name="param_date" value="">
                                 </p>
                                 <select name="selectDate" id="selectDate" class="select_date">                                
                                     <option value="">시간 선택</option>
@@ -275,9 +269,7 @@ $(document).on("click","input[type=radio]",function(e){
                                     <li>입장료는 체험프로그램 결제에 포함되어 있지 않습니다. 현장결제 또는 객실예약시 무료로 제공하고 있습니다.</li>
                                     <li>상하농원은 단체를 위한 스페셜 프로그램을 마련하고 있습니다.</li>
                                 </ul>
-                                <a href="RE_GR_0002.jsp">
-                                	<button class="btn_group">단체예약 바로가기</button>
-                                </a>
+                                <a href="/brand/play/reservation/group.jsp" button class="btn_group inB" style="text-align:center;">단체예약 바로가기 </a>
                             </div>
                         </div>
                     </section>
@@ -287,6 +279,13 @@ $(document).on("click","input[type=radio]",function(e){
                             체험 유형 선택
                         </div>
                         <div class="section_content">
+                            <!-- 24.03.17 add -->
+                            <div class="ar">
+                                <div class="check_g mb15">
+                                    <input type="checkbox" name="expgroupAll" id="expAll">
+                                    <label onClick="checkAll('expgroupAll','expgroupCheck')" for="expAll"><span>전체 해제</span></label>
+                                </div>
+                            </div>
                             <div class="expgroup_wrap">
                                 <div class="expgroup_item">
                                     <input type="checkbox" name="expgroupbox" id="exp1">

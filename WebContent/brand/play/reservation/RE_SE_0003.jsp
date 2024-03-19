@@ -1138,7 +1138,7 @@ if(fs.isLogin()){ //회원여부 확인
     <body>
         <div class="header_g">
             <div class="header_wrap">
-                <a href="/brand/index.jsp" class="gnb_logo"><span class="g_alt">상하농원</span></a>
+                <a href="/index2.jsp" class="gnb_logo"><span class="g_alt">상하농원</span></a>
                 <!-- 24.03.05 add button -->
                 <button class="btn_allmenu mo_only"><span class="g_alt">전체메뉴</span></button>
                 <div class="gnb_menu">
@@ -1335,7 +1335,7 @@ if(fs.isLogin()){
                                 </select>
 								<input type="text" name="mobile2" id="mobile2" value="" title="휴대전화 가운데자리" class="input_g input_small tel_input ml10"  onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">&nbsp;-
 								<input type="text" name="mobile3" id="mobile3" value="" title="휴대전화 뒷자리" class="input_g input_small tel_input ml10"  onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">
-								<a href="javascript:void(0);" id="send" onclick="pccAuth();" class="btn_line w300">인증요청</a>
+								<a href="javascript:void(0);" id="send" onclick="pccAuth();" class="btn_line inB w150">인증요청</a>
 								<a href="javascript:void(0);" id="retry" onclick="pccRetry();" style="display: none;" class="btn_line w300">재전송</a>
                             </div>
                             <div  class="conLine" id="certi" hidden="hidden">
@@ -1491,7 +1491,7 @@ if(fs.isLogin()){
                         <div class="section_content">
                             <div class="radio_content">
                                 <div class="radio_g radio_check">
-                                    <input type="radio" name="payGroup" id="pay1">
+                                    <input type="radio" name="payGroup" id="pay1" checked>
                                     <label for="pay1"><img src="${pageContext.request.contextPath}/image/icn_maeilpay.png" alt=""></label>
                                 </div>
                                 <div class="maeilpay_wrap">
@@ -1504,7 +1504,7 @@ if(fs.isLogin()){
                             <p class="divLine mt30 mb30"></p>
                             <div class="radio_content">
                                 <div class="radio_g radio_check">
-                                    <input type="radio" name="payGroup" id="pay2" checked>
+                                    <input type="radio" name="payGroup" id="pay2">
                                     <label for="pay2"><span>다른 결제 수단</span></label>
                                 </div>
                                 <ul class="payType_wrap">

@@ -41,14 +41,14 @@
     <body>
         <div class="header_g">
             <div class="header_wrap">
-                <a href="" class="gnb_logo"><span class="g_alt">상하농원</span></a>
+                <a href="/index2.jsp" class="gnb_logo"><span class="g_alt">상하농원</span></a>
                 <!-- 24.03.05 add button -->
                 <button class="btn_allmenu mo_only"><span class="g_alt">전체메뉴</span></button>
                 <div class="gnb_menu">
-                    <a href="">고창상하농원</a>
-                    <a href="">짓다</a>
-                    <a href="">놀다</a>
-                    <a href="">먹다</a>
+                    <a href="/brand/introduce/story.jsp">고창상하농원</a>
+                    <a href="/brand/workshop/ham.jsp">짓다</a>
+                    <a href="/brand/play/gallery.jsp">놀다</a>
+                    <a href="/brand/food/store1.jsp">먹다</a>
                     <!-- 24.03.05 add class : pc_only -->
                     <button class="btn_allmenu pc_only">전체메뉴</button>
                 </div>
@@ -63,52 +63,9 @@
                         <button type="button" onClick="popupClose()" class="btn_close"><span class="g_alt">닫기</span></button>
                     </div>
                     <div class="popup_body">
-                        <!-- 24.03.11 delete -->
-                        <!-- <p class="exp_label"><span>먹거리</span></p>
-                        <b class="exp_title">공장견학</b>
-                        <p class="exp_des">여기서 상하목장 우유와 치즈가 만들어져요</p>
-                        <p class="divLine mt20 mb20"></p>
-                        <div class="exp_content f_g">
-                            <div class="fl">
-                                <ul class="exp_detail">
-                                    <li>
-                                        <strong>체험영역</strong>
-                                        <span class="tag_item">#참맛</span>
-                                        <span class="tag_item">#감사</span>
-                                        <span class="tag_item">#슬기</span>
-                                        <span class="tag_item">#사랑</span>
-                                        <span class="tag_item">#행복</span>
-                                    </li>
-                                    <li>
-                                        <strong>체험 계절</strong>
-                                        <p>상시</p>
-                                    </li>
-                                    <li>
-                                        <strong>체험 시간</strong>
-                                        <p>약 60분</p>
-                                    </li>
-                                    <li>
-                                        <strong>적정 연령</strong>
-                                        <p>제한없음</p>
-                                    </li>
-                                    <li>
-                                        <strong>보호자 동반</strong>
-                                        <p>보호자 동반</p>
-                                    </li>
-                                    <li>
-                                        <strong>알레르기 유발성분</strong>
-                                        <p>-</p>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="fr">
-                                <img src="./image/epx01_01.png" alt="">
-                            </div>
-                        </div> -->
-                        <!-- 24.03.11 add -->
                         <div class="popup_content">
-                            <img id="expCon_PC" src="./image/RE_SE_1006_PC.jpg" class="pc_only" alt="">
-                            <img id="expCon_MO" src="./image/RE_SE_1006_MO.jpg" class="mo_only" alt="">
+                            <img id="expCon_PC" src="${pageContext.request.contextPath}/image/RE_SE_1006_PC.jpg" class="pc_only" alt="">
+                            <img id="expCon_MO" src="${pageContext.request.contextPath}/image/RE_SE_1006_MO.jpg" class="mo_only" alt="">
                         </div>
                     </div>
                 </div>
@@ -145,7 +102,7 @@
                                     <p class="conLine_title required"><span>*</span> 희망일 (1순위)</p>
                                     <div class="reserveDate_wrap">
                                         <p class="input_date disabled w290">
-                                            <input type="text" id="res_date1" value="2024.01.01">
+                                            <input type="text" id="res_date1" value="">
                                         </p>
                                     </div>
                                 </div>
@@ -214,7 +171,7 @@
                                         <input type="checkbox" name="" id="partyExp1">
                                         <label for="partyExp1">
                                             <div class="flex_wrap">
-                                                <p class="item_img"><img src="./image/exp_01.png" alt=""></p>
+                                                <p class="item_img"><img src="${pageContext.request.contextPath}/image/exp_01.png" alt=""></p>
                                                 <div class="item_content">
                                                     <b>[먹거리] 치즈 & 피자 만들기 체험</b>
                                                     <span>치즈도 만들고 미니피자도 냠냠</span>
@@ -233,7 +190,7 @@
                                         <input type="checkbox" name="" id="partyExp2">
                                         <label for="partyExp2">
                                             <div class="flex_wrap">
-                                                <p class="item_img"><img src="./image/exp_02.png" alt=""></p>
+                                                <p class="item_img"><img src="${pageContext.request.contextPath}/image/exp_02.png" alt=""></p>
                                                 <div class="item_content">
                                                     <b>[공장견학] 우유와 치즈가 만들어지는 과정</b>
                                                     <span>유기농으로 우유와 치즈는 어떻게 만들어질까요?</span>
@@ -252,7 +209,7 @@
                                         <input type="checkbox" name="" id="partyExp3">
                                         <label for="partyExp3">
                                             <div class="flex_wrap">
-                                                <p class="item_img"><img src="./image/exp_01.png" alt=""></p>
+                                                <p class="item_img"><img src="${pageContext.request.contextPath}/image/exp_01.png" alt=""></p>
                                                 <div class="item_content">
                                                     <b>[꼬마농부스쿨]  완두콩 심기</b>
                                                     <span>텃밭에서 우리 같이 완두콩 심어볼까요?</span>
@@ -299,7 +256,7 @@
                         </div>
                     </div>
                 </div>
-                <p class="fotter_logo"><img src="./image/footer_logo.png" alt=""></p>
+                <p class="fotter_logo"><img src="${pageContext.request.contextPath}/image/footer_logo.png" alt=""></p>
                 <div class="footer_info">
                     <div class="info_link">
                         <a href="">입점/제휴문의</a>
@@ -352,7 +309,7 @@
                 $( "#res_date1" ).datepicker({
                     dateFormat:"yy년 m월 d일(DD)",
                     showOn:"both",
-                    buttonImage:"./image/icn_cal_b.png",
+                    buttonImage:"${pageContext.request.contextPath}/image/icn_cal_b.png",
                     buttonImageOnly:"true",
                     monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
                     monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
@@ -365,7 +322,7 @@
                 $( "#res_date2" ).datepicker({
                     dateFormat:"yy년 m월 d일(DD)",
                     showOn:"both",
-                    buttonImage:"./image/icn_cal_b.png",
+                    buttonImage:"${pageContext.request.contextPath}/image/icn_cal_b.png",
                     buttonImageOnly:"true",
                     monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
                     monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],

@@ -210,7 +210,7 @@
         <div class="body_wrap" id="main">
             <section class="section_wrap pc_section" data-index="1">
                 <div class="header_wrap">
-                    <a href="" class="gnb_logo"><span class="g_alt">상하농원</span></a>
+                    <a href="/index2.jsp" class="gnb_logo"><span class="g_alt">상하농원</span></a>
                     <!-- 24.03.14 add button -->
                     <button type="button" onClick="popupOpen('allMenu')" class="btn_allmenu mo_only"><span class="g_alt">전체메뉴</span></button>
                     <div class="gnb_menu">

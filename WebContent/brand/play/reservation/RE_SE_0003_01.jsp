@@ -41,7 +41,7 @@
     <body>
         <div class="header_g">
             <div class="header_wrap">
-                <a href="" class="gnb_logo"><span class="g_alt">상하농원</span></a>
+                <a href="/index2.jsp" class="gnb_logo"><span class="g_alt">상하농원</span></a>
                 <button class="btn_allmenu mo_only"><span class="g_alt">전체메뉴</span></button>
                 <div class="gnb_menu">
                     <a href="/brand/introduce/story.jsp">고창상하농원</a>
