@@ -32,3 +32,12 @@ $(".dim_g").click(function(){
     $('.popup_g').hide();
     $('body').css('overflow','auto');
 });
+function checkNumber(event) {
+    if(event.key === '.' 
+       || event.key === '-'
+       || event.key >= 0 && event.key <= 9) {
+      return true;
+    }
+    
+    return false;
+}
