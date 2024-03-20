@@ -206,13 +206,13 @@
             </div>
         </div>
         <!-- 전체 메뉴 END -->
-                <div class="main_float">
-                    <!-- 24.02.28 Modify span > 텍스트 -->
-                    <a href="/index2.jsp" class="btn_1 active"><span>상하농원</span></a>
-                    <a href="/brand/play/reservation/RE_SE_0002.jsp" class="btn_2"><span>체험활동</span></a>
-                    <a href="/hotel/room/index.jsp" class="btn_3"><span>객실예약</span></a>
-                    <a href="/main.jsp" class="btn_4"><span>쇼핑하기</span></a>
-                </div>
+        <div class="main_float">
+            <!-- 24.02.28 Modify span > 텍스트 -->
+            <a href="/index2.jsp" class="btn_1 active"><span>상하농원</span></a>
+            <a href="/brand/play/reservation/RE_SE_0002.jsp" class="btn_2"><span>체험활동</span></a>
+            <a href="/hotel/room/index.jsp" class="btn_3"><span>객실예약</span></a>
+            <a href="/main.jsp" class="btn_4"><span>쇼핑하기</span></a>
+        </div>
         
         <div class="body_wrap" id="main">
             <section class="section_wrap pc_section" data-index="1">
@@ -714,39 +714,71 @@
                     <div class="swiper-wrapper">
                         <div class="swiper-slide slide01">
                             <div class="slide_title">
-                            	<div class="l">
-	                                <b>힐링, 그 자체</b>
-	                                <span>바람과 자연을 느끼며 <br>가족, 연인과 편안하게</span>
+                                <!-- 24.03.20 #2 modify START -->
+                                <div class="healing-tit">
+                                    <div class="l">
+                                        <b>힐링, 그 자체</b>
+                                        <span>바람과 자연을 느끼며 <br>가족, 연인과 편안하게</span>
+                                    </div>
+                                    <div class="r"></div>
                                 </div>
-                                <div class="r"></div>
+                                <!-- 24.03.20 #2 modify END -->
                             </div>
                             <a href="/hotel/room/suite.jsp" class="slide_btn">객실 정보 더보기</a>
                         </div>
                         <div class="swiper-slide slide02">
                             <div class="slide_title">
-                                <b>자연 속 농부의 쉼터</b>
-                                <span>따뜻한 햇살 속 반려견과 <br>함께 추억을 만들어 보세요</span>
+                                <!-- 24.03.20 #2 modify START -->
+                                <div class="healing-tit">
+                                    <div class="l">
+                                        <b>자연 속 농부의 쉼터</b>
+                                        <span>따뜻한 햇살 속 반려견과 <br>함께 추억을 만들어 보세요</span>
+                                    </div>
+                                    <div class="r"></div>
+                                </div>
+                                <!-- 24.03.20 #2 modify END -->
                             </div>
                             <a href="/hotel/room/glamping.jsp" class="slide_btn">글램핑 정보 더보기</a>
                         </div>
                         <div class="swiper-slide slide03">
                             <div class="slide_title">
-                                <b>오직 회원에게만</b>
-                                <span>특별한 객실 프로모션을 <br>만나보세요</span>
+                                <!-- 24.03.20 #2 modify START -->
+                                <div class="healing-tit">
+                                    <div class="l">
+                                        <b>오직 회원에게만</b>
+                                        <span>특별한 객실 프로모션을 <br>만나보세요</span>
+                                    </div>
+                                    <div class="r"></div>
+                                </div>
+                                <!-- 24.03.20 #2 modify END -->
                             </div>
                             <a href="/hotel/offer/list.jsp" class="slide_btn">스페셜오퍼 정보 더보기</a>
                         </div>
                         <div class="swiper-slide slide04">
                             <div class="slide_title">
-                                <b>산뜻한 아침 식사</b>
-                                <span>상하의 제철 채소로 <br>차려진 건강한 농부의 밥상</span>
+                                <!-- 24.03.20 #2 modify START -->
+                                <div class="healing-tit">
+                                    <div class="l">
+                                        <b>산뜻한 아침 식사</b>
+                                        <span>상하의 제철 채소로 <br>차려진 건강한 농부의 밥상</span>
+                                    </div>
+                                    <div class="r"></div>
+                                </div>
+                                <!-- 24.03.20 #2 modify END -->
                             </div>
                             <a href="/hotel/dining/breakfast.jsp" class="slide_btn">파머스테이블 정보 더보기</a>
                         </div>
                         <div class="swiper-slide slide05">
                             <div class="slide_title">
-                                <b>AI 맞춤 추천 운동</b>
-                                <span>상하의 건강한 식단과 <br>더불어 누리는 운동 밸런스</span>
+                                <!-- 24.03.20 #2 modify START -->
+                                <div class="healing-tit">
+                                    <div class="l">
+                                        <b>AI 맞춤 추천 운동</b>
+                                        <span>상하의 건강한 식단과 <br>더불어 누리는 운동 밸런스</span>
+                                    </div>
+                                    <div class="r"></div>
+                                </div>
+                                <!-- 24.03.20 #2 modify END -->
                             </div>
                             <a href="/hotel/enjoy/healthcare.jsp" class="slide_btn">셀렉스헬스케어 정보 더보기</a>
                         </div>

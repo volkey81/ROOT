@@ -1343,7 +1343,7 @@ if(fs.isLogin()){
                             	<label class="lgipbox">
 									<input type="text" maxlength="6" id="reqPccNum" onKeyPress="return isNumberPressed(this)" class="input_g input_small tel_input ml10">
 								</label>
-                            	<a href="javascript:void(0);" onclick="pccSendAuthNum();"  class="btn_line w300">인증하기</a>
+                            	<a href="javascript:void(0);" onclick="pccSendAuthNum();"  class="btn_g btn_gray ml10 w150">인증하기</a>
                             </div>
                             <div class="conLine">
                                 <p class="conLine_title required"><span>*</span>이메일주소</p>
