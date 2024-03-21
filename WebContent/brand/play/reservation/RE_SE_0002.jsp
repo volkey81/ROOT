@@ -136,45 +136,57 @@
             });
 /* 달력, 퍼블 End */
 
-/* 체험유형 선택했을 때 보이도록 */
-$(document).ready(function() {
-	/* 체험상품이 있을 경우 시간 select 생성되면서 All Check 되도록 함, RE_SE_expList5.jsp */
-    $('input[name="expgroupbox"]').change(function() {
-        var checkboxes = $('input[name="expgroupbox"]:checked');
-        if(checkboxes.length > 0) {
-            $('#expList5').show();
-        } else {
-            $('#expList5').hide();
+	/* 체험유형 선택했을 때 보이도록 */
+	$(document).ready(function() {
+		/* 체험상품이 있을 경우 시간 select 생성되면서 All Check 되도록 함, RE_SE_expList5.jsp */
+	    $('input[name="expgroupbox"]').change(function() {
+	        var checkboxes = $('input[name="expgroupbox"]:checked');
+	        if(checkboxes.length > 0) {
+	            $('#expList5').show();
+	        } else {
+	            $('#expList5').hide();
+	        }
+	    });
+		
+        // 페이지 로드 시 세션 스토리지에서 폼 데이터를 복원
+        if (sessionStorage.getItem('formData')) {
+            var formData = JSON.parse(sessionStorage.getItem('formData'));
+            $.each(formData, function(i, field) {
+                $("[name='" + field.name + "']").val(field.value);
+            });
+            sessionStorage.removeItem('formData'); // 데이터 복원 후 세션 스토리지에서 삭제
         }
-    });
-});
+	});
+	
+	
+	$(document).on("click","input[type=radio]",function(e){
+		var chk = $(this).is(":checked");
+		var pre = $(this).data("previous");
+		  if(chk == true && pre == $(this).val()){
+		        $(this).prop('checked',false);
+		        $(this).data("previous",'');
+		    }else{
+		        if(chk == true) $(this).data("previous",$(this).val());
+		    }
+	});
 
-
-$(document).on("click","input[type=radio]",function(e){
-	var chk = $(this).is(":checked");
-	var pre = $(this).data("previous");
-	  if(chk == true && pre == $(this).val()){
-	        $(this).prop('checked',false);
-	        $(this).data("previous",'');
-	    }else{
-	        if(chk == true) $(this).data("previous",$(this).val());
+	function tosubmit() {
+	    var radio_chk = $("input[type=radio]:checked").length;
+	    if (radio_chk == 0) {
+	        alert("체험유형을 선택해주세요.");
+	        return;
 	    }
-});
-
-function tosubmit(){
-	var radio_chk = $("input[type=radio]:checked").length;
-	if(radio_chk == 0){
-		alert("체험유형을 선택해주세요.");
-		return;
-	}
 	
-	if(<%=ckLogin%>){
-		$("#idform").submit();
-	}else{
-		fnt_login();
+	    var isLoggedin = <%= ckLogin %>;
+	    
+	    if(isLoggedin) {
+	        $("#idform").submit();
+	    } else {
+	        alert("로그인이 필요합니다.");
+	        sessionStorage.setItem('formData', JSON.stringify($('#idform').serializeArray()));
+	        window.location.href = "/mobile/member/login.jsp?returnUrl=" + encodeURIComponent(window.location.href)+"&type=web";
+	    }
 	}
-	
-}
 </script>
         <meta charset="utf-8">
         <meta http-equiv="imagetoolbar" content="no">
@@ -289,7 +301,7 @@ function tosubmit(){
                                     <li>입장료는 체험프로그램 결제에 포함되어 있지 않습니다. 현장결제 또는 객실예약시 무료로 제공하고 있습니다.</li>
                                     <li>상하농원은 단체를 위한 스페셜 프로그램을 마련하고 있습니다.</li>
                                 </ul>
-                                <a href="/brand/play/reservation/group.jsp" button class="btn_group inB" style="text-align:center;">단체예약 바로가기 </a>
+                                <a href="/brand/play/reservation/RE_GR_0001.jsp" button class="btn_group inB" style="text-align:center;">단체예약 바로가기 </a>
                             </div>
                         </div>
                     </section>

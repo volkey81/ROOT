@@ -55,6 +55,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
         <script src="/js/efusioni.js?t=<%=System.currentTimeMillis()%>"></script>
+        <script src="/js/common.js?t=<%=System.currentTimeMillis()%>"></script>
    <script>
 	var v;
 
@@ -88,6 +89,52 @@
 
 	//	efuSlider('.calenderArea', 1, 0, '', 'once');	
 	});	
+	
+	function removeChar(event) {
+	    event = event || window.event;
+	    var target = event.target || event.srcElement;
+	    var nonDigits = /[^0-9]/g; // 숫자가 아닌 모든 문자를 찾는 정규 표현식
+	    target.value = target.value.replace(nonDigits, ''); // 숫자가 아닌 문자 제거
+	}
+	
+	function onlyNumber(event) {
+	    // 이벤트가 없으면 글로벌 이벤트를 사용
+	    event = event || window.event;
+	    
+	    // 키 코드 또는 이벤트 키를 사용하여 식별
+	    var key = event.key || event.keyCode || event.which;
+	    
+	    // 숫자, 백스페이스, 삭제, 방향키, 탭 키를 확인하는 조건
+	    var isAllowedKey = (key >= '0' && key <= '9') ||
+	                       ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(key) ||
+	                       (event.keyCode >= 96 && event.keyCode <= 105); // 숫자 패드
+
+	    if (!isAllowedKey) {
+	        // 조건에 맞지 않는 입력은 이벤트를 취소
+	        event.preventDefault();
+	    }
+	}
+	
+	function ajaxSubmit(form, callback) {
+		var isJQueryObject = form instanceof jQuery;
+		var jForm = (isJQueryObject ? form : $(form));
+
+		var formData = jForm.serialize();
+
+		/*action 페이지에서는 결과 json을 출력해야 한다. 예 {"isOk" : true, "msg" : "등록되었습니다."}*/
+		$.ajax({
+			type : "POST",
+			url : jForm.attr("action"),
+			data : formData,
+			dataType : "json",
+			success : function(result) {
+				callback(result);
+			},
+			fail : function() {
+				callback({isOk : false, msg : "서버오류가 발생했습니다."});
+			}
+		});
+	}
 
 	function step1(obj, date) {
 		$(".calenderArea .choice").removeClass("choice");
@@ -213,7 +260,7 @@ $(document).ready(function(){
                             </div>
                             <!-- 24.03.17 add class : mt10 -->
                             <div class="textarea_g readOnly mt10">
-                                <textarea name="" id="" redonly="redonly">기후상황, 개인사유 등에 따른 일정변경으로 인한 손해에 대해서는 상하농원에서 책임지지 않습니다. 취소/환불 규정에 동의 하시겠습니까?
+                                <textarea name="" id="" readonly="readonly">기후상황, 개인사유 등에 따른 일정변경으로 인한 손해에 대해서는 상하농원에서 책임지지 않습니다. 취소/환불 규정에 동의 하시겠습니까?
 
 - 이용 7일 전까지 취소 수수료 없음
 - 이용 7일 전 ~ 당일 체험시작 20분 전까지 3set에 한해 수량 변경 가능
@@ -296,7 +343,7 @@ $(document).ready(function(){
                                         });
                                     </script>
                                 </div>
-                                <div class="conLine">
+<!--                                 <div class="conLine">
                                     <p class="conLine_title">예약 희망일 ②</p>
                                     <p class="input_date conLine_content w290">
                                         <input type="text" id="res_date2" value="2024.01.01">
@@ -316,7 +363,7 @@ $(document).ready(function(){
                                             $('#res_date2').datepicker('setDate', 'today');
                                         });
                                     </script>
-                                </div>
+                                </div> -->
                             </div>
                             <!-- 24.03.21 modify wrap END -->
                         </div>
