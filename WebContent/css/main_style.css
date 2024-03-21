@@ -149,8 +149,8 @@ body{overflow:hidden}
 .section_intro .swiper .swiper-slide .slide_title span{position:relative;display:block;margin-top:30px;line-height:50px;color:#fff;font-size:40px;font-weight:500}
 /* .section_intro .swiper .swiper-slide .slide_title span:after{content:'';position:absolute;right:-20%;bottom:30px;width:calc(100% - 230px);height:1px;background:#fff;} */
 .section_intro .swiper .swiper-slide .slide_title .healing-tit:after {clear:both;display:block;content:"";}
-.section_intro .swiper .swiper-slide .slide_title .healing-tit .l{float:left;width:350px;}
-.section_intro .swiper .swiper-slide .slide_title .healing-tit .r{float:right;width:calc(100% - 360px);height:190px;position:relative;}
+.section_intro .swiper .swiper-slide .slide_title .healing-tit .l{float:left;width:max-content;}
+.section_intro .swiper .swiper-slide .slide_title .healing-tit .r{float:right;width:calc(100% - 460px);height:190px;position:relative;}
 .section_intro .swiper .swiper-slide .slide_title .healing-tit .r:after{content:"";position:absolute;left:0;bottom:0;width:100vw;height:1px;border-bottom: 2px solid #fff;}
 .section_intro .swiper .swiper-slide .slide_btn{float:right;margin-top:2%;padding:17px 35px;height:62px;border:1px solid #ddd;border-radius:31px;line-height:28px;color:#fff;font-size:24px;font-weight:500;background:none}
 .section_intro .swiper .swiper-slide:after{content:'';display:block;clear:both}
