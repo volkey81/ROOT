@@ -15,6 +15,12 @@
 	request.setAttribute("Depth_3", new Integer(6));
 	request.setAttribute("Depth_4", new Integer(1));
 	request.setAttribute("MENU_TITLE", new String("예약하기"));
+	
+	boolean ckLogin = false;
+	FrontSession fs = FrontSession.getInstance(request, response);
+	if(fs.isLogin()) {
+		ckLogin = true; 
+	}
 %>
 <html>
     <head>
@@ -153,8 +159,22 @@ $(document).on("click","input[type=radio]",function(e){
 	    }else{
 	        if(chk == true) $(this).data("previous",$(this).val());
 	    }
-})
+});
 
+function tosubmit(){
+	var radio_chk = $("input[type=radio]:checked").length;
+	if(radio_chk == 0){
+		alert("체험유형을 선택해주세요.");
+		return;
+	}
+	
+	if(<%=ckLogin%>){
+		$("#idform").submit();
+	}else{
+		fnt_login();
+	}
+	
+}
 </script>
         <meta charset="utf-8">
         <meta http-equiv="imagetoolbar" content="no">
@@ -246,7 +266,7 @@ $(document).on("click","input[type=radio]",function(e){
                     </div>
                 </div>
  <!-- form 시작 -->
-    <form action="RE_SE_0003.jsp" method="post">
+    <form action="RE_SE_0003.jsp" id="idform" method="post">
                     <section class="page_section">
                         <div class="section_title on">
                             <span>01</span>
@@ -313,7 +333,7 @@ $(document).on("click","input[type=radio]",function(e){
                                 <!-- 리스트  -->
                             </ul>
                             <div class="btn_area">
-                                <button type="submit" class="btn_submit">예약하기</button>
+                                <button type="button" onclick="tosubmit()" class="btn_submit">예약하기</button>
                             </div>
                         </div>
                     </section>
