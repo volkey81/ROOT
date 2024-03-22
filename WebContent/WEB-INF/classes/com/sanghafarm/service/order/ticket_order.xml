@@ -107,6 +107,75 @@
 							 WHERE	ORDERID = A.ORDERID
 							 AND	SHIP_SEQ = '1'
 							 AND	STATUS = '290'
+							 AND	ROWNUM = 1) CANCEL_DATE,
+							 tc.NAME2 AS EXP_NAME
+					FROM	T_TICKET_ORDER A, 
+							T_EXP_PRODUCT P,
+							T_TORDER_STATUS_CODE C,
+							T_EXP_CONTENT T ,
+					 		T_CODE2 tc 
+					WHERE	A.EXP_PID = P.EXP_PID(+)
+					AND		A.STATUS = C.STATUS
+					AND		A.USERID = #userid#
+					AND     P.EXP_TYPE  = T.EXP_TYPE 
+					AND 	T.EXP_GB = tc.CODE2 
+					AND 	tc.CODE1 = '037'
+		]]>
+		<isNotEmpty property="status_type">
+				   	AND 	A.STATUS LIKE #status_type# || '%'
+		</isNotEmpty>
+		<isNotEmpty property="orderid">
+					AND		A.ORDERID = #orderid#
+		</isNotEmpty>
+		<isNotEmpty property="morderid">
+					AND		A.MORDERID = #morderid#
+		</isNotEmpty>
+				)
+		<![CDATA[
+		WHERE	RNUM > #POS_STA#
+        AND 	RNUM <= #POS_END#
+		]]>
+	</select>
+	
+	
+		<select id="getOrderList_20240322backup" parameterClass="Param" resultClass="Param">
+		<![CDATA[
+		SELECT	*
+		FROM 	(
+					SELECT 	ROW_NUMBER() OVER(ORDER BY A.ORDERID DESC) RNUM,
+							A.ORDERID,
+							A.USERID,
+							A.TICKET_DIV,
+							A.EXP_PID,
+							A.NAME,
+							A.MOBILE1,
+							A.MOBILE2,
+							A.MOBILE3,
+							A.EMAIL,
+							A.TOT_AMT,
+							A.COUPON_AMT,
+							A.POINT_AMT,
+							A.GIFTCARD_AMT,
+							A.GIFTCARD_ID,
+							A.PAY_AMT,
+							A.PAY_TYPE,
+							A.MEM_COUPONID,
+							TO_CHAR(A.RESERVE_DATE, 'YYYY.MM.DD (DY)', 'NLS_DATE_LANGUAGE=korean') RESERVE_DATE,
+							A.STATUS,
+							TO_CHAR(A.ORDER_DATE, 'YYYY.MM.DD HH24:MI:SS') ORDER_DATE,
+							DECODE(A.TICKET_DIV, '01', '입장권', (SELECT NAME2 FROM T_CODE2 WHERE CODE1 = '015' AND CODE2 = P.EXP_TYPE)) TICKET_NAME,
+							A.MORDERID,
+							P.TIME,
+							P.EXP_TYPE,
+							C.FE_NAME STATUS_NAME,
+							CASE WHEN A.STATUS = '110' AND TRUNC(A.RESERVE_DATE) - SYSDATE > 2 THEN 'Y'
+							ELSE 'N' END IS_CANCELABLE,
+							F_TICKET_ITEM_LIST(A.ORDERID) ITEMS,
+							(SELECT	TO_CHAR(REGIST_DATE, 'YYYY.MM.DD HH24:MI:SS')
+							 FROM	T_ORDER_STATUS_LOG
+							 WHERE	ORDERID = A.ORDERID
+							 AND	SHIP_SEQ = '1'
+							 AND	STATUS = '290'
 							 AND	ROWNUM = 1) CANCEL_DATE
 					FROM	T_TICKET_ORDER A, 
 							T_EXP_PRODUCT P,
@@ -217,6 +286,79 @@
 	</select>
 	
 	<select id="getOrderMasterInfo" parameterClass="java.lang.String" resultClass="Param">
+SELECT T.RNUM,
+T.ORDERID,
+T.TICKET_DIV,
+T.EXP_PID,
+T.USERID,NAME,
+T.MOBILE1,
+T.MOBILE2,
+T.MOBILE3,
+T.EMAIL,
+T.TOT_AMT,
+T.COUPON_AMT,
+T.POINT_AMT,
+T.PAY_AMT,
+T.PAY_TYPE,
+T.MEM_COUPONID,
+T.STATUS,
+T.USE_YN,
+T.RESERVE_DATE,
+T.ORDER_DATE,
+T.TICKET_NAME,
+T.STATUS_NAME,
+T.PAY_TYPE_NAME,
+T.PLACE_NAME,
+T.TIME,
+T.UNFY_MMB_NO,
+T.EXP_TYPE,
+C2.NAME2
+FROM T_EXP_CONTENT B 
+JOIN T_CODE2 C2 ON B.EXP_GB = C2.CODE2 AND C2.CODE1 = '037'
+JOIN 
+(SELECT 	ROW_NUMBER() OVER(ORDER BY A.ORDERID DESC) RNUM,
+				A.ORDERID,
+				A.TICKET_DIV,
+				A.EXP_PID,
+				A.USERID,
+				A.NAME,
+				A.MOBILE1,
+				A.MOBILE2,
+				A.MOBILE3,
+				A.EMAIL,
+				A.TOT_AMT,
+				A.COUPON_AMT,
+				A.POINT_AMT,
+				A.PAY_AMT,
+				A.PAY_TYPE,
+				A.MEM_COUPONID,
+				A.STATUS,
+				A.USE_YN,
+				TO_CHAR(A.RESERVE_DATE, 'YYYY.MM.DD (DY)', 'NLS_DATE_LANGUAGE=korean') RESERVE_DATE,
+				TO_CHAR(A.ORDER_DATE, 'YYYY.MM.DD HH24:MI:SS') ORDER_DATE,
+				DECODE(A.TICKET_DIV, '01', '입장권', (SELECT NAME2 FROM T_CODE2 WHERE CODE1 = '015' AND CODE2 = P.EXP_TYPE)) TICKET_NAME,
+				C.FE_NAME STATUS_NAME,
+				C2.NAME2 PAY_TYPE_NAME,
+				(SELECT NAME2 FROM T_CODE2 WHERE CODE1 = '014' AND CODE2 = P.PLACE) PLACE_NAME,
+				P.TIME,
+				M.UNFY_MMB_NO,
+				P.EXP_TYPE 
+		FROM	T_TICKET_ORDER A, 
+				T_EXP_PRODUCT P,
+				T_TORDER_STATUS_CODE C,
+				T_CODE2 C2,
+				T_IMMEM M
+		WHERE	A.EXP_PID = P.EXP_PID(+)
+		AND		A.STATUS = C.STATUS
+		AND 	A.PAY_TYPE = C2.CODE2(+)
+		AND		C2.CODE1(+) = '007'
+		AND		A.USERID = M.MMB_ID(+)
+		AND		A.ORDERID = #orderid#) T ON B.EXP_TYPE = T.EXP_TYPE AND B.STATUS = 'Y' 
+		WHERE ROWNUM = 1
+	</select>
+	
+	
+	<select id="getOrderMasterInfo_20240322_bak" parameterClass="java.lang.String" resultClass="Param">
 		SELECT 	ROW_NUMBER() OVER(ORDER BY A.ORDERID DESC) RNUM,
 				A.ORDERID,
 				A.TICKET_DIV,
@@ -255,6 +397,7 @@
 		AND		A.USERID = M.MMB_ID(+)
 		AND		A.ORDERID = #orderid#
 	</select>
+	
 	
 	<select id="getOrderItemList" parameterClass="java.lang.String" resultClass="param">
 		SELECT 	*

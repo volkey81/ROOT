@@ -59,26 +59,15 @@
 			<table class="bbsList">
 				<caption>예약상품 목록</caption>
 				<colgroup>
-					<col width="130"><col width="130"><col width=""><col width=""><col width=""><col width="80">
+					<col width="130"><col width="130"><col width=""><col width=""><col width="80">
 				</colgroup>
-				<thead>
-					<tr>
-						<th scope="col">체험유형</th>
-						<th scope="col">상품평</th>
-						<th scope="col">일자</th>
-						<th scope="col">장소/시간</th>
-						<th scope="col">판매권종</th>
-						<th scope="col">인원</th>
-					</tr>
-				</thead>
 				<tbody>
 <%
 	for(Param row : list) {
 %>
 					<tr>
-						<td><%= info.get("name2") %></td>
-						<td><%= info.get("ticket_name") %></td>
 						<td><%= info.get("reserve_date") %><br><span class="fontTypeC"><%= !"".equals(row.get("time")) ? row.get("time").substring(0, 2) + ":" + row.get("time").substring(2) : "" %></span></td>
+						<td><%= info.get("ticket_name") %></td>
 						<td class="tit">
 <%
 		if("02".equals(info.get("ticket_div"))) {

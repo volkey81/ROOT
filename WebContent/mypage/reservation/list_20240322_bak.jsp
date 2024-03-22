@@ -84,7 +84,7 @@
 				<thead>
 					<tr>
 						<th scope="col">예약일시 / 예약번호</th>
-						<th scope="col" colspan = 2>예약 내역</th>
+						<th scope="col">예약 내역</th>
 						<th scope="col">일정</th>
 						<th scope="col">상태</th>
 						<th scope="col">관리</th>
@@ -97,7 +97,6 @@
 %>
 					<tr>
 						<th scope="row"><%= row.get("order_date") %><p class="fs"><a href="view.jsp?orderid=<%= row.get("orderid") %>" class="fontTypeC">(<%= row.get("orderid") %>)</th>
-						<td><%= row.get("exp_name") %> </td>
 						<td class="tit pName"><%= row.get("ticket_name") %>
 							<p class="opt">
 <%
