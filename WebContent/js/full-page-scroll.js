@@ -240,6 +240,12 @@
 				_self.defaults.currentPosition = position;
 				location.hash = _self.defaults.currentPosition;
 			}	
+			if(position == 0 || position == 4){
+				$('.main_float').removeClass('turn_gray');
+			}else{
+				$('.main_float').addClass('turn_gray');
+			}
+			
 		};
 
 		return this;

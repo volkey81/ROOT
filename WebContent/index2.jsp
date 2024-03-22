@@ -46,7 +46,9 @@
     </head>
     <body>
         <!-- 전체 메뉴 START -->
-        <div class="popup_g popup_allmenu">
+        <!-- 24.03.22 delete class : popup_allmenu -->
+        <div class="popup_g">
+        	<div class="dim_g"></div>
             <div id="allMenu" class="popup_wrap">
                 <div class="popup_header">
                     <a href="/brand/index.jsp" class="allmenu_logo"><span class="g_alt">상하농원</span></a>
@@ -204,13 +206,39 @@
                     </ul>
                 </div>
             </div>
+		<!-- 24.03.22 add START -->
+		<div id="hotline" class="popup_wrap popup_hotline">
+			<div class="popup_header">
+				<button type="button" onClick="popupClose()" class="btn_close"><span class="g_alt">닫기</span></button>
+			</div>
+			<div class="popup_body">
+				<b class="terms_title">윤리 HOT-LINE</b>
+				<div class="mt50">
+					<p class="fs18 lh21">상하농원은 고객 및 임직원의 소중한 의견을 청취하여 윤리경영의 초석을 마련하고자 합니다.</p>
+					<p class="fs18 lh21">다음과 같은 사실이 있을 경우 제보해 주시기 바랍니다.</p>
+					<p class="fs18 lh21 mt20">- 임직원의 부적절한 언행</p>
+					<p class="fs18 lh21">- 부당한 금품·향응·편의 요구, 불공정거래행위 및 비윤리 행위 등과 관련된 제보</p>
+					<ul class="ul_dot mt20">
+						<li>제보자의 신분 노출 및 조사의 전문성과 객관성을 확보하기 위하여 사내의 감사실과는 별도로 독립적인 외부 제보 채널에서 운영되고 있습니다.</li>
+						<li>단순 민원성 제보나 근거 없이 타인을 비방하거나 음해하는 내용의 제보는 처리되지 않을 수도 있습니다.</li>
+						<li>제보 내용은 육하원칙에 따라 제보하여 주시면 보다 신속한 답변에 도움이 될 수 있습니다.</li>
+					</ul>
+				</div>
+				<div class="btn_area mt40">
+					<a href="https://pito.co.kr/hot_line/index.php?scode=CDATIZ" target="_blank" class="btn_submit">신고하기</a>
+				</div>
+			</div>
+		</div>
+		<!-- 24.03.22 add END -->
         </div>
         <!-- 전체 메뉴 END -->
         <div class="main_float">
             <!-- 24.02.28 Modify span > 텍스트 -->
+            <!-- 24.03.22 modify text -->
             <a href="/index2.jsp" class="btn_1 active"><span>상하농원</span></a>
             <a href="/brand/play/reservation/RE_SE_0002.jsp" class="btn_2"><span>체험활동</span></a>
             <a href="/hotel/room/index.jsp" class="btn_3"><span>객실예약</span></a>
+            <!-- 24.03.22 modify text -->
             <a href="/main.jsp" class="btn_4"><span>쇼핑하기</span></a>
         </div>
         
@@ -231,7 +259,7 @@
                 <div class="reserve_wrap">
                     <p class="reserve_info"><a href="/hotel/index.jsp" target="_self">빌리지 정보</a></p>
                     <form id="reservationForm" action="/hotel/room/reservation/room.jsp" class="reserve" method="POST">
-                        <div class="notice"><span class="fs14 fcGray">HOTEL</span><br/>파머스빌리지</div>
+                        <div class="notice"><span class="fs14 fcGray fwBold">HOTEL</span><br/>파머스빌리지</div>
                         <div class="date">
                             <div class="checkinout">
                                 <span class="areatitle">체크인</span>
@@ -574,7 +602,7 @@
                             <!-- 24.03.13 add link -->
                             <a href="/brand/bbs/news/view.jsp?seq=369" target="_self" class="con_title">
                                 <b>상하의 숲</b>
-                                <span>팽나무 가득한 숲속나들이 즐기기</span>
+                                <span>팽나무 가득한 <br class="mobile">숲속나들이 즐기기</span>
                             </a>
                         </div>
                         <div class="sec3_con">
@@ -583,7 +611,7 @@
                             <!-- 24.03.13 add link -->
                             <a href="/event/view.jsp?seq=362&type=view" target="_self" class="con_title">
                                 <b>상하농원 계란 이야기 </b>
-                                <span>건강한 닭이 낳은 건강한 계란</span>
+                                <span>건강한 닭이 낳은 <br class="mobile">건강한 계란</span>
                             </a>
                         </div>
                     </div>
@@ -627,8 +655,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
+                        <!-- 24.03.22 delete START -->
+                        <!-- <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div> -->
+                        <!-- 24.03.22 delete END -->
                     </div>
                 </div>
                 <script>
@@ -640,10 +670,11 @@
 	                        renderBullet: function (index, className) {
 	                        return '<span class="' + className + '">' + (sec3_tabname[index]) + "</span>";
 	                        },
-	                        navigation: {
-	                            nextEl: '.swiper-button-next',
-	                            prevEl: '.swiper-button-prev',
-	                        },
+	                        // 24.03.22 delete
+	                        // navigation: {
+	                        //     nextEl: '.swiper-button-next',
+	                        //     prevEl: '.swiper-button-prev',
+	                        // },
 	                    },
 	                });
                 </script>
@@ -718,7 +749,8 @@
                                 <div class="healing-tit">
                                     <div class="l">
                                         <b>힐링, 그 자체</b>
-                                        <span>바람과 자연을 느끼며 <br>가족, 연인과 편안하게</span>
+                                        <!-- 24.03.22 add br class -->
+                                        <span>바람과 자연을 느끼며 <br class="mobile">가족, 연인과 편안하게</span>
                                     </div>
                                     <div class="r"></div>
                                 </div>
@@ -732,7 +764,8 @@
                                 <div class="healing-tit">
                                     <div class="l">
                                         <b>자연 속 농부의 쉼터</b>
-                                        <span>따뜻한 햇살 속 반려견과 <br>함께 추억을 만들어 보세요</span>
+                                        <!-- 24.03.22 add br class -->
+                                        <span>따뜻한 햇살 속 반려견과 <br class="mobile">함께 추억을 만들어 보세요</span>
                                     </div>
                                     <div class="r"></div>
                                 </div>
@@ -745,8 +778,8 @@
                                 <!-- 24.03.20 #2 modify START -->
                                 <div class="healing-tit">
                                     <div class="l">
-                                        <b>오직 회원에게만</b>
-                                        <span>특별한 객실 프로모션을 <br>만나보세요</span>
+                                        <b>오직 회원에게만</b><!-- 24.03.22 add br class -->
+                                        <span>특별한 객실 프로모션을 <br class="mobile">만나보세요</span>
                                     </div>
                                     <div class="r"></div>
                                 </div>
@@ -759,8 +792,8 @@
                                 <!-- 24.03.20 #2 modify START -->
                                 <div class="healing-tit">
                                     <div class="l">
-                                        <b>산뜻한 아침 식사</b>
-                                        <span>상하의 제철 채소로 <br>차려진 건강한 농부의 밥상</span>
+                                        <b>산뜻한 아침 식사</b><!-- 24.03.22 add br class -->
+                                        <span>상하의 제철 채소로 차려진 <br class="mobile">건강한 농부의 밥상</span>
                                     </div>
                                     <div class="r"></div>
                                 </div>
@@ -773,8 +806,8 @@
                                 <!-- 24.03.20 #2 modify START -->
                                 <div class="healing-tit">
                                     <div class="l">
-                                        <b>AI 맞춤 추천 운동</b>
-                                        <span>상하의 건강한 식단과 <br>더불어 누리는 운동 밸런스</span>
+                                        <b>AI 맞춤 추천 운동</b><!-- 24.03.22 add br class -->
+                                        <span>상하의 건강한 식단과 <br class="mobile">더불어 누리는 운동 밸런스</span>
                                     </div>
                                     <div class="r"></div>
                                 </div>
@@ -811,11 +844,18 @@
                         <p class="fotter_logo"><img src="./image/footer_logo.png" alt=""></p>
                         <div class="footer_info">
                             <div class="info_link">
-                                <a href="">입점/제휴문의</a>
-                                <a href="">이용약관</a>
-                                <a href="">개인정보취급방침</a>
-                                <a href="">고객센터</a>
-                                <a href="">윤리 HOT-LINE</a>
+                                <!-- 24.03.22 add href -->
+                                <a href="www.sanghafarm.co.kr/customer/partnership.jsp">입점/제휴문의</a>
+                                <!-- 24.03.22 add 인재채용 -->
+                                <a href="www.sanghafarm.co.kr/brand/bbs/jobnotice/story1.jsp">인재채용</a>
+                                <!-- 24.03.22 add href -->
+                                <a href="www.sanghafarm.co.kr/customer/agree.jsp">이용약관</a>
+                                <!-- 24.03.22 add href -->
+                                <a href="www.sanghafarm.co.kr/customer/privacy.jsp">개인정보취급방침</a>
+                                <!-- 24.03.22 add href -->
+                                <a href="www.sanghafarm.co.kr/customer/faq.jsp">고객센터</a>
+                                <!-- 24.03.22 add onClick -->
+                                <a a href="#"  onClick="popupOpen('hotline')">윤리 HOT-LINE</a>
                             </div>
                             <div class="info_company">
                                 <!-- 24.03.05 modify : .info_company 태그 및 내용 변경 -->
@@ -866,23 +906,27 @@
                 </script>
             </section>
         </div>
-        <script class="pc_only">
-            $(document).ready(function(){
-                var urlChk = window.location.href;
-                var hashChk = window.location.hash;
-                var newUrl = urlChk.replace(hashChk, "");
-                console.log(urlChk);
-                if(hashChk != "#0"){
-                    location.href = newUrl;
-                }
-            })
-            new fullScroll({
-                displayDots: false,
-                animateTime: 1,
-                animateFunction: 'ease',
-                resetSliders: true,
-                currentPosition: 2
-            });
+        <script>
+	        // 24.03.22 add if : 모바일 동작 불필요
+	        if($(window).width() > 747){ 
+	            $(document).ready(function(){
+	                var urlChk = window.location.href;
+	                var hashChk = window.location.hash;
+	                var newUrl = urlChk.replace(hashChk, "");
+	                console.log(urlChk);
+	                if(hashChk != "#0"){
+	                    location.href = newUrl;
+	                }                
+	            })
+	            new fullScroll({
+	                displayDots: false,
+	                animateTime: 1,
+	                animateFunction: 'ease',
+	                resetSliders: true,
+	                currentPosition: 0
+	            });
+	        }
+	        // 24.03.14 modify script
             
             $(function() {
                 var today = new Date(); // 오늘 날짜 생성
