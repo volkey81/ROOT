@@ -1210,7 +1210,7 @@ if(fs.isLogin()){ //회원여부 확인
                             </div>
                         </div>
                         <div class="btn_area mt40">
-                            <button type="button" onClick="popupClose()" class="btn_submit">결제하기</button>
+                            <button type="button" onClick="popupClose()" class="btn_submit">동의하기</button>
                         </div>
                     </div>
                 </div>
@@ -1263,15 +1263,15 @@ if(fs.isLogin()){
 	}
 %>
                                 </select>                               
-							<input type="text" name="mobile2" id="mobile2" value="" title="휴대전화 가운데자리" class="input_g input_small tel_input ml10"  onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">&nbsp;-
-							<input type="text" name="mobile3" id="mobile3" value="" title="휴대전화 뒷자리" class="input_g input_small tel_input ml10"  onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">
+							<input type="text" name="mobile2" id="mobile2" value="<%= fs.getMobile2() %>" title="휴대전화 가운데자리" class="input_g input_small tel_input ml10"  onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">&nbsp;-
+							<input type="text" name="mobile3" id="mobile3" value="<%= fs.getMobile3() %>" title="휴대전화 뒷자리" class="input_g input_small tel_input ml10"  onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)">
                             <button class="btn_g btn_gray ml10">수정</button>
                             </div>
                             <div class="conLine">
 								<p class="conLine_title required"><span>*</span>이메일주소</p>
-                               	<input type="text" placeholder="이메일 주소" name="email1" id="email1" value="" title="이메일 앞자리"  class="input_g input_medium email_input email_id mr10">
+                               	<input type="text" placeholder="이메일 주소" name="email1" id="email1" value="<%= fs.getEmail1() %>" title="이메일 앞자리"  class="input_g input_medium email_input email_id mr10">
                                 <span class="conLine_content email_at">@</span>
-                                <input type="text" name="email2" id="email2" value="" title="이메일 뒷자리" class="input_g input_medium email_domain ml10">
+                                <input type="text" name="email2" id="email2" value="<%= fs.getEmail2() %>" title="이메일 뒷자리" class="input_g input_medium email_domain ml10">
                                 <select name="email3" id="email3" onchange="changeEmail3(this.value)" title="주문자 이메일 뒷자리 선택" class="select_g select_medium email_domainSel ml10">
                                     <option value="">직접입력</option>
 <%
@@ -1478,7 +1478,7 @@ if(fs.isLogin()){
                         <div class="section_content">
                             <div class="check_g">
                                 <input type="checkbox" id="memberAgree" onclick="popupOpen('terms');" name="">
-                                <label for="memberAgree"><span>전체 동의하기</span></label>
+                                <label for="memberAgree"><span>동의하기</span></label>
                             </div>
                         </div>
                     </section>
@@ -1511,31 +1511,31 @@ if(fs.isLogin()){
                                     <li>
                                         <div class="payType_item">
                                             <input type="radio" name="pay_type" id="credit" value="001" <%= "001".equals(payType) ? "checked" : "" %>>
-                                            <label for="pay_001"><span>신용카드</span></label>
+                                            <label for="credit"><span>신용카드</span></label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="payType_item">
                                             <input type="radio" name="pay_type" id="account" value="002" <%= "002".equals(payType) ? "checked" : "" %>>
-                                            <label for="pay_002"><span>계좌이체</span></label>
+                                            <label for="account"><span>계좌이체</span></label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="payType_item">
                                             <input type="radio" name="pay_type" id="naverpay" value="009" <%= "009".equals(payType) ? "checked" : "" %>>
-                                            <label for="pay_009"><span>네이버페이</span></label>
+                                            <label for="naverpay"><span>네이버페이</span></label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="payType_item">
                                             <input type="radio" name="pay_type" id="kakaopay" value="007" <%= "007".equals(payType) ? "checked" : "" %>>
-                                            <label for="pay_007"><span>카카오페이</span></label>
+                                            <label for="kakaopay"><span>카카오페이</span></label>
                                         </div>
                                     </li>
                                     <li>
                                         <div class="payType_item">
                                             <input type="radio" name="pay_type" id="payco" value="006" <%= "006".equals(payType) ? "checked" : "" %>>
-                                            <label for="pay_006"><span>페이코</span></label>
+                                            <label for="payco"><span>페이코</span></label>
                                         </div>
                                     </li>
                                 </ul>
