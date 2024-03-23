@@ -66,6 +66,7 @@
                 	var _time =  $(this).val();
                 	getExpList5(strdate,_time);// 체험 유형 불러오기
                 	checkAllExpGroupBoxes();//체험 유형 모두 체크
+                	$("#expAll").prop("checked", true);
                 });
             });
             
@@ -315,7 +316,7 @@
                             <div class="ar">
                                 <div class="check_g mb15">
                                     <input type="checkbox" name="expgroupAll" id="expAll">
-                                    <label onClick="checkAll('expgroupAll','expgroupCheck')" for="expAll"><span>전체 해제</span></label>
+                                    <label onClick="checkAll('expgroupAll','expgroupbox')" for="expAll"><span>전체 해제</span></label>
                                 </div>
                             </div>
                             <div class="expgroup_wrap">

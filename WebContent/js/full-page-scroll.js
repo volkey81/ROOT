@@ -235,18 +235,19 @@
 			}
 		};
 		
-		this.changeCurrentPosition = function (position) {
-			if (position !== "") {
-				_self.defaults.currentPosition = position;
-				location.hash = _self.defaults.currentPosition;
-			}	
-			if(position == 0 || position == 4){
-				$('.main_float').removeClass('turn_gray');
-			}else{
-				$('.main_float').addClass('turn_gray');
-			}
-			
-		};
+        this.changeCurrentPosition = function (position) {
+            if (position !== "") {
+                _self.defaults.currentPosition = position;
+                location.hash = _self.defaults.currentPosition;
+            }   
+            if(position == 0 || position == 4){
+                $('.main_float').removeClass('turn_gray');
+            }else{
+                $('.main_float').addClass('turn_gray');
+            }
+            $('#checkin').datepicker('hide'); // 여기
+            $('#checkout').datepicker('hide');          
+        };
 
 		return this;
 
