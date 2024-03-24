@@ -29,8 +29,11 @@
 <%
     int rIndex = 0; // 라디오 버튼 그룹화를 위한 변수 초기화
     String previousExpTypeNm = null;
+    String previousTime = "";//이전에 출력한 시간
+    
     for (Param row : list) {
         String currentExpTypeNm = row.get("exp_type_nm");
+        String currentTime = row.get("time"); // 현재 처리중인 시간
         if (!currentExpTypeNm.equals(previousExpTypeNm)) {
             // 이전 아이템이 있다면 닫기 태그 추가
             if (previousExpTypeNm != null) {
@@ -53,15 +56,19 @@
 <%
         }
         // 시간 슬롯 출력
+        if (!currentTime.equals(previousTime)) {
 %>
                         <div class="time_select">
                             <input type="radio" name="item<%= rIndex %>" id="item<%= rIndex %>_<%= row.get("exp_pid") %>" value="<%= row.get("exp_pid")%>">
                             <label for="item<%= rIndex %>_<%= row.get("exp_pid") %>">
+                            
                                 <b><%= row.get("time").substring(0, 2) + ":" + row.get("time").substring(2) %></b>
                                 <span>(잔여 : <em><%= row.getInt("seat_num") - row.getInt("reserved_num") %></em>)</span>
                             </label>
                         </div>
 <%
+			previousTime = currentTime; // 현재 시간 슬롯을 이전 시간 슬롯으로 설정
+        }
         previousExpTypeNm = currentExpTypeNm; // 현재 체험 유형을 이전 체험 유형으로 설정
     }
     // 리스트가 비어있지 않은 경우 마지막 아이템의 닫기 태그 추가

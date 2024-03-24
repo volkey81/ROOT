@@ -1818,7 +1818,7 @@ if(fs.isLogin()){
         	// 결제수단 선택 클릭이벤트 
         	$(".maeilpay_wrap").click(function(){
         		$('input[id="pay1"]').prop('checked',true);
-        		 $('input[name="pay_type"]').prop('checked',false);
+				$('input[name="pay_type"]').prop('checked',false);
         	});
 			$(".payType_wrap").click(function(){
         		$('input[id="pay2"]').prop('checked',true);

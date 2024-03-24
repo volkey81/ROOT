@@ -1,17 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*, java.io.*,
-                 com.efusioni.stone.utils.*,
-                 com.efusioni.stone.common.*,
-                 com.efusioni.stone.security.*,
-                 com.sanghafarm.common.*,
-                 com.sanghafarm.service.order.*,
-                 com.sanghafarm.service.product.*,
-                 com.sanghafarm.service.member.*,
-                 com.sanghafarm.utils.*,
-                 org.json.simple.*,
-                 lgdacom.XPayClient.XPayClient,
-                 kr.co.lgcns.module.lite.*,
-                 java.net.URLEncoder" %>
+				 com.efusioni.stone.utils.*,
+				 com.efusioni.stone.common.*,
+				 com.efusioni.stone.security.*,
+				 com.sanghafarm.common.*,
+				 com.sanghafarm.service.order.*,
+				 com.sanghafarm.service.product.*,
+				 com.sanghafarm.service.member.*,
+				 com.sanghafarm.utils.*,
+				 org.json.simple.*,
+				 lgdacom.XPayClient.XPayClient,
+				 kr.co.lgcns.module.lite.*" %>
 <%@ page import="javax.xml.ws.Response"%>
 <%@ page import="com.fasterxml.jackson.databind.ObjectMapper" %>
 <%@ page import="com.fasterxml.jackson.core.type.TypeReference" %>
@@ -33,34 +32,31 @@
 	String orderid = param.get("orderid");
 	String deviceType = param.get("device_type", "P");
 	
-	StringBuilder backUrlParams = new StringBuilder();
-	Enumeration<String> paramNames = request.getParameterNames();
-	while(paramNames.hasMoreElements()) {
-	    String paramName = paramNames.nextElement();
-	    String paramValue = request.getParameter(paramName);
-	    if (backUrlParams.length() > 0) {
-	        backUrlParams.append("&");
-	    }
-	    backUrlParams.append(paramName).append("=").append(URLEncoder.encode(paramValue, "UTF-8"));
-	}
-	
-	String backUrl = Env.getURLPath() + "/brand/play/reservation/RE_SE_0003.jsp";
+	String backUrl = Env.getURLPath() + (!"P".equals(deviceType) ? "/mobile" : "") + "/brand/play/reservation/admission.jsp";
 	
 	if(!fs.isLogin()) {
 		SanghafarmUtils.sendLoginMessage(out, FrontSession.LOGIN_MSG, request);
+		// Utils.sendMessage(out, FrontSession.LOGIN_MSG, backUrl);
 		return;
 	}
 	
 	Param memInfo = member.getInfo(fs.getUserId());
 	System.out.println(orderid + " : " + memInfo.get("orderid"));
 	if("".equals(memInfo.get("orderid")) || !orderid.equals(memInfo.get("orderid"))) {
-	    out.println("<script type='text/javascript'>");
-	    out.println("alert('유효하지 않은 주문서입니다.(1)');");
-	    out.println("history.back();");
-	    out.println("</script>");
+		System.out.println("----------------- invalid order 유효하지 않은 주문서입니다.(1)");
+		Utils.sendMessage(out, "유효하지 않은 주문서입니다.(1)", backUrl);
 		return;
 	}
 	
+	// 금액검증
+	/*
+	String DB_AMOUNT = (String) session.getAttribute("DB_AMOUNT");
+	if(param.getInt("LGD_AMOUNT") != 0 && !param.get("LGD_AMOUNT").equals(DB_AMOUNT)) {
+		Utils.sendMessage(out, "유효하지 않은 주문서입니다.(2)", backUrl);
+		return;
+	}
+	*/
+
 	String userid = fs.getUserId();
 	
 	int totAmt = 0;
