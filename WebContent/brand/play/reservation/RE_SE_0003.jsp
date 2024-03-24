@@ -1736,10 +1736,10 @@ if(fs.isLogin()){
                 <p class="fotter_logo"><img src="${pageContext.request.contextPath}/image/footer_logo.png" alt=""></p>
                 <div class="footer_info">
                     <div class="info_link">
-                        <a href="">입점/제휴문의</a>
-                        <a href="">이용약관</a>
-                        <a href="">개인정보취급방침</a>
-                        <a href="">고객센터</a>
+                        <a href="/customer/partnership.jsp">입점/제휴문의</a>
+                        <a href="/customer/agree.jsp">이용약관</a>
+                        <a href="/customer/privacy.jsp">개인정보취급방침</a>
+                        <a href="/customer/faq.jsp">고객센터</a>
                         <a href="">윤리 HOT-LINE</a>
                     </div>
                     <div class="info_company">

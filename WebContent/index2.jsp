@@ -845,15 +845,15 @@
                         <div class="footer_info">
                             <div class="info_link">
                                 <!-- 24.03.22 add href -->
-                                <a href="www.sanghafarm.co.kr/customer/partnership.jsp">입점/제휴문의</a>
+                                <a href="/customer/partnership.jsp">입점/제휴문의</a>
                                 <!-- 24.03.22 add 인재채용 -->
-                                <a href="www.sanghafarm.co.kr/brand/bbs/jobnotice/story1.jsp">인재채용</a>
+                                <a href="/brand/bbs/jobnotice/story1.jsp">인재채용</a>
                                 <!-- 24.03.22 add href -->
-                                <a href="www.sanghafarm.co.kr/customer/agree.jsp">이용약관</a>
+                                <a href="/customer/agree.jsp">이용약관</a>
                                 <!-- 24.03.22 add href -->
-                                <a href="www.sanghafarm.co.kr/customer/privacy.jsp">개인정보취급방침</a>
+                                <a href="/customer/privacy.jsp">개인정보취급방침</a>
                                 <!-- 24.03.22 add href -->
-                                <a href="www.sanghafarm.co.kr/customer/faq.jsp">고객센터</a>
+                                <a href="/customer/faq.jsp">고객센터</a>
                                 <!-- 24.03.22 add onClick -->
                                 <a a href="#"  onClick="popupOpen('hotline')">윤리 HOT-LINE</a>
                             </div>
