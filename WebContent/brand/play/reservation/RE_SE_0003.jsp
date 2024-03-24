@@ -1040,93 +1040,99 @@ if(fs.isLogin()){ //회원여부 확인
     			console.log($("#reserve_date").val().replace(/\./g, ''));
     			if(payAmt == 0) {	// 0원 결제
     				$("#orderForm").submit();
-    			} else if($("input[name=pay_type]:checked").val() == "009") {	// NaverPay
-    				if(payAmt < 100) {
-    					alert("결제 최소금액은 100원입니다.");
-    				} else {
-    					var nPay = Naver.Pay.create({
-    					    "mode" : "<%= SystemChecker.isReal() ? "production" : "development" %>", // development or production
-    					    "openType" : "popup" ,	//layer, page, popup 
-    					    "clientId": "<%= Config.get("npay.noshop.clientid") %>", // clientId
-    					    "onAuthorize" : function(oData) {
-    					    	console.log('onNaverPayAuthorize', oData);
-    					    	
-    					        if(oData.resultCode === "Success") {
-    					        	$("#paymentId").val(oData.paymentId);
-    					        	$("#orderForm").submit();
-    					        } else {
-    					        	if(oData.resultMessage === "userCancel") {
-    					        		alert("결제를 취소하셨습니다.\n주문 내용 확인 후 다시 결제해주세요.");
-    					        	} else if(oData.resultMessage === "OwnerAuthFail") {
-    					        		alert("타인 명의 카드는 결제가 불가능합니다.\n회원 본인 명의의 카드로 결제해주세요.");
-    					        	} else if(oData.resultMessage === "paymentTimeExpire") {
-    					        		alert("결제 가능한 시간이 지났습니다.\n주문 내용 확인 후 다시 결제해주세요.");
-    					        	}
-    					        }
-    					    }
-    					});
-    	
-    					nPay.open({
-    			            "merchantPayKey": "<%= orderid %>",
-    			            "productName": $("#LGD_PRODUCTINFO").val(),
-    			            "productCount": totQty,
-    			            "totalPayAmount": payAmt,
-    			            "taxScopeAmount": payAmt,
-    			            "taxExScopeAmount": 0,
-    			            "returnUrl": "<%= naverReturn %>",
-    			            "useCfmYmdt": $("#reserve_date").val().replace(/\./g, ''),
-    			            "productItems": getProductJson()
-    			        });
+    			}else{
+    				if($(".maeilpay_reg.pay_kb").is(":visible")){ //매일페이
+    					maeilpayRequest();
+    				}else{//그 외 결제
+    					if($("input[name=pay_type]:checked").val() == "009") {	// NaverPay
+    	    				if(payAmt < 100) {
+    	    					alert("결제 최소금액은 100원입니다.");
+    	    				} else {
+    	    					var nPay = Naver.Pay.create({
+    	    					    "mode" : "<%= SystemChecker.isReal() ? "production" : "development" %>", // development or production
+    	    					    "openType" : "popup" ,	//layer, page, popup 
+    	    					    "clientId": "<%= Config.get("npay.noshop.clientid") %>", // clientId
+    	    					    "onAuthorize" : function(oData) {
+    	    					    	console.log('onNaverPayAuthorize', oData);
+    	    					    	
+    	    					        if(oData.resultCode === "Success") {
+    	    					        	$("#paymentId").val(oData.paymentId);
+    	    					        	$("#orderForm").submit();
+    	    					        } else {
+    	    					        	if(oData.resultMessage === "userCancel") {
+    	    					        		alert("결제를 취소하셨습니다.\n주문 내용 확인 후 다시 결제해주세요.");
+    	    					        	} else if(oData.resultMessage === "OwnerAuthFail") {
+    	    					        		alert("타인 명의 카드는 결제가 불가능합니다.\n회원 본인 명의의 카드로 결제해주세요.");
+    	    					        	} else if(oData.resultMessage === "paymentTimeExpire") {
+    	    					        		alert("결제 가능한 시간이 지났습니다.\n주문 내용 확인 후 다시 결제해주세요.");
+    	    					        	}
+    	    					        }
+    	    					    }
+    	    					});
+    	    	
+    	    					nPay.open({
+    	    			            "merchantPayKey": "<%= orderid %>",
+    	    			            "productName": $("#LGD_PRODUCTINFO").val(),
+    	    			            "productCount": totQty,
+    	    			            "totalPayAmount": payAmt,
+    	    			            "taxScopeAmount": payAmt,
+    	    			            "taxExScopeAmount": 0,
+    	    			            "returnUrl": "<%= naverReturn %>",
+    	    			            "useCfmYmdt": $("#reserve_date").val().replace(/\./g, ''),
+    	    			            "productItems": getProductJson()
+    	    			        });
+    	    				}
+    	    			} else if($("input[name=pay_type]:checked").val() == "008") {	// Smilepay
+    	    				$("#hashSmilepayForm input[name=amt]").val(payAmt);
+    	    				ajaxSubmit("#hashSmilepayForm", function(json) {
+    	    					if(json.result) {
+    	    						$("#orderForm input[name=EncryptData]").val(json.hash);
+    	    						getTxnId();
+    	    					} else {
+    	    						alert("결제 진행중 오류가 발생했습니다.");
+    	    					}
+    	    				});
+    	    			} else if($("input[name=pay_type]:checked").val() == "006") {	// Payco
+    	    				callPaycoUrl();
+    	    			} else if($("input[name=pay_type]:checked").val() == "007") {	// 카카오페이2
+    	    				$("#kakaopayReadyForm input[name=total_amount]").val(payAmt);
+    	    				ajaxSubmit("#kakaopayReadyForm", function(json) {
+    	    					if(json.response_code == '200') {
+    	    						$("#tid").val(json.tid);
+    	    						//console.log(json.next_redirect_pc_url);
+    	    						outUrlShowPopupLayer(json.next_redirect_pc_url, '426', '510');
+//    	     						window.open(json.next_redirect_pc_url, "KAKAOPAYPOP", "width=426,height=510");
+    	    					} else {
+    	    						alert(json.msg); 
+    	    					}
+    	    				});
+    	    			} else {
+    	    				if($("input[name=pay_type]:checked").val() == "001") {
+    	    					$("#LGD_CUSTOM_USABLEPAY").val("SC0010");
+    	    					$("#LGD_EASYPAY_ONLY").val("");
+    	    				} else if($("input[name=pay_type]:checked").val() == "002") {
+    	    					$("#LGD_CUSTOM_USABLEPAY").val("SC0030");
+    	    					$("#LGD_EASYPAY_ONLY").val("");
+    	    				} else if($("input[name=pay_type]:checked").val() == "003") {
+    	    					$("#LGD_CUSTOM_USABLEPAY").val("SC0040");
+    	    					$("#LGD_EASYPAY_ONLY").val("");
+    	    				} else if($("input[name=pay_type]:checked").val() == "004") {
+    	    					$("#LGD_CUSTOM_USABLEPAY").val("SC0010-SC0030");
+    	    					$("#LGD_EASYPAY_ONLY").val("PAYNOW");
+    	    				} 
+    	    				
+    	    				$("#hashForm input[name=LGD_AMOUNT]").val(payAmt);
+    	    				ajaxSubmit("#hashForm", function(json) {
+    	    					if(json.result) {
+    	    						$("#orderForm input[name=LGD_HASHDATA]").val(json.hash);
+    	    						launchCrossPlatform();
+    	    					} else {
+    	    						alert("결제 진행중 오류가 발생했습니다.");
+    	    					}
+    	    				});
+    	    			}//기존 결제 if 구문 End
     				}
-    			} else if($("input[name=pay_type]:checked").val() == "008") {	// Smilepay
-    				$("#hashSmilepayForm input[name=amt]").val(payAmt);
-    				ajaxSubmit("#hashSmilepayForm", function(json) {
-    					if(json.result) {
-    						$("#orderForm input[name=EncryptData]").val(json.hash);
-    						getTxnId();
-    					} else {
-    						alert("결제 진행중 오류가 발생했습니다.");
-    					}
-    				});
-    			} else if($("input[name=pay_type]:checked").val() == "006") {	// Payco
-    				callPaycoUrl();
-    			} else if($("input[name=pay_type]:checked").val() == "007") {	// 카카오페이2
-    				$("#kakaopayReadyForm input[name=total_amount]").val(payAmt);
-    				ajaxSubmit("#kakaopayReadyForm", function(json) {
-    					if(json.response_code == '200') {
-    						$("#tid").val(json.tid);
-    						//console.log(json.next_redirect_pc_url);
-    						outUrlShowPopupLayer(json.next_redirect_pc_url, '426', '510');
-//     						window.open(json.next_redirect_pc_url, "KAKAOPAYPOP", "width=426,height=510");
-    					} else {
-    						alert(json.msg); 
-    					}
-    				});
-    			} else {
-    				if($("input[name=pay_type]:checked").val() == "001") {
-    					$("#LGD_CUSTOM_USABLEPAY").val("SC0010");
-    					$("#LGD_EASYPAY_ONLY").val("");
-    				} else if($("input[name=pay_type]:checked").val() == "002") {
-    					$("#LGD_CUSTOM_USABLEPAY").val("SC0030");
-    					$("#LGD_EASYPAY_ONLY").val("");
-    				} else if($("input[name=pay_type]:checked").val() == "003") {
-    					$("#LGD_CUSTOM_USABLEPAY").val("SC0040");
-    					$("#LGD_EASYPAY_ONLY").val("");
-    				} else if($("input[name=pay_type]:checked").val() == "004") {
-    					$("#LGD_CUSTOM_USABLEPAY").val("SC0010-SC0030");
-    					$("#LGD_EASYPAY_ONLY").val("PAYNOW");
-    				} 
-    				
-    				$("#hashForm input[name=LGD_AMOUNT]").val(payAmt);
-    				ajaxSubmit("#hashForm", function(json) {
-    					if(json.result) {
-    						$("#orderForm input[name=LGD_HASHDATA]").val(json.hash);
-    						launchCrossPlatform();
-    					} else {
-    						alert("결제 진행중 오류가 발생했습니다.");
-    					}
-    				});
-    			}			
+    			}//0원 아닐 경우 결제
     		}
     	}
     	
@@ -1496,7 +1502,7 @@ if(fs.isLogin()){
                                 </div>
                                 <div class="maeilpay_wrap">
                                     <div class="maeilpay_reg pay_kb"></div>
-                                    <button class="maeilpay_new">
+                                    <button class="maeilpay_new" name="payGroup" id="maeilpay_new">
                                         <span>카드추가</span>
                                     </button>
                                 </div>
@@ -1830,4 +1836,134 @@ if(fs.isLogin()){
         <input type="hidden" name="reqPccInfo" id="reqPccInfo" value="">
         <input type="hidden" name="confirmSeq" id="confirmSeq" value="">
     </form>
+    
+<!--     kb 간편결제 추가 -->
+<script>
+	var kbPayBaseUrl = "https://dev-stdpay.kbstar.com/std";
+    function kbpay() {
+        var apiUrl = kbPayBaseUrl+"/api/payinfo/paysel";
+        var data = {
+            corpNo: "0010",
+            mertNo: "0000-00001",
+            corpMemberNo: "Ex4raYn57r453m4S94RYfg==",
+            userMngNo: "isskdiDwhipI36Tl0iM4Qg==",
+            signature: "3743e75e2f66896937525108224e91db6728b56055ff814547a14649eccb0526"
+        };
+        
+        $.ajax({
+            type: "POST",
+            url: apiUrl,
+            data: data,
+            success: function(response) {
+                console.log("성공: ", response);
+                // 성공 처리 로직
+                if(response.resultCode !== "0000") {
+                    $(".maeilpay_reg.pay_kb").hide(); // Hide the elements if resultCode is not 0000
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("실패: ", xhr.responseText);
+                // 실패 처리 로직
+            }
+        });
+    }
+
+    // Execute kbpay function after the document is fully loaded
+    $(document).ready(function() {
+    	/* 결제수단 조회 */
+        kbpay();
+        
+        /* 결제수단 등록 */
+        $("#maeilpay_new").click(function() {
+            var apiUrl = kbPayBaseUrl+"/stdpay/su/payreg";
+            var data = {
+                corpNo: "0010",
+                mertNo: "0000-00001",
+                corpMemberNo: "Ex4raYn57r453m4S94RYfg==", // This should be encrypted as per your encryption logic
+                userMngNo: "isskdiDwhipI36Tl0iM4Qg==", // This should be encrypted as well
+                returnUrl: "https%3A%2F%2Fwww.starplatform.com%2Fsample%2Fresult",
+                signature: "7d000a0c347ad4df6e7c21abc0a9f667267c5188b96fac4088c48b84cf932f13"
+            };
+
+            var form = $('<form></form>', {
+                action: apiUrl,
+                method: 'POST'
+            });
+
+            $.each(data, function(key, value) {
+                $(form).append($('<input></input>', {
+                    type: 'hidden',
+                    name: key,
+                    value: value
+                }));
+            });
+
+            // Append the form to the body and submit it
+            $('body').append(form);
+            $(form).submit();
+        });
+        
+        /* 결제요청 */
+        // 상품 인코딩 설정
+        function encodeProducts(products) {
+            return encodeURIComponent(JSON.stringify(products));
+        }
+
+        // 테스트 데이터
+        var products = [
+            { "name": "공장견학(대인)", "price": "8000", "quantity": "2" },
+            { "name": "공장견학(소인)", "price": "5000", "quantity": "1" },
+            { "name": "보코치니 치즈 만들기", "price": "30000", "quantity": "1" }
+        ];
+
+        var encodedProducts = encodeProducts(products);
+
+        function maeilpayRequest() {
+            var apiUrl = kbPayBaseUrl+"/stdpay/su/payreqauth";
+            var data = {
+                corpNo: "0010",
+                mertNo: "0010-00001",
+                corpMemberNo: "Ex4raYn57r453m4S94RYfg==", // Encoded value
+                userMngNo: "isskdiDwhipI36Tl0iM4Qg==", // Encoded value
+                disPayUiType: "D1",
+                payReqUiType: "P1",
+                payUniqNo: "S200901103856000041Z",
+                payMethod: "C",
+                bankCardCode: "03",
+                orderNo: "ONo20020831901",
+                goodsName: encodeURIComponent("주문상품명"),
+                goodsPrice: "43000",
+                products: encodedProducts,
+                buyerName: encodeURIComponent("홍길동"),
+                buyerTel: "01*11111111",
+                buyerEmail: "buyer@naver.com",
+                cardQuota: "00",
+                cardInterest: "N",
+                tax: "",
+                taxFree: "",
+                settleAmt: "",
+                returnUrl: encodeURIComponent("https://www.starplatform.com/sample/result"),
+                signature: "02b7f0513cb64622f6285fd3f0d0dd246401837667ef29ac8b5db1bed354055b"
+            };
+
+            //formData 생성
+            var form = $('<form></form>', {
+                action: apiUrl,
+                method: 'POST'
+            });
+
+            $.each(data, function(key, value) {
+                $(form).append($('<input></input>', {
+                    type: 'hidden',
+                    name: key,
+                    value: value
+                }));
+            });
+
+            $('body').append(form);
+            $(form).submit();
+        }
+
+    });
+</script>
 </html>
