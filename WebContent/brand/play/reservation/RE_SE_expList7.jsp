@@ -14,7 +14,62 @@
 	List<Param> list = svc.getSelProductList(param);
 
 %>
+<script type="text/javascript">
+/* 간편결제에 사용될 상품 목록(RE_SE_0003.jsp : maeilpayRequest()) */
+    var products = [
+        <%
+        for(int i = 0; i < list.size(); i++) {
+            Param row = list.get(i);
+            String ticketName = row.get("ticket_name");
+            int price = row.getInt("price");
+            // 가정: 각 티켓의 수량을 가져오는 방법을 구현해야 함. 여기서는 예시로 모든 티켓에 대해 수량 1로 설정.
+            int quantity = 1; // 실제 구현에는 각 티켓의 실제 수량을 반영해야 합니다.
 
+            if(i > 0) {
+                out.print(",");
+            }
+        %>
+        { "name": "<%=ticketName%>", "price": "<%=price%>", "quantity": "<%=quantity%>" }
+        <%
+        }
+        %>
+    ];
+    
+    /* RE_SE_0003의 setQty()에서 연동, 수량 업데이트 하여 products 배열 재생성 */
+    function updateQuantity(id, action) {
+        var qtyInput = document.getElementById(id);
+        var currentQty = parseInt(qtyInput.value);
+        if(action === 'increase') {
+            currentQty++;
+        } else if(action === 'decrease' && currentQty > 0) {
+            currentQty--;
+        }
+        qtyInput.value = currentQty; // 입력 필드에 업데이트된 수량을 반영
+
+        // products 배열 업데이트
+        updateProductsArray(id);
+    }
+ // products 배열을 업데이트하는 함수
+    function updateProductsArray(id) {
+        var updatedProducts = [];
+        <% for(Param row : list) { %>
+            var expPid = "<%=row.get("exp_pid")%>";
+            var ticketType = "<%=row.get("ticket_type")%>";
+            var ticketName = "<%=row.get("ticket_name")%>";
+            var price = "<%=row.get("price")%>";
+            var qtyInput = document.getElementById(id);
+            var quantity = parseInt(qtyInput.value);
+
+            if(quantity > 0) { // 수량이 0보다 큰 항목만 추가
+                updatedProducts.push({ "name": ticketName, "price": price, "quantity": quantity });
+            }
+        <% } %>
+        
+        // 간편결제를 위한 상품 목록 업데이트
+        products = updatedProducts;
+        console.log("updateProductsArray : "+products); // 개발 단계에서 확인 용도
+    }
+</script>
 <%
 int currentIndex = 0; // 인덱스 
 int rIndex = 1; // radio 버튼을 위한 인덱스
@@ -202,6 +257,7 @@ for(Param row : list) {
    currentIndex++;
 }
 %>  
+<button type="button" class="btn_close"><span class="g_alt">삭제</span></button>
 	 </div>
 	 </div>
    </li>   

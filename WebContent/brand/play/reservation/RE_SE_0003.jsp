@@ -8,8 +8,17 @@
 			com.sanghafarm.utils.*,
 			com.sanghafarm.service.code.*,				 
 		 	com.sanghafarm.service.member.*,
-			com.sanghafarm.service.order.*" %>
-<%@ include file="/order/payco/common_include.jsp" %>			
+			com.sanghafarm.service.order.*
+			,javax.crypto.Cipher
+			,javax.crypto.spec.IvParameterSpec
+			,javax.crypto.spec.SecretKeySpec
+			,java.util.Base64
+			,java.nio.charset.StandardCharsets
+			,org.bouncycastle.jce.provider.BouncyCastleProvider
+			,java.io.UnsupportedEncodingException
+			"
+			 %>
+<%@ include file="/order/payco/common_include.jsp" %>
 <%
 //// 앞에서 선택한 체험내용 불러오기
 // 주석1
@@ -23,6 +32,27 @@ while (params.hasMoreElements()){
 	}
 }
 
+/* 현재 페이지 주소 생성 */
+String scheme = request.getScheme(); // http
+String serverName = request.getServerName(); // hostname.com
+int serverPort = request.getServerPort(); // 80
+String contextPath = request.getContextPath(); // /mywebapp
+String servletPath = request.getServletPath(); // /servlet/MyServlet
+String pathInfo = request.getPathInfo(); // /a/b;c=123
+String queryString = request.getQueryString(); // d=789
+
+// URL 재구성
+String url = scheme + "://" + serverName + ":" + serverPort + contextPath + servletPath;
+if(pathInfo != null) {
+    url += pathInfo;
+}
+
+if(queryString != null) {
+    url += "?" + queryString;
+}
+
+String nowPage = java.net.URLEncoder.encode(url, "UTF-8");
+/* 현재 페이지 주소 End */
 %>
 <%
 /*
@@ -774,15 +804,17 @@ function payment_return() {
         // 티켓 인원 조정
         function setQty(dir, id) {
     		var obj = $("#" + id );
+    	    
     		if(dir == 'up') {
-    			obj.val(parseInt(obj.val()) + 1);
+//     			obj.val(parseInt(obj.val()) + 1);
+    			updateQuantity(id, "increase");	//products배열 갯수 상승
     		} else {
     			if(obj.val() != 0) {
-    				obj.val(parseInt(obj.val()) - 1);
+//     				obj.val(parseInt(obj.val()) - 1);
+    				updateQuantity(id, "decrease");//products배열 갯수 감소
     			}
     		}
     		cal();
-    	
     	}
         
         // // 총금액 계산.
@@ -826,9 +858,9 @@ function payment_return() {
     		$("#tot_amt_txt").html(totalAmt.formatMoney());
     		$("#pay_amt_txt").html(totalAmt.formatMoney());
         	$("#tot_amt_nl_txt").html(totalAmt.formatMoney());
-        
-        	
         }
+        
+
         
         // 회원일 경우.
         function applyCoupon() {
@@ -1439,8 +1471,9 @@ if(fs.isLogin()){
                                 <p class="conLine_title">Maeil Do 포인트</p>
                                 <input type="text" class="input_g input_medium">
                                 <button class="btn_g btn_gray ml10 w130">확인</button>
-                                <div class="check_g mt10">
-                                    <input type="checkbox" name="point_all" id="point_all" onclick="pointAll()" <%= point < 100 ? "disabled" : "" %>><label for="point_all">모두사용</label><span>모두사용 (보유 포인트 : <em class="fcGreen"><%= Utils.formatMoney(point) %></em> P</span>
+                                <div class="check_g blk mt10">
+                                    <input type="checkbox" name="point_all" id="point_all" onclick="pointAll()" <%= point < 100 ? "disabled" : "" %>>
+										<label for="point_all"><span>모두사용 (보유 포인트 : <em class="fcGreen"><%= Utils.formatMoney(point) %></em>) P</span></label>
                                     <input type="hidden" name="point_amt" id="point_amt" />
                                 </div>
                             </div>
@@ -1500,10 +1533,11 @@ if(fs.isLogin()){
                                     <input type="radio" name="payGroup" id="pay1" checked>
                                     <label for="pay1"><img src="${pageContext.request.contextPath}/image/icn_maeilpay.png" alt=""></label>
                                 </div>
-                                <div class="maeilpay_wrap">
-                                    <div class="maeilpay_reg pay_kb"></div>
-                                    <button class="maeilpay_new" name="payGroup" id="maeilpay_new">
-                                        <span>카드추가</span>
+                                <!-- 24.03.25 add : 등록된 Maeil Pay 없을 때-->
+                                <div class="maeilpay_wrap unRegi">
+                                    <button type="button" class="maeilpay_unRegi" name="maeilpay_unRegi" id="maeilpay_unRegi">
+                                        <p>원클릭 결제를 경험해보세요!</p>
+                                        <span>+ Maeil Pay 등록하기</span>
                                     </button>
                                 </div>
                             </div>
@@ -1839,17 +1873,27 @@ if(fs.isLogin()){
     
 <!--     kb 간편결제 추가 -->
 <script>
-	var kbPayBaseUrl = "https://dev-stdpay.kbstar.com/std";
+<%
+String baseUrl = kbPayUtil.getKbpaybaseurl();
+String corpNo = kbPayUtil.getCorpNo();
+String mertNo = kbPayUtil.getMertNo();
+String corpMemberNo = kbPayUtil.encrypt("sanghatest");
+String userMngNo = kbPayUtil.encrypt("sanghatest");
+String returnUrl = nowPage;
+/* 결제수단 조회, 결제수단 등록 sig */
+String signature = kbPayUtil.generateSignature(corpMemberNo, userMngNo, returnUrl);
+%>
+	/* 결제수단 조회 */
     function kbpay() {
-        var apiUrl = kbPayBaseUrl+"/api/payinfo/paysel";
+        var apiUrl = "<%=baseUrl%>"+"/api/payinfo/paysel";
         var data = {
-            corpNo: "0010",
-            mertNo: "0000-00001",
-            corpMemberNo: "Ex4raYn57r453m4S94RYfg==",
-            userMngNo: "isskdiDwhipI36Tl0iM4Qg==",
-            signature: "3743e75e2f66896937525108224e91db6728b56055ff814547a14649eccb0526"
+			corpNo: "<%=corpNo%>",
+			mertNo: "<%=mertNo%>",
+			corpMemberNo: "<%=corpMemberNo%>",
+			userMngNo: "<%=userMngNo%>",
+			signature: "<%=signature%>"
         };
-        
+        console.log("kbpay API Data: ", data);
         $.ajax({
             type: "POST",
             url: apiUrl,
@@ -1858,7 +1902,8 @@ if(fs.isLogin()){
                 console.log("성공: ", response);
                 // 성공 처리 로직
                 if(response.resultCode !== "0000") {
-                    $(".maeilpay_reg.pay_kb").hide(); // Hide the elements if resultCode is not 0000
+                    $(".maeilpay_reg.pay_kb").hide();
+                    //결제수단 있을 때 그림 찍어주는거는 개발서버 배포 후 진행해야 됨, https가 아니라서 kb 개발에 접근이 안됨
                 }
             },
             error: function(xhr, status, error) {
@@ -1872,17 +1917,18 @@ if(fs.isLogin()){
     $(document).ready(function() {
     	/* 결제수단 조회 */
         kbpay();
-        
+
         /* 결제수단 등록 */
-        $("#maeilpay_new").click(function() {
-            var apiUrl = kbPayBaseUrl+"/stdpay/su/payreg";
+        $("#maeilpay_unRegi").click(function() {
+        	var apiUrl = "<%=baseUrl%>" + "/stdpay/su/payreg";
+
             var data = {
-                corpNo: "0010",
-                mertNo: "0000-00001",
-                corpMemberNo: "Ex4raYn57r453m4S94RYfg==", // This should be encrypted as per your encryption logic
-                userMngNo: "isskdiDwhipI36Tl0iM4Qg==", // This should be encrypted as well
-                returnUrl: "https%3A%2F%2Fwww.starplatform.com%2Fsample%2Fresult",
-                signature: "7d000a0c347ad4df6e7c21abc0a9f667267c5188b96fac4088c48b84cf932f13"
+                corpNo: "<%=corpNo%>",
+                mertNo: "<%=mertNo%>",
+                corpMemberNo: "<%=corpMemberNo%>",
+                userMngNo: "<%=userMngNo%>",
+                returnUrl: "<%=nowPage%>",
+                signature: "<%=signature%>"
             };
 
             var form = $('<form></form>', {
@@ -1898,7 +1944,6 @@ if(fs.isLogin()){
                 }));
             });
 
-            // Append the form to the body and submit it
             $('body').append(form);
             $(form).submit();
         });
@@ -1909,40 +1954,38 @@ if(fs.isLogin()){
             return encodeURIComponent(JSON.stringify(products));
         }
 
-        // 테스트 데이터
-        var products = [
-            { "name": "공장견학(대인)", "price": "8000", "quantity": "2" },
-            { "name": "공장견학(소인)", "price": "5000", "quantity": "1" },
-            { "name": "보코치니 치즈 만들기", "price": "30000", "quantity": "1" }
-        ];
-
-        var encodedProducts = encodeProducts(products);
-
         function maeilpayRequest() {
-            var apiUrl = kbPayBaseUrl+"/stdpay/su/payreqauth";
+            var apiUrl = "<%=baseUrl%>"+"/stdpay/su/payreqauth";
+            var orderMobile = $("#mobile1").val()+$("#mobile2").val()+$("#mobile3").val()
+            var orderEmail = $("#email1").val()+"@"+$("#email2").val();
+            var currentURL = window.location.href;
+            var nextURL = currentURL.replace("RE_SE_0003.jsp", "RE_SE_0004.jsp");	//결제완료페이지
+            var orderProducts = encodeProducts(products);
+            payAmt = totAmt - couponAmt - pointAmt - giftcardAmt;
+            console.log("maeilpayRequest products : " + products);
             var data = {
-                corpNo: "0010",
-                mertNo: "0010-00001",
-                corpMemberNo: "Ex4raYn57r453m4S94RYfg==", // Encoded value
-                userMngNo: "isskdiDwhipI36Tl0iM4Qg==", // Encoded value
-                disPayUiType: "D1",
-                payReqUiType: "P1",
-                payUniqNo: "S200901103856000041Z",
-                payMethod: "C",
-                bankCardCode: "03",
-                orderNo: "ONo20020831901",
-                goodsName: encodeURIComponent("주문상품명"),
-                goodsPrice: "43000",
-                products: encodedProducts,
-                buyerName: encodeURIComponent("홍길동"),
-                buyerTel: "01*11111111",
-                buyerEmail: "buyer@naver.com",
-                cardQuota: "00",
-                cardInterest: "N",
-                tax: "",
-                taxFree: "",
-                settleAmt: "",
-                returnUrl: encodeURIComponent("https://www.starplatform.com/sample/result"),
+				corpNo: "<%=corpNo%>",
+				mertNo: "<%=mertNo%>",
+				corpMemberNo: "<%=corpMemberNo%>",
+				userMngNo: "<%=userMngNo%>",
+                disPayUiType: "D1",					//D2 카드, 계좌 통합, D1 계좌 분리
+                payReqUiType: "P1",					//P2 : pin 번호 입력, P1 : 결제정보, Pin 둘 다 입력
+                payUniqNo: "S200901103856000041Z",	//결제수단 고유번호 
+                payMethod: "C",						//등록된 결제수단에서 가져오기
+                bankCardCode: "03",					//등록된 결제수단에서 가져오기
+                orderNo: "ONo20020831901",			//주문번호
+                goodsName: encodeURIComponent("체험예약-개인"),
+                goodsPrice: payAmt,
+                products: orderProducts,//products배열은 RE_SE_expList7.jsp에서 생성 됨
+                buyerName: encodeURIComponent("<%= fs.getUserNm() %>"),
+                buyerTel: orderMobile,
+                buyerEmail: orderEmail,
+                cardQuota: "00",					//할부개월수, 등록된 결제수단에서 가져오기
+                cardInterest: "N",					//무이자여부, 등록된 결제수단에서 가져오기
+                tax: "",							//과세금액
+                taxFree: "",						//비과세금액
+                settleAmt: "",						//정산대상 금액, 이건 어떻게 나오는건지 문의 필요
+                returnUrl: encodeURIComponent(nextURL),
                 signature: "02b7f0513cb64622f6285fd3f0d0dd246401837667ef29ac8b5db1bed354055b"
             };
 

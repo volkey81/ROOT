@@ -75,8 +75,8 @@ span.g_alt{font-size:1px;opacity:0;text-indent:-99999px;z-index:-1}
 .box_wrap .box_subtitle{line-height:22px;font-size:20px;font-weight:600;text-align:center}
 
 .btn_submit{border-radius:10px;line-height:50px;color:#fff;font-size:18px;font-weight:600;background-color:#36880A;text-align:center}
-.btn_prev{border:1px solid #36880A;border-radius:20px;line-height:50px;color:#36880A;font-size:18px;font-weight:600;background-color:#fff;text-align:center}
-.btn_line{border:1px solid #36880A;border-radius:20px;line-height:50px;color:#36880A;font-size:18px;font-weight:600;background-color:none;text-align:center}
+.btn_prev{border:1px solid #36880A;border-radius:10px;line-height:50px;color:#36880A;font-size:18px;font-weight:600;background-color:#fff;text-align:center}
+.btn_line{border:1px solid #36880A;border-radius:10px;line-height:50px;color:#36880A;font-size:18px;font-weight:600;background-color:none;text-align:center}
 .btn_line.btn_gray{border-color:#ddd;color:#777}
 .btn_submit.btn_gray{border-color:#777;color:#fff;background-color:#777}
 .btn_submit.btn_disabled{border-color:#ddd;color:#fff;background-color:#ddd}

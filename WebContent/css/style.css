@@ -23,7 +23,7 @@
 .authNum{display:inline-block;position:relative}
 .authNum em{position:absolute;right:20px;top:12px;line-height:19px;color:#36880A;font-size:16px}
 
-.select_g{position:relative;padding:11px 25px 10px 15px;width:100%;border:1px solid #ddd;border-radius:10px;line-height:19px;cursor:pointer}
+.select_g{position:relative;padding:11px 25px 10px 15px;width:100%;border:1px solid #ddd;border-radius:10px;line-height:19px;background:url('../image/icn_selectArrow.png') right 15px center no-repeat;cursor:pointer}
 .select_g:after{content:'';position:absolute;right:15px;top:50%;transform:translateY(-50%);width:10px;height:5px;background:url('../image/icn_selectArrow.png') center no-repeat}
 .select_g.select_small{width:130px}
 .select_g.select_medium{width:260px}
@@ -105,7 +105,9 @@
 .step_wrap .step_item + .step_item.act:before{background-color:#36880A}
 .step_wrap .step_item p{line-height:24px;font-size:18px}
 .step_wrap .step_item b{display:none;margin-top:5px;line-height:24px;font-size:18px;font-weight:600}
-.step_wrap .step_item.act b{display:block}
+.step_wrap .step_item.act p {color:#fff}
+.step_wrap .step_item.act b{display:block;color:#fff}
+.step_wrap .step_item.act.pre p, .step_wrap .step_item.act.pre b {color:#36880A}
 
 .type_wrap{margin:50px 0 40px;font-size:0;text-align:center}
 .type_wrap .type_item{display:inline-block;position:relative;padding:28px 0 33px;border:1px solid #AAAAAA;border-radius:100%;width:114px;height:114px;color:#aaa;background-color:#fff;vertical-align:middle}
@@ -113,6 +115,7 @@
 .type_wrap .type_item + .type_item{margin-left:60px}
 .type_wrap .type_item p{line-height:24px;font-size:18px}
 .type_wrap .type_item span{display:block;margin-top:5px;line-height:24px;font-size:14px;font-weight:600}
+.type_wrap .type_item.act p, .type_wrap .type_item.act span{color:#fff}
 
 .footer_wrap{margin-top:100px}
 
@@ -132,10 +135,10 @@
 .popup_wrap.popup_exp .popup_body .exp_content .exp_detail li .tag_item{display:inline-block;margin-right:10px;padding:0 15px;border-radius:15px;line-height:30px;color:#fff;font-size:16px;background-color:#36880A}
 .popup_wrap.popup_exp .popup_body .exp_content .exp_detail li .tag_item:nth-child(4n+1){margin-top:10px}
 
-.popup_wrap.popup_terms{max-width:1000px !important;border-radius:20px}
+.popup_wrap.popup_terms{max-width:1000px !important;height:auto;border-radius:20px}
 .popup_wrap.popup_terms .popup_header{position:relative;padding:0;height:50px}
 .popup_wrap.popup_terms .popup_header .btn_close{position:absolute;right:30px;top:30px;width:15px;height:15px;background:url('../image/icn_close.png') center no-repeat}
-.popup_wrap.popup_terms .popup_body{padding:0 50px 50px}
+.popup_wrap.popup_terms .popup_body{padding:0 50px 50px;height:auto}
 .popup_wrap.popup_terms .popup_body .terms_title{display:block;margin-top:15px;line-height:27px;font-size:24px;font-weight:600}
 .popup_wrap.popup_terms .terms_table{border-bottom:1px solid #ddd}
 .popup_wrap.popup_terms .terms_table .flex_item{flex:1}
@@ -185,6 +188,7 @@
 .conLine .conLine_title span{display:none}
 .conLine .conLine_title.required span{display:inline-block;margin-right:5px;color:#FF0000}
 .conLine .conLine_content{line-height:40px;font-size:16px}
+.conLine .subText{display:inline-block;padding:11px 10px 10px;line-height:19px;font-size:16px}
 .conLine_Wrap .conLine{display:inline-block;width:calc(50% - 42px) !important}
 .conLine_Wrap .conLine + .conLine{margin-top:0;margin-left:80px}
 .conLine_Wrap .conLine + .conLine:before{content:'';position:absolute;left:-40px;top:50%;transform:translateY(-50%);width:1px;height:20px;background-color:#ddd}
@@ -258,7 +262,7 @@
 .exp_list_none{margin-top:15px;padding:80px 0;border:1px solid #ddd;border-radius:20px;line-height:20px;color:#777;font-size:18px;font-weight:600;background-color:#F4F4F4;text-align:center}
 
 .program_wrap{margin-top:20px}
-.program_wrap .btn_close{position:absolute;right:20px;top:20px;width:16px;height:16px;;background:url('../image/icn_close.png') left center no-repeat;background-size:14px}
+.program_wrap .btn_close{position:absolute;right:20px;top:50%;transform:translateY(-50%);width:16px;height:16px;;background:url('../image/icn_close.png') left center no-repeat;background-size:14px}
 .program_wrap li{display:block;position:relative;width:100%;min-height:88px;border-radius:20px;line-height:0;font-size:0;background-color:#F4F4F4}
 .program_wrap li + li{margin-top:10px}
 .program_wrap .program_time{display:inline-block;width:102px;border-right:1px solid #DDD;font-size:16px;font-weight:600;text-align:center;vertical-align:top}
@@ -288,6 +292,10 @@
 .maeilpay_wrap .maeilpay_reg.pay_kb{background-image:url('../image/pay_kb.png')}
 .maeilpay_wrap .maeilpay_new{position:absolute;right:0;top:0;padding:61px 0;width:300px;height:200px;border-radius:20px;background-color:#F4F4F4;text-align:center;z-index:9}
 .maeilpay_wrap .maeilpay_new span{display:inline-block;padding-top:57px;line-height:21px;color:#777;font-size:16px;background:url('../image/icn_newpay.png') top center no-repeat}
+.maeilpay_wrap.unRegi{width:300px}
+.maeilpay_wrap.unRegi .maeilpay_unRegi{padding:41px 0 27px;width:300px;height:200px;border:1px solid #03AA43;border-radius:20px;background-color:#fff;box-shadow:0 0 10px rgba(0,0,0,.16);text-align:center}
+.maeilpay_wrap.unRegi .maeilpay_unRegi p{padding-top:43px;line-height:16px;font-size:14px;background:url('../image/icn_maeilpay.png') top center no-repeat;text-align:center}
+.maeilpay_wrap.unRegi .maeilpay_unRegi span{display:inline-block;margin-top:23px;padding:15px 21px;width:208px;height:50px;border-radius:25px;line-height:20px;color:#fff;font-size:18px;font-weight:700;background-color:#1F5692;text-align:center}
 
 .payType_wrap{line-height:0;font-size:0}
 .payType_wrap li{display:inline-block;margin-right:20px;width:100%;max-width:188px;height:100px}
@@ -562,6 +570,8 @@
 
     .btn_area.mo_btn2 button{width:calc(50% - 30px) !important}
     .btn_area.mo_btn2 button + button{margin-left:20px !important}
+    .btn_area.mo_btn2 a{width:calc(50% - 30px) !important}
+    .btn_area.mo_btn2 button + a{margin-left:20px !important}
 
     .expgroup_des.ar{text-align:left !important}
     .expgroup_des + .exp_list .exp_item{padding:20px !important}
