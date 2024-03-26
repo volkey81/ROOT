@@ -34,12 +34,12 @@
         <link rel="stylesheet" href="./css/main_style.css">
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <!-- <script src="./js/main.js"></script> -->
+        <script src="./js/main.js"></script>
         <script src="./js/full-page-scroll.js"></script>
         
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -566,17 +566,26 @@
                         </div>
                     </div>
                     <script>
-                        var sec6_tabname = ['상하브랜드관','신상품','베스트','알뜰상품','상하파머스'];
-                        var swiper6 = new Swiper(".sec06", {
-                            direction: "vertical",
-                            pagination: {
-                                el: ".swiper-pagination",
-                                clickable: true,
-                                renderBullet: function (index, className) {
-                                return '<span class="' + className + '">' + (sec6_tabname[index]) + "</span>";
-                                },
+                    // 24.03.26 modify START
+                    var sec6_tabname = ['상하브랜드관','신상품','베스트','알뜰상품','상하파머스'];
+                    var swiper6 = new Swiper(".sec06", {
+                        touchRatio:0,
+                        breakpoints: {
+                            747:{
+                                grabCursor: true,
+                                direction: "vertical",
+                                touchRatio:1
+                            }
+                        },
+                        pagination: {
+                            el: ".swiper-pagination",
+                            clickable: true,
+                            renderBullet: function (index, className) {
+                            return '<span class="' + className + '">' + (sec6_tabname[index]) + "</span>";
                             },
-                        });
+                        },
+                    });
+                    // 24.03.26 modify END
                     </script>
                 </div>
                 <div class="product_wrap">
@@ -845,15 +854,15 @@
                         <div class="footer_info">
                             <div class="info_link">
                                 <!-- 24.03.22 add href -->
-                                <a href="/customer/partnership.jsp">입점/제휴문의</a>
+                                <a href="www.sanghafarm.co.kr/customer/partnership.jsp">입점/제휴문의</a>
                                 <!-- 24.03.22 add 인재채용 -->
-                                <a href="/brand/bbs/jobnotice/story1.jsp">인재채용</a>
+                                <a href="www.sanghafarm.co.kr/brand/bbs/jobnotice/story1.jsp">인재채용</a>
                                 <!-- 24.03.22 add href -->
-                                <a href="/customer/agree.jsp">이용약관</a>
+                                <a href="www.sanghafarm.co.kr/customer/agree.jsp">이용약관</a>
                                 <!-- 24.03.22 add href -->
-                                <a href="/customer/privacy.jsp">개인정보취급방침</a>
+                                <a href="www.sanghafarm.co.kr/customer/privacy.jsp">개인정보취급방침</a>
                                 <!-- 24.03.22 add href -->
-                                <a href="/customer/faq.jsp">고객센터</a>
+                                <a href="www.sanghafarm.co.kr/customer/faq.jsp">고객센터</a>
                                 <!-- 24.03.22 add onClick -->
                                 <a a href="#"  onClick="popupOpen('hotline')">윤리 HOT-LINE</a>
                             </div>
@@ -890,19 +899,27 @@
                     </div>
                 </div>
                 <script>
-	                var sec5_tabname = ['호텔 예약','글램핑 예약','스페셜오퍼','파머스테이블(조식)','셀렉스헬스케어'];
-	                var swiper = new Swiper(".sec05", {
-                        direction: "vertical",
-                        grabCursor: true,
-                        pagination: {
-                            el: ".swiper-pagination",
-                            clickable: true,
-                            renderBullet: function (index, className) {
-                            return '<span class="' + className + '">' + (sec5_tabname[index]) + "</span>";
-                            },
+                // 24.03.26 modify START
+                var sec5_tabname = ['호텔 예약','글램핑 예약','스페셜오퍼','파머스테이블(조식)','셀렉스헬스케어'];
+                var swiper = new Swiper(".sec05", {
+                    grabCursor: false,
+                    touchRatio:0,
+                    breakpoints: {
+                        747:{
+                            grabCursor: true,
+                            direction: "vertical",
+                            touchRatio:1
+                        }
+                    },
+                    pagination: {
+                        el: ".swiper-pagination",
+                        clickable: true,
+                        renderBullet: function (index, className) {
+                        return '<span class="' + className + '">' + (sec5_tabname[index]) + "</span>";
                         },
-                        touchRatio: 0,
-                    });
+                    },
+                });
+                // 24.03.26 modify END
                 </script>
             </section>
         </div>
@@ -971,22 +988,6 @@
                 $(".ui-datepicker-trigger").attr("alt", "달력 보기");
                 $(".ui-datepicker-trigger").attr("title", "달력 보기");
             });
-            
-            function popupOpen(popId){
-                $('.popup_g').show();
-                if (popId != ''){
-                    $('.popup_wrap').hide();
-                    $('#' + popId + '.popup_wrap').show();
-                }
-            }
-            function popupClose(){
-                $('.popup_g').hide();
-            }
-            $(".dim_g").click(function(){
-                $('.popup_g').hide();
-            });
-            
-            ///hotel/room/reservation/room.jsp, chki_date, chot_date
         </script>
     </body>
 </html>

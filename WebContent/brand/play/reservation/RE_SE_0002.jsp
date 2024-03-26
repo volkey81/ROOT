@@ -63,7 +63,7 @@
                 $('#res_date').datepicker('setDate', 'today');
 // 시간선택 
                 $("#selectDate").change(function() {
-                	var _time =  $(this).val();
+                	var _time = $(this).val();
                 	getExpList5(strdate,_time);// 체험 유형 불러오기
                 	checkAllExpGroupBoxes();//체험 유형 모두 체크
                 	$("#expAll").prop("checked", true);
@@ -137,19 +137,59 @@
             });
 /* 달력, 퍼블 End */
 
-	/* 체험유형 선택했을 때 보이도록 */
 	$(document).ready(function() {
-		/* 체험상품이 있을 경우 시간 select 생성되면서 All Check 되도록 함, RE_SE_expList5.jsp */
+		// 체크박스 상태 변경 이벤트 핸들러 등록
 	    $('input[name="expgroupbox"]').change(function() {
-	        var checkboxes = $('input[name="expgroupbox"]:checked');
-	        if(checkboxes.length > 0) {
-	            $('#expList5').show();
+	        // 현재 체크된 체크박스의 카테고리를 가져옵니다.
+	        var currentCategoryId = $(this).attr('id');
+	        var currentCategory = ""; // 현재 카테고리명을 저장할 변수
+
+	        // 체크된 체크박스의 ID에 따라 currentCategory 값을 설정합니다.
+	        switch(currentCategoryId) {
+	            case 'exp1':
+	                currentCategory = "002";
+	                break;
+	            case 'exp2':
+	                currentCategory = "999";
+	                break;
+	            case 'exp3':
+	                currentCategory = "001";
+	                break;
+	            case 'exp4':
+	                currentCategory = "003";
+	                break;
+	            case 'exp5':
+	                currentCategory = "005";
+	                break;
+	            default:
+	            	currentCategory = "888";
+	        }
+
+	        // 모든 항목을 숨기고, 선택된 카테고리의 항목만 표시합니다.
+	        if($(this).is(':checked')) {
+	            // 체크된 경우 해당 카테고리의 항목만 보여줍니다.
+	            $('ul.exp_list li').filter('[data-category="' + currentCategory + '"]').show();
 	        } else {
-	            $('#expList5').hide();
+	            // 체크 해제된 경우 해당 카테고리의 항목을 숨깁니다.
+	            $('ul.exp_list li').filter('[data-category="' + currentCategory + '"]').hide();
 	        }
 	    });
+		/* 체험유형 체크 End */
+
 		
-        // 페이지 로드 시 세션 스토리지에서 폼 데이터를 복원
+	    // 전체 선택/해제 로직
+	    $('#expAll').change(function() {
+	        if(this.checked) {
+	            $('input[name="expgroupbox"]').prop('checked', true);
+	        } else {
+	            $('input[name="expgroupbox"]').prop('checked', false);
+	        }
+	        $('input[name="expgroupbox"]').trigger('change');
+	    });
+	    
+	    
+				
+        //페이지 로드 시 세션 스토리지에서 폼 데이터를 복원
         if (sessionStorage.getItem('formData')) {
             var formData = JSON.parse(sessionStorage.getItem('formData'));
             $.each(formData, function(i, field) {
@@ -171,6 +211,7 @@
 		    }
 	});
 
+	/* 예약하기 */
 	function tosubmit() {
 	    var radio_chk = $("input[type=radio]:checked").length;
 	    if (radio_chk == 0) {
@@ -184,6 +225,7 @@
 	        $("#idform").submit();
 	    } else {
 	        alert("로그인이 필요합니다.");
+	     	// 폼 데이터를 sessionStorage에 저장
 	        sessionStorage.setItem('formData', JSON.stringify($('#idform').serializeArray()));
 	        window.location.href = "/mobile/member/login.jsp?returnUrl=" + encodeURIComponent(window.location.href)+"&type=web";
 	    }
@@ -316,7 +358,7 @@
                             <div class="ar">
                                 <div class="check_g mb15">
                                     <input type="checkbox" name="expgroupAll" id="expAll">
-                                    <label onClick="checkAll('expgroupAll','expgroupbox')" for="expAll"><span>전체 해제</span></label>
+                                    <label for="expAll"><span>전체 해제</span></label>
                                 </div>
                             </div>
                             <div class="expgroup_wrap">
@@ -341,11 +383,11 @@
                                     <label for="exp5"><span>이벤트&기타</span></label>
                                 </div>
                             </div>
-                            <ul class="exp_list" id="expList5" style="display:none;">
-                                <!-- 리스트  -->
+                            <ul class="exp_list" id="expList5">
+                                <!-- RE_SE_expList5.jsp 리스트  -->
                             </ul>
                             <div class="btn_area">
-                                <button type="button" onclick="tosubmit()" class="btn_submit">예약하기</button>
+                                <a type="button" onclick="tosubmit()" class="btn_submit inB">예약하기</a>
                             </div>
                         </div>
                     </section>
@@ -354,18 +396,54 @@
         </div>
         <div class="footer_g">
             <div class="footer_wrap flex_wrap">
-                <p class="fotter_logo"><img src="${pageContext.request.contextPath}/image/footer_logo.png" alt=""></p>
+                <div class="footer_group_mo mo_only">
+                    <div class="groupWrap">
+                        <div class="groupLine icn_cs">
+                            <span>상하농원 고객센터</span>
+                            <p><a href="tel:1522-3698">1522-3698</a></p>
+                        </div>
+                        <div class="groupLine icn_reserv">
+                            <span>파머스 빌리지 예약</span>
+                            <p><a href="tel:063-563-6611">063-563-6611</a></p>
+                        </div>
+                    </div>
+                    <div class="groupWrap">
+                        <div class="groupLine icn_and">
+                            <span>상하농원</span>
+                            <p><a href="">안드로이드 다운로드</a></p>
+                        </div>
+                        <div class="groupLine icn_ios">
+                            <span>다운로드</span>
+                            <p><a href="">iOS 다운로드</a></p>
+                        </div>
+                    </div>
+                </div>
+                <p class="fotter_logo"><img src="./image/footer_logo.png" alt=""></p>
                 <div class="footer_info">
                     <div class="info_link">
-                        <a href="/customer/partnership.jsp">입점/제휴문의</a>
-                        <a href="/customer/agree.jsp">이용약관</a>
-                        <a href="/customer/privacy.jsp">개인정보취급방침</a>
-                        <a href="/customer/faq.jsp">고객센터</a>
-                        <a href="">윤리 HOT-LINE</a>
+                        <!-- 24.03.22 add href -->
+                        <a href="www.sanghafarm.co.kr/customer/partnership.jsp">입점/제휴문의</a>
+                        <!-- 24.03.22 add 인재채용 -->
+                        <a href="www.sanghafarm.co.kr/brand/bbs/jobnotice/story1.jsp">인재채용</a>
+                        <!-- 24.03.22 add href -->
+                        <a href="www.sanghafarm.co.kr/customer/agree.jsp">이용약관</a>
+                        <!-- 24.03.22 add href -->
+                        <a href="www.sanghafarm.co.kr/customer/privacy.jsp">개인정보취급방침</a>
+                        <!-- 24.03.22 add href -->
+                        <a href="www.sanghafarm.co.kr/customer/faq.jsp">고객센터</a>
+                        <!-- 24.03.22 add onClick -->
+                        <a a href="#"  onClick="popupOpen('hotline')">윤리 HOT-LINE</a>
                     </div>
                     <div class="info_company">
-                        <div>전라북도 고창군 상하면 상하농원길 11-23  |  대표 : 최승우  |  개인정보 보호 책임자 : 최승우  |  사업자등록번호 : 415-86-00211</div>
-                        <div>통신판매업신고번호 : 제2016-4780085-30-2-00015호  |  상담이용시간 : 09:30~18:00  |  농원운영시간 : 연중무휴 09:30~21:00</div>
+                        <!-- 24.03.05 modify : .info_company 태그 및 내용 변경 -->
+                        <div class="companyLine">
+                            <p><span>전라북도 고창군 상하면 상하농원길 11-23</span><span>대표 : 최승우</span></p>
+                            <p><span>개인정보 보호 책임자 : 최승우</span><span>사업자등록번호 : 415-86-00211</span></p>
+                        </div>
+                        <div class="companyLine">
+                            <p><span>통신판매업신고번호 : 제2016-4780085-30-2-00015호</span></p>
+                            <p><span>상담이용시간 : 09:30~18:00</span><span>농원운영시간 : 연중무휴 09:30~21:00</span></p>
+                        </div>
                     </div>
                     <div class="info_extra">
                         <p>상하농원(유)은 매일유업(주)과의 제휴를 통해 공동으로 서비스를 운영하고 있습니다.</p>
@@ -374,16 +452,16 @@
                 </div>
                 <!-- 24.03.03 add class : pc_only -->
                 <div class="footer_btn flex_wrap pc_only">
+                    <div class="footer_contact">
+                        <div class="contact_cs"><b>고객센터</b><span>1522-3698</span></div>
+                        <div class="contact_res"><b>빌리지예약</b><span>063-563-6611</span></div>
+                    </div>
                     <div class="btn_wrap flex_wrap">
                         <p>상하농원 <br>앱 다운로드</p>
                         <div>
                             <p class="btn_and">안드로이드</p>
                             <p class="btn_ios">iOS</p>
                         </div>
-                    </div>
-                    <div class="footer_contact">
-                        <div class="contact_cs"><b>고객센터</b><span>1522-3698</span></div>
-                        <div class="contact_res"><b>빌리지예약</b><span>063-563-6611</span></div>
                     </div>
                 </div>
             </div>
