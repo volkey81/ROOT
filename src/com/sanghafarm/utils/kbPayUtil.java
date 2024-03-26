@@ -64,13 +64,38 @@ public class kbPayUtil {
         return hexString.toString();
     }
 
-    public static String generateSignature(String corpMemberNo, String userMngNo, String returnUrl) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        // 이 메소드 내에서 필요한 모든 데이터를 조합하여 signature를 생성
-    	System.out.println("generateSignature corpNo : "+ corpNo+ "mertNo : "+ mertNo+"corpMemberNo : "+ corpMemberNo+"userMngNo : "+ userMngNo+"returnUrl : "+ returnUrl);
-
+    /* 결제수단 조회 sig 생성 */
+    public static String payselSig(String corpMemberNo, String userMngNo, String returnUrl) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    	String apiData = String.format("corpNo=%s&mertNo=%s&corpMemberNo=%s&userMngNo=%s&hashKey=%s"
+        		,corpNo, mertNo, corpMemberNo, userMngNo, kbpayHashKey);
+    	
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] encodedhash = digest.digest(apiData.getBytes("UTF-8"));
+        return toHexString(encodedhash);
+    }
+    
+    /* 결제수단 등록 sig 생성 */
+    public static String payregSig(String corpMemberNo, String userMngNo, String returnUrl) throws NoSuchAlgorithmException, UnsupportedEncodingException {
     	String apiData = String.format("corpNo=%s&mertNo=%s&corpMemberNo=%s&userMngNo=%s&returnUrl=%s&hashKey=%s"
         		,corpNo, mertNo, corpMemberNo, userMngNo, returnUrl, kbpayHashKey);
-
+    	
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] encodedhash = digest.digest(apiData.getBytes("UTF-8"));
+        return toHexString(encodedhash);
+    }
+    
+    /* 결제요청 sig 생성 */
+    public static String payreqauthSig(String corpMemberNo, String userMngNo, String returnUrl
+    		, String disPayUiType, String payReqUiType, String payUniqNo, String payMethod, String bankCardCode
+    		, String orderNo, String goodsName, String goodsPrice, String products, String buyerName
+    		, String buyerTel, String buyerEmail, String cardQuota, String cardInterest, String tax
+    		, String taxFree, String settleAmt
+    		) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    	String apiData = String.format("corpNo=%s&mertNo=%s&corpMemberNo=%s&userMngNo=%s&disPayUiType=%s&payReqUiType=%s&payUniqNo=%s&payMethod=%s&bankCardCode=%s&orderNo=%s&goodsName=%s&goodsPrice=%s&products=%s&buyerName=%s&buyerTel=%s&buyerEmail=%s&cardQuota=%s&cardInterest=%s&tax=%s&taxFree=%s&settleAmt=%s&returnUrl=%s&hashKey=%s"
+    		    , corpNo, mertNo, corpMemberNo, userMngNo, disPayUiType, payReqUiType, payUniqNo, payMethod, bankCardCode
+    		    , orderNo, goodsName, goodsPrice, products, buyerName, buyerTel, buyerEmail, cardQuota, cardInterest, tax
+    		    , taxFree, settleAmt, returnUrl, kbpayHashKey);
+    	
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] encodedhash = digest.digest(apiData.getBytes("UTF-8"));
         return toHexString(encodedhash);

@@ -1884,8 +1884,10 @@ String mertNo = kbPayUtil.getMertNo();
 String corpMemberNo = kbPayUtil.encrypt("sanghatest");
 String userMngNo = kbPayUtil.encrypt("sanghatest");
 String returnUrl = nowPage;
-/* 결제수단 조회, 결제수단 등록 sig */
-String signature = kbPayUtil.generateSignature(corpMemberNo, userMngNo, returnUrl);
+/* 결제수단 조회 sig */
+String payselSignature = kbPayUtil.payselSig(corpMemberNo, userMngNo, returnUrl);
+/* 결제수단 등록 sig */
+String payregSignature = kbPayUtil.payregSig(corpMemberNo, userMngNo, returnUrl);
 %>
 	/* 결제수단 조회 */
     function kbpay() {
@@ -1895,7 +1897,7 @@ String signature = kbPayUtil.generateSignature(corpMemberNo, userMngNo, returnUr
 			mertNo: "<%=mertNo%>",
 			corpMemberNo: "<%=corpMemberNo%>",
 			userMngNo: "<%=userMngNo%>",
-			signature: "<%=signature%>"
+			signature: "<%=payselSignature%>"
         };
         console.log("kbpay API Data: ", data);
         $.ajax({
@@ -1936,6 +1938,7 @@ String signature = kbPayUtil.generateSignature(corpMemberNo, userMngNo, returnUr
 		/* 결제버튼 이벤트 End */
     	
     	 $('input[name="pay_type"]').prop('checked', false);
+		
     	/* 결제수단 조회 */
         kbpay();
 
@@ -1949,7 +1952,7 @@ String signature = kbPayUtil.generateSignature(corpMemberNo, userMngNo, returnUr
                 corpMemberNo: "<%=corpMemberNo%>",
                 userMngNo: "<%=userMngNo%>",
                 returnUrl: "<%=nowPage%>",
-                signature: "<%=signature%>"
+                signature: "<%=payregSignature%>"
             };
 
             var form = $('<form></form>', {
@@ -1984,6 +1987,11 @@ String signature = kbPayUtil.generateSignature(corpMemberNo, userMngNo, returnUr
             var orderProducts = encodeProducts(products);
             payAmt = totAmt - couponAmt - pointAmt - giftcardAmt;
             console.log("maeilpayRequest products : " + products);
+            /* 결제요청 sig */
+			<% String payreqauthSignature = kbPayUtil.payreqauthSig(corpMemberNo, userMngNo, "D1", "P1", "S200901103856000041Z", "C", "03", "ONo20020831901"
+                		, encodeURIComponent("체험예약-개인"), payAmt, orderProducts, encodeURIComponent(fs.getUserNm())
+                		, orderMobile, orderEmail, "00", "N", "", "", "", encodeURIComponent(nextURL));
+			%>
             var data = {
 				corpNo: "<%=corpNo%>",
 				mertNo: "<%=mertNo%>",
@@ -2007,9 +2015,10 @@ String signature = kbPayUtil.generateSignature(corpMemberNo, userMngNo, returnUr
                 taxFree: "",						//비과세금액
                 settleAmt: "",						//정산대상 금액, 이건 어떻게 나오는건지 문의 필요
                 returnUrl: encodeURIComponent(nextURL),
-                signature: "02b7f0513cb64622f6285fd3f0d0dd246401837667ef29ac8b5db1bed354055b"
+                signature: <%=payreqauthSignature%>
             };
 
+            
             //formData 생성
             var form = $('<form></form>', {
                 action: apiUrl,
