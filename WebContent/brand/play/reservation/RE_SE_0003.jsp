@@ -1227,6 +1227,43 @@ if(fs.isLogin()){ //회원여부 확인
                         </div>
                     </div>
                 </div>
+                <div id="expNoti" class="popup_wrap popup_noti">
+                    <div class="popup_header">
+                        <b class="header_title">프로그램 연령 정보</b>
+                        <button type="button" onClick="popupClose()" class="btn_close"><span class="g_alt">닫기</span></button>
+                    </div>
+                    <div class="popup_body">
+                        <table class="table_g">
+                            <tr>
+                                <th></th>
+                                <th>공장견학</th>
+                                <th>입장권</th>
+                                <th>아침산책</th>
+                            </tr>
+                            <tr>
+                                <th>대인</th>
+                                <td>14세 이상</td>
+                                <td>20세 이상</td>
+                                <td>14세 이상</td>
+                            </tr>
+                            <tr>
+                                <th>소인</th>
+                                <td>6세 ~ 13세</td>
+                                <td>36개월 ~ 19세</td>
+                                <td>36개월 ~ 13세</td>
+                            </tr>
+                            <tr>
+                                <th>유아</th>
+                                <td>5세 이하</td>
+                                <td>-</td>
+                                <td>36개월 미만</td>
+                            </tr>
+                        </table>
+                        <div class="btn_area mt40">
+                            <button type="button" onClick="popupClose()" class="btn_submit">확인</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- 24.03.11 add END -->
             <div class="pagetop_wrap pagetop_04">
@@ -1386,13 +1423,18 @@ if(fs.isLogin()){
                             프로그램 정보
                         </div>
                         <div class="section_content">
-                            <div class="conLine">
-                                <p class="conLine_title">예약일</p>
+                            <div class="conLine mo_exception">
+                                <p class="conLine_title mo_exception">예약일</p>
                                 <em class="conLine_content fcGreen fwBold"><%= param.get("res_date") %></em>
+                                <button type="button" onClick="popupOpen('expNoti')" class="btn_inlineStyle btn_ageNoti">프로그램별 연령정보</button>
                             </div>
                             <ul class="program_wrap" id="program_wrap">
                                 <!-- RE_SE_expList7 -->
                             </ul>
+                            <div class="program_des">
+                                <p>∙ 현 체험은 연령 구분 없이 동일하게 진행됩니다. (공장견학/입장권 제외)​</p>
+                                <p>∙10세 미만 어린이는 보호자 동반 필수이며 결제 인원에 포함입니다.</p>
+                            </div>
                         </div>
                     </section>
 <%
@@ -1409,8 +1451,8 @@ if(fs.isLogin()){
                                 <span class="conLine_content"><em id="tot_amt_txt">0</em> 원</span>
                             </div>
                             <div class="conLine">
-                                <p class="conLine_title">쿠폰할인</p>
-                               <select name="coupon" id="coupon" title="쿠폰선택" onchange="applyCoupon()" class="select_g select_medium">
+								<p class="conLine_title">쿠폰할인</p>
+								<select name="coupon" id="coupon" title="쿠폰선택" onchange="applyCoupon()" class="select_g select_medium">
 <%
 	Param p = new Param();
 	p.set("userid", fs.getUserId());
@@ -1434,6 +1476,10 @@ if(fs.isLogin()){
 	}
 %>
 								</select>
+								<div class="couponStyle">
+									<span class="ml10">(적용가능한 쿠폰 <em class="fcGreen fwBold"><%=couponList.size() %></em>개)</span>
+									<button class="btn_g btn_gray ml10 w130">적용</button>
+								</div>
                             </div>
                             <div class="conLine">
                                 <p class="conLine_title">기프트 카드</p>
@@ -1444,7 +1490,7 @@ if(fs.isLogin()){
                             </div>
                             <div class="conLine">
                                 <p class="conLine_title">Maeil Do 포인트</p>
-                                <input type="text" class="input_g input_medium">
+                                <input type="text" id="point_amt" name="point_amt" class="input_g input_medium">
                                 <button class="btn_g btn_gray ml10 w130">확인</button>
                                 <div class="check_g blk mt10">
                                     <input type="checkbox" name="point_all" id="point_all" onclick="pointAll()" <%= point < 100 ? "disabled" : "" %>>
@@ -1938,110 +1984,103 @@ String payregSignature = kbPayUtil.payregSig(corpMemberNo, userMngNo, returnUrl)
             }
         });
     }
-
-    // Execute kbpay function after the document is fully loaded
-    $(document).ready(function() {
-    	
+	
+	/* 결제수단 등록 */
+	function payreg(){
+	    var apiUrl = "<%=baseUrl%>" + "/stdpay/su/payreg";
 		
-    	/* 결제수단 조회 */
+	    var data = {
+	        corpNo: "<%=corpNo%>",
+	        mertNo: "<%=mertNo%>",
+	        corpMemberNo: "<%=corpMemberNo%>",
+	        userMngNo: "<%=userMngNo%>",
+	        returnUrl: "<%=nowPage%>",
+	        signature: "<%=payregSignature%>"
+	    };
+	    console.log("kbpay API Data: ", data);
+	    $.ajax({
+            type: "POST",
+            url: apiUrl,
+            data: data,
+	        success: function(response) {
+	            // 성공 처리 로직
+	            console.log("Success:", response);
+	            // 리다이렉션하거나 성공 메시지를 표시할 수 있습니다.
+	        },
+	        error: function(xhr, status, error) {
+	            // 에러 처리 로직
+	            console.error("Error:", error);
+	            // 에러 메시지를 표시하거나 로깅할 수 있습니다.
+	        }
+	    });
+	}
+	
+	/* 결제 요청 */
+	// 상품 인코딩 설정
+	function encodeProducts(products) {
+		return encodeURIComponent(JSON.stringify(products));
+	}
+
+//결제 요청
+	function payreq() {
+	    var apiUrl = "<%=baseUrl%>" + "/stdpay/su/payreqauth";
+	    var orderMobile = $("#mobile1").val() + $("#mobile2").val() + $("#mobile3").val();
+	    var orderEmail = $("#email1").val() + "@" + $("#email2").val();
+	    var currentURL = window.location.href;
+	    var nextURL = currentURL.replace("RE_SE_0003.jsp", "RE_SE_0004.jsp"); //결제완료페이지
+	    var orderProducts = encodeProducts(products);
+	    var payAmt = totAmt - couponAmt - pointAmt - giftcardAmt;
+
+	    var data = {
+	        corpNo: "<%=corpNo%>",
+	        mertNo: "<%=mertNo%>",
+	        corpMemberNo: "<%=corpMemberNo%>",	//매일페이 회원코드
+	        userMngNo: "<%=userMngNo%>",	//kbPay 회원코드, 회원가입 후 받을 수 있음
+	        disPayUiType: "D1", //D2 카드, 계좌 통합, D1 계좌 분리
+	        payReqUiType: "P1", //P2 : pin 번호 입력, P1 : 결제정보, Pin 둘 다 입력
+	        payUniqNo: "S200901103856000041Z", //결제수단 고유번호
+	        payMethod: "C", //등록된 결제수단에서 가져오기
+	        bankCardCode: "03", //등록된 결제수단에서 가져오기
+	        orderNo: "ONo20020831901", //주문번호
+	        goodsName: encodeURIComponent("체험예약-개인"),
+	        goodsPrice: payAmt,
+	        products: orderProducts,
+	        buyerName: encodeURIComponent("<%= fs.getUserNm() %>"),
+	        buyerTel: orderMobile,
+	        buyerEmail: orderEmail,
+	        cardQuota: "00", //할부개월수, 등록된 결제수단에서 가져오기
+	        cardInterest: "N", //무이자여부, 등록된 결제수단에서 가져오기
+	        tax: "", //과세금액
+	        taxFree: "", //비과세금액
+	        settleAmt: "", //정산대상 금액
+	        returnUrl: encodeURIComponent(nextURL),
+	        signature: "testasetestsetestset"
+	    };
+
+	    $.ajax({
+	        url: apiUrl,
+	        type: 'POST',
+	        data: JSON.stringify(data),
+	        success: function(response) {
+	            // 성공 처리 로직
+	            console.log("Payment request successful: ", response);
+	        },
+	        error: function(xhr, status, error) {
+	            // 에러 처리 로직
+	            console.error("Payment request failed: ", xhr, status, error);
+	        }
+	    });
+	}
+
+	/* 간편결제 회원가입 */
+
+    $(document).ready(function() {
         kbpay();
 
-        /* 결제수단 등록 */
+        /* 매일페이 클릭 */
 		$("#maeilpay_unRegi").click(function() {
-		    var apiUrl = "<%=baseUrl%>" + "/stdpay/su/payreg";
-		
-		    var data = {
-		        corpNo: "<%=corpNo%>",
-		        mertNo: "<%=mertNo%>",
-		        corpMemberNo: "<%=corpMemberNo%>",
-		        userMngNo: "<%=userMngNo%>",
-		        returnUrl: "<%=nowPage%>",
-		        signature: "<%=payregSignature%>"
-		    };
-		    console.log("kbpay API Data: ", data);
-		    $.ajax({
-	            type: "POST",
-	            url: apiUrl,
-	            data: data,
-		        success: function(response) {
-		            // 성공 처리 로직
-		            console.log("Success:", response);
-		            // 리다이렉션하거나 성공 메시지를 표시할 수 있습니다.
-		        },
-		        error: function(xhr, status, error) {
-		            // 에러 처리 로직
-		            console.error("Error:", error);
-		            // 에러 메시지를 표시하거나 로깅할 수 있습니다.
-		        }
-		    });
+
 		});
-
-        
-        /* 결제요청 */
-        // 상품 인코딩 설정
-        function encodeProducts(products) {
-            return encodeURIComponent(JSON.stringify(products));
-        }
-
-        function maeilpayRequest() {
-            var apiUrl = "<%=baseUrl%>"+"/stdpay/su/payreqauth";
-            var orderMobile = $("#mobile1").val()+$("#mobile2").val()+$("#mobile3").val()
-            var orderEmail = $("#email1").val()+"@"+$("#email2").val();
-            var currentURL = window.location.href;
-            var nextURL = currentURL.replace("RE_SE_0003.jsp", "RE_SE_0004.jsp");	//결제완료페이지
-            var orderProducts = encodeProducts(products);
-            payAmt = totAmt - couponAmt - pointAmt - giftcardAmt;
-            console.log("maeilpayRequest products : " + products);
-            /* 결제요청 sig 만들어야 됨 */
-<%-- 			<% String payreqauthSignature = kbPayUtil.payreqauthSig(corpMemberNo, userMngNo, "D1", "P1", "S200901103856000041Z", "C", "03", "ONo20020831901" --%>
-//                 		, encodeURIComponent("체험예약-개인"), payAmt, orderProducts, encodeURIComponent(fs.getUserNm())
-//                 		, orderMobile, orderEmail, "00", "N", "", "", "", encodeURIComponent(nextURL));
-<%-- 			%> --%>
-            var data = {
-				corpNo: "<%=corpNo%>",
-				mertNo: "<%=mertNo%>",
-				corpMemberNo: "<%=corpMemberNo%>",
-				userMngNo: "<%=userMngNo%>",
-                disPayUiType: "D1",					//D2 카드, 계좌 통합, D1 계좌 분리
-                payReqUiType: "P1",					//P2 : pin 번호 입력, P1 : 결제정보, Pin 둘 다 입력
-                payUniqNo: "S200901103856000041Z",	//결제수단 고유번호 
-                payMethod: "C",						//등록된 결제수단에서 가져오기
-                bankCardCode: "03",					//등록된 결제수단에서 가져오기
-                orderNo: "ONo20020831901",			//주문번호
-                goodsName: encodeURIComponent("체험예약-개인"),
-                goodsPrice: payAmt,
-                products: orderProducts,//products배열은 RE_SE_expList7.jsp에서 생성 됨
-                buyerName: encodeURIComponent("<%= fs.getUserNm() %>"),
-                buyerTel: orderMobile,
-                buyerEmail: orderEmail,
-                cardQuota: "00",					//할부개월수, 등록된 결제수단에서 가져오기
-                cardInterest: "N",					//무이자여부, 등록된 결제수단에서 가져오기
-                tax: "",							//과세금액
-                taxFree: "",						//비과세금액
-                settleAmt: "",						//정산대상 금액, 이건 어떻게 나오는건지 문의 필요
-                returnUrl: encodeURIComponent(nextURL),
-                signature: "asdflaksjdfoqaiwnrgiqa"
-            };
-
-            
-            //formData 생성
-            var form = $('<form></form>', {
-                action: apiUrl,
-                method: 'POST'
-            });
-
-            $.each(data, function(key, value) {
-                $(form).append($('<input></input>', {
-                    type: 'hidden',
-                    name: key,
-                    value: value
-                }));
-            });
-
-            $('body').append(form);
-            $(form).submit();
-        }
-
     });
 </script>
 </html>

@@ -1,8 +1,6 @@
 package com.sanghafarm.utils;
 
-//import java.util.Base64;
-import com.sanghafarm.utils.Base64Utils;
-
+import org.apache.commons.codec.binary.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import javax.crypto.spec.IvParameterSpec;
@@ -45,7 +43,8 @@ public class kbPayUtil {
 
     public static String encrypt(String input) throws Exception {
         Cipher cipher = Cipher.getInstance("SEED/CBC/PKCS5Padding", "BC");
-        byte[] keyBytes = Base64Utils.decode(ENCRYPTION_KEY);
+        // Apache Commons Codec를 사용하여 Base64 디코딩
+        byte[] keyBytes = Base64.decodeBase64(ENCRYPTION_KEY);
         byte[] ivBytes = ENCRYPTION_IV.getBytes("UTF-8");
 
         SecretKeySpec secretKeySpec = new SecretKeySpec(keyBytes, "SEED");
@@ -53,7 +52,8 @@ public class kbPayUtil {
 
         cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParameterSpec);
         byte[] encrypted = cipher.doFinal(input.getBytes("UTF-8"));
-        return Base64Utils.encode(encrypted);
+        // Apache Commons Codec를 사용하여 결과를 Base64 인코딩
+        return Base64.encodeBase64String(encrypted);
     }
     
     public static String toHexString(byte[] hash) {

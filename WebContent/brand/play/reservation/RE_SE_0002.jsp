@@ -411,6 +411,7 @@
                                     <label for="exp5"><span>이벤트&기타</span></label>
                                 </div>
                             </div>
+                            <p class="expgroup_des ar pc_only">* 해당 금액은 일반 금액이며 단체 방문자는 추가적인 할인혜택이 적용됩니다.</p>
                             <ul class="exp_list" id="expList5">
                                 <!-- RE_SE_expList5.jsp 리스트  -->
                             </ul>
