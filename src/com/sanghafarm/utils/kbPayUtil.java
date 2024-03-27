@@ -1,6 +1,7 @@
 package com.sanghafarm.utils;
 
-import java.util.Base64;
+//import java.util.Base64;
+import org.apache.commons.codec.binary.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import javax.crypto.spec.IvParameterSpec;
@@ -43,15 +44,15 @@ public class kbPayUtil {
 
     public static String encrypt(String input) throws Exception {
         Cipher cipher = Cipher.getInstance("SEED/CBC/PKCS5Padding", "BC");
-        byte[] key = Base64.getDecoder().decode(ENCRYPTION_KEY);
-        byte[] iv = ENCRYPTION_IV.getBytes("UTF-8");
+        byte[] keyBytes = Base64.decodeBase64(ENCRYPTION_KEY.getBytes("UTF-8"));
+        byte[] ivBytes = ENCRYPTION_IV.getBytes("UTF-8");
 
-        SecretKeySpec secretKeySpec = new SecretKeySpec(key, "SEED");
-        IvParameterSpec ivParameterSpec = new IvParameterSpec(iv);
+        SecretKeySpec secretKeySpec = new SecretKeySpec(keyBytes, "SEED");
+        IvParameterSpec ivParameterSpec = new IvParameterSpec(ivBytes);
 
         cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParameterSpec);
         byte[] encrypted = cipher.doFinal(input.getBytes("UTF-8"));
-        return Base64.getEncoder().encodeToString(encrypted);
+        return Base64.encodeBase64String(encrypted);
     }
     
     public static String toHexString(byte[] hash) {
