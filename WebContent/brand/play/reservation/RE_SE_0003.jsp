@@ -1874,6 +1874,8 @@ if(fs.isLogin()){
         <input type="hidden" name="reqPccInfo" id="reqPccInfo" value="">
         <input type="hidden" name="confirmSeq" id="confirmSeq" value="">
     </form>
+    <div id="kbpayDiv" name = "kbpayDiv">
+    </div>
     
 <!--     kb 간편결제 추가 -->
 <script>
@@ -1943,34 +1945,35 @@ String payregSignature = kbPayUtil.payregSig(corpMemberNo, userMngNo, returnUrl)
         kbpay();
 
         /* 결제수단 등록 */
-        $("#maeilpay_unRegi").click(function() {
-        	var apiUrl = "<%=baseUrl%>" + "/stdpay/su/payreg";
+		$("#maeilpay_unRegi").click(function() {
+		    var apiUrl = "<%=baseUrl%>" + "/stdpay/su/payreg";
+		
+		    var data = {
+		        corpNo: "<%=corpNo%>",
+		        mertNo: "<%=mertNo%>",
+		        corpMemberNo: "<%=corpMemberNo%>",
+		        userMngNo: "<%=userMngNo%>",
+		        returnUrl: "<%=nowPage%>",
+		        signature: "<%=payregSignature%>"
+		    };
+		    console.log("kbpay API Data: ", data);
+		    $.ajax({
+	            type: "POST",
+	            url: apiUrl,
+	            data: data,
+		        success: function(response) {
+		            // 성공 처리 로직
+		            console.log("Success:", response);
+		            // 리다이렉션하거나 성공 메시지를 표시할 수 있습니다.
+		        },
+		        error: function(xhr, status, error) {
+		            // 에러 처리 로직
+		            console.error("Error:", error);
+		            // 에러 메시지를 표시하거나 로깅할 수 있습니다.
+		        }
+		    });
+		});
 
-            var data = {
-                corpNo: "<%=corpNo%>",
-                mertNo: "<%=mertNo%>",
-                corpMemberNo: "<%=corpMemberNo%>",
-                userMngNo: "<%=userMngNo%>",
-                returnUrl: "<%=nowPage%>",
-                signature: "<%=payregSignature%>"
-            };
-
-            var form = $('<form></form>', {
-                action: apiUrl,
-                method: 'POST'
-            });
-
-            $.each(data, function(key, value) {
-                $(form).append($('<input></input>', {
-                    type: 'hidden',
-                    name: key,
-                    value: value
-                }));
-            });
-
-            $('body').append(form);
-            $(form).submit();
-        });
         
         /* 결제요청 */
         // 상품 인코딩 설정
@@ -1987,11 +1990,11 @@ String payregSignature = kbPayUtil.payregSig(corpMemberNo, userMngNo, returnUrl)
             var orderProducts = encodeProducts(products);
             payAmt = totAmt - couponAmt - pointAmt - giftcardAmt;
             console.log("maeilpayRequest products : " + products);
-            /* 결제요청 sig */
-			<% String payreqauthSignature = kbPayUtil.payreqauthSig(corpMemberNo, userMngNo, "D1", "P1", "S200901103856000041Z", "C", "03", "ONo20020831901"
-                		, encodeURIComponent("체험예약-개인"), payAmt, orderProducts, encodeURIComponent(fs.getUserNm())
-                		, orderMobile, orderEmail, "00", "N", "", "", "", encodeURIComponent(nextURL));
-			%>
+            /* 결제요청 sig 만들어야 됨 */
+<%-- 			<% String payreqauthSignature = kbPayUtil.payreqauthSig(corpMemberNo, userMngNo, "D1", "P1", "S200901103856000041Z", "C", "03", "ONo20020831901" --%>
+//                 		, encodeURIComponent("체험예약-개인"), payAmt, orderProducts, encodeURIComponent(fs.getUserNm())
+//                 		, orderMobile, orderEmail, "00", "N", "", "", "", encodeURIComponent(nextURL));
+<%-- 			%> --%>
             var data = {
 				corpNo: "<%=corpNo%>",
 				mertNo: "<%=mertNo%>",
@@ -2015,7 +2018,7 @@ String payregSignature = kbPayUtil.payregSig(corpMemberNo, userMngNo, returnUrl)
                 taxFree: "",						//비과세금액
                 settleAmt: "",						//정산대상 금액, 이건 어떻게 나오는건지 문의 필요
                 returnUrl: encodeURIComponent(nextURL),
-                signature: <%=payreqauthSignature%>
+                signature: "asdflaksjdfoqaiwnrgiqa"
             };
 
             
