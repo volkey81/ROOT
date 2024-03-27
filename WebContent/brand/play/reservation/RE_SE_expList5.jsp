@@ -66,8 +66,8 @@
         if (!currentTime.equals(previousTime)) {
 %>
                         <div class="time_select">
-                            <input type="radio" name="item<%= rIndex %>" id="item<%= rIndex %>_<%= row.get("exp_pid") %>" value="<%= row.get("exp_pid")%>">
-                            <label for="item<%= rIndex %>_<%= row.get("exp_pid") %>">
+                            <input type="radio" name="item<%= rIndex %>" id="item_<%= row.get("exp_pid") %>" value="<%= row.get("exp_pid")%>">
+                            <label for="item_<%= row.get("exp_pid") %>">
                                 <b><%= row.get("time").substring(0, 2) + ":" + row.get("time").substring(2) %></b>
                                 <span>(잔여 : <em><%= row.getInt("seat_num") - row.getInt("reserved_num") %></em>)</span>
                             </label>

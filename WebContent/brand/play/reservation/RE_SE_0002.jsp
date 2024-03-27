@@ -34,10 +34,27 @@
                 $(this).toggleClass('on').siblings().removeClass('on');
                 $(this).next(".section_content").siblings(".section_content").slideUp(300); // 1개씩 펼치기
             });
-           
+            
+            var map = new Map();
+            var arr = new Array();
             $(function() {
+            	 //페이지 로드 시 세션 스토리지에서 폼 데이터를 복원
+                if (sessionStorage.getItem('formData')) {
+                    var formData = JSON.parse(sessionStorage.getItem('formData'));
+                    $.each(formData, function(i, field) {
+                    	console.log("name:" + field.name + ":value:" + field.value );
+                    	map.set(field.name, field.value);
+                    	if(field.name.includes('item')) arr.push(field.value)
+                    });
+                    sessionStorage.removeItem('formData'); // 데이터 복원 후 세션 스토리지에서 삭제
+                }
+            	
             	var date;
             	var strdate = getToday(); // 기본값으로 현재 날짜
+            	var resdate = new Date();
+            	if(map.has("param_date")) strdate = map.get("param_date");
+            	if(map.has("res_date")) resdate = map.get("res_date");
+            	
             	setTime(strdate);
             	getExpList5(strdate,"");
             	$("#param_date").val(strdate);
@@ -60,7 +77,7 @@
                     	$("#param_date").val(strdate);
                 	}
                 });               
-                $('#res_date').datepicker('setDate', 'today');
+                $('#res_date').datepicker('setDate', resdate);
 // 시간선택 
                 $("#selectDate").change(function() {
                 	var _time = $(this).val();
@@ -69,6 +86,16 @@
                 	$("#expAll").prop("checked", true);
                 });
             });
+            
+            function loadclick(){
+            	for(var i = 0; i < arr.length; i++){
+		              	var temp = "item_" + arr[i]
+             	   		$("#"+temp).prop("checked", true).trigger("click");
+                }
+            	arr.lenght = 0;
+            }
+            
+            
             
             function checkAllExpGroupBoxes() {
                 $('input[name="expgroupbox"]').each(function() {
@@ -85,6 +112,7 @@
         		})
         		.done(function(html) {        			
        				$("#selectDate").empty().append($.trim(html));	//원본
+       				if(map.has("selectDate")) $("#selectDate").val(map.get("selectDate")).trigger('change');
         		});
             }
   // 오늘날짜 생성          
@@ -107,6 +135,7 @@
         		.done(function(html) {
         			$("#expList5").empty().append($.trim(html));
         			if(!$("#expAll").is(':checked')) $("#expAll").trigger('click');
+        			loadclick();
         		});
             }
   
@@ -137,7 +166,7 @@
             });
 /* 달력, 퍼블 End */
 
-	$(document).ready(function() {
+	$(function() {
 		// 체크박스 상태 변경 이벤트 핸들러 등록
 	    $('input[name="expgroupbox"]').change(function() {
 	        // 현재 체크된 체크박스의 카테고리를 가져옵니다.
@@ -196,17 +225,6 @@
 	        }
 	        $('input[name="expgroupbox"]').trigger('change');
 	    });
-	    
-	    
-				
-        //페이지 로드 시 세션 스토리지에서 폼 데이터를 복원
-        if (sessionStorage.getItem('formData')) {
-            var formData = JSON.parse(sessionStorage.getItem('formData'));
-            $.each(formData, function(i, field) {
-                $("[name='" + field.name + "']").val(field.value);
-            });
-            sessionStorage.removeItem('formData'); // 데이터 복원 후 세션 스토리지에서 삭제
-        }
 	});
 	
 	
