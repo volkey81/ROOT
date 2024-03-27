@@ -235,10 +235,10 @@ if(request.getQueryString() != null || !request.getMethod().startsWith("GET") ) 
         <script src="${pageContext.request.contextPath}/js/sub.js"></script>
         
 <!-- jQuery 라이브러리 - 최신 버전 유지 -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <!-- jQuery UI 라이브러리 - 특정 버전 유지 -->
-<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
+<script src="https://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
 
 <!-- Swiper - CDN을 통해 제공되는 최신 버전 유지 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
