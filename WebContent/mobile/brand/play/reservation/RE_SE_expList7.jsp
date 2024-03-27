@@ -153,6 +153,23 @@ for(Param row : list) {
 						value="0"
 					/>
 				</div>
+				<% if("공장견학".equals(row.get("exp_type_nm"))){ %>
+				<div class="detail_transport">
+					<span class="wrap_title">이동수단</span>
+					<div class="radio_g">
+						<input type="radio" name="transport" id="bus" value="b">
+						<label for="bus"><span>버스</span></label>
+					</div>
+					<div class="radio_g ml30">
+						<input type="radio" name="transport" id="car" value="c">
+						<label for="car"><span>자차</span></label>
+					</div>
+					<div class="radio_g ml30">
+						<input type="radio" name="transport" id="wark" value="w">
+						<label for="wark"><span>도보</span></label>
+					</div>
+				</div>
+				<%} %>
 			<% }else{  %>
 				<div class="people_wrap">
 					<span class="wrap_title"></span>
@@ -229,6 +246,23 @@ for(Param row : list) {
 						value="0"
 					/>
 				</div>
+				<% if("공장견학".equals(row.get("exp_type_nm"))){ %>
+				<div class="detail_transport">
+					<span class="wrap_title">이동수단</span>
+					<div class="radio_g">
+						<input type="radio" name="transport" id="bus" value="b">
+						<label for="bus"><span>버스</span></label>
+					</div>
+					<div class="radio_g ml30">
+						<input type="radio" name="transport" id="car" value="c">
+						<label for="car"><span>자차</span></label>
+					</div>
+					<div class="radio_g ml30">
+						<input type="radio" name="transport" id="wark" value="w">
+						<label for="wark"><span>도보</span></label>
+					</div>
+				</div>
+				<%} %>
 			<% }else{  %>
 				<div class="people_wrap">
 					<span class="wrap_title"></span>

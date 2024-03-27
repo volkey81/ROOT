@@ -1423,13 +1423,18 @@ if(fs.isLogin()){
                             프로그램 정보
                         </div>
                         <div class="section_content">
-                            <div class="conLine">
-                                <p class="conLine_title">예약일</p>
+                            <div class="conLine mo_exception">
+                                <p class="conLine_title mo_exception">예약일</p>
                                 <em class="conLine_content fcGreen fwBold"><%= param.get("res_date") %></em>
+                                <button type="button" onClick="popupOpen('expNoti')" class="btn_inlineStyle btn_ageNoti">프로그램별 연령정보</button>
                             </div>
                             <ul class="program_wrap" id="program_wrap">
                                 <!-- RE_SE_expList7 -->
                             </ul>
+                            <div class="program_des">
+                                <p>∙ 현 체험은 연령 구분 없이 동일하게 진행됩니다. (공장견학/입장권 제외)​</p>
+                                <p>∙10세 미만 어린이는 보호자 동반 필수이며 결제 인원에 포함입니다.</p>
+                            </div>
                         </div>
                     </section>
 <%
@@ -1471,6 +1476,10 @@ if(fs.isLogin()){
 	}
 %>
 								</select>
+								<div class="couponStyle">
+									<span class="ml10">(적용가능한 쿠폰 <em class="fcGreen fwBold"><%=couponList.size() %></em>개)</span>
+									<button class="btn_g btn_gray ml10 w130">적용</button>
+								</div>
                             </div>
                             <div class="conLine">
                                 <p class="conLine_title">기프트 카드</p>

@@ -34,10 +34,27 @@
                 $(this).toggleClass('on').siblings().removeClass('on');
                 $(this).next(".section_content").siblings(".section_content").slideUp(300); // 1개씩 펼치기
             });
-           
+            
+            var map = new Map();
+            var arr = new Array();
             $(function() {
+            	 //페이지 로드 시 세션 스토리지에서 폼 데이터를 복원
+                if (sessionStorage.getItem('formData')) {
+                    var formData = JSON.parse(sessionStorage.getItem('formData'));
+                    $.each(formData, function(i, field) {
+                    	console.log("name:" + field.name + ":value:" + field.value );
+                    	map.set(field.name, field.value);
+                    	if(field.name.includes('item')) arr.push(field.value)
+                    });
+                    sessionStorage.removeItem('formData'); // 데이터 복원 후 세션 스토리지에서 삭제
+                }
+            	
             	var date;
             	var strdate = getToday(); // 기본값으로 현재 날짜
+            	var resdate = new Date();
+            	if(map.has("param_date")) strdate = map.get("param_date");
+            	if(map.has("res_date")) resdate = map.get("res_date");
+            	
             	setTime(strdate);
             	getExpList5(strdate,"");
             	$("#param_date").val(strdate);
@@ -60,7 +77,7 @@
                     	$("#param_date").val(strdate);
                 	}
                 });               
-                $('#res_date').datepicker('setDate', 'today');
+                $('#res_date').datepicker('setDate', resdate);
 // 시간선택 
                 $("#selectDate").change(function() {
                 	var _time = $(this).val();
@@ -69,6 +86,16 @@
                 	$("#expAll").prop("checked", true);
                 });
             });
+            
+            function loadclick(){
+            	for(var i = 0; i < arr.length; i++){
+		              	var temp = "item_" + arr[i]
+             	   		$("#"+temp).prop("checked", true).trigger("click");
+                }
+            	arr.lenght = 0;
+            }
+            
+            
             
             function checkAllExpGroupBoxes() {
                 $('input[name="expgroupbox"]').each(function() {
@@ -85,6 +112,7 @@
         		})
         		.done(function(html) {        			
        				$("#selectDate").empty().append($.trim(html));	//원본
+       				if(map.has("selectDate")) $("#selectDate").val(map.get("selectDate")).trigger('change');
         		});
             }
   // 오늘날짜 생성          
@@ -106,7 +134,8 @@
         		})
         		.done(function(html) {
         			$("#expList5").empty().append($.trim(html));
-        			
+        			if(!$("#expAll").is(':checked')) $("#expAll").trigger('click');
+        			loadclick();
         		});
             }
   
@@ -137,7 +166,7 @@
             });
 /* 달력, 퍼블 End */
 
-	$(document).ready(function() {
+	$(function() {
 		// 체크박스 상태 변경 이벤트 핸들러 등록
 	    $('input[name="expgroupbox"]').change(function() {
 	        // 현재 체크된 체크박스의 카테고리를 가져옵니다.
@@ -173,6 +202,16 @@
 	            // 체크 해제된 경우 해당 카테고리의 항목을 숨깁니다.
 	            $('ul.exp_list li').filter('[data-category="' + currentCategory + '"]').hide();
 	        }
+	        
+	        var total = $("input[name=expgroupbox]").length;
+    		var checked = $("input[name=expgroupbox]:checked").length;
+
+    		if(total != checked){
+    			$("#expAll").prop("checked", false);
+    		}
+    		else{
+    			$("#expAll").prop("checked", true); 
+    		}
 	    });
 		/* 체험유형 체크 End */
 
@@ -186,17 +225,6 @@
 	        }
 	        $('input[name="expgroupbox"]').trigger('change');
 	    });
-	    
-	    
-				
-        //페이지 로드 시 세션 스토리지에서 폼 데이터를 복원
-        if (sessionStorage.getItem('formData')) {
-            var formData = JSON.parse(sessionStorage.getItem('formData'));
-            $.each(formData, function(i, field) {
-                $("[name='" + field.name + "']").val(field.value);
-            });
-            sessionStorage.removeItem('formData'); // 데이터 복원 후 세션 스토리지에서 삭제
-        }
 	});
 	
 	
@@ -261,9 +289,9 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/sub.js"></script>
         
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -383,6 +411,7 @@
                                     <label for="exp5"><span>이벤트&기타</span></label>
                                 </div>
                             </div>
+                            <p class="expgroup_des ar pc_only">* 해당 금액은 일반 금액이며 단체 방문자는 추가적인 할인혜택이 적용됩니다.</p>
                             <ul class="exp_list" id="expList5">
                                 <!-- RE_SE_expList5.jsp 리스트  -->
                             </ul>

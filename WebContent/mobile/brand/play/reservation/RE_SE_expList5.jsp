@@ -25,7 +25,27 @@
     List<Param> list = svc.getListByDateOrderNM(param);
 %>
 
-<ul class="exp_list">
+<%
+	Map<String, Set<String>> expPidToTimes = new HashMap<String, Set<String>>();
+	
+	// list를 순회하여 각 exp_pid에 대해 고유한 time 값을 저장합니다.
+	for (Param row : list) {
+	    String expPid = row.get("exp_pid");
+	    String time = row.get("time");
+	    
+	    if (!expPidToTimes.containsKey(expPid)) {
+	        expPidToTimes.put(expPid, new HashSet<String>());
+	    }
+	    expPidToTimes.get(expPid).add(time);
+	}
+	
+	Map<String, Integer> expPidToTimeCounts = new HashMap<String, Integer>();
+	for (Map.Entry<String, Set<String>> entry : expPidToTimes.entrySet()) {
+	    expPidToTimeCounts.put(entry.getKey(), entry.getValue().size());
+	}
+%>
+
+<!-- <ul class="exp_list"> -->
 <%
     int rIndex = 0; // 라디오 버튼 그룹화를 위한 변수 초기화
     String previousExpTypeNm = null;
@@ -35,6 +55,9 @@
         String currentExpTypeNm = row.get("exp_type_nm");
         String currentTime = row.get("time"); // 현재 처리중인 시간
         String dataCategory = row.get("exp_gb"); // 기본 카테고리 값
+        
+        String expPid = row.get("exp_pid");
+        Integer timeCount = expPidToTimeCounts.get(expPid);
 
         // "공장견학"의 경우 data-category 값을 "999"로 설정
         if ("공장견학".equals(currentExpTypeNm)) {
@@ -59,15 +82,15 @@
                         <span><%= row.get("summary") %></span>
                         <button type="button" onClick="popDetail('<%= row.get("seq") %>')">더보기</button>
                     </div>
-                    <div class="item_time time_4">
+                    <div class="item_time time_<%= timeCount %>">
 <%
         }
         // 시간 슬롯 출력
         if (!currentTime.equals(previousTime)) {
 %>
                         <div class="time_select">
-                            <input type="radio" name="item<%= rIndex %>" id="item<%= rIndex %>_<%= row.get("exp_pid") %>" value="<%= row.get("exp_pid")%>">
-                            <label for="item<%= rIndex %>_<%= row.get("exp_pid") %>">
+                            <input type="radio" name="item<%= rIndex %>" id="item_<%= row.get("exp_pid") %>" value="<%= row.get("exp_pid")%>">
+                            <label for="item_<%= row.get("exp_pid") %>">
                                 <b><%= row.get("time").substring(0, 2) + ":" + row.get("time").substring(2) %></b>
                                 <span>(잔여 : <em><%= row.getInt("seat_num") - row.getInt("reserved_num") %></em>)</span>
                             </label>
@@ -86,5 +109,5 @@
 <%
     }
 %>
-</ul>
+<!-- </ul> -->
 
