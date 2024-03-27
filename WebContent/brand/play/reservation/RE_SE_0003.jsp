@@ -115,11 +115,11 @@ CodeService code = (new CodeService()).toProxyInstance();
 MemberService member = (new MemberService()).toProxyInstance();
 
 /* 원본 */
-	int point = immem.getMemberPoint(fs.getUserNo());
+ 	int point = immem.getMemberPoint(fs.getUserNo());
 	String orderid = order.getNewId();
 	member.modifyOrderid(fs.getUserId(), orderid);
 	LGD_OID = orderid;
-	Param memInfo = member.getInfo(fs.getUserId());
+	Param memInfo = member.getInfo(fs.getUserId()); 
 
 /* 로컬 테스트 */
 // int point = 0;
@@ -1865,6 +1865,24 @@ if(fs.isLogin()){
         			$("#memberAgree").prop("checked", true);
         		}
         	});
+            
+        	// "maeilpay_wrap" 선택 시
+        	$(".maeilpay_wrap").click(function() {
+        	    // "pay1"을 체크하고, 나머지 "pay_type" 결제 수단을 체크 해제
+        	    $('input[id="pay1"]').prop('checked', true);
+        	    $('input[name="pay_type"]').prop('checked', false);
+        	});
+        	
+        	$("#pay1").click(function(){
+        		$('input[name="pay_type"]').prop('checked', false);
+        	});
+        	
+    		$(".payType_wrap").click(function(){
+        		$('input[id="pay2"]').prop('checked',true);
+        	});
+    		/* 결제버튼 이벤트 End */
+        	
+        	 $('input[name="pay_type"]').prop('checked', false);
         	
 
             
@@ -1923,23 +1941,7 @@ String payregSignature = kbPayUtil.payregSig(corpMemberNo, userMngNo, returnUrl)
 
     // Execute kbpay function after the document is fully loaded
     $(document).ready(function() {
-    	// "maeilpay_wrap" 선택 시
-    	$(".maeilpay_wrap").click(function() {
-    	    // "pay1"을 체크하고, 나머지 "pay_type" 결제 수단을 체크 해제
-    	    $('input[id="pay1"]').prop('checked', true);
-    	    $('input[name="pay_type"]').prop('checked', false);
-    	});
     	
-    	$("#pay1").click(function(){
-    		$('input[name="pay_type"]').prop('checked', false);
-    	});
-    	
-		$(".payType_wrap").click(function(){
-    		$('input[id="pay2"]').prop('checked',true);
-    	});
-		/* 결제버튼 이벤트 End */
-    	
-    	 $('input[name="pay_type"]').prop('checked', false);
 		
     	/* 결제수단 조회 */
         kbpay();
