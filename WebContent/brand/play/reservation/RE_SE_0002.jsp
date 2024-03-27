@@ -106,7 +106,7 @@
         		})
         		.done(function(html) {
         			$("#expList5").empty().append($.trim(html));
-        			
+        			if(!$("#expAll").is(':checked')) $("#expAll").trigger('click');
         		});
             }
   
@@ -173,6 +173,16 @@
 	            // 체크 해제된 경우 해당 카테고리의 항목을 숨깁니다.
 	            $('ul.exp_list li').filter('[data-category="' + currentCategory + '"]').hide();
 	        }
+	        
+	        var total = $("input[name=expgroupbox]").length;
+    		var checked = $("input[name=expgroupbox]:checked").length;
+
+    		if(total != checked){
+    			$("#expAll").prop("checked", false);
+    		}
+    		else{
+    			$("#expAll").prop("checked", true); 
+    		}
 	    });
 		/* 체험유형 체크 End */
 
