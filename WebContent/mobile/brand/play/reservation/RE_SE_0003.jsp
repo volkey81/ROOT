@@ -1044,7 +1044,7 @@ if(fs.isLogin()){ //회원여부 확인
     	}
     %>
 //     			console.log("paytype : " + $("input[name=pay_type]:checked").val());
-    			console.log($("#reserve_date").val().replace(/\./g, ''));
+    			console.log($("#reserve_date").val().replace(/\${pageContext.request.contextPath}/g, ''));
     			if(payAmt == 0) {	// 0원 결제
     				$("#orderForm").submit();
     			}else{
@@ -1085,7 +1085,7 @@ if(fs.isLogin()){ //회원여부 확인
     	    			            "taxScopeAmount": payAmt,
     	    			            "taxExScopeAmount": 0,
     	    			            "returnUrl": "<%= naverReturn %>",
-    	    			            "useCfmYmdt": $("#reserve_date").val().replace(/\./g, ''),
+    	    			            "useCfmYmdt": $("#reserve_date").val().replace(/\${pageContext.request.contextPath}/g, ''),
     	    			            "productItems": getProductJson()
     	    			        });
     	    				}
@@ -1564,10 +1564,10 @@ if(fs.isLogin()){
 <!--                             </div> -->
 <!--                             <p class="divLine mt30 mb30"></p> -->
                             <div class="radio_content">
-                                <div class="radio_g radio_check">
-                                    <input type="radio" name="payGroup" id="pay2">
-                                    <label for="pay2"><span>다른 결제 수단</span></label>
-                                </div>
+<!--                                 <div class="radio_g radio_check"> -->
+<!--                                     <input type="radio" name="payGroup" id="pay2"> -->
+<!--                                     <label for="pay2"><span>다른 결제 수단</span></label> -->
+<!--                                 </div> -->
                                 <ul class="payType_wrap">
                                     <li>
                                         <div class="payType_item">
@@ -1822,7 +1822,7 @@ if(fs.isLogin()){
 	                </div>
 	            </div>
 	        </div>
-	        <p class="fotter_logo"><img src="./image/footer_logo.png" alt=""></p>
+	        <p class="fotter_logo"><img src="${pageContext.request.contextPath}/image/footer_logo.png" alt=""></p>
 	        <div class="footer_info">
 	            <div class="info_link">
 	                <!-- 24.03.22 add href -->
@@ -1943,6 +1943,15 @@ if(fs.isLogin()){
     
 <!--     kb 간편결제 추가 -->
 <script>
+
+/* 체험상품 삭제버튼 이벤트 */
+function removeListItem(button) {
+    var liElement = button.closest('li');
+    if (liElement) {
+        liElement.remove();
+    }
+}
+
 <%
 String baseUrl = kbPayUtil.getKbpaybaseurl();
 String corpNo = kbPayUtil.getCorpNo();

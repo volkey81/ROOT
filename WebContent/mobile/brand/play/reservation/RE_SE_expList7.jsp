@@ -289,7 +289,7 @@ for(Param row : list) {
 <%			
 		}
 %>
-<button type="button" class="btn_close"><span class="g_alt">삭제</span></button>
+<button type="button" class="btn_close" onclick="removeListItem(this)"><span class="g_alt">삭제</span></button>
 <%
    previousValue = row.get("exp_pid");
    currentIndex++;

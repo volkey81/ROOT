@@ -60,7 +60,7 @@
 
 .textarea_g{position:relative;overflow:hidden;width:100%;height:130px;border:1px solid #ddd;border-radius:10px;line-height:0;font-size:0}
 .textarea_g textarea{padding:20px;width:100%;height:100%;border:0;line-height:19px;font-size:16px}
-.textarea_g.readOnly textarea{line-height:16px;color:#777;font-size:14px}
+.textarea_g.readOnly textarea{overflow:hidden;line-height:16px;color:#777;font-size:14px}
 
 .tabBox_g{border-bottom:1px solid #ddd;line-height:0;font-size:0}
 .tabBox_g .tabBox_item{padding:11px 21px 10px;line-height:19px;color:#777;font-size:16px;background-color:#ddd}
@@ -653,6 +653,8 @@
 
     .authNum{display:block}
     .authNum input{width:100% !important}
+
+    .program_wrap .btn_close{top:20px;transform:none}
 
     .select_g.select_large{width:100%}
 

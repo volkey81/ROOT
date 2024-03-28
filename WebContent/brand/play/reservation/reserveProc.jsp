@@ -15,6 +15,7 @@
 	} else {
 		GroupReserveService svc = (new GroupReserveService()).toProxyInstance();
 		param.set("userid", fs.getUserId());
+		System.out.println("reservation/reserveProc.jsp : "+param);
 		svc.create(param);
 		result = true;
 		msg = "단체예약 상담이 접수 되었습니다.\\n담당자 확인 후 연락드리겠습니다.";

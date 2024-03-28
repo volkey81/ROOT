@@ -83,7 +83,7 @@
                         <span><%= row.get("summary") %></span>
                         <button type="button" onClick="popDetail('<%= row.get("seq") %>')">더보기</button>
                     </div>
-                    <div class="item_time time_<%= timeCount %>">
+                    <div class="item_time time_<%=row.get("time_count")%>">
 <%
         }
         // 시간 슬롯 출력

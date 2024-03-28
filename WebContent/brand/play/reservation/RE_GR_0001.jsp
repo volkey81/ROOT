@@ -316,9 +316,9 @@ $(document).ready(function(){
                             <!-- 24.03.21 modify wrap START -->
                             <div class="conLine_Wrap">
                                 <div class="conLine w50p">
-                                    <p class="conLine_title">예약 희망일 ①</p>
+                                    <p class="conLine_title">예약 희망일</p>
                                     <p class="input_date conLine_content w290">
-                                        <input type="text" id="res_date1" name="reserve_date" value="2024.01.01">
+                                        <input type="text" id="res_date1" name="reserve_date1" value="2024.01.01">
                                     </p>
                                     <script>
                                         $(function() {
@@ -490,16 +490,24 @@ $(document).ready(function(){
                         </div>
                     </div>
                 </div>
-                <p class="fotter_logo"><img src="${pageContext.request.contextPath}/image/footer_logo.png" alt=""></p>
+                <p class="fotter_logo"><img src="./image/footer_logo.png" alt=""></p>
                 <div class="footer_info">
                     <div class="info_link">
-                        <a href="">입점/제휴문의</a>
-                        <a href="">이용약관</a>
-                        <a href="">개인정보취급방침</a>
-                        <a href="">고객센터</a>
-                        <a href="">윤리 HOT-LINE</a>
+                        <!-- 24.03.22 add href -->
+                        <a href="www.sanghafarm.co.kr/customer/partnership.jsp">입점/제휴문의</a>
+                        <!-- 24.03.22 add 인재채용 -->
+                        <a href="www.sanghafarm.co.kr/brand/bbs/jobnotice/story1.jsp">인재채용</a>
+                        <!-- 24.03.22 add href -->
+                        <a href="www.sanghafarm.co.kr/customer/agree.jsp">이용약관</a>
+                        <!-- 24.03.22 add href -->
+                        <a href="www.sanghafarm.co.kr/customer/privacy.jsp">개인정보취급방침</a>
+                        <!-- 24.03.22 add href -->
+                        <a href="www.sanghafarm.co.kr/customer/faq.jsp">고객센터</a>
+                        <!-- 24.03.22 add onClick -->
+                        <a a href="#"  onClick="popupOpen('hotline')">윤리 HOT-LINE</a>
                     </div>
                     <div class="info_company">
+                        <!-- 24.03.05 modify : .info_company 태그 및 내용 변경 -->
                         <div class="companyLine">
                             <p><span>전라북도 고창군 상하면 상하농원길 11-23</span><span>대표 : 최승우</span></p>
                             <p><span>개인정보 보호 책임자 : 최승우</span><span>사업자등록번호 : 415-86-00211</span></p>
@@ -514,17 +522,18 @@ $(document).ready(function(){
                         <p>@ 2021 SANGHA FARM CO. ALL RIGHTS RESERVED</p>
                     </div>
                 </div>
+                <!-- 24.03.03 add class : pc_only -->
                 <div class="footer_btn flex_wrap pc_only">
+                    <div class="footer_contact">
+                        <div class="contact_cs"><b>고객센터</b><span>1522-3698</span></div>
+                        <div class="contact_res"><b>빌리지예약</b><span>063-563-6611</span></div>
+                    </div>
                     <div class="btn_wrap flex_wrap">
                         <p>상하농원 <br>앱 다운로드</p>
                         <div>
                             <p class="btn_and">안드로이드</p>
                             <p class="btn_ios">iOS</p>
                         </div>
-                    </div>
-                    <div class="footer_contact">
-                        <div class="contact_cs"><b>고객센터</b><span>1522-3698</span></div>
-                        <div class="contact_res"><b>빌리지예약</b><span>063-563-6611</span></div>
                     </div>
                 </div>
             </div>

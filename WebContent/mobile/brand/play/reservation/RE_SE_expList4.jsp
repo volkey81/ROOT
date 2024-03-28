@@ -33,19 +33,35 @@
     <option value="">시간 선택</option>
 <%
 if(!paramdate.before(today)){
+	boolean firstTime=false;
     for(Param row : list) {
+    	if(!firstTime){
+    		firstTime=true;
         // 미래 날짜에 대해 가능한 모든 시간 표시
 %>
-    <option value="<%= row.get("time")%>"><%= row.get("time").substring(0, 2) + ":" + row.get("time").substring(2) %></option>
+    <option value="<%= row.get("time") %>" selected><%= row.get("time").substring(0, 2) + ":" + row.get("time").substring(2) %></option>
 <%
+		} else {
+%>
+    <option value="<%= row.get("time") %>"><%= row.get("time").substring(0, 2) + ":" + row.get("time").substring(2) %></option>
+<%
+		}
     }
 }else{
     // 오늘 날짜에 대해 이미 지난 시간은 필터링
+    boolean firstTime = false;
     for(Param row : list) {
         if(Integer.valueOf(row.get("time")) >= Integer.valueOf(time1) ){
+        	if(!firstTime){
+        		firstTime=true;
 %>
-    <option value="<%= row.get("time")%>"><%= row.get("time").substring(0, 2) + ":" + row.get("time").substring(2) %></option>
-<%  
+    <option value="<%= row.get("time") %>" selected><%= row.get("time").substring(0, 2) + ":" + row.get("time").substring(2) %></option>
+<%
+            } else {
+%>
+    <option value="<%= row.get("time") %>"><%= row.get("time").substring(0, 2) + ":" + row.get("time").substring(2) %></option>
+<%
+            }
         }
     }
 }

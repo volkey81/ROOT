@@ -176,68 +176,6 @@
             });
 /* 달력, 퍼블 End */
 
-	$(function() {
-		// 체크박스 상태 변경 이벤트 핸들러 등록
-	    $('input[name="expgroupbox"]').change(function() {
-	        // 현재 체크된 체크박스의 카테고리를 가져옵니다.
-	        var currentCategoryId = $(this).attr('id');
-	        var currentCategory = ""; // 현재 카테고리명을 저장할 변수
-
-	        // 체크된 체크박스의 ID에 따라 currentCategory 값을 설정합니다.
-	        switch(currentCategoryId) {
-	            case 'exp1':
-	                currentCategory = "002";
-	                break;
-	            case 'exp2':
-	                currentCategory = "999";
-	                break;
-	            case 'exp3':
-	                currentCategory = "001";
-	                break;
-	            case 'exp4':
-	                currentCategory = "003";
-	                break;
-	            case 'exp5':
-	                currentCategory = "005";
-	                break;
-	            default:
-	            	currentCategory = "888";
-	        }
-
-	        // 모든 항목을 숨기고, 선택된 카테고리의 항목만 표시합니다.
-	        if($(this).is(':checked')) {
-	            // 체크된 경우 해당 카테고리의 항목만 보여줍니다.
-	            $('ul.exp_list li').filter('[data-category="' + currentCategory + '"]').show();
-	        } else {
-	            // 체크 해제된 경우 해당 카테고리의 항목을 숨깁니다.
-	            $('ul.exp_list li').filter('[data-category="' + currentCategory + '"]').hide();
-	        }
-	        
-	        var total = $("input[name=expgroupbox]").length;
-    		var checked = $("input[name=expgroupbox]:checked").length;
-
-    		if(total != checked){
-    			$("#expAll").prop("checked", false);
-    		}
-    		else{
-    			$("#expAll").prop("checked", true); 
-    		}
-	    });
-		/* 체험유형 체크 End */
-
-		
-	    // 전체 선택/해제 로직
-	    $('#expAll').change(function() {
-	        if(this.checked) {
-	            $('input[name="expgroupbox"]').prop('checked', true);
-	        } else {
-	            $('input[name="expgroupbox"]').prop('checked', false);
-	        }
-	        $('input[name="expgroupbox"]').trigger('change');
-	    });
-	});
-	
-	
 	$(document).on("click","input[type=radio]",function(e){
 		var chk = $(this).is(":checked");
 		var pre = $(this).data("previous");
@@ -273,6 +211,55 @@
 	        window.location.href = "/mobile/member/login.jsp?returnUrl=" + encodeURIComponent(window.location.href)+"&type="+deviceType;
 	    }
 	}
+	
+	$(document).ready(function() {
+		/* 체험유형 체크 Start */
+	    // 초기 체크박스 상태 설정 및 categoriesToShow 배열 초기화
+	    $('input[name="expgroupbox"]').prop('checked', true); // 모든 체크박스를 체크 상태로 설정
+	    let categoriesToShow = ["002", "999", "001", "003", "005"]; // 모든 카테고리를 포함시킴
+	
+	    // 체크박스 상태 변경 시 로직
+	    $('input[name="expgroupbox"]').change(function() {
+	        // 변경 시 categoriesToShow 배열을 새로 생성
+	        categoriesToShow = [];
+	        $('input[name="expgroupbox"]:checked').each(function() {
+	            var currentCategoryId = $(this).attr('id');
+	            switch(currentCategoryId) {
+	                case 'exp1': categoriesToShow.push("002"); break;
+	                case 'exp2': categoriesToShow.push("999"); break;
+	                case 'exp3': categoriesToShow.push("001"); break;
+	                case 'exp4': categoriesToShow.push("003"); break;
+	                case 'exp5': categoriesToShow.push("005"); break;
+	            }
+	        });
+	
+	        updateDisplay(); // 카테고리에 맞는 항목을 보여주는 함수 호출
+	    });
+	
+	    // 초기 상태에서도 디스플레이 업데이트
+	    updateDisplay();
+	
+	    // 배열에 있는 카테고리를 기반으로 해당하는 항목을 보여주는 함수
+	    function updateDisplay() {
+	        $('ul.exp_list li').hide(); // 모든 항목을 숨깁니다.
+	        categoriesToShow.forEach(function(category) {
+	            $('ul.exp_list li[data-category="' + category + '"]').show(); // 해당 카테고리의 항목을 보여줍니다.
+	        });
+	    }
+		/* 체험유형 체크 End */
+		
+	    // 전체 선택/해제 로직
+	    $('#expAll').change(function() {
+	        if(this.checked) {
+	            $('input[name="expgroupbox"]').prop('checked', true);
+	        } else {
+	            $('input[name="expgroupbox"]').prop('checked', false);
+	        }
+	        $('input[name="expgroupbox"]').trigger('change');
+	    });
+	});
+
+
 </script>
         <meta charset="utf-8">
         <meta http-equiv="imagetoolbar" content="no">
@@ -462,7 +449,7 @@
                         </div>
                     </div>
                 </div>
-                <p class="fotter_logo"><img src="./image/footer_logo.png" alt=""></p>
+                <p class="fotter_logo"><img src="${pageContext.request.contextPath}/image/footer_logo.png" alt=""></p>
                 <div class="footer_info">
                     <div class="info_link">
                         <!-- 24.03.22 add href -->
