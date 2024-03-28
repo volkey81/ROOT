@@ -21,6 +21,16 @@
 	if(fs.isLogin()) {
 		ckLogin = true; 
 	}
+	
+	// Device check
+	boolean isMobileOS = false;
+    String userAgent = request.getHeader("User-Agent").toLowerCase();
+    boolean isMobile = userAgent.contains("mobile") || userAgent.contains("android") || userAgent.contains("iphone");
+
+    if (isMobile) {
+        // 모바일 기기에서 접속한 경우의 처리
+    	isMobileOS=true;
+    }
 %>
 <html>
     <head>
@@ -249,13 +259,18 @@
 	
 	    var isLoggedin = <%= ckLogin %>;
 	    
+	    var deviceType="web";
+	    if(<%=isMobileOS%>){
+	    	deviceType="mobile";
+	    }
+	    
 	    if(isLoggedin) {
 	        $("#idform").submit();
 	    } else {
 	        alert("로그인이 필요합니다.");
 	     	// 폼 데이터를 sessionStorage에 저장
 	        sessionStorage.setItem('formData', JSON.stringify($('#idform').serializeArray()));
-	        window.location.href = "/mobile/member/login.jsp?returnUrl=" + encodeURIComponent(window.location.href)+"&type=web";
+	        window.location.href = "/mobile/member/login.jsp?returnUrl=" + encodeURIComponent(window.location.href)+"&type="+deviceType;
 	    }
 	}
 </script>

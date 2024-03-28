@@ -1549,20 +1549,20 @@ if(fs.isLogin()){
                             결제수단 선택
                         </div>
                         <div class="section_content">
-                            <div class="radio_content">
-                                <div class="radio_g radio_check">
-                                    <input type="radio" name="payGroup" id="pay1" checked>
-                                    <label for="pay1"><img src="${pageContext.request.contextPath}/image/icn_maeilpay.png" alt=""></label>
-                                </div>
+<!--                             <div class="radio_content"> 간편결제 숨김처리, 오픈 후 개발 진행 | 24.03.28-->
+<!--                                 <div class="radio_g radio_check"> -->
+<!--                                     <input type="radio" name="payGroup" id="pay1" checked> -->
+<%--                                     <label for="pay1"><img src="${pageContext.request.contextPath}/image/icn_maeilpay.png" alt=""></label> --%>
+<!--                                 </div> -->
                                 <!-- 24.03.25 add : 등록된 Maeil Pay 없을 때-->
-                                <div class="maeilpay_wrap unRegi">
-                                    <button type="button" class="maeilpay_unRegi" name="maeilpay_unRegi" id="maeilpay_unRegi">
-                                        <p>원클릭 결제를 경험해보세요!</p>
-                                        <span>+ Maeil Pay 등록하기</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <p class="divLine mt30 mb30"></p>
+<!--                                 <div class="maeilpay_wrap unRegi"> -->
+<!--                                     <button type="button" class="maeilpay_unRegi" name="maeilpay_unRegi" id="maeilpay_unRegi"> -->
+<!--                                         <p>원클릭 결제를 경험해보세요!</p> -->
+<!--                                         <span>+ Maeil Pay 등록하기</span> -->
+<!--                                     </button> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                             <p class="divLine mt30 mb30"></p> -->
                             <div class="radio_content">
                                 <div class="radio_g radio_check">
                                     <input type="radio" name="payGroup" id="pay2">

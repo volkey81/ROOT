@@ -642,7 +642,7 @@
                                         <b class="subject_title">자연을 오감으로 느끼는<br>먹거리 만들기 체험</b>
                                     </div>
                                     <img src="./image/sec3_slide_02.png" alt="">
-                                    <a href="/brand/bbs/news/view.jsp?seq=367" class="slide_btn">자세히 보기</a>
+                                    <a href="/brand/play/experience/list.jsp" class="slide_btn">자세히 보기</a>
                                 </div>
                             </div>
                             <div class="swiper-slide">
@@ -651,7 +651,7 @@
                                         <b class="subject_title">파머스빌리지에서 준비한<br>특별한 프로모션</b>
                                     </div>
                                     <img src="./image/sec3_slide_03.png" alt="">
-                                    <a href="/brand/bbs/news/view.jsp?seq=367" class="slide_btn">자세히 보기</a>
+                                    <a href="/hotel/village/promotion/list.jsp" class="slide_btn">자세히 보기</a>
                                 </div>
                             </div>
                             <div class="swiper-slide">

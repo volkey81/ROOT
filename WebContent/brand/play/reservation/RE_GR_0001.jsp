@@ -293,17 +293,17 @@ $(document).ready(function(){
             </div>
             <div class="content_wrap">
                 <div class="type_wrap">
-                    <div class="type_item type_personal">
+					<a href="RE_SE_0002.jsp" class="type_item type_personal">
                         <p>개인예약</p>
                         <span>(20명미만)</span>
-                    </div>
+                    </a>
                     <div class="type_item type_group act">
                         <p>단체예약</p>
                         <span>(20명이상)</span>
                     </div>
                 </div>
                 <!-- 24.03.17 add p tag -->
-                <p class="expgroup_des pl20 pr20 ar">20인이상의 단체방문자는 추가적인 할인혜택이 적용됩니다. 방문계획을 남겨주시면, 전화를 통해 예약을 확정합니다.</p>
+                <p class="expgroup_des pl20 pr20 ac">20인이상의 단체방문자는 추가적인 할인혜택이 적용됩니다. 방문계획을 남겨주시면, 전화를 통해 예약을 확정합니다.</p>
                 <!-- 24.03.17 add class : mt20 -->
                 <form name="reserveForm" id="reserveForm" method="post" action="reserveProc.jsp" class="mt20">
                 <input type="hidden" name="reserve_date" id="reserve_date" />
@@ -390,25 +390,25 @@ $(document).ready(function(){
                                     <option value="">선택없음</option>
                                 </select>
                             </div>
-                            <div class="conLine lh16 fcGray fs14">
-                                - 20명 이상 이용 시에만 단체가격의 적용이 가능합니다.<br/>
-                                - 웹사이트 예약 접수 후 유선을 통한 예약 확정이 필요합니다. (예약 후 3일 이내 해피콜 예정)<br/>
-                                - 단체 도시락 식사가 가능한 실내 시설이 없습니다. 도시락 지참 시 참고 바랍니다.<br/>
-                                - 단체 체험 취소는 일주일 전까지만 가능합니다.
+                            <div class="conLine">
+                                <p class="before_dash lh16 fcGray fs14">20명 이상 이용 시에만 단체가격의 적용이 가능합니다.</p>
+                                <p class="before_dash lh16 fcGray fs14">웹사이트 예약 접수 후 유선을 통한 예약 확정이 필요합니다. (예약 후 3일 이내 해피콜 예정)</p>
+                                <p class="before_dash lh16 fcGray fs14">단체 도시락 식사가 가능한 실내 시설이 없습니다. 도시락 지참 시 참고 바랍니다.</p>
+                                <p class="before_dash lh16 fcGray fs14">단체 체험 취소는 일주일 전까지만 가능합니다.</p>
                             </div>
                             <div class="conLine">
                                 <p class="conLine_title required">단체명</p>
                                 <input type="text" name="group_nm" id="group_nm" title="단체명"  class="input_g input_medium">
                             </div>
-                            <div class="conLine">
-                                <p class="conLine_title required">체험인원</p>
+                            <div class="conLine mo_flex_wrap flexWrap_wrap">
+                                <p class="conLine_title required mo_flexNone">체험인원</p>
                                 <!-- 24.03.21 add span.subText -->
-                                <input type="text" name="exp_num" id="exp_num" title="체험인원"  class="input_g input_medium" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"><span class="subText">명</span>
+                                <input type="text" name="exp_num" id="exp_num" title="체험인원"  class="input_g input_medium mo_flex_1" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"><span class="subText">명</span>
                             </div>
-                            <div class="conLine">
-                                <p class="conLine_title">참관인원</p>
+                            <div class="conLine mo_flex_wrap flexWrap_wrap">
+                                <p class="conLine_title mo_flexNone">참관인원</p>
                                 <!-- 24.03.21 add span.subText -->
-                                <input type="text" name="see_num" id="see_num" title="참관인원" class="input_g input_medium" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"><span class="subText">명</span>
+                                <input type="text" name="see_num" id="see_num" title="참관인원" class="input_g input_medium mo_flex_1" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)"><span class="subText">명</span>
                             </div>
                             <div class="conLine">
                                 <p class="conLine_title">휴대폰번호</p>
