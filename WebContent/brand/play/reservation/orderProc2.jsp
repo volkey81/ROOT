@@ -18,9 +18,9 @@
 <%@page import="com.fasterxml.jackson.databind.node.ArrayNode"%>
 <%@page import="com.fasterxml.jackson.databind.JsonNode"%>
 <%@ include file="/order/payco/common_include.jsp" %>
+
 <%
 	request.setCharacterEncoding("utf-8"); 
-	
 	Param param = new Param(request);
 	FrontSession fs = FrontSession.getInstance(request, response);
 	TicketOrderService order = (new TicketOrderService()).toProxyInstance();
@@ -29,10 +29,8 @@
 	ImMemberService immem = (new ImMemberService()).toProxyInstance();
 	CouponService coupon = (new CouponService()).toProxyInstance();
 	ExpProductService exp = (new ExpProductService()).toProxyInstance();
-	
 	String orderid = param.get("orderid");
 	String deviceType = param.get("device_type", "P");
-	
 	StringBuilder backUrlParams = new StringBuilder();
 	Enumeration<String> paramNames = request.getParameterNames();
 	while(paramNames.hasMoreElements()) {
@@ -43,14 +41,12 @@
 	    }
 	    backUrlParams.append(paramName).append("=").append(URLEncoder.encode(paramValue, "UTF-8"));
 	}
-	
 	String backUrl = Env.getURLPath() + "/brand/play/reservation/RE_SE_0003.jsp";
 	
 	if(!fs.isLogin()) {
 		SanghafarmUtils.sendLoginMessage(out, FrontSession.LOGIN_MSG, request);
 		return;
 	}
-	
 	Param memInfo = member.getInfo(fs.getUserId());
 	System.out.println(orderid + " : " + memInfo.get("orderid"));
 	if("".equals(memInfo.get("orderid")) || !orderid.equals(memInfo.get("orderid"))) {
@@ -60,29 +56,78 @@
 	    out.println("</script>");
 		return;
 	}
-	
 	String userid = fs.getUserId();
 	
 	int totAmt = 0;
 	int couponAmt = 0;
 	int giftcardAmt = 0;
 	int pointAmt = 0;
-
+	
 	String[] expPids = param.getValues("exp_pid");
 	for(String expPid : expPids) {
 		String[] ticketTypes = param.getValues("ticket_type_" + expPid);
 		int _reservedNum = 0;
-		for(String ticketType : ticketTypes) {
-			int _amt = 0;
-			if("0".equals(expPid)) {
-				_amt = Integer.parseInt(Config.get("admission.fee." + ticketType));
-			} else {
-				_amt = exp.getPriceInfo(new Param("exp_pid", expPid, "ticket_type", ticketType));
-			}
-// 			totAmt += param.getInt("price_" + expPid + "_" + ticketType, 0) * param.getInt("qty_" + expPid + "_" + ticketType, 0);
-			totAmt += _amt * param.getInt("qty_" + expPid + "_" + ticketType, 0);
-			_reservedNum += param.getInt("occu_num_" + expPid + "_" + ticketType) * param.getInt("qty_" + expPid + "_" + ticketType, 0);
-		}
+
+	    if (ticketTypes != null) {
+	        for (String ticketType : ticketTypes) {
+	            int qtyA = 0, priceA = 0, qtyS = 0, priceS = 0, qtyB = 0, priceB = 0;
+	
+	            try {
+	                String qtyAStr = request.getParameter("qtyA_" + expPid + "_" + ticketType);
+	                qtyA = (qtyAStr != null && !qtyAStr.isEmpty()) ? Integer.parseInt(qtyAStr) : 0;
+	            } catch (NumberFormatException e) {
+	                qtyA = 0;
+	            }
+	
+	            try {
+	                String priceAStr = request.getParameter("priceA_" + expPid + "_" + ticketType);
+	                priceA = (priceAStr != null && !priceAStr.isEmpty()) ? Integer.parseInt(priceAStr) : 0;
+	            } catch (NumberFormatException e) {
+	                priceA = 0;
+	            }
+	
+	            try {
+	                String qtySStr = request.getParameter("qtyS_" + expPid + "_" + ticketType);
+	                qtyS = (qtySStr != null && !qtySStr.isEmpty()) ? Integer.parseInt(qtySStr) : 0;
+	            } catch (NumberFormatException e) {
+	                qtyS = 0;
+	            }
+	
+	            try {
+	                String priceSStr = request.getParameter("priceS_" + expPid + "_" + ticketType);
+	                priceS = (priceSStr != null && !priceSStr.isEmpty()) ? Integer.parseInt(priceSStr) : 0;
+	            } catch (NumberFormatException e) {
+	                priceS = 0;
+	            }
+	
+	            try {
+	                String qtyBStr = request.getParameter("qtyB_" + expPid + "_" + ticketType);
+	                qtyB = (qtyBStr != null && !qtyBStr.isEmpty()) ? Integer.parseInt(qtyBStr) : 0;
+	            } catch (NumberFormatException e) {
+	                qtyB = 0;
+	            }
+	
+	            try {
+	                String priceBStr = request.getParameter("priceB_" + expPid + "_" + ticketType);
+	                priceB = (priceBStr != null && !priceBStr.isEmpty()) ? Integer.parseInt(priceBStr) : 0;
+	            } catch (NumberFormatException e) {
+	                priceB = 0;
+	            }
+	
+	            // 총 금액 계산
+	            totAmt += (qtyA * priceA) + (qtyS * priceS) + (qtyB * priceB);
+	
+	            // 예약된 인원 수 계산
+	            _reservedNum += qtyA + qtyS + qtyB;
+	        }
+	    }
+		System.out.println("Total Amount: " + totAmt);
+		System.out.println("Reserved Number of People: " + _reservedNum);
+		/* ==================================== */
+
+
+
+
 
 		if(!"0".equals(expPid) && _reservedNum > 0) {
 			Param info = exp.getInfo(expPid);

@@ -38,6 +38,8 @@ import kr.co.lgcns.module.lite.CnsPayWebConnector;
 import kr.co.lgcns.module.lite.CnsPayWebConnector4NS;
 import lgdacom.XPayClient.XPayClient;
 
+import java.util.Enumeration;
+
 public class TicketOrderService extends IbatisService {
 	
 	public String getNewId() {
@@ -185,6 +187,18 @@ public class TicketOrderService extends IbatisService {
 	}
 	
 	public void create2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // 요청의 모든 파라미터를 로깅
+        Enumeration<String> parameterNames = request.getParameterNames();
+        System.out.println(" =====================[ create2 Start ]========================== ");
+        while (parameterNames.hasMoreElements()) {
+            String paramName = parameterNames.nextElement();
+            String[] paramValues = request.getParameterValues(paramName);
+
+            for (String value : paramValues) {
+                System.out.println(paramName + ": " + value);
+            }
+        }
+        System.out.println(" =====================[ create2 End ]========================== ");
 		create2(request, response, null);
 	}
 	
@@ -193,9 +207,8 @@ public class TicketOrderService extends IbatisService {
 		FrontSession fs = FrontSession.getInstance(request, response);
 		ImMemberService immem = (new ImMemberService()).toProxyInstance();
 		ExpProductService exp = (new ExpProductService()).toProxyInstance();
-		
 		Param param = new Param(request);
-//		param.set("device_type", fs.getDeviceType());
+		
 		param.set("email", param.get("email1") + "@" + param.get("email2"));
 
 		String morderid = param.get("orderid");
@@ -210,13 +223,11 @@ public class TicketOrderService extends IbatisService {
 		int seq = 0;
 		for(String expPid : expPids) {
 			int _qty = 0;
-//			int _amt = 0;
 			int _reservedNum = 0;
 
 			String[] ticketTypes = param.getValues("ticket_type_" + expPid);
 			for(String ticketType : ticketTypes) {
 				_qty += param.getInt("qty_" + expPid + "_" + ticketType, 0);
-//				_amt += param.getInt("price_" + expPid + "_" + ticketType, 0) * param.getInt("qty_" + expPid + "_" + ticketType, 0);
 				_reservedNum += param.getInt("occu_num_" + expPid + "_" + ticketType) * param.getInt("qty_" + expPid + "_" + ticketType, 0);
 			}
 
@@ -230,7 +241,7 @@ public class TicketOrderService extends IbatisService {
 						} else {
 							_amt = exp.getPriceInfo(new Param("exp_pid", expPid, "ticket_type", ticketType));
 						}
-
+						/* 티켓 갯수만큼 insert 하고 있음, insert 구조 변경, 24.03.30 | hjm */
 						Param p = new Param();
 						p.set("orderid", orderid);
 						p.set("ticket_type", ticketType);

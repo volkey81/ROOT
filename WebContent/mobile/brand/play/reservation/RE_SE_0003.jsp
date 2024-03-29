@@ -258,6 +258,9 @@ if(request.getQueryString() != null || !request.getMethod().startsWith("GET") ) 
 <script src="/js/bluebird.min.js"></script>
 <script src="/js/imagesloaded.pkgd.js"></script>
 
+<!-- 결제에 사용 -->
+<script src="/js/jquery-ui.js?t=<%=System.currentTimeMillis()%>"></script>
+
 <!-- Payco -->
 <script type="text/javascript" src="https://static-bill.nhnent.com/payco/checkout/js/payco.js" charset="UTF-8"></script>
 
@@ -1043,8 +1046,8 @@ if(fs.isLogin()){ //회원여부 확인
     <%
     	}
     %>
-//     			console.log("paytype : " + $("input[name=pay_type]:checked").val());
-    			console.log($("#reserve_date").val().replace(/\${pageContext.request.contextPath}/g, ''));
+
+				console.log($("#reserve_date").val().replace(/\./g, ''));
     			if(payAmt == 0) {	// 0원 결제
     				$("#orderForm").submit();
     			}else{
@@ -1143,7 +1146,94 @@ if(fs.isLogin()){ //회원여부 확인
     		}
     	}
     	
-    	
+    	$(function() {
+    	    $(".programChk li input:checkbox").on('click', function() {
+    	        if ($(this).prop('checked')) {
+    	            $(this).parent().addClass("chk");
+    	        } else {
+    	            $(this).parent().removeClass("chk");
+    	        }
+    	    });
+    	});
+
+    	function showGift() {
+    	    showPopupLayer('/popup/giftCard.jsp?pay_amt=' + payAmt, '500');
+    	}
+
+    	function changeEmail3(v) {
+    	    if (v == '') {
+    	        $("#email2").val("");
+    	        $("#email2").prop("readonly", "");
+    	    } else {
+    	        $("#email2").val(v);
+    	        $("#email2").prop("readonly", "readonly");
+    	    }
+    	}
+
+    	function autoFill() {
+    	    if ($("#auto_fill").prop("checked")) {
+    	        $("#name").val("<%= fs.getUserNm() %>");
+    	        $("#mobile1").val("<%= fs.getMobile1() %>");
+    	        $("#mobile2").val("<%= fs.getMobile2() %>");
+    	        $("#mobile3").val("<%= fs.getMobile3() %>");
+    	        $("#email1").val("<%= fs.getEmail1() %>");
+    	        $("#email2").val("<%= fs.getEmail2() %>");
+    	        $("#email3").val("");
+    	    } else {
+    	        $("#name").val("");
+    	        $("#mobile1").val("010");
+    	        $("#mobile2").val("");
+    	        $("#mobile3").val("");
+    	        $("#email1").val("");
+    	        $("#email2").val("");
+    	        $("#email3").val("");
+    	    }
+    	}
+
+    	function kakaopay(token) {
+    	    $("#pg_token").val(token);
+    	    $("#orderForm").submit();
+    	}
+
+    	function kakaopayPopClose() {
+    	    hidePopupLayer();
+    	}
+
+    	function getProductJson() {
+    	    var productItems = new Array();
+
+    	    $("input[name=exp_pid]:checked").each(function() {
+    	        var _pid = $(this).val();
+    	        $("input[name=ticket_type_" + _pid + "]").each(function() {
+    	            var _ticket = $(this).val();
+    	            var _price = parseInt($("#price_" + _pid + "_" + _ticket).val());
+    	            var _qty = parseInt($("#qty_" + _pid + "_" + _ticket).val());
+
+    	            if (_qty > 0) {
+    	                var json = {
+    	                    "categoryType": "PLAY",
+    	                    "categoryId": "TICKET",
+    	                    "uid": _pid + "_" + _ticket,
+    	                    "name": $("#exp_type_name_" + _pid).val() + "-" + $("#ticket_nm_" + _pid + "_" + _ticket).val(),
+    	                    "startDate": $("#reserve_date").val().replace(/\./g, ''),
+    	                    "endDate": $("#reserve_date").val().replace(/\./g, ''),
+    	                    "count": _qty
+    	                }
+
+    	                productItems.push(json);
+    	            }
+    	        });
+    	    });
+
+    	    console.log(productItems);
+    	    return productItems;
+    	}
+
+    	function naverpay(paymentId) {
+    	    $("#paymentId").val(paymentId);
+    	    $("#orderForm").submit();
+    	}
+/*  */
     	
         
         </script>
@@ -1176,7 +1266,7 @@ if(fs.isLogin()){ //회원여부 확인
                         <b class="terms_title">이용동의</b>
                         <div class="mt50">
                             <div class="check_g">
-                                <input type="checkbox" name="partyResAll" id="agreeAll" onclick="setAgreeAll()">
+                                <input type="checkbox" name="partyResAll" id="agreeAll">
                                 <label for="agreeAll"><span class="fs18 fwBold">전체 동의하기</span></label>
                             </div>
                         </div>
@@ -1495,7 +1585,7 @@ if(fs.isLogin()){
                                 <div class="check_g blk mt10">
                                     <input type="checkbox" name="point_all" id="point_all" onclick="pointAll()" <%= point < 100 ? "disabled" : "" %>>
 										<label for="point_all"><span>모두사용 (보유 포인트 : <em class="fcGreen"><%= Utils.formatMoney(point) %></em>) P</span></label>
-                                    <input type="hidden" name="point_amt" id="point_amt" />
+<!--                                     <input type="hidden" name="point_amt" id="point_amt" /> -->
                                 </div>
                             </div>
                             <p class="divLine mt30 mb30"></p>

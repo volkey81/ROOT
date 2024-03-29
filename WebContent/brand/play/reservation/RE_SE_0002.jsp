@@ -92,7 +92,6 @@
                 $("#selectDate").change(function() {
                 	var _time = $(this).val();
                 	getExpList5(strdate,_time);// 체험 유형 불러오기
-                	checkAllExpGroupBoxes();//체험 유형 모두 체크
                 	$("#expAll").prop("checked", true);
                 });
             });
@@ -105,13 +104,6 @@
             	arr.lenght = 0;
             }
             
-            
-            
-            function checkAllExpGroupBoxes() {
-                $('input[name="expgroupbox"]').each(function() {
-                    $(this).prop('checked', true).change();
-                });
-            }
 // 시간 불러오기             
             function setTime(date){
             	$.ajax({
@@ -214,52 +206,37 @@
 	
 	$(document).ready(function() {
 		/* 체험유형 체크 Start */
-	    // 초기 체크박스 상태 설정 및 categoriesToShow 배열 초기화
-	    $('input[name="expgroupbox"]').prop('checked', true); // 모든 체크박스를 체크 상태로 설정
-	    let categoriesToShow = ["002", "999", "001", "003", "005"]; // 모든 카테고리를 포함시킴
-	
-	    // 체크박스 상태 변경 시 로직
-	    $('input[name="expgroupbox"]').change(function() {
-	        // 변경 시 categoriesToShow 배열을 새로 생성
-	        categoriesToShow = [];
-	        $('input[name="expgroupbox"]:checked').each(function() {
-	            var currentCategoryId = $(this).attr('id');
-	            switch(currentCategoryId) {
-	                case 'exp1': categoriesToShow.push("002"); break;
-	                case 'exp2': categoriesToShow.push("999"); break;
-	                case 'exp3': categoriesToShow.push("001"); break;
-	                case 'exp4': categoriesToShow.push("003"); break;
-	                case 'exp5': categoriesToShow.push("005"); break;
-	            }
-	        });
-	
-	        updateDisplay(); // 카테고리에 맞는 항목을 보여주는 함수 호출
-	    });
-	
-	    // 초기 상태에서도 디스플레이 업데이트
-	    updateDisplay();
-	
-	    // 배열에 있는 카테고리를 기반으로 해당하는 항목을 보여주는 함수
-	    function updateDisplay() {
-	        $('ul.exp_list li').hide(); // 모든 항목을 숨깁니다.
-	        categoriesToShow.forEach(function(category) {
-	            $('ul.exp_list li[data-category="' + category + '"]').show(); // 해당 카테고리의 항목을 보여줍니다.
-	        });
-	    }
+    // 체크박스 ID와 categoryId의 매핑
+    var idToCategoryId = {
+        'exp1': '002',
+        'exp2': '999',
+        'exp3': '001',
+        'exp4': '003',
+        'exp5': '005'
+    };
+$('.expgroup_item input[type="checkbox"]').on('click', function() {
+    var categoryId = idToCategoryId[this.id]; // 동적으로 categoryId 가져오기
+    
+    // 해당 카테고리 코드를 가진 'li' 요소를 찾아 체크 상태에 따라 보여주거나 숨깁니다.
+    if (categoryId) {
+        if (this.checked) {
+            $('ul.exp_list li[data-category="' + categoryId + '"]').show();
+        } else {
+            $('ul.exp_list li[data-category="' + categoryId + '"]').hide();
+        }
+    }
+    
+    // Optionally, update the state of a "Select All" checkbox based on individual checks
+    var allChecked = $('.expgroup_item input[type="checkbox"]:not(:checked)').length === 0;
+    $('#expAll').prop('checked', allChecked);
+});
+// 전체 선택/해제 체크박스 로직
+$('#expAll').change(function() {
+    var checked = this.checked; // 전체 선택 또는 전체 해제 상태
+    $('.expgroup_item input[type="checkbox"]').prop('checked', checked).change();
+});
 		/* 체험유형 체크 End */
-		
-	    // 전체 선택/해제 로직
-	    $('#expAll').change(function() {
-	        if(this.checked) {
-	            $('input[name="expgroupbox"]').prop('checked', true);
-	        } else {
-	            $('input[name="expgroupbox"]').prop('checked', false);
-	        }
-	        $('input[name="expgroupbox"]').trigger('change');
-	    });
-	});
-
-
+	});//doc.ready end
 </script>
         <meta charset="utf-8">
         <meta http-equiv="imagetoolbar" content="no">
@@ -393,23 +370,23 @@
                             </div>
                             <div class="expgroup_wrap">
                                 <div class="expgroup_item">
-                                    <input type="checkbox" name="expgroupbox" id="exp1">
+                                    <input type="checkbox" name="exp1" id="exp1">
                                     <label for="exp1"><span>먹거리</span></label>
                                 </div>
                                 <div class="expgroup_item">
-                                    <input type="checkbox" name="expgroupbox" id="exp2">
+                                    <input type="checkbox" name="exp2" id="exp2">
                                     <label for="exp2"><span>공장 견학</span></label>
                                 </div>
                                 <div class="expgroup_item">
-                                    <input type="checkbox" name="expgroupbox" id="exp3">
+                                    <input type="checkbox" name="exp3" id="exp3">
                                     <label for="exp3"><span>수확 체험</span></label>
                                 </div>
                                 <div class="expgroup_item">
-                                    <input type="checkbox" name="expgroupbox" id="exp4">
+                                    <input type="checkbox" name="exp4" id="exp4">
                                     <label for="exp4"><span>시즌성</span></label>
                                 </div>
                                 <div class="expgroup_item">
-                                    <input type="checkbox" name="expgroupbox" id="exp5">
+                                    <input type="checkbox" name="exp5" id="exp5">
                                     <label for="exp5"><span>이벤트&기타</span></label>
                                 </div>
                             </div>
